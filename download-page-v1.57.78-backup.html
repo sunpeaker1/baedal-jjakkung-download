@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>라이더짝꿍 운행도우미 다운로드</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f4f8fc;color:#14294a;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Segoe UI",sans-serif;line-height:1.6}
+.wrap{max-width:650px;margin:0 auto;padding:24px 18px 45px}
+.card{background:#fff;border:1px solid #dfe7f0;border-radius:26px;padding:28px 22px;box-shadow:0 12px 35px rgba(20,41,74,.08)}
+.brand{font-size:15px;font-weight:800;color:#1689ff}
+h1{margin:7px 0 8px;font-size:31px;line-height:1.3;letter-spacing:-1px}
+.sub{margin:0 0 22px;color:#65758c;font-size:16px}
+.version{margin:18px 0;padding:15px 17px;border-radius:17px;background:#f3f8fd;border:1px solid #dfe7f0}
+.version strong{display:block;font-size:20px}.version span{color:#65758c;font-size:14px}
+.download,.browserBtn{display:block;width:100%;margin:20px 0 12px;padding:18px 12px;border-radius:17px;background:#1689ff;color:#fff;text-decoration:none;text-align:center;font-size:21px;font-weight:900;border:0;cursor:pointer}
+.release,.browserBtn.secondary{display:block;width:100%;margin:10px 0 18px;padding:14px 12px;border-radius:15px;border:1px solid #1689ff;background:#fff;color:#1689ff;text-decoration:none;text-align:center;font-weight:800;font-size:16px;cursor:pointer}
+.guide{margin:15px 0;padding:15px 17px;border-radius:16px;background:#eafbf5;font-size:14px}
+.status{margin:12px 0 18px;padding:13px 15px;border-radius:14px;background:#f4f8fc;border:1px solid #dfe7f0;font-size:14px}
+.naverGuide{display:none;margin:18px 0;padding:18px;border-radius:18px;background:#fff8e8;border:1px solid #ffd887}
+.naverGuide.show{display:block}.naverGuide .title{display:block;margin-bottom:8px;font-size:18px}
+.naverGuide p{margin:8px 0 14px;font-size:14px}.copyStatus{margin:8px 0 0;min-height:22px;text-align:center;color:#1689ff;font-size:13px;font-weight:700}
+h2{margin:30px 0 10px;font-size:21px}ul{padding-left:21px}li{margin:8px 0}
+.warning{margin-top:18px;padding:14px 16px;border-left:5px solid #ffb020;border-radius:11px;background:#fff8e8;font-size:14px}
+.hash{word-break:break-all;color:#65758c;font-size:13px}.footer{margin-top:20px;text-align:center;color:#8190a4;font-size:12px}
+</style>
+</head>
+<body>
+<main class="wrap"><section class="card">
+<div class="brand">라이더짝꿍 공식 다운로드</div>
+<h1>라이더짝꿍<br>운행도우미</h1>
+<p class="sub">현직 배달라이더가 직접 개발·테스트하는 Android 테스트버전입니다.</p>
+<div class="version"><strong>V1.57.78 TEST</strong><span>업데이트 2026.09.22 · Android · APK</span></div>
+<div class="status"><strong>현재 상태</strong><br>쿠팡이츠 자동기록 정상 확인 · 배민 자동기록 · 짝꿍내비 · 후면단속 실사용 테스트 예정</div>
+<a id="apkDownload" class="download" href="https://github.com/sunpeaker1/baedal-jjakkung-download/releases/download/v1.57.78/RiderJjakkung-V1.57.78.apk">⬇️ APK 바로 다운로드</a>
+<div id="naverGuide" class="naverGuide">
+<strong class="title">네이버 앱에서 열렸습니다</strong>
+<p>네이버 앱 내부 브라우저에서는 APK 다운로드가 제한될 수 있습니다. 아래 버튼으로 이 페이지를 <strong>Chrome 또는 Samsung Internet</strong>에서 연 뒤 APK 바로 다운로드를 눌러주세요.</p>
+<a id="openChrome" class="browserBtn" href="#">Chrome에서 다운로드 페이지 열기</a>
+<a id="openSamsung" class="browserBtn secondary" href="#">Samsung Internet에서 열기</a>
+<button id="copyPageLink" class="browserBtn secondary" type="button">다운로드 페이지 주소 복사</button>
+<div id="copyStatus" class="copyStatus"></div>
+</div>
+<a class="release" href="https://github.com/sunpeaker1/baedal-jjakkung-download/releases/tag/v1.57.78" target="_blank" rel="noopener">GitHub에서 APK 확인</a>
+<div id="normalGuide" class="guide">
+<strong>다운로드가 시작되지 않나요?</strong><br><br>
+네이버 앱 안에서는 APK 다운로드가 시작되지 않을 수 있습니다.<br><br>
+이 경우 이 페이지를 <strong>Chrome 또는 Samsung Internet</strong>으로 연 뒤 위의 APK 다운로드 버튼을 다시 눌러주세요.
+</div>
+<h2>📱 현재 배포 버전</h2>
+<ul><li>버전 : <strong>V1.57.78 TEST</strong></li><li>파일명 : <strong>RiderJjakkung-V1.57.78.apk</strong></li><li>운영체제 : Android</li><li>정식 스토어 출시 전 테스트버전입니다.</li></ul>
+<h2>🔐 설치 전 확인</h2>
+<p>라이더짝꿍 운행도우미는 직접 개발·테스트하고, 공식 GitHub 공개 저장소를 통해 배포하는 테스트버전입니다.</p>
+<p>필요한 권한과 사용 목적을 안내하고 있으며, 다운로드는 이 공식 페이지의 링크를 이용해주세요.</p>
+<div class="warning">아직 Google Play 정식 심사를 거친 버전은 아닙니다. 반드시 이 공식 다운로드 페이지 또는 공식 GitHub 저장소에서 받은 APK만 사용해주세요.</div>
+<h2>🛡️ 설치 후</h2>
+<p>APK 설치를 위해 ‘이 출처에서 앱 설치 허용’ 또는 삼성의 ‘보안 위험 자동 차단’ 설정을 변경했다면, 설치가 끝난 뒤 다시 원래 상태로 설정하는 것을 권장합니다.</p>
+<h2>🔎 파일 확인값</h2>
+<p class="hash">SHA-256<br>3c31e1b1e764fc0a211e8093371398ce56c519e79b3cccbc3bca2ced0ca2cc1b</p>
+<h2>🆘 설치가 안 될 때</h2>
+<ul><li>네이버 앱 대신 Chrome 또는 Samsung Internet으로 열어주세요.</li><li>파일명이 RiderJjakkung-V1.57.78.apk인지 확인해주세요.</li><li>다운로드한 브라우저 또는 내 파일에 대해서만 외부 앱 설치 권한을 허용해주세요.</li><li>문제가 계속되면 블로그 댓글에 휴대폰 기종과 오류 화면을 남겨주세요.</li></ul>
+</section><div class="footer">RiderJjakkung TEST Distribution</div></main>
+<script>
+(function(){
+  var ua=navigator.userAgent||"";
+  var isNaver=/NAVER/i.test(ua);
+  var apk=document.getElementById("apkDownload");
+  var ng=document.getElementById("naverGuide");
+  var normal=document.getElementById("normalGuide");
+  var chrome=document.getElementById("openChrome");
+  var samsung=document.getElementById("openSamsung");
+  var copyBtn=document.getElementById("copyPageLink");
+  var status=document.getElementById("copyStatus");
+  var clean=window.location.href.split("#")[0];
+  var target=clean.replace(/^https?:\/\//,"");
+  chrome.href="intent://"+target+"#Intent;scheme=https;package=com.android.chrome;end";
+  samsung.href="intent://"+target+"#Intent;scheme=https;package=com.sec.android.app.sbrowser;end";
+  if(isNaver){apk.style.display="none";normal.style.display="none";ng.classList.add("show")}
+  copyBtn.addEventListener("click",function(){
+    function done(){status.textContent="다운로드 페이지 주소를 복사했습니다.";setTimeout(function(){status.textContent=""},3000)}
+    function fallback(){var t=document.createElement("textarea");t.value=clean;t.setAttribute("readonly","");t.style.position="fixed";t.style.opacity="0";document.body.appendChild(t);t.select();try{document.execCommand("copy");done()}catch(e){status.textContent="주소창 링크를 복사해 외부 브라우저에서 열어주세요."}document.body.removeChild(t)}
+    if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(clean).then(done).catch(fallback)}else{fallback()}
+  });
+})();
+</script>
+</body>
+</html>
