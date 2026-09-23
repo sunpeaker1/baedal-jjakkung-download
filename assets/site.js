@@ -169,7 +169,17 @@ document.addEventListener('DOMContentLoaded',()=>{
   const steps=document.getElementById('feature-detail-steps');
   const point=document.getElementById('feature-detail-point');
   const picks=[...document.querySelectorAll('.featurePick')];
-  const closeBtn=section.querySelector('.featureDetailClose');
+  const backButtons=[...section.querySelectorAll('.featureBackButton')];
+
+  function closeFeature(){
+    document.body.classList.remove('featureDetailMode');
+    section.hidden=true;
+    picks.forEach(x=>x.classList.remove('active'));
+    if(location.hash.startsWith('#feature-')){
+      history.replaceState(null,'',location.pathname+location.search);
+    }
+    requestAnimationFrame(()=>window.scrollTo({top:0,behavior:'smooth'}));
+  }
 
   function showFeature(key){
     const d=featureData[key];
@@ -184,13 +194,14 @@ document.addEventListener('DOMContentLoaded',()=>{
     point.textContent=d.point;
     picks.forEach(x=>x.classList.toggle('active',x.dataset.feature===key));
     section.hidden=false;
-    setTimeout(()=>section.scrollIntoView({behavior:'smooth',block:'start'}),40);
+    document.body.classList.add('featureDetailMode');
+    history.replaceState({feature:key},'',location.pathname+location.search+'#feature-'+key);
+    requestAnimationFrame(()=>window.scrollTo({top:0,behavior:'instant'}));
   }
 
   picks.forEach(el=>el.addEventListener('click',()=>showFeature(el.dataset.feature)));
+  backButtons.forEach(btn=>btn.addEventListener('click',closeFeature));
 
-  if(closeBtn) closeBtn.addEventListener('click',()=>{
-    section.hidden=true;
-    picks.forEach(x=>x.classList.remove('active'));
-  });
+  const initialFeature=location.hash.startsWith('#feature-') ? location.hash.replace('#feature-','') : '';
+  if(initialFeature && featureData[initialFeature]) showFeature(initialFeature);
 });
