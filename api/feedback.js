@@ -7,7 +7,7 @@ const ALLOWED_ORIGINS = new Set([
 
 function setCors(req, res) {
   const origin = req.headers.origin || '';
-  if (ALLOWED_ORIGINS.has(origin)) {
+  if (ALLOWED_ORIGINS.has(origin) || origin.endsWith('.vercel.app')) {
     res.setHeader('Access-Control-Allow-Origin', origin);
   }
   res.setHeader('Vary', 'Origin');
