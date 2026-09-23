@@ -897,3 +897,36 @@ body.feedbackOpen{overflow:hidden}
 }
 .feedbackFlowNotice b{color:#12385d}
 .feedbackFlowNotice strong{color:#0b7a42}
+
+/* 2026-09-24 direct server feedback result */
+.feedbackHoney{
+  position:absolute!important;
+  left:-9999px!important;
+  width:1px!important;
+  height:1px!important;
+  opacity:0!important;
+  pointer-events:none!important;
+}
+.feedbackResult{
+  min-height:22px;
+  margin-top:12px;
+  font-size:13px;
+  font-weight:800;
+  text-align:center;
+  color:#60788f;
+}
+.feedbackResult.success{
+  padding:12px 14px;
+  border:1px solid #bfe9d8;
+  border-radius:13px;
+  background:#eafaf4;
+  color:#087957;
+}
+.feedbackResult.error{
+  padding:12px 14px;
+  border:1px solid #efc9c6;
+  border-radius:13px;
+  background:#fff3f2;
+  color:#a23a33;
+}
+.feedbackSubmit:disabled{opacity:.65;cursor:wait}
