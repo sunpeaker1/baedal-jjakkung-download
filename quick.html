@@ -3,36 +3,55 @@
 <div class="mobileLinks"><a href="rider.html">라이더짝꿍</a><a href="nav.html">짝꿍내비</a><a href="quick.html">퀵짝꿍</a><a href="news.html">라이더소식</a><a href="guide.html">사용법</a><a href="updates.html">업데이트</a><a href="contact.html">문의</a></div></div></nav><main>
 <section class="hero"><div class="wrap"><span class="eyebrow">퀵 라이더 전용 보조 앱</span><h1>오더는 빠르게 보고.<br>선택은 내가.</h1><p class="lead"><b>퀵짝꿍</b>은 카카오T퀵과 IS플렉스 오더를 더 빠르게 확인하고, 내 조건에 맞는 오더를 판단하는 데 도움을 주는 Android 보조 앱입니다.</p><div class="actions"><a class="btn blue" href="#admin-download">관리자 다운로드</a></div></div></section>
 <section class="section"><div class="wrap grid2"><div class="card"><span class="tag blueTag">핵심 기능</span><h3>쏟아지는 오더, 더 빠르게 확인</h3><ul class="list"><li>카카오T / IS플렉스 화면 감지</li><li>조건 필터</li><li>상세 자동진입</li><li>예약 제외</li><li>같은 오더 중복 방지</li><li>금액 상승 시 재감지</li></ul></div><div class="card"><span class="tag yellow">확장 방향</span><h3>내 배달 동선에 맞는 퀵오더까지</h3><p>현재 진행 중인 배달 경로와 퀵오더의 동선을 비교해 함께 수행하기 좋은 오더 판단을 돕는 방향으로 확장하고 있습니다. 최종 선택은 항상 라이더가 합니다.</p></div></div></section>
-<section class="section" id="admin-download"><div class="wrap"><div class="head"><div class="kicker">Admin Download</div><h2>퀵짝꿍 관리자 다운로드</h2><p class="muted">현재 퀵짝꿍 APK는 관리자 전용으로 배포합니다. 관리자 암호를 입력하면 다운로드 버튼이 열립니다.</p></div>
+<section class="section" id="admin-download"><div class="wrap"><div class="head"><div class="kicker">Admin Download</div><h2>퀵짝꿍 관리자 다운로드</h2><p class="muted">퀵짝꿍 APK는 암호화된 파일로 보관됩니다. 관리자 암호가 맞아야 휴대폰에서 APK가 복호화되어 다운로드됩니다.</p></div>
 <div class="card" style="max-width:620px;margin:0 auto">
 <span class="tag yellow">관리자 전용</span>
-<h3 style="font-size:26px;margin-top:14px">암호 인증 후 다운로드</h3>
-<p class="muted">암호는 브라우저에 저장하지 않습니다.</p>
+<h3 style="font-size:26px;margin-top:14px">암호 입력 후 다운로드</h3>
+<p class="muted">APK 원본 주소는 홈페이지에 노출하지 않습니다.</p>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
-<input id="quickAdminPassword" type="password" inputmode="text" autocomplete="off" placeholder="관리자 암호" style="flex:1;min-width:220px;padding:16px 18px;border-radius:14px;border:1px solid #31475d;background:#0b1722;color:#fff;font-size:16px">
-<button class="btn blue" style="border:0;cursor:pointer;margin:0" onclick="unlockQuickDownload()">인증하기</button>
+<input id="quickAdminPassword" type="password" autocomplete="off" placeholder="관리자 암호" style="flex:1;min-width:220px;padding:16px 18px;border-radius:14px;border:1px solid #31475d;background:#0b1722;color:#fff;font-size:16px">
+<button class="btn blue" style="border:0;cursor:pointer;margin:0" onclick="secureQuickDownload()">암호 확인 · 다운로드</button>
 </div>
 <div id="quickAdminMessage" class="notice" style="margin-top:16px">관리자 암호를 입력해 주세요.</div>
-<a id="quickDownloadLink" class="btn blue" href="#" download="QuickMateClean_v5.11.apk" style="display:none;margin-top:14px">퀵짝꿍 V5.11 APK 다운로드</a>
-</div></div></section><script>
-const QUICK_ADMIN_HASH="133586e649bafd835c54d9ebd04a87b839e62bd36b5de908eab0adb82398caa1";
-const QUICK_DOWNLOAD_B64="aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3N1bnBlYWtlcjEvcXVpY2ttYXRlLWRvd25sb2FkL21haW4vUXVpY2tNYXRlQ2xlYW5fdjUuMTEuYXBr";
-async function quickHash(v){const b=new TextEncoder().encode(v);const d=await crypto.subtle.digest("SHA-256",b);return Array.from(new Uint8Array(d)).map(x=>x.toString(16).padStart(2,"0")).join("");}
-async function unlockQuickDownload(){
- const input=document.getElementById("quickAdminPassword");
- const msg=document.getElementById("quickAdminMessage");
- const link=document.getElementById("quickDownloadLink");
- const h=await quickHash(input.value);
- if(h===QUICK_ADMIN_HASH){
-   link.href=atob(QUICK_DOWNLOAD_B64);
-   link.style.display="inline-flex";
-   msg.textContent="관리자 인증 완료. 아래 버튼으로 다운로드할 수 있습니다.";
-   input.value="";
- }else{
-   link.style.display="none";
-   link.removeAttribute("href");
-   msg.textContent="암호가 맞지 않습니다.";
- }
+</div></div></section>
+<script>
+const QUICK_PACKAGE="assets/secure/QuickMateClean_v5.11.qme";
+function qHex(a){return Array.from(a,x=>x.toString(16).padStart(2,"0")).join("");}
+function qJoin(...arrs){const n=arrs.reduce((s,a)=>s+a.length,0),o=new Uint8Array(n);let p=0;for(const a of arrs){o.set(a,p);p+=a.length;}return o;}
+function qSame(a,b){if(a.length!==b.length)return false;let d=0;for(let i=0;i<a.length;i++)d|=a[i]^b[i];return d===0;}
+async function qSha(text){return new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(text)));}
+async function secureQuickDownload(){
+  const input=document.getElementById("quickAdminPassword");
+  const msg=document.getElementById("quickAdminMessage");
+  const password=input.value;
+  if(!password){msg.textContent="관리자 암호를 입력해 주세요.";return;}
+  try{
+    msg.textContent="암호 확인 중입니다…";
+    const res=await fetch(QUICK_PACKAGE,{cache:"no-store"});
+    if(!res.ok)throw new Error("package");
+    const file=new Uint8Array(await res.arrayBuffer());
+    if(file.length<73)throw new Error("format");
+    const magic=new TextDecoder().decode(file.slice(0,8));
+    if(magic!=="QMENC001")throw new Error("format");
+    const salt=file.slice(8,24),counter=file.slice(24,40),tag=file.slice(40,72),cipher=file.slice(72);
+    const encKeyBytes=await qSha("ENC|"+password+"|"+qHex(salt));
+    const macKeyBytes=await qSha("MAC|"+password+"|"+qHex(salt));
+    const macKey=await crypto.subtle.importKey("raw",macKeyBytes,{name:"HMAC",hash:"SHA-256"},false,["sign"]);
+    const calc=new Uint8Array(await crypto.subtle.sign("HMAC",macKey,qJoin(salt,counter,cipher)));
+    if(!qSame(calc,tag)){msg.textContent="암호가 맞지 않습니다.";input.select();return;}
+    msg.textContent="인증 완료. APK를 준비하고 있습니다…";
+    const aesKey=await crypto.subtle.importKey("raw",encKeyBytes,{name:"AES-CTR"},false,["decrypt"]);
+    const plain=await crypto.subtle.decrypt({name:"AES-CTR",counter:counter,length:64},aesKey,cipher);
+    const blob=new Blob([plain],{type:"application/vnd.android.package-archive"});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    a.href=url;a.download="QuickMateClean_v5.11.apk";document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),60000);
+    input.value="";
+    msg.textContent="관리자 인증 완료. 퀵짝꿍 APK 다운로드를 시작했습니다.";
+  }catch(e){
+    msg.textContent="다운로드 준비 중 오류가 발생했습니다. 다시 시도해 주세요.";
+  }
 }
-document.addEventListener("DOMContentLoaded",()=>{const el=document.getElementById("quickAdminPassword");if(el){el.addEventListener("keydown",e=>{if(e.key==="Enter")unlockQuickDownload();});}});
+document.addEventListener("DOMContentLoaded",()=>{const el=document.getElementById("quickAdminPassword");if(el)el.addEventListener("keydown",e=>{if(e.key==="Enter")secureQuickDownload();});});
 </script></main><footer><div class="wrap"><strong style="color:#fff">라이더짝꿍</strong><div>배달·퀵 라이더 운행 도우미</div><div style="margin-top:8px;font-size:13px">© <span data-year></span> Rider Mate · 테스트 기능과 배포 버전은 변경될 수 있습니다.</div></div></footer><script src="assets/site.js"></script></body></html>
