@@ -103,9 +103,7 @@ footer{margin-top:40px;padding:38px 0 58px;border-top:1px solid rgba(255,255,255
 
 /* Interactive homepage feature guide */
 .featurePhone .mini{width:100%;font:inherit;color:inherit;text-align:left;position:relative;cursor:pointer}
-.featurePick{display:grid;grid-template-columns:1fr auto;grid-template-areas:"title arrow" "sub arrow";align-items:center}
-.featurePick b{grid-area:title}.featurePick small{grid-area:sub}.featurePick span{grid-area:arrow;font-size:28px;color:var(--blue);padding-left:12px}
-.featurePick:hover,.featurePick.active{border-color:rgba(101,169,255,.7);background:#1b3044;transform:translateY(-1px)}
+/* Legacy .featurePick layout removed: homepage cards use .homeFeatureCard only. */
 .featureDetailSection{padding:12px 0 58px}
 .featureDetailSection[hidden]{display:none}
 .featureDetailShell{position:relative;background:linear-gradient(180deg,#0e1b28,#0a141e);border:1px solid #294056;border-radius:28px;padding:26px;box-shadow:var(--shadow)}
@@ -473,4 +471,39 @@ footer{margin-top:40px;padding:38px 0 58px;border-top:1px solid rgba(255,255,255
   .homeFeatureText b{font-size:12.4px}
   .homeFeatureText small{font-size:8.8px}
   .homeFeatureArrow{font-size:20px}
+}
+
+/* 2026-09-24 isolate feature cards from legacy featurePick rules */
+.homeFeatureCard.featurePick{
+  display:grid;
+  grid-template-areas:none;
+  background:#fff;
+}
+.homeFeatureCard.featurePick:hover,
+.homeFeatureCard.featurePick:focus-visible,
+.homeFeatureCard.featurePick.active{
+  background:#fff;
+  color:#102a52;
+}
+.homeFeatureCard.featurePick .homeFeatureIcon,
+.homeFeatureCard.featurePick .homeFeatureText,
+.homeFeatureCard.featurePick .homeFeatureArrow,
+.homeFeatureCard.featurePick b,
+.homeFeatureCard.featurePick small,
+.homeFeatureCard.featurePick span{
+  grid-area:auto;
+}
+.homeFeatureCard.featurePick .homeFeatureIcon{padding-left:0}
+.homeFeatureCard.featurePick .homeFeatureText{padding-left:0}
+.homeFeatureCard.featurePick .homeFeatureArrow{padding-left:0;color:#7189a5}
+.homeScreenButton.featurePick{
+  display:block;
+  background:linear-gradient(90deg,#21b6ff,#0e72ef);
+  color:#fff;
+}
+.homeScreenButton.featurePick:hover,
+.homeScreenButton.featurePick:focus-visible,
+.homeScreenButton.featurePick.active{
+  background:linear-gradient(90deg,#21b6ff,#0e72ef);
+  color:#fff;
 }
