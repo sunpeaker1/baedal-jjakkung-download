@@ -226,14 +226,43 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(feedbackPanel) feedbackPanel.addEventListener('click',e=>{ if(e.target===feedbackPanel) closeFeedback(); });
 
   if(feedbackForm){
-    feedbackForm.addEventListener('submit',e=>{
+    feedbackForm.addEventListener('submit',async e=>{
       e.preventDefault();
       const type=document.getElementById('inlineFeedbackType').value;
       const title=document.getElementById('inlineFeedbackTitle').value.trim();
       const body=document.getElementById('inlineFeedbackBody').value.trim();
-      const issueTitle='['+type+'] '+title;
-      const issueBody='종류: '+type+'\n\n'+body;
-      location.href='https://github.com/sunpeaker1/baedal-jjakkung-download/issues/new?title='+encodeURIComponent(issueTitle)+'&body='+encodeURIComponent(issueBody);
+      const website=document.getElementById('inlineFeedbackWebsite')?.value || '';
+      const result=document.getElementById('feedbackResult');
+      const submit=feedbackForm.querySelector('.feedbackSubmit');
+      const endpoint=location.hostname.endsWith('.vercel.app')
+        ? '/api/feedback'
+        : 'https://baedal-jjakkung-download.vercel.app/api/feedback';
+
+      if(result){ result.className='feedbackResult'; result.textContent='접수 중입니다...'; }
+      if(submit){ submit.disabled=true; submit.textContent='접수 중...'; }
+
+      try{
+        const response=await fetch(endpoint,{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({type,title,body,website})
+        });
+        const data=await response.json().catch(()=>({}));
+        if(!response.ok || !data.ok) throw new Error(data.message || '접수 실패');
+
+        if(result){
+          result.className='feedbackResult success';
+          result.textContent='접수 완료 · 접수번호 '+data.id;
+        }
+        feedbackForm.reset();
+      }catch(error){
+        if(result){
+          result.className='feedbackResult error';
+          result.textContent='접수에 실패했습니다. 잠시 후 다시 시도해 주세요.';
+        }
+      }finally{
+        if(submit){ submit.disabled=false; submit.textContent='작성한 내용 보내기'; }
+      }
     });
   }
 });
