@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     section.hidden=false;
     document.body.classList.add('featureDetailMode');
     history.replaceState({feature:key},'',location.pathname+location.search+'#feature-'+key);
-    requestAnimationFrame(()=>window.scrollTo({top:0,behavior:'instant'}));
+    requestAnimationFrame(()=>window.scrollTo(0,0));
   }
 
   picks.forEach(el=>el.addEventListener('click',()=>showFeature(el.dataset.feature)));
