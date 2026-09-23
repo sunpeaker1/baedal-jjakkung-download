@@ -1,88 +1,682 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>라이더짝꿍 운행도우미 다운로드</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#f4f8fc;color:#14294a;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Segoe UI",sans-serif;line-height:1.6}
-.wrap{max-width:650px;margin:0 auto;padding:24px 18px 45px}
-.card{background:#fff;border:1px solid #dfe7f0;border-radius:26px;padding:28px 22px;box-shadow:0 12px 35px rgba(20,41,74,.08)}
-.brand{font-size:15px;font-weight:800;color:#1689ff}
-h1{margin:7px 0 8px;font-size:31px;line-height:1.3;letter-spacing:-1px}
-.sub{margin:0 0 22px;color:#65758c;font-size:16px}
-.version{margin:18px 0;padding:15px 17px;border-radius:17px;background:#f3f8fd;border:1px solid #dfe7f0}
-.version strong{display:block;font-size:20px}.version span{color:#65758c;font-size:14px}
-.download,.browserBtn{display:block;width:100%;margin:20px 0 12px;padding:18px 12px;border-radius:17px;background:#1689ff;color:#fff;text-decoration:none;text-align:center;font-size:21px;font-weight:900;border:0;cursor:pointer}
-.release,.browserBtn.secondary{display:block;width:100%;margin:10px 0 18px;padding:14px 12px;border-radius:15px;border:1px solid #1689ff;background:#fff;color:#1689ff;text-decoration:none;text-align:center;font-weight:800;font-size:16px;cursor:pointer}
-.guide{margin:15px 0;padding:15px 17px;border-radius:16px;background:#eafbf5;font-size:14px}
-.status{margin:12px 0 18px;padding:13px 15px;border-radius:14px;background:#f4f8fc;border:1px solid #dfe7f0;font-size:14px}
-.naverGuide{display:none;margin:18px 0;padding:18px;border-radius:18px;background:#fff8e8;border:1px solid #ffd887}
-.naverGuide.show{display:block}.naverGuide .title{display:block;margin-bottom:8px;font-size:18px}
-.naverGuide p{margin:8px 0 14px;font-size:14px}.copyStatus{margin:8px 0 0;min-height:22px;text-align:center;color:#1689ff;font-size:13px;font-weight:700}
-h2{margin:30px 0 10px;font-size:21px}ul{padding-left:21px}li{margin:8px 0}
-.warning{margin-top:18px;padding:14px 16px;border-left:5px solid #ffb020;border-radius:11px;background:#fff8e8;font-size:14px}
-.hash{word-break:break-all;color:#65758c;font-size:13px}.footer{margin-top:20px;text-align:center;color:#8190a4;font-size:12px}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0f14" />
+  <meta name="description" content="배달·퀵 라이더를 위한 운행 도우미 라이더짝꿍. 자동기록, 짝꿍내비, 지역판단, 단속경고, 수익관리와 퀵짝꿍을 소개하고 사용법과 다운로드를 제공합니다." />
+  <title>라이더짝꿍 | 배달·퀵 라이더 운행 도우미</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --panel: #111821;
+      --panel-2: #151e29;
+      --text: #f4f7fb;
+      --muted: #aab6c5;
+      --line: #233041;
+      --accent: #57e389;
+      --accent-2: #68a7ff;
+      --warning: #ffcc66;
+      --danger: #ff7b7b;
+      --radius: 22px;
+      --shadow: 0 20px 70px rgba(0,0,0,.28);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 5%, rgba(87,227,137,.11), transparent 28%),
+        radial-gradient(circle at 85% 12%, rgba(104,167,255,.10), transparent 26%),
+        var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", Arial, sans-serif;
+      line-height: 1.65;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    .wrap { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+    .nav {
+      position: sticky; top: 0; z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(11,15,20,.82);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .nav-inner { min-height: 66px; display: flex; align-items: center; gap: 20px; }
+    .brand { display:flex; align-items:center; gap:10px; font-weight: 900; letter-spacing: -.04em; }
+    .brand-mark {
+      width: 34px; height: 34px; border-radius: 11px; display:grid; place-items:center;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color:#08110d; font-weight:1000; box-shadow: 0 8px 28px rgba(87,227,137,.2);
+    }
+    .nav-links { margin-left:auto; display:flex; gap:22px; font-size:14px; color:var(--muted); }
+    .nav-links a:hover { color:var(--text); }
+    .hero { padding: 86px 0 64px; }
+    .hero-grid { display:grid; grid-template-columns: 1.05fr .95fr; gap: 44px; align-items:center; }
+    .eyebrow { display:inline-flex; align-items:center; gap:8px; color:#c8ffd9; font-size:14px; font-weight:800; padding:7px 11px; border:1px solid rgba(87,227,137,.28); border-radius:999px; background:rgba(87,227,137,.08); }
+    h1 { font-size: clamp(42px, 7vw, 76px); line-height:1.02; letter-spacing:-.06em; margin: 20px 0 22px; }
+    .lead { color:var(--muted); font-size: clamp(17px, 2.3vw, 21px); max-width: 760px; }
+    .cta-row { display:flex; gap:12px; flex-wrap:wrap; margin-top:30px; }
+    .btn { border:0; border-radius:14px; min-height:50px; padding:0 18px; display:inline-flex; align-items:center; justify-content:center; gap:9px; font-weight:900; cursor:pointer; transition:.2s ease; }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { color:#06120b; background:var(--accent); }
+    .btn-secondary { color:var(--text); border:1px solid var(--line); background:rgba(255,255,255,.03); }
+    .btn-disabled { opacity:.58; cursor:not-allowed; }
+    .hero-card { background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.025)); border:1px solid var(--line); border-radius:30px; padding:22px; box-shadow:var(--shadow); }
+    .phone { max-width: 410px; margin:auto; border:1px solid #2b394b; border-radius:34px; padding:12px; background:#05080c; box-shadow: 0 26px 90px rgba(0,0,0,.45); }
+    .screen { border-radius:26px; min-height:540px; padding:22px; background:linear-gradient(180deg,#121a23,#0e141c); }
+    .screen-top { display:flex; justify-content:space-between; color:var(--muted); font-size:13px; }
+    .screen h3 { font-size:28px; margin:28px 0 4px; letter-spacing:-.04em; }
+    .screen p { margin:0; color:var(--muted); font-size:14px; }
+    .mini-card { margin-top:15px; padding:16px; border-radius:18px; background:#182330; border:1px solid #263648; }
+    .mini-card b { display:block; margin-bottom:3px; }
+    .mini-card small { color:var(--muted); }
+    .section { padding:70px 0; }
+    .section-head { max-width:760px; margin-bottom:28px; }
+    .kicker { color:var(--accent); font-size:13px; font-weight:900; letter-spacing:.08em; text-transform:uppercase; }
+    h2 { font-size: clamp(30px, 4vw, 48px); line-height:1.14; letter-spacing:-.05em; margin:8px 0 14px; }
+    .section-head p { color:var(--muted); margin:0; }
+    .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .card { background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:22px; }
+    .card h3 { margin:8px 0 8px; font-size:23px; letter-spacing:-.035em; }
+    .card p { color:var(--muted); margin:0; }
+    .tag { display:inline-flex; font-size:12px; font-weight:900; padding:6px 9px; border-radius:999px; border:1px solid var(--line); color:#d7e0ec; background:rgba(255,255,255,.035); }
+    .tag.green { color:#caffd8; border-color:rgba(87,227,137,.26); background:rgba(87,227,137,.08); }
+    .tag.blue { color:#d7e9ff; border-color:rgba(104,167,255,.28); background:rgba(104,167,255,.08); }
+    .tag.yellow { color:#ffe7ad; border-color:rgba(255,204,102,.28); background:rgba(255,204,102,.08); }
+    .feature-list { margin:16px 0 0; padding:0; list-style:none; display:grid; gap:8px; }
+    .feature-list li { color:#dce4ee; font-size:14px; padding-left:22px; position:relative; }
+    .feature-list li::before { content:"✓"; position:absolute; left:0; color:var(--accent); font-weight:900; }
+    .flow { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; counter-reset:step; }
+    .step { background:var(--panel); border:1px solid var(--line); border-radius:18px; padding:18px; min-height:180px; }
+    .step::before { counter-increment:step; content:counter(step); display:grid; place-items:center; width:32px; height:32px; border-radius:10px; background:rgba(104,167,255,.12); color:#bad7ff; border:1px solid rgba(104,167,255,.25); font-weight:900; }
+    .step h4 { font-size:18px; margin:16px 0 6px; }
+    .step p { color:var(--muted); margin:0; font-size:14px; }
+    .usage { display:grid; gap:12px; }
+    details { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:0 18px; }
+    summary { cursor:pointer; list-style:none; padding:18px 0; font-weight:900; font-size:17px; }
+    summary::-webkit-details-marker { display:none; }
+    details p, details li { color:var(--muted); }
+    details ol, details ul { margin-top:0; padding-left:22px; }
+    .news-toolbar { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:0 0 18px; }
+    .news-filter { border:1px solid var(--line); background:rgba(255,255,255,.025); color:var(--muted); border-radius:999px; padding:9px 13px; font-weight:800; cursor:pointer; }
+    .news-filter:hover, .news-filter.active { color:#07110b; background:var(--accent); border-color:var(--accent); }
+    .news-search { margin-left:auto; min-width:230px; flex:1; max-width:360px; background:var(--panel); color:var(--text); border:1px solid var(--line); border-radius:13px; padding:11px 13px; outline:none; }
+    .news-search:focus { border-color:rgba(87,227,137,.55); }
+    .news-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .news-card { background:var(--panel); border:1px solid var(--line); border-radius:20px; padding:20px; display:flex; flex-direction:column; min-height:250px; transition:.2s ease; }
+    .news-card:hover { transform:translateY(-2px); border-color:#34475f; }
+    .news-card h3 { margin:12px 0 9px; font-size:20px; line-height:1.35; letter-spacing:-.025em; }
+    .news-card p { color:var(--muted); margin:0 0 16px; font-size:14px; }
+    .news-meta { display:flex; align-items:center; gap:8px; flex-wrap:wrap; color:var(--muted); font-size:12px; }
+    .news-link { margin-top:auto; padding-top:12px; font-size:14px; font-weight:900; color:#caffd8; }
+    .news-empty { grid-column:1/-1; padding:34px; text-align:center; border:1px dashed var(--line); border-radius:20px; color:var(--muted); }
+    .news-admin-note { margin-top:16px; padding:16px 18px; border-radius:16px; background:rgba(104,167,255,.07); border:1px solid rgba(104,167,255,.20); color:#dbeaff; font-size:14px; }
+    .news-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:18px; }
+    .admin-panel { margin-top:22px; display:none; background:linear-gradient(180deg,rgba(104,167,255,.08),rgba(255,255,255,.02)); border:1px solid rgba(104,167,255,.24); border-radius:22px; padding:22px; }
+    .admin-panel.open { display:block; }
+    .admin-panel h3 { margin:0 0 6px; font-size:24px; }
+    .admin-panel > p { margin:0 0 18px; color:var(--muted); }
+    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .form-field { display:grid; gap:7px; }
+    .form-field.full { grid-column:1/-1; }
+    .form-field label { color:#dce4ee; font-size:13px; font-weight:800; }
+    .form-field input, .form-field select, .form-field textarea { width:100%; background:#0d141c; color:var(--text); border:1px solid var(--line); border-radius:13px; padding:12px 13px; outline:none; }
+    .form-field textarea { min-height:120px; resize:vertical; line-height:1.6; }
+    .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color:rgba(87,227,137,.55); }
+    .admin-toolbar { display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+    .admin-help { margin-top:14px; color:var(--muted); font-size:13px; }
+    .admin-list { margin-top:20px; display:grid; gap:10px; }
+    .admin-item { display:flex; gap:12px; justify-content:space-between; align-items:center; padding:13px 14px; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.02); }
+    .admin-item-title { min-width:0; }
+    .admin-item-title b { display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .admin-item-title small { color:var(--muted); }
+    .admin-delete { border:1px solid rgba(255,123,123,.25); background:rgba(255,123,123,.07); color:#ffc5c5; border-radius:10px; padding:8px 10px; cursor:pointer; }
+    .news-modal { position:fixed; inset:0; z-index:60; display:none; place-items:center; padding:20px; background:rgba(0,0,0,.72); }
+    .news-modal.open { display:grid; }
+    .news-modal-box { width:min(760px,100%); max-height:88vh; overflow:auto; background:#101720; border:1px solid var(--line); border-radius:24px; padding:24px; box-shadow:var(--shadow); }
+    .news-modal-top { display:flex; justify-content:space-between; gap:16px; align-items:flex-start; }
+    .news-modal-close { width:40px; height:40px; border-radius:12px; border:1px solid var(--line); background:rgba(255,255,255,.04); color:var(--text); cursor:pointer; font-size:20px; }
+    .news-modal-body { color:#dce4ee; white-space:pre-line; }
+    .download-panel { display:grid; grid-template-columns:1.1fr .9fr; gap:18px; align-items:stretch; }
+    .download-card { background:linear-gradient(180deg, rgba(87,227,137,.09), rgba(255,255,255,.025)); border:1px solid rgba(87,227,137,.25); border-radius:26px; padding:26px; }
+    .download-card.alt { background:linear-gradient(180deg, rgba(104,167,255,.10), rgba(255,255,255,.025)); border-color:rgba(104,167,255,.25); }
+    .download-card h3 { font-size:28px; margin:12px 0 6px; }
+    .download-card p { color:var(--muted); }
+    .download-meta { display:flex; flex-wrap:wrap; gap:8px; margin:16px 0 20px; }
+    .notice { margin-top:14px; padding:14px 16px; border:1px solid rgba(255,204,102,.24); border-radius:14px; background:rgba(255,204,102,.06); color:#f5dfae; font-size:14px; }
+    .status { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+    .status .card strong { font-size:20px; }
+    .muted { color:var(--muted); }
+    footer { padding:42px 0 62px; border-top:1px solid rgba(255,255,255,.06); color:var(--muted); }
+    .footer-row { display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+    .tiny { font-size:13px; }
+    @media (max-width: 900px) {
+      .hero-grid, .download-panel { grid-template-columns:1fr; }
+      .grid-3, .news-grid { grid-template-columns:1fr; }
+      .flow { grid-template-columns:repeat(2,1fr); }
+      .nav-links { display:none; }
+      .hero { padding-top:58px; }
+    }
+    @media (max-width: 560px) {
+      .wrap { width:min(100% - 22px, 1120px); }
+      .flow, .status { grid-template-columns:1fr; }
+      .screen { min-height:auto; }
+      h1 { font-size:44px; }
+      .btn { width:100%; }
+      .news-search { width:100%; max-width:none; margin-left:0; }
+      .form-grid { grid-template-columns:1fr; }
+      .form-field.full { grid-column:auto; }
+      .admin-item { align-items:flex-start; }
+    }
+  </style>
 </head>
 <body>
-<main class="wrap"><section class="card">
-<div class="brand">라이더짝꿍 공식 다운로드</div>
-<h1>라이더짝꿍<br>운행도우미</h1>
-<p class="sub">현직 배달라이더가 직접 개발·테스트하는 Android 테스트버전입니다.</p>
-<div class="version"><strong>V1.57.78 TEST</strong><span>업데이트 2026.09.22 · Android · APK</span></div>
-<div class="status"><strong>현재 상태</strong><br>쿠팡이츠 자동기록 정상 확인 · 배민 자동기록 · 짝꿍내비 · 후면단속 실사용 테스트 예정</div>
-<a id="apkDownload" class="download" href="https://github.com/sunpeaker1/baedal-jjakkung-download/releases/download/v1.57.78/RiderJjakkung-V1.57.78.apk">⬇️ APK 바로 다운로드</a>
-<div id="naverGuide" class="naverGuide">
-<strong class="title">네이버 앱에서 열렸습니다</strong>
-<p>네이버 앱 내부 브라우저에서는 APK 다운로드가 제한될 수 있습니다. 아래 버튼으로 이 페이지를 <strong>Chrome 또는 Samsung Internet</strong>에서 연 뒤 APK 바로 다운로드를 눌러주세요.</p>
-<a id="openChrome" class="browserBtn" href="#">Chrome에서 다운로드 페이지 열기</a>
-<a id="openSamsung" class="browserBtn secondary" href="#">Samsung Internet에서 열기</a>
-<button id="copyPageLink" class="browserBtn secondary" type="button">다운로드 페이지 주소 복사</button>
-<div id="copyStatus" class="copyStatus"></div>
-</div>
-<a class="release" href="https://github.com/sunpeaker1/baedal-jjakkung-download/releases/tag/v1.57.78" target="_blank" rel="noopener">GitHub에서 APK 확인</a>
-<div id="normalGuide" class="guide">
-<strong>다운로드가 시작되지 않나요?</strong><br><br>
-네이버 앱 안에서는 APK 다운로드가 시작되지 않을 수 있습니다.<br><br>
-이 경우 이 페이지를 <strong>Chrome 또는 Samsung Internet</strong>으로 연 뒤 위의 APK 다운로드 버튼을 다시 눌러주세요.
-</div>
-<h2>📱 현재 배포 버전</h2>
-<ul><li>버전 : <strong>V1.57.78 TEST</strong></li><li>파일명 : <strong>RiderJjakkung-V1.57.78.apk</strong></li><li>운영체제 : Android</li><li>정식 스토어 출시 전 테스트버전입니다.</li></ul>
-<h2>🔐 설치 전 확인</h2>
-<p>라이더짝꿍 운행도우미는 직접 개발·테스트하고, 공식 GitHub 공개 저장소를 통해 배포하는 테스트버전입니다.</p>
-<p>필요한 권한과 사용 목적을 안내하고 있으며, 다운로드는 이 공식 페이지의 링크를 이용해주세요.</p>
-<div class="warning">아직 Google Play 정식 심사를 거친 버전은 아닙니다. 반드시 이 공식 다운로드 페이지 또는 공식 GitHub 저장소에서 받은 APK만 사용해주세요.</div>
-<h2>🛡️ 설치 후</h2>
-<p>APK 설치를 위해 ‘이 출처에서 앱 설치 허용’ 또는 삼성의 ‘보안 위험 자동 차단’ 설정을 변경했다면, 설치가 끝난 뒤 다시 원래 상태로 설정하는 것을 권장합니다.</p>
-<h2>🔎 파일 확인값</h2>
-<p class="hash">SHA-256<br>3c31e1b1e764fc0a211e8093371398ce56c519e79b3cccbc3bca2ced0ca2cc1b</p>
-<h2>🆘 설치가 안 될 때</h2>
-<ul><li>네이버 앱 대신 Chrome 또는 Samsung Internet으로 열어주세요.</li><li>파일명이 RiderJjakkung-V1.57.78.apk인지 확인해주세요.</li><li>다운로드한 브라우저 또는 내 파일에 대해서만 외부 앱 설치 권한을 허용해주세요.</li><li>문제가 계속되면 블로그 댓글에 휴대폰 기종과 오류 화면을 남겨주세요.</li></ul>
-</section><div class="footer">RiderJjakkung TEST Distribution</div></main>
-<script>
-(function(){
-  var ua=navigator.userAgent||"";
-  var isNaver=/NAVER/i.test(ua);
-  var apk=document.getElementById("apkDownload");
-  var ng=document.getElementById("naverGuide");
-  var normal=document.getElementById("normalGuide");
-  var chrome=document.getElementById("openChrome");
-  var samsung=document.getElementById("openSamsung");
-  var copyBtn=document.getElementById("copyPageLink");
-  var status=document.getElementById("copyStatus");
-  var clean=window.location.href.split("#")[0];
-  var target=clean.replace(/^https?:\/\//,"");
-  chrome.href="intent://"+target+"#Intent;scheme=https;package=com.android.chrome;end";
-  samsung.href="intent://"+target+"#Intent;scheme=https;package=com.sec.android.app.sbrowser;end";
-  if(isNaver){apk.style.display="none";normal.style.display="none";ng.classList.add("show")}
-  copyBtn.addEventListener("click",function(){
-    function done(){status.textContent="다운로드 페이지 주소를 복사했습니다.";setTimeout(function(){status.textContent=""},3000)}
-    function fallback(){var t=document.createElement("textarea");t.value=clean;t.setAttribute("readonly","");t.style.position="fixed";t.style.opacity="0";document.body.appendChild(t);t.select();try{document.execCommand("copy");done()}catch(e){status.textContent="주소창 링크를 복사해 외부 브라우저에서 열어주세요."}document.body.removeChild(t)}
-    if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(clean).then(done).catch(fallback)}else{fallback()}
-  });
-})();
-</script>
+  <nav class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top" aria-label="라이더짝꿍 홈">
+        <span class="brand-mark">R</span>
+        <span>라이더짝꿍</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features">기능</a>
+        <a href="#news">라이더소식</a>
+        <a href="#guide">사용법</a>
+        <a href="#download">다운로드</a>
+        <a href="#status">개발상태</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="eyebrow">배달 · 퀵 라이더를 위한 통합 운행 도우미</div>
+          <h1>운행은 단순하게.<br>기록은 자동으로.</h1>
+          <p class="lead">라이더짝꿍은 배달기록, 수익관리, 지역판단, 단속경고, 사고기록과 <strong>짝꿍내비</strong>를 한곳에 모은 라이더용 앱입니다. 별도 앱 <strong>퀵짝꿍</strong>은 현재 운행 동선과 퀵오더를 함께 판단하는 방향으로 확장하고 있습니다.</p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="#download">Android 다운로드</a>
+            <a class="btn btn-secondary" href="#guide">사용법 먼저 보기</a>
+          </div>
+        </div>
+        <div class="hero-card" aria-label="앱 기능 미리보기">
+          <div class="phone">
+            <div class="screen">
+              <div class="screen-top"><span>라이더짝꿍</span><span>운행 중</span></div>
+              <h3>오늘 운행</h3>
+              <p>배달과 퀵을 한 화면에서 더 간단하게</p>
+              <div class="mini-card"><b>자동기록</b><small>쿠팡이츠 배달완료 기록 보호 · 누락/중복 방지</small></div>
+              <div class="mini-card"><b>짝꿍내비</b><small>메인폰 목적지를 보조폰 내비로 전송</small></div>
+              <div class="mini-card"><b>지역판단</b><small>선호 · 주의 · 회피 · 활동지역 판단</small></div>
+              <div class="mini-card"><b>단속경고</b><small>주행방향과 위치 정확도를 반영한 경고</small></div>
+              <div class="mini-card"><b>수익관리</b><small>일 · 주 · 월 수익과 목표 진행률 확인</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">Core Apps</div>
+          <h2>라이더 작업 흐름에 맞춘 3가지 핵심</h2>
+          <p>짝꿍내비는 라이더짝꿍 안에 포함되는 기능이며, 퀵짝꿍은 별도 앱으로 운영하는 구성을 기준으로 만들었습니다.</p>
+        </div>
+        <div class="grid-3">
+          <article class="card">
+            <span class="tag green">라이더짝꿍</span>
+            <h3>배달 운행 통합관리</h3>
+            <p>배달 중 필요한 기록·안전·수익·지역판단을 한 앱에 모읍니다.</p>
+            <ul class="feature-list">
+              <li>쿠팡이츠 배달완료 자동기록</li>
+              <li>중복·누락·오입력 감지</li>
+              <li>수익 분석과 목표 진행률</li>
+              <li>지역판단과 운행시간 연동</li>
+              <li>후면·정면 단속경고</li>
+              <li>사고사진 촬영·분류·저장</li>
+              <li>정산 검산과 백업/복원</li>
+            </ul>
+          </article>
+          <article class="card">
+            <span class="tag blue">짝꿍내비 · 라이더짝꿍 포함</span>
+            <h3>메인폰 → 보조폰 내비</h3>
+            <p>배달앱의 목적지를 메인폰에서 보조폰으로 보내 내비게이션을 실행하는 구조입니다.</p>
+            <ul class="feature-list">
+              <li>QR 1회 페어링</li>
+              <li>인터넷 기반 목적지 전송</li>
+              <li>와이파이 핫스팟·블루투스 직접연결 불필요</li>
+              <li>T맵 · 카카오내비 연동 구조</li>
+              <li>메인/보조 역할 분리</li>
+            </ul>
+          </article>
+          <article class="card">
+            <span class="tag yellow">퀵짝꿍</span>
+            <h3>퀵오더 동선 판단</h3>
+            <p>진행 중인 배달 동선을 기준으로 함께 탈 수 있는 퀵오더를 판단하는 방향으로 확장합니다.</p>
+            <ul class="feature-list">
+              <li>현재 운행 경로 기준 판단</li>
+              <li>카카오T퀵 동선연동 확장</li>
+              <li>기존 안정버전 보호</li>
+              <li>새 기능은 분리 개발 방식</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">How it works</div>
+          <h2>처음 쓰는 사람도 4단계</h2>
+        </div>
+        <div class="flow">
+          <div class="step"><h4>설치</h4><p>Android APK를 내려받아 설치합니다. 스토어 배포 전에는 브라우저 다운로드 방식으로 제공할 수 있습니다.</p></div>
+          <div class="step"><h4>권한 설정</h4><p>자동기록·위치·알림 등 기능에 필요한 권한만 순서대로 허용합니다.</p></div>
+          <div class="step"><h4>운행 시작</h4><p>운행 시작 후 자동기록, 지역판단, 단속경고와 수익관리를 함께 사용합니다.</p></div>
+          <div class="step"><h4>짝꿍내비 연결</h4><p>보조폰이 있다면 QR로 한 번 연결한 뒤 목적지를 보조폰 내비로 전송합니다.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="news">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">Rider News</div>
+          <h2>배달·퀵 라이더 소식</h2>
+          <p>음식배달 플랫폼, 카카오T퀵, 일반 퀵서비스, 라이더 정책·안전 소식을 한곳에서 확인할 수 있는 게시판입니다.</p>
+        </div>
+
+        <div class="news-toolbar" aria-label="소식 카테고리 필터">
+          <button class="news-filter active" data-category="전체">전체</button>
+          <button class="news-filter" data-category="음식배달">음식배달</button>
+          <button class="news-filter" data-category="카카오퀵">카카오퀵</button>
+          <button class="news-filter" data-category="일반퀵">일반 퀵서비스</button>
+          <button class="news-filter" data-category="정책안전">정책·안전</button>
+          <input class="news-search" id="newsSearch" type="search" placeholder="소식 검색" aria-label="소식 검색" />
+        </div>
+
+        <div class="news-grid" id="newsGrid"></div>
+        <div class="news-admin-note"><strong>소식 관리:</strong> 아래 <strong>소식 작성</strong> 버튼에서 휴대폰으로 글을 작성·저장하고, 게시용 <code>news-data.js</code> 파일을 내려받을 수 있습니다.</div>
+        <div class="news-actions">
+          <button class="btn btn-secondary" id="toggleNewsAdmin">✍️ 소식 작성</button>
+          <button class="btn btn-secondary" id="exportNewsData">⬇️ 게시용 데이터 받기</button>
+        </div>
+        <section class="admin-panel" id="newsAdminPanel" aria-hidden="true">
+          <h3>라이더 소식 작성</h3>
+          <p>작성한 글은 이 기기에 임시 저장됩니다. 사이트 전체에 공개하려면 <strong>게시용 데이터 받기</strong>로 만든 파일을 홈페이지의 <code>news-data.js</code>와 교체하면 됩니다.</p>
+          <form id="newsPostForm">
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="postCategory">카테고리</label>
+                <select id="postCategory" required>
+                  <option value="음식배달">음식배달</option>
+                  <option value="카카오퀵">카카오퀵</option>
+                  <option value="일반퀵">일반 퀵서비스</option>
+                  <option value="정책안전">정책·안전</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label for="postDate">게시일</label>
+                <input id="postDate" type="date" required />
+              </div>
+              <div class="form-field full">
+                <label for="postTitle">제목</label>
+                <input id="postTitle" maxlength="100" placeholder="예: 배달 플랫폼 수수료 정책 변경 안내" required />
+              </div>
+              <div class="form-field full">
+                <label for="postSummary">목록 요약</label>
+                <textarea id="postSummary" maxlength="240" placeholder="카드에 표시될 핵심 내용을 2~3문장으로 작성" required></textarea>
+              </div>
+              <div class="form-field">
+                <label for="postSource">출처</label>
+                <input id="postSource" maxlength="80" placeholder="예: 카카오모빌리티 / 직접작성" />
+              </div>
+              <div class="form-field">
+                <label for="postSourceUrl">출처 링크</label>
+                <input id="postSourceUrl" type="url" placeholder="https://..." />
+              </div>
+              <div class="form-field full">
+                <label for="postBody">본문</label>
+                <textarea id="postBody" style="min-height:220px" placeholder="소식의 상세 내용을 작성하세요." required></textarea>
+              </div>
+            </div>
+            <div class="admin-toolbar">
+              <button class="btn btn-primary" type="submit">이 기기에 저장</button>
+              <button class="btn btn-secondary" type="button" id="resetNewsForm">입력 지우기</button>
+            </div>
+          </form>
+          <div class="admin-help">※ 정적 홈페이지라서 브라우저에 저장한 글이 다른 사람에게 자동 공개되지는 않습니다. 게시용 파일을 홈페이지에 반영하면 모든 방문자에게 보입니다.</div>
+          <div class="admin-list" id="localNewsList"></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="section" id="guide">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">Guide</div>
+          <h2>기능별 사용법</h2>
+          <p>홈페이지에서 바로 확인할 수 있도록 핵심 절차만 정리했습니다.</p>
+        </div>
+        <div class="usage">
+          <details open>
+            <summary>라이더짝꿍 기본 사용법</summary>
+            <ol>
+              <li>앱 설치 후 필요한 접근성·위치·알림 권한을 설정합니다.</li>
+              <li>운행을 시작할 때 앱의 <strong>운행 시작</strong>을 켭니다.</li>
+              <li>쿠팡이츠 배달완료 기록은 자동으로 누적되고, 수익·건수·운행시간을 확인합니다.</li>
+              <li>지역판단과 단속경고도 운행 상태에 맞춰 사용합니다.</li>
+              <li>운행 종료 후 기록과 정산 내용을 확인합니다.</li>
+            </ol>
+          </details>
+          <details>
+            <summary>짝꿍내비 연결 및 사용법</summary>
+            <ol>
+              <li>메인폰과 보조폰에 라이더짝꿍을 준비합니다.</li>
+              <li>짝꿍내비에서 메인폰·보조폰 역할을 선택하고 QR로 1회 페어링합니다.</li>
+              <li>두 기기 모두 <strong>연결됨</strong> 상태인지 확인합니다.</li>
+              <li>메인폰의 배달앱에서 목적지 길찾기를 실행하면, 라이더짝꿍이 확정한 목적지를 보조폰으로 전송합니다.</li>
+              <li>보조폰에서 선택한 T맵 또는 카카오내비로 길안내를 실행합니다.</li>
+            </ol>
+            <p><strong>중요:</strong> 짝꿍내비는 내비 화면 자체를 읽는 방식이 아니라 배달앱 주문화면의 목적지 주소를 확인해 전송하는 구조를 기준으로 개발 중입니다.</p>
+          </details>
+          <details>
+            <summary>퀵짝꿍 사용 방향</summary>
+            <ol>
+              <li>현재 진행 중인 배달의 출발·도착 동선을 기준으로 합니다.</li>
+              <li>카카오T퀵 오더 중 현재 경로와 함께 운행하기 좋은 오더를 판단하도록 확장합니다.</li>
+              <li>자동수락이 아니라 라이더가 최종 선택할 수 있도록 보조하는 방향을 기준으로 합니다.</li>
+            </ol>
+          </details>
+          <details>
+            <summary>단속경고</summary>
+            <p>진행방향과 GPS 정확도, 도로 통로를 함께 반영해 불필요한 경고를 줄이는 방식입니다. 후면·정면 경고를 켜거나 끌 수 있고, 거리 단계별 경고를 제공하는 구성을 사용합니다.</p>
+          </details>
+          <details>
+            <summary>자동기록·수익관리</summary>
+            <p>배달완료 정보를 기반으로 건수와 수익을 기록하고, 중복·누락 여부를 확인합니다. 주·월 통계와 목표 진행률, 실제 정산금액과의 검산 기능을 함께 사용하는 방향입니다.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="download">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">Download</div>
+          <h2>Android 다운로드</h2>
+          <p>공식 GitHub 공개 저장소에 등록된 테스트 APK를 바로 받을 수 있습니다. 개발 진행 버전과 공개 배포 버전은 다를 수 있습니다.</p>
+        </div>
+        <div class="download-panel">
+          <div class="download-card">
+            <span class="tag green">공개 배포 V1.57.78 TEST</span>
+            <h3>라이더짝꿍 APK</h3>
+            <p>자동기록, 지역판단, 단속경고, 사고기록, 수익관리, 짝꿍내비를 포함하는 메인 앱.</p>
+            <div class="download-meta">
+              <span class="tag">Android</span><span class="tag">APK</span><span class="tag">짝꿍내비 포함</span>
+            </div>
+            <button class="btn btn-primary download-action" data-app="rider">라이더짝꿍 다운로드</button>
+            <div class="notice">공식 GitHub Release의 RiderJjakkung-V1.57.78.apk로 연결됩니다. 정식 스토어 출시 전 테스트버전입니다.</div>
+          </div>
+          <div class="download-card alt">
+            <span class="tag blue">공개 배포 V5.11 FINAL SAFE · 별도 앱</span>
+            <h3>퀵짝꿍 APK</h3>
+            <p>퀵 운행과 동선연동 기능을 위한 별도 앱. 안정버전을 보호하면서 새 기능을 분리 개발하는 구성을 기준으로 합니다.</p>
+            <div class="download-meta">
+              <span class="tag">Android</span><span class="tag">APK</span><span class="tag">동선연동</span>
+            </div>
+            <button class="btn btn-secondary download-action" data-app="quick">퀵짝꿍 다운로드</button>
+            <div class="notice">공식 quickmate-download 저장소의 QuickMateClean_v5.11.apk로 연결됩니다.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="status">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">Status</div>
+          <h2>현재 공개 상태 안내</h2>
+          <p>완성된 기능과 테스트 중 기능을 구분해서 안내하는 영역입니다.</p>
+        </div>
+        <div class="status">
+          <div class="card"><span class="tag green">지원</span><h3>쿠팡이츠 자동기록</h3><p>보호영역을 유지하는 기준으로 운영합니다.</p></div>
+          <div class="card"><span class="tag yellow">테스트</span><h3>배민 자동기록</h3><p>테스트 완료 전까지는 공개 문구를 보수적으로 유지합니다.</p></div>
+          <div class="card"><span class="tag yellow">테스트</span><h3>짝꿍내비</h3><p>메인·보조 연결 구조와 목적지 전송을 실제 운행 환경에서 점검하는 단계입니다.</p></div>
+          <div class="card"><span class="tag blue">확장개발</span><h3>퀵짝꿍 동선연동</h3><p>기존 안정버전을 보존하고 별도 기능으로 확장하는 방향입니다.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">FAQ</div>
+          <h2>자주 묻는 질문</h2>
+        </div>
+        <div class="usage">
+          <details><summary>짝꿍내비는 별도 앱인가요?</summary><p>아니요. 현재 구성에서는 라이더짝꿍 안에 포함되는 기능으로 안내합니다.</p></details>
+          <details><summary>보조폰은 유심이 꼭 필요한가요?</summary><p>짝꿍내비는 인터넷 기반 전송을 사용하므로 보조폰이 인터넷에 연결될 수 있어야 합니다. 직접 블루투스 연결이나 핫스팟 페어링을 기본 방식으로 사용하지 않습니다.</p></details>
+          <details><summary>Google Play 또는 Galaxy Store에서 받을 수 있나요?</summary><p>현재 홈페이지는 APK 직접 배포를 먼저 지원하도록 만들었습니다. 스토어 등록 후에는 다운로드 버튼을 스토어 주소로 변경하면 됩니다.</p></details>
+          <details><summary>자동수락 기능이 있나요?</summary><p>퀵짝꿍의 동선연동은 라이더가 판단하기 쉽게 보조하는 방향이며, 최종 선택은 라이더가 직접 하는 구조를 기준으로 합니다.</p></details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="news-modal" id="newsModal" aria-hidden="true">
+    <article class="news-modal-box" role="dialog" aria-modal="true" aria-labelledby="newsModalTitle">
+      <div class="news-modal-top">
+        <div>
+          <div class="news-meta" id="newsModalMeta"></div>
+          <h2 id="newsModalTitle" style="font-size:32px;margin-top:8px"></h2>
+        </div>
+        <button class="news-modal-close" id="newsModalClose" aria-label="닫기">×</button>
+      </div>
+      <div class="news-modal-body" id="newsModalBody"></div>
+      <div id="newsModalSource" style="margin-top:20px"></div>
+    </article>
+  </div>
+
+  <footer>
+    <div class="wrap footer-row">
+      <div><strong style="color:#fff">라이더짝꿍</strong><div class="tiny">배달·퀵 라이더 운행 도우미</div></div>
+      <div class="tiny">© <span id="year"></span> Rider Mate. 테스트 기능은 실제 배포 상태에 따라 변경될 수 있습니다.</div>
+    </div>
+  </footer>
+
+  <script src="news-data.js"></script>
+  <script>
+    const DOWNLOADS = {
+      rider: "https://github.com/sunpeaker1/baedal-jjakkung-download/releases/download/v1.57.78/RiderJjakkung-V1.57.78.apk",
+      quick: "https://raw.githubusercontent.com/sunpeaker1/quickmate-download/main/QuickMateClean_v5.11.apk"
+    };
+
+    const newsGrid = document.getElementById('newsGrid');
+    const newsSearch = document.getElementById('newsSearch');
+    const newsFilters = [...document.querySelectorAll('.news-filter')];
+    const newsModal = document.getElementById('newsModal');
+    let activeNewsCategory = '전체';
+    const LOCAL_NEWS_KEY = 'riderMateLocalNewsV1';
+
+    function getLocalNews() {
+      try { return JSON.parse(localStorage.getItem(LOCAL_NEWS_KEY) || '[]'); } catch { return []; }
+    }
+
+    function getAllNews() {
+      const seed = window.RIDER_NEWS || [];
+      const local = getLocalNews();
+      const ids = new Set(local.map(item => item.id));
+      return [...local, ...seed.filter(item => !ids.has(item.id))];
+    }
+
+    function escapeHtml(value = '') {
+      return value.replace(/[&<>"']/g, (char) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
+    }
+
+    function renderNews() {
+      const query = (newsSearch.value || '').trim().toLowerCase();
+      const items = getAllNews()
+        .filter(item => activeNewsCategory === '전체' || item.category === activeNewsCategory)
+        .filter(item => !query || `${item.title} ${item.summary} ${item.body || ''}`.toLowerCase().includes(query))
+        .sort((a,b) => new Date(b.date) - new Date(a.date));
+
+      if (!items.length) {
+        newsGrid.innerHTML = '<div class="news-empty">조건에 맞는 소식이 없습니다.</div>';
+        return;
+      }
+
+      newsGrid.innerHTML = items.map(item => `
+        <article class="news-card">
+          <div class="news-meta"><span class="tag ${item.tagClass || ''}">${escapeHtml(item.category)}</span><span>${escapeHtml(item.date)}</span></div>
+          <h3>${escapeHtml(item.title)}</h3>
+          <p>${escapeHtml(item.summary)}</p>
+          <button class="news-link" data-news-id="${escapeHtml(item.id)}" style="border:0;background:none;text-align:left;cursor:pointer;padding-left:0">자세히 보기 →</button>
+        </article>`).join('');
+
+      newsGrid.querySelectorAll('[data-news-id]').forEach(button => {
+        button.addEventListener('click', () => openNews(button.dataset.newsId));
+      });
+    }
+
+    function openNews(id) {
+      const item = getAllNews().find(post => post.id === id);
+      if (!item) return;
+      document.getElementById('newsModalMeta').innerHTML = `<span class="tag ${item.tagClass || ''}">${escapeHtml(item.category)}</span><span>${escapeHtml(item.date)}</span>${item.source ? `<span>출처: ${escapeHtml(item.source)}</span>` : ''}`;
+      document.getElementById('newsModalTitle').textContent = item.title;
+      document.getElementById('newsModalBody').textContent = item.body || item.summary;
+      const sourceEl = document.getElementById('newsModalSource');
+      sourceEl.innerHTML = item.sourceUrl ? `<a class="btn btn-secondary" href="${escapeHtml(item.sourceUrl)}" target="_blank" rel="noopener noreferrer">원문/출처 보기 ↗</a>` : '';
+      newsModal.classList.add('open');
+      newsModal.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeNews() {
+      newsModal.classList.remove('open');
+      newsModal.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+    }
+
+    const newsAdminPanel = document.getElementById('newsAdminPanel');
+    const postDate = document.getElementById('postDate');
+    postDate.value = new Date().toISOString().slice(0,10);
+
+    document.getElementById('toggleNewsAdmin').addEventListener('click', () => {
+      const open = newsAdminPanel.classList.toggle('open');
+      newsAdminPanel.setAttribute('aria-hidden', String(!open));
+      if (open) newsAdminPanel.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+
+    function tagClassFor(category) {
+      return ({'음식배달':'green','카카오퀵':'blue','일반퀵':'yellow','정책안전':'blue'})[category] || '';
+    }
+
+    function saveLocalNews(items) {
+      localStorage.setItem(LOCAL_NEWS_KEY, JSON.stringify(items));
+      renderNews();
+      renderLocalNewsList();
+    }
+
+    document.getElementById('newsPostForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const now = new Date();
+      const category = document.getElementById('postCategory').value;
+      const item = {
+        id: `local-${now.getTime()}`,
+        category,
+        tagClass: tagClassFor(category),
+        date: postDate.value,
+        title: document.getElementById('postTitle').value.trim(),
+        summary: document.getElementById('postSummary').value.trim(),
+        source: document.getElementById('postSource').value.trim() || '라이더짝꿍',
+        sourceUrl: document.getElementById('postSourceUrl').value.trim(),
+        body: document.getElementById('postBody').value.trim()
+      };
+      const local = getLocalNews();
+      local.unshift(item);
+      saveLocalNews(local);
+      event.target.reset();
+      postDate.value = new Date().toISOString().slice(0,10);
+      alert('글을 이 기기에 저장했습니다. 공개용으로 반영하려면 “게시용 데이터 받기”를 눌러주세요.');
+    });
+
+    document.getElementById('resetNewsForm').addEventListener('click', () => {
+      document.getElementById('newsPostForm').reset();
+      postDate.value = new Date().toISOString().slice(0,10);
+    });
+
+    function renderLocalNewsList() {
+      const box = document.getElementById('localNewsList');
+      const items = getLocalNews();
+      if (!items.length) {
+        box.innerHTML = '<div class="news-empty">이 기기에 저장한 글이 없습니다.</div>';
+        return;
+      }
+      box.innerHTML = '<strong>이 기기에 저장한 글</strong>' + items.map(item => `
+        <div class="admin-item">
+          <div class="admin-item-title"><b>${escapeHtml(item.title)}</b><small>${escapeHtml(item.category)} · ${escapeHtml(item.date)}</small></div>
+          <button class="admin-delete" data-delete-news="${escapeHtml(item.id)}">삭제</button>
+        </div>`).join('');
+      box.querySelectorAll('[data-delete-news]').forEach(button => {
+        button.addEventListener('click', () => {
+          if (!confirm('이 기기에 저장한 글을 삭제할까요?')) return;
+          saveLocalNews(getLocalNews().filter(item => item.id !== button.dataset.deleteNews));
+        });
+      });
+    }
+
+    function serializeNewsData(items) {
+      const clean = items.map(item => ({
+        id:item.id, category:item.category, tagClass:item.tagClass || '', date:item.date,
+        title:item.title, summary:item.summary, source:item.source || '', sourceUrl:item.sourceUrl || '', body:item.body || ''
+      }));
+      return `/* 라이더짝꿍 홈페이지 소식 데이터 - 관리자 화면에서 생성 */\nwindow.RIDER_NEWS = ${JSON.stringify(clean, null, 2)};\n`;
+    }
+
+    document.getElementById('exportNewsData').addEventListener('click', () => {
+      const data = serializeNewsData(getAllNews().sort((a,b) => new Date(b.date) - new Date(a.date)));
+      const blob = new Blob([data], {type:'text/javascript;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'news-data.js';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    renderLocalNewsList();
+
+    newsFilters.forEach(button => {
+      button.addEventListener('click', () => {
+        activeNewsCategory = button.dataset.category;
+        newsFilters.forEach(btn => btn.classList.toggle('active', btn === button));
+        renderNews();
+      });
+    });
+    newsSearch.addEventListener('input', renderNews);
+    document.getElementById('newsModalClose').addEventListener('click', closeNews);
+    newsModal.addEventListener('click', (event) => { if (event.target === newsModal) closeNews(); });
+    document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeNews(); });
+    renderNews();
+
+    document.querySelectorAll('.download-action').forEach((button) => {
+      button.addEventListener('click', () => {
+        const url = DOWNLOADS[button.dataset.app];
+        if (!url) {
+          alert('다운로드 링크 준비 중입니다. APK 주소를 연결하면 바로 다운로드할 수 있습니다.');
+          return;
+        }
+        window.location.href = url;
+      });
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
