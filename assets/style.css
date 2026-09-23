@@ -880,3 +880,20 @@ body.feedbackOpen{overflow:hidden}
   .inlineFeedbackCard{margin:8px auto;padding:20px 14px;border-radius:20px}
   .inlineFeedbackCard h2{font-size:26px;padding-right:40px}
 }
+
+/* 2026-09-24 feedback submission guidance */
+.feedbackFlowNotice{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  margin:14px 0 18px;
+  padding:14px 15px;
+  border:1px solid #cfe4f3;
+  border-radius:14px;
+  background:#eef8ff;
+  color:#365a78;
+  font-size:13px;
+  line-height:1.55;
+}
+.feedbackFlowNotice b{color:#12385d}
+.feedbackFlowNotice strong{color:#0b7a42}
