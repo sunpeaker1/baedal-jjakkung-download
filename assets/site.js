@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded',()=>{
+  // Homepage should always open at the feature guide, not a restored old scroll position.
+  if(document.body.classList.contains('homeLight') && !location.hash){
+    if('scrollRestoration' in history) history.scrollRestoration='manual';
+    requestAnimationFrame(()=>window.scrollTo(0,0));
+    setTimeout(()=>window.scrollTo(0,0),80);
+  }
   const btn=document.querySelector('.menu');
   const links=document.querySelector('.mobileLinks');
   if(btn&&links) btn.addEventListener('click',()=>links.classList.toggle('open'));
