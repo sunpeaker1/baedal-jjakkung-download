@@ -49,3 +49,20 @@ footer{margin-top:40px;padding:38px 0 58px;border-top:1px solid rgba(255,255,255
 .navShot{max-width:240px}.navActualGrid{display:grid;grid-template-columns:1fr minmax(280px,380px);gap:30px;align-items:center}.navActualCard{max-width:380px;width:100%;justify-self:end}
 @media(max-width:1000px){.realShotGrid{grid-template-columns:repeat(2,1fr)}.realShotGrid3{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:760px){.realShotGrid,.realShotGrid3{grid-template-columns:1fr}.realShotFrame{min-height:0}.appScreenshot{max-width:300px}.navActualGrid{grid-template-columns:1fr}.navActualCard{justify-self:stretch;max-width:none}.navShot{max-width:300px}}
+
+/* Screenshot clarity fix: never upscale the current screenshot assets. */
+.realShotFrame{padding:12px}
+.appScreenshot{
+  width:auto;
+  height:auto;
+  max-width:240px;
+  image-rendering:auto;
+  filter:contrast(1.035);
+}
+.realShotCard:nth-child(3) .appScreenshot{max-width:180px}
+.navShot{max-width:180px}
+@media(max-width:760px){
+  .appScreenshot{width:auto;max-width:240px}
+  .realShotCard:nth-child(3) .appScreenshot{max-width:180px}
+  .navShot{max-width:180px}
+}
