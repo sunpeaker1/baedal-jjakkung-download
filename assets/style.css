@@ -132,3 +132,196 @@ footer{margin-top:40px;padding:38px 0 58px;border-top:1px solid rgba(255,255,255
   .featurePhone .mini b{font-size:15px}
   .featurePhone .mini small{font-size:12px}
 }
+
+
+/* 2026-09-24 Bright homepage redesign */
+.homeLight{
+  --bg:#f3faff;
+  --panel:#ffffff;
+  --line:#dce8f4;
+  --muted:#6e8097;
+  --text:#102a52;
+  --green:#17ad7b;
+  --blue:#178cff;
+  --yellow:#f3a623;
+  background:
+    radial-gradient(circle at 18% 4%,rgba(70,190,255,.14),transparent 27rem),
+    radial-gradient(circle at 92% 18%,rgba(92,232,193,.12),transparent 24rem),
+    linear-gradient(180deg,#ffffff 0,#f4fbff 30%,#eef8ff 100%);
+  color:var(--text);
+}
+.homeLight a{color:inherit}
+.homeLight .nav{
+  background:rgba(255,255,255,.92);
+  border-bottom:1px solid #dce8f4;
+  backdrop-filter:blur(18px);
+}
+.homeLight .navin{min-height:76px}
+.homeLight .homeBrand{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:1000;color:#102a52}
+.homeLight .homeBrand img{width:42px;height:42px;border-radius:12px;object-fit:cover;box-shadow:0 8px 20px rgba(24,141,255,.16)}
+.homeLight .links a,.homeLight .mobileLinks a{color:#5f7188}
+.homeLight .links a:hover,.homeLight .mobileLinks a:hover{color:#0c72d8}
+.homeLight .menu{color:#102a52;background:#fff;border-color:#d8e5f2}
+.homeLight .mobileLinks{background:#fff}
+
+.appLanding{padding:34px 0 22px}
+.appDashboard{
+  max-width:940px;
+  margin:0 auto;
+  padding:28px;
+  border-radius:34px;
+  background:linear-gradient(180deg,rgba(255,255,255,.97),rgba(241,250,255,.98));
+  border:1px solid #d8e9f6;
+  box-shadow:0 24px 70px rgba(36,106,164,.12);
+}
+.appDashHeader{display:flex;justify-content:space-between;gap:24px;align-items:flex-start}
+.appDashBrand{display:flex;gap:16px;align-items:center}
+.appDashIcon{width:84px;height:84px;border-radius:22px;object-fit:cover;box-shadow:0 14px 32px rgba(24,141,255,.2)}
+.appDashName>div{display:flex;align-items:center;gap:12px;line-height:1}
+.appDashName strong{font-size:38px;letter-spacing:-.055em;color:#0a2854}
+.appDashSign{font-family:cursive;font-size:34px;color:#728199;font-style:italic}
+.appDashName small{display:block;margin-top:12px;font-size:18px;font-weight:850;color:#71829a}
+.appDashMeta{display:grid;justify-items:end;gap:16px}
+.autoBadge{display:inline-flex;padding:12px 22px;border-radius:999px;background:#d8f8eb;color:#06875f;font-size:18px;font-weight:1000}
+.appDashMeta strong{font-size:22px;color:#102a52}
+
+.appInfoPanel{
+  margin-top:28px;
+  border-radius:28px;
+  padding:28px 30px;
+  background:linear-gradient(120deg,#e9f7ff 0,#f2fbff 46%,#e8fff7 100%);
+  border:1px solid #d4edf6;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
+}
+.appInfoHead{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center}
+.infoBubble{
+  width:68px;height:68px;border-radius:50%;display:grid;place-items:center;
+  background:linear-gradient(145deg,#4bc7ff,#146ff0);color:#fff;
+  font-size:36px;font-family:Georgia,serif;font-weight:900;
+  box-shadow:0 12px 26px rgba(26,136,244,.18)
+}
+.appInfoHead h1{margin:0;color:#102a52;font-size:32px;letter-spacing:-.045em}
+.appInfoHead p{margin:7px 0 0;color:#4a72a3;font-size:19px;font-weight:850}
+.infoDoc{
+  width:72px;height:72px;border-radius:20px;display:grid;place-items:center;
+  background:rgba(255,255,255,.76);color:#709fee;font-size:44px;font-weight:900;
+  transform:rotate(8deg)
+}
+.appInfoBody{margin:22px 0 0;color:#4e6685;font-size:18px;line-height:1.75}
+.appInfoBody b{color:#244f82}
+
+.shortcutHead{display:flex;justify-content:space-between;gap:20px;align-items:end;margin:30px 8px 18px}
+.shortcutHead>div{display:flex;align-items:center;gap:10px}
+.shortcutHead h2{margin:0;color:#102a52;font-size:32px;letter-spacing:-.045em}
+.shortcutHead .bolt{font-size:36px}
+.shortcutHead p{margin:0 0 3px;color:#71829a;font-size:16px;font-weight:750}
+
+.shortcutGrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.homeFeatureCard{
+  appearance:none;border:1px solid #dce8f4;background:#fff;color:#102a52;
+  border-radius:24px;padding:18px;display:grid;
+  grid-template-columns:74px 1fr auto;gap:15px;align-items:center;text-align:left;
+  cursor:pointer;box-shadow:0 10px 28px rgba(35,91,137,.08);
+  transition:.18s ease;
+}
+.homeFeatureCard:hover,.homeFeatureCard:focus-visible,.homeFeatureCard.active{
+  transform:translateY(-2px);
+  border-color:#68b5ff;
+  box-shadow:0 16px 34px rgba(34,130,218,.14);
+  outline:none;
+}
+.homeFeatureIcon{width:68px;height:68px;border-radius:20px;display:grid;place-items:center}
+.homeFeatureIcon svg{width:38px;height:38px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.greenIcon{color:#08a872;background:#e1fbf2}.blueIcon{color:#158cff;background:#e5f3ff}
+.redIcon{color:#ef3e47;background:#ffe9ec}.navIcon{color:#147dec;background:#ececff}
+.orangeIcon{color:#f28a24;background:#fff0e1}.shieldIcon{color:#07ad7c;background:#e4fbf3}
+.purpleIcon{color:#7551ef;background:#eee9ff}.grayIcon{color:#667d98;background:#edf2f7}
+.homeFeatureText{min-width:0}
+.homeFeatureText b{display:block;font-size:22px;letter-spacing:-.035em;color:#102a52}
+.homeFeatureText small{display:block;margin-top:6px;color:#73849b;font-size:14px}
+.homeFeatureArrow{font-size:34px;color:#6b86a6;font-weight:400}
+.homeScreenButton{
+  width:100%;margin-top:20px;border:0;border-radius:22px;padding:19px 24px;
+  background:linear-gradient(90deg,#21b6ff,#0e72ef);color:#fff;
+  font-size:23px;font-weight:1000;letter-spacing:-.02em;cursor:pointer;
+  box-shadow:0 14px 30px rgba(15,123,241,.2);
+}
+.homeScreenButton:hover{filter:brightness(1.03);transform:translateY(-1px)}
+
+.homeLight .featureDetailSection{padding:16px 0 48px}
+.homeLight .featureDetailShell{
+  background:#fff;border:1px solid #d8e7f3;border-radius:30px;
+  box-shadow:0 20px 55px rgba(41,95,139,.11);
+}
+.homeLight .featureDetailClose{background:#f2f7fb;border-color:#d8e6f2;color:#34516e}
+.homeLight .featureDetailTop .kicker{color:#118ee8}
+.homeLight .featureDetailTop h2{color:#102a52}
+.homeLight .featureDetailTop .lead{color:#667a91}
+.homeLight .featureScreenCard{background:#f6fbff;border-color:#d9e7f3}
+.homeLight .featureScreenCard h4{color:#102a52}
+.homeLight .featureGuide{background:#f8fbfe;border-color:#dce8f4}
+.homeLight .featureGuide h3{color:#102a52}
+.homeLight .featureGuide ol{color:#667b92}
+.homeLight .featurePoint{background:#eafaf4;border-color:#bfead8;color:#087957}
+
+.homeLight .releasebar{background:rgba(255,255,255,.8);border-color:#dce8f4}
+.homeLight .releasebarIn{color:#526b85}
+.homeLight .releaseItems{color:#71829a}
+.homeLight .releaseItems b{color:#102a52}
+.homeLight .releasebarIn>a{color:#0e78db}
+.homeLight .liveDot{background:#19b67c;box-shadow:0 0 0 6px rgba(25,182,124,.1)}
+
+.homeLight .section{background:transparent}
+.homeLight .head h2,.homeLight .card h3,.homeLight .dl h3{color:#102a52}
+.homeLight .head .muted,.homeLight .card p,.homeLight .dl .muted{color:#71829a}
+.homeLight .card,.homeLight .dl{background:#fff;border-color:#dce8f4;box-shadow:0 10px 28px rgba(36,90,135,.06)}
+.homeLight .kicker{color:#128ee7}
+.homeLight .tag{background:#f4f8fb;border-color:#dce8f4}
+.homeLight .tag.green,.homeLight .green{color:#08795a;background:#eafaf4;border-color:#c9eddf}
+.homeLight .tag.blueTag,.homeLight .blueTag{color:#176cc4;background:#eaf4ff;border-color:#cee4fb}
+.homeLight .tag.yellow,.homeLight .yellow{color:#946300;background:#fff6dd;border-color:#f1dfaa}
+.homeLight .notice{background:#fff9e9;border-color:#eedda9;color:#7b6020}
+.homeLight .testWarning{background:#fff3f2;border-color:#f0c8c5;color:#884740}
+.homeLight .testWarning strong{color:#c5463e}.homeLight .testWarning p{color:#7b5651}.homeLight .testWarning b{color:#8d2d26}
+.homeLight .btn{border-color:#d6e4f0;background:#fff;color:#21415f}
+.homeLight .btn.primary{background:linear-gradient(90deg,#20b6ff,#0d75ee);color:#fff;border-color:transparent}
+.homeLight .btn.blue{background:#168cf5;color:#fff;border-color:#168cf5}
+.homeLight footer{background:#eaf5fc;border-top:1px solid #d8e6f0;color:#62788f}
+.homeLight footer strong{color:#102a52!important}
+
+@media(max-width:760px){
+  .appLanding{padding:18px 0 12px}
+  .appDashboard{padding:18px 12px;border-radius:24px}
+  .appDashHeader{gap:12px}
+  .appDashIcon{width:58px;height:58px;border-radius:16px}
+  .appDashName strong{font-size:26px}
+  .appDashSign{font-size:23px}
+  .appDashName small{font-size:14px;margin-top:7px}
+  .appDashMeta{gap:9px}
+  .autoBadge{padding:9px 13px;font-size:14px}
+  .appDashMeta strong{font-size:14px;white-space:nowrap}
+  .appInfoPanel{padding:20px 16px;border-radius:22px;margin-top:20px}
+  .appInfoHead{grid-template-columns:auto 1fr;gap:12px}
+  .infoBubble{width:52px;height:52px;font-size:28px}
+  .infoDoc{display:none}
+  .appInfoHead h1{font-size:24px}
+  .appInfoHead p{font-size:15px}
+  .appInfoBody{font-size:15px;line-height:1.7;margin-top:16px}
+  .shortcutHead{display:block;margin:24px 4px 13px}
+  .shortcutHead>div{gap:7px}
+  .shortcutHead h2{font-size:25px}
+  .shortcutHead .bolt{font-size:28px}
+  .shortcutHead p{font-size:14px;margin:6px 0 0 35px}
+  .shortcutGrid{grid-template-columns:1fr 1fr;gap:10px}
+  .homeFeatureCard{grid-template-columns:48px 1fr auto;gap:9px;padding:12px 10px;border-radius:18px}
+  .homeFeatureIcon{width:46px;height:46px;border-radius:14px}
+  .homeFeatureIcon svg{width:27px;height:27px}
+  .homeFeatureText b{font-size:16px}
+  .homeFeatureText small{font-size:11px;line-height:1.35}
+  .homeFeatureArrow{font-size:24px}
+  .homeScreenButton{font-size:19px;padding:16px;border-radius:18px}
+}
+@media(max-width:390px){
+  .shortcutGrid{grid-template-columns:1fr}
+  .homeFeatureCard{grid-template-columns:52px 1fr auto}
+}
