@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     record:{
       kicker:'자동기록',
       title:'배달 기록은 자동으로, 확인은 한눈에',
-      desc:'배달완료 기록과 운행기록을 모아 오늘의 건수와 수익 흐름을 확인합니다.',
+      desc:'배달 완료 기록을 자동으로 모아 건수·수익·운행 흐름을 확인하고, 최근 기록의 오류 수정·삭제·복원까지 관리합니다.',
       screens:[
         ['assets/screenshots/full/record.webp','운행기록'],
         ['assets/screenshots/full/home.webp','홈 요약']
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     money:{
       kicker:'수익 · 정산',
       title:'번 돈부터 받을 돈까지 한 흐름으로',
-      desc:'수익 분석, 공제·지출 반영, 정산 예정, 입금확인과 검산까지 이어서 관리합니다.',
+      desc:'오늘·주간·월간 수익부터 공제·지출·렌트 부담, 정산 예정, 입금확인과 검산까지 실제 돈의 흐름을 한곳에서 관리합니다.',
       screens:[
         ['assets/screenshots/full/earnings.webp','수익 분석'],
         ['assets/screenshots/full/settlement.webp','정산 관리']
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     area:{
       kicker:'지역판단',
       title:'내 기준으로 목적지를 빠르게 판단',
-      desc:'주 활동지역과 선호·주의·회피지역을 직접 설정하고 목적지 판단에 활용합니다.',
+      desc:'주 활동지역과 선호·주의·회피지역을 직접 설정하고, 배달 목적지가 내 운행 기준에 맞는지 빠르게 판단하는 데 활용합니다.',
       screens:[
         ['assets/screenshots/full/region.webp','지역판단']
       ],
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     nav:{
       kicker:'짝꿍내비',
       title:'목적지는 메인폰에서, 길안내는 보조폰에서',
-      desc:'메인폰에서 확인한 배달 목적지를 보조폰으로 보내 내비 사용을 돕습니다.',
+      desc:'메인폰의 배달앱에서 확인한 목적지를 보조폰으로 보내 TMAP·카카오내비 사용을 돕는 보조 기능입니다.',
       screens:[
         ['assets/screenshots/full/nav.webp','짝꿍내비 연결 화면']
       ],
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     maintenance:{
       kicker:'정비관리',
       title:'바이크 상태와 유지비를 놓치지 않게',
-      desc:'정비주기, 주유, 렌트·리스 비용을 기록해 바이크 관리와 비용 흐름을 함께 확인합니다.',
+      desc:'바이크 주행거리와 정비주기, 주유, 렌트·리스 비용을 기록해 점검 시점과 유지비를 함께 관리합니다.',
       screens:[
         ['assets/screenshots/full/maintenance.webp','정비관리'],
         ['assets/screenshots/full/fuel.webp','주유관리'],
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     safety:{
       kicker:'안전도우미',
       title:'출발 전에는 확인하고, 사고 때는 바로 기록',
-      desc:'112·119, 사고 긴급메모, 현장증빙, 단속경고와 주변 안전정보를 제공합니다.',
+      desc:'112·119 긴급 연결, 사고메모·현장사진, 주변 안전정보와 전·후면 단속경고 설정을 한곳에서 확인합니다.',
       screens:[
         ['assets/screenshots/full/safety.webp','안전도우미'],
         ['assets/screenshots/full/enforcement.webp','단속경고 설정']
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     expense:{
       kicker:'지출관리',
       title:'업무지출을 날짜별로 기록해 실제 순수익에 반영',
-      desc:'보험료, 통행료, 주차비, 식비, 소모품, 통신비 등 업무지출을 기록합니다.',
+      desc:'보험료, 통행료, 주차비, 식비, 소모품, 통신비 등 날짜별 업무지출을 기록하고 수익 분석의 실제 순수익에 반영합니다.',
       screens:[
         ['assets/screenshots/full/management.webp','관리 메뉴'],
         ['assets/screenshots/full/earnings.webp','순수익 반영']
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     all:{
       kicker:'전체 기능',
       title:'라이더짝꿍의 나머지 기능도 한곳에서',
-      desc:'증빙보관, 백업·복원, 라이더 편의지도, 위험도로 메모, 자동기록 설정과 도움말까지 전체 메뉴에서 확인합니다.',
+      desc:'100일 목표관리, 수익분석, 정산관리, 지출·렌트/리스, 증빙보관함, 백업·복원, 편의지도, 위험도로 메모, 자동기록 설정, 기능점검과 사용도우미까지 전체 기능을 확인합니다.',
       screens:[
         ['assets/screenshots/full/management.webp','관리 메뉴'],
         ['assets/screenshots/full/evidence.webp','증빙보관함'],
