@@ -204,4 +204,36 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   const initialFeature=location.hash.startsWith('#feature-') ? location.hash.replace('#feature-','') : '';
   if(initialFeature && featureData[initialFeature]) showFeature(initialFeature);
+  const feedbackPanel=document.getElementById('feedback-panel');
+  const feedbackOpeners=[...document.querySelectorAll('[data-open-feedback]')];
+  const feedbackClose=feedbackPanel ? feedbackPanel.querySelector('.inlineFeedbackClose') : null;
+  const feedbackForm=document.getElementById('inlineFeedbackForm');
+
+  function openFeedback(e){
+    if(e) e.preventDefault();
+    if(!feedbackPanel) return;
+    feedbackPanel.hidden=false;
+    document.body.classList.add('feedbackOpen');
+    setTimeout(()=>document.getElementById('inlineFeedbackTitle')?.focus(),50);
+  }
+  function closeFeedback(){
+    if(!feedbackPanel) return;
+    feedbackPanel.hidden=true;
+    document.body.classList.remove('feedbackOpen');
+  }
+  feedbackOpeners.forEach(a=>a.addEventListener('click',openFeedback));
+  if(feedbackClose) feedbackClose.addEventListener('click',closeFeedback);
+  if(feedbackPanel) feedbackPanel.addEventListener('click',e=>{ if(e.target===feedbackPanel) closeFeedback(); });
+
+  if(feedbackForm){
+    feedbackForm.addEventListener('submit',e=>{
+      e.preventDefault();
+      const type=document.getElementById('inlineFeedbackType').value;
+      const title=document.getElementById('inlineFeedbackTitle').value.trim();
+      const body=document.getElementById('inlineFeedbackBody').value.trim();
+      const issueTitle='['+type+'] '+title;
+      const issueBody='종류: '+type+'\n\n'+body;
+      location.href='https://github.com/sunpeaker1/baedal-jjakkung-download/issues/new?title='+encodeURIComponent(issueTitle)+'&body='+encodeURIComponent(issueBody);
+    });
+  }
 });
