@@ -321,12 +321,73 @@ footer{margin-top:40px;padding:38px 0 58px;border-top:1px solid rgba(255,255,255
   .homeFeatureArrow{font-size:24px}
   .homeScreenButton{font-size:19px;padding:16px;border-radius:18px}
 }
-@media(max-width:390px){
-  .shortcutGrid{grid-template-columns:1fr}
-  .homeFeatureCard{grid-template-columns:52px 1fr auto}
-}
+
 
 /* Reliable site header brand */
 .homeBrand{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:1000}
 .homeBrand img{width:42px;height:42px;border-radius:12px;object-fit:cover;box-shadow:0 8px 20px rgba(24,141,255,.16)}
 @media(max-width:560px){.homeBrand{font-size:18px}.homeBrand img{width:38px;height:38px}}
+
+/* 2026-09-24 mobile layout correction: keep the mockup-like 2-column grid */
+@media(max-width:760px){
+  .homeLight .wrap{width:min(100% - 14px,1120px)}
+  .appDashboard{padding:14px 10px 16px;border-radius:22px}
+  .appDashHeader{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    align-items:start;
+    gap:8px;
+  }
+  .appDashBrand{gap:8px;min-width:0}
+  .appDashIcon{width:48px;height:48px;border-radius:14px;flex:0 0 48px}
+  .appDashName{min-width:0}
+  .appDashName>div{gap:5px;white-space:nowrap}
+  .appDashName strong{font-size:21px;white-space:nowrap;letter-spacing:-.055em}
+  .appDashSign{font-size:18px;white-space:nowrap}
+  .appDashName small{font-size:11.5px;margin-top:6px}
+  .appDashMeta{gap:7px;min-width:102px}
+  .autoBadge{padding:8px 10px;font-size:11.5px;white-space:nowrap}
+  .appDashMeta strong{font-size:11px;white-space:nowrap;letter-spacing:-.03em}
+
+  .appInfoPanel{padding:15px 12px 16px;border-radius:20px;margin-top:16px}
+  .appInfoHead{grid-template-columns:44px 1fr;gap:10px}
+  .infoBubble{width:44px;height:44px;font-size:24px}
+  .appInfoHead h1{font-size:20px;white-space:nowrap}
+  .appInfoHead p{font-size:12.5px;margin-top:4px}
+  .appInfoBody{font-size:13px;line-height:1.65;margin-top:13px}
+
+  .shortcutHead{margin:20px 2px 11px}
+  .shortcutHead h2{font-size:22px}
+  .shortcutHead .bolt{font-size:24px}
+  .shortcutHead p{font-size:12px;margin:5px 0 0 31px}
+
+  .shortcutGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .homeFeatureCard{
+    min-width:0;
+    min-height:82px;
+    grid-template-columns:36px minmax(0,1fr) 12px;
+    gap:6px;
+    padding:10px 8px;
+    border-radius:16px;
+  }
+  .homeFeatureIcon{width:36px;height:36px;border-radius:11px}
+  .homeFeatureIcon svg{width:22px;height:22px}
+  .homeFeatureText{min-width:0}
+  .homeFeatureText b{font-size:14px;white-space:nowrap;letter-spacing:-.05em}
+  .homeFeatureText small{font-size:9.5px;line-height:1.35;margin-top:4px;word-break:keep-all}
+  .homeFeatureArrow{font-size:20px;padding:0}
+  .homeScreenButton{font-size:18px;padding:15px;border-radius:17px;margin-top:12px}
+}
+
+@media(max-width:380px){
+  .appDashIcon{width:44px;height:44px;flex-basis:44px}
+  .appDashName strong{font-size:19px}
+  .appDashSign{font-size:16px}
+  .autoBadge{font-size:10.5px;padding:7px 8px}
+  .appDashMeta strong{font-size:10px}
+  .homeFeatureCard{grid-template-columns:32px minmax(0,1fr) 10px;padding:9px 7px;gap:5px;min-height:78px}
+  .homeFeatureIcon{width:32px;height:32px;border-radius:10px}
+  .homeFeatureIcon svg{width:20px;height:20px}
+  .homeFeatureText b{font-size:13px}
+  .homeFeatureText small{font-size:8.8px}
+}
