@@ -88,3 +88,15 @@ footer{margin-top:40px;padding:38px 0 58px;border-top:1px solid rgba(255,255,255
     filter:none;
   }
 }
+
+/* RiderJjakkung branded header logo */
+.brandLogo{display:inline-flex;align-items:center;line-height:1}
+.brandLogo img{display:block;width:190px;max-width:38vw;height:auto}
+@media(max-width:900px){.brandLogo img{width:172px;max-width:52vw}}
+@media(max-width:560px){.brandLogo img{width:158px;max-width:58vw}}
+
+/* Prominent public-test download notice */
+.testWarning{margin:16px 0;padding:16px 17px;border-radius:16px;border:1px solid rgba(255,140,140,.42);background:linear-gradient(180deg,rgba(255,140,140,.13),rgba(255,211,107,.06));color:#fff}
+.testWarning strong{display:block;color:#ffd0d0;font-size:15px;margin-bottom:7px}
+.testWarning p{margin:0;color:#f0d9d9;font-size:14px;line-height:1.65}
+.testWarning b{color:#fff}
