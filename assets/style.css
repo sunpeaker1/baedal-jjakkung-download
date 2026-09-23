@@ -635,3 +635,9 @@ body.featureDetailMode .featureDetailTop .lead{
   .homeFeatureText b{font-size:15px}
   .homeFeatureText small{font-size:9.8px}
 }
+
+/* 2026-09-24 simplified homepage top */
+.appDashboard > .appInfoPanel:first-child{margin-top:0}
+@media(max-width:760px){
+  .appDashboard > .appInfoPanel:first-child{margin-top:0}
+}
