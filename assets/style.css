@@ -645,3 +645,139 @@ body.featureDetailMode .featureDetailTop .lead{
 /* Keep key Korean brand words together */
 .keepWord{white-space:nowrap;word-break:keep-all}
 .homeLight .head h2{word-break:keep-all;line-height:1.22}
+
+/* 2026-09-24 onboarding guide, feedback CTA, mobile action dock */
+.startGuideGrid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+  margin-top:22px;
+}
+.startStep{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:20px;
+  background:#fff;
+  border:1px solid #dce8f4;
+  border-radius:22px;
+  box-shadow:0 10px 24px rgba(36,90,135,.07);
+}
+.startStep>span{
+  flex:0 0 44px;
+  width:44px;
+  height:44px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  background:linear-gradient(180deg,#29baff,#0e75ee);
+  color:#fff;
+  font-size:20px;
+  font-weight:1000;
+  box-shadow:0 7px 15px rgba(14,117,238,.2),0 2px 0 #075dbd;
+}
+.startStep div{min-width:0}
+.startStep b{
+  display:block;
+  color:#102a52;
+  font-size:18px;
+  line-height:1.25;
+}
+.startStep small{
+  display:block;
+  margin-top:6px;
+  color:#71829a;
+  font-size:13px;
+  line-height:1.45;
+}
+.startGuideActions{
+  display:flex;
+  gap:10px;
+  margin-top:18px;
+  flex-wrap:wrap;
+}
+.feedbackBox{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:24px;
+  background:linear-gradient(135deg,#f4fbff,#edf8ff);
+  border:1px solid #d6e8f5;
+  border-radius:24px;
+  box-shadow:0 12px 28px rgba(36,90,135,.07);
+}
+.feedbackBox h2{margin:4px 0 8px;color:#102a52}
+.feedbackBox p{margin:0}
+.mobileActionDock{display:none}
+
+@media(max-width:760px){
+  .startGuideGrid{
+    grid-template-columns:1fr;
+    gap:10px;
+    margin-top:16px;
+  }
+  .startStep{
+    padding:15px 14px;
+    border-radius:18px;
+  }
+  .startStep>span{
+    flex-basis:40px;
+    width:40px;
+    height:40px;
+    border-radius:12px;
+    font-size:18px;
+  }
+  .startStep b{font-size:16px}
+  .startStep small{font-size:12px}
+  .startGuideActions .btn{flex:1;text-align:center}
+  .feedbackBox{
+    display:block;
+    padding:20px 16px;
+    border-radius:20px;
+  }
+  .feedbackBox .btn{
+    display:block;
+    width:100%;
+    text-align:center;
+    margin-top:16px;
+  }
+  .mobileActionDock{
+    position:fixed;
+    left:10px;
+    right:10px;
+    bottom:10px;
+    z-index:1200;
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:8px;
+    padding:8px;
+    background:rgba(255,255,255,.94);
+    border:1px solid rgba(199,218,232,.95);
+    border-radius:18px;
+    box-shadow:0 12px 32px rgba(28,72,108,.2);
+    backdrop-filter:blur(14px);
+  }
+  .mobileActionDock a{
+    min-height:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    border-radius:13px;
+    font-weight:900;
+    font-size:14px;
+  }
+  .mobileDockDownload{
+    background:linear-gradient(90deg,#20b6ff,#0e72ef);
+    color:#fff;
+    box-shadow:0 6px 14px rgba(14,114,239,.2),0 2px 0 #075ec0;
+  }
+  .mobileDockFeedback{
+    padding:0 14px;
+    background:#eef5fa;
+    color:#254664;
+    border:1px solid #d7e4ee;
+  }
+  .homeLight footer{padding-bottom:88px}
+}
