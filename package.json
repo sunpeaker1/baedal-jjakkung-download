@@ -1,0 +1,8 @@
+{
+  "name": "rider-jjakkung-home",
+  "private": true,
+  "version": "1.0.0",
+  "dependencies": {
+    "@vercel/functions": "^2.2.3"
+  }
+}
