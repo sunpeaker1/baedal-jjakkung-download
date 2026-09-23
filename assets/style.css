@@ -66,3 +66,25 @@ footer{margin-top:40px;padding:38px 0 58px;border-top:1px solid rgba(255,255,255
   .realShotCard:nth-child(3) .appScreenshot{max-width:180px}
   .navShot{max-width:180px}
 }
+
+/* Full-resolution screenshot presentation */
+.appScreenshot,
+.realShotCard:nth-child(3) .appScreenshot,
+.navShot{
+  width:100%;
+  max-width:320px;
+  height:auto;
+  filter:none;
+  image-rendering:auto;
+}
+.realShotFrame{padding:10px}
+@media(max-width:760px){
+  .appScreenshot,
+  .realShotCard:nth-child(3) .appScreenshot,
+  .navShot{
+    width:100%;
+    max-width:340px;
+    height:auto;
+    filter:none;
+  }
+}
