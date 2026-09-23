@@ -781,3 +781,53 @@ body.featureDetailMode .featureDetailTop .lead{
   }
   .homeLight footer{padding-bottom:88px}
 }
+
+/* 2026-09-24 feedback form */
+.feedbackPage{padding-top:46px}
+.feedbackPage .head h1{margin:6px 0 12px;color:#102a52;font-size:clamp(32px,5vw,48px);letter-spacing:-.04em}
+.feedbackForm{
+  margin-top:24px;
+  max-width:760px;
+  padding:24px;
+  background:#fff;
+  border:1px solid #dce8f4;
+  border-radius:24px;
+  box-shadow:0 14px 34px rgba(36,90,135,.08);
+}
+.feedbackForm label{display:block;margin-bottom:18px;color:#16395d;font-weight:900}
+.feedbackForm input,.feedbackForm textarea,.feedbackForm select{
+  width:100%;
+  margin-top:8px;
+  padding:14px 15px;
+  border:1px solid #cfdfea;
+  border-radius:14px;
+  background:#f9fcff;
+  color:#102a52;
+  font:inherit;
+  font-weight:600;
+  box-sizing:border-box;
+}
+.feedbackForm textarea{resize:vertical;line-height:1.6}
+.feedbackForm input:focus,.feedbackForm textarea:focus,.feedbackForm select:focus{
+  outline:3px solid rgba(30,149,245,.14);
+  border-color:#55aef3;
+}
+.feedbackHelp{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  margin:4px 0 18px;
+  padding:14px 15px;
+  border-radius:14px;
+  background:#eef8ff;
+  color:#375a78;
+  font-size:13px;
+}
+.feedbackHelp b{color:#16395d}
+.feedbackSubmit{width:100%;text-align:center;font-size:16px}
+.feedbackNote{margin:12px 0 0;color:#788da2;font-size:12px;line-height:1.5}
+@media(max-width:760px){
+  .feedbackPage{padding-top:24px}
+  .feedbackForm{padding:18px 14px;border-radius:20px}
+  .feedbackPage .head h1{font-size:30px}
+}
