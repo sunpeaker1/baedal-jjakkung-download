@@ -831,3 +831,52 @@ body.featureDetailMode .featureDetailTop .lead{
   .feedbackForm{padding:18px 14px;border-radius:20px}
   .feedbackPage .head h1{font-size:30px}
 }
+
+/* 2026-09-24 inline feedback panel */
+.inlineFeedback[hidden]{display:none!important}
+.inlineFeedback{
+  position:fixed;
+  inset:0;
+  z-index:2200;
+  overflow:auto;
+  padding:18px 12px 110px;
+  background:rgba(9,30,50,.48);
+  backdrop-filter:blur(8px);
+}
+.inlineFeedbackCard{
+  position:relative;
+  width:min(100%,720px);
+  margin:30px auto;
+  padding:24px;
+  background:#fff;
+  border:1px solid #d7e5ef;
+  border-radius:24px;
+  box-shadow:0 24px 70px rgba(8,36,61,.28);
+}
+.inlineFeedbackCard h2{
+  margin:7px 0 6px;
+  color:#102a52;
+  font-size:30px;
+  letter-spacing:-.04em;
+}
+.inlineFeedbackCard>p{margin:0 0 18px;color:#71829a}
+.inlineFeedbackClose{
+  position:absolute;
+  top:12px;
+  right:12px;
+  width:42px;
+  height:42px;
+  border:1px solid #d4e1eb;
+  border-radius:14px;
+  background:#f4f8fb;
+  color:#284966;
+  font-size:28px;
+  line-height:1;
+  cursor:pointer;
+}
+body.feedbackOpen{overflow:hidden}
+@media(max-width:760px){
+  .inlineFeedback{padding:10px 8px 88px}
+  .inlineFeedbackCard{margin:8px auto;padding:20px 14px;border-radius:20px}
+  .inlineFeedbackCard h2{font-size:26px;padding-right:40px}
+}
