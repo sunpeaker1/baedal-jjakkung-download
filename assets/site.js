@@ -20,6 +20,19 @@ document.addEventListener('DOMContentLoaded',()=>{
     }catch(e){}
   });
 
+  // 모든 실제 파일 다운로드는 사용자가 한 번 더 확인한 뒤 시작합니다.
+  window.confirmRiderDownload=()=>window.confirm('파일을 저장하시겠습니까?');
+  document.addEventListener('click',e=>{
+    const link=e.target.closest?.('a[href]');
+    if(!link || link.dataset.downloadConfirmed==='1') return;
+    const href=link.getAttribute('href')||'';
+    const isFileDownload=
+      link.hasAttribute('download') ||
+      /\/releases\/download\//i.test(href) ||
+      /\.(apk|zip|csv|json|qme|pdf|xlsx?|docx?|pptx?|txt)(?:[?#]|$)/i.test(href);
+    if(isFileDownload && !window.confirmRiderDownload()) e.preventDefault();
+  },true);
+
   const section=document.getElementById('feature-detail');
   if(!section) return;
 
