@@ -32,7 +32,7 @@ if(location.hostname==='sunpeaker1.github.io'){
 
 <section class="adminInbox" id="adminInbox" hidden>
 <div class="adminToolbar">
-<div class="adminCounts" id="adminCounts"></div>
+<div class="adminCounts" id="adminCounts"></div><div id="adminStorageState" style="margin-top:8px;font-size:13px;font-weight:850;color:#526b83"></div>
 <div class="adminToolbarButtons">
 <button class="btn" id="adminExportCsv" type="button">CSV 내보내기</button>
 <button class="btn" id="adminExportJson" type="button">JSON 백업</button>
@@ -57,6 +57,7 @@ if(location.hostname==='sunpeaker1.github.io'){
   const inboxMsg=document.getElementById('adminInboxMessage');
   const list=document.getElementById('adminFeedbackList');
   const counts=document.getElementById('adminCounts');
+  const storageState=document.getElementById('adminStorageState');
   const refresh=document.getElementById('adminRefresh');
   const logout=document.getElementById('adminLogout');
   const exportCsv=document.getElementById('adminExportCsv');
@@ -101,6 +102,10 @@ if(location.hostname==='sunpeaker1.github.io'){
       loginCard.hidden=true;
       inbox.hidden=false;
       render(data.items||[]);
+      if(storageState){
+        storageState.textContent=data.persistent?'● 영구저장 연결됨':'⚠ 임시저장 상태 · Vercel Blob 연결 필요';
+        storageState.style.color=data.persistent?'#17845c':'#9a6514';
+      }
     }catch(e){
       if(e.status===401){
         token='';sessionStorage.removeItem('riderAdminToken');
