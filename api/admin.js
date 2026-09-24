@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+// admin env refresh 2026-09-24
 const { getCache } = require('@vercel/functions');
 
 const ALLOWED_ORIGINS = new Set([
