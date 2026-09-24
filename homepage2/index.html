@@ -2313,6 +2313,13 @@ body.promoLock{overflow:hidden}
 document.body.classList.add('promoLock');
 (()=>{
   const intro=document.getElementById('promoIntro');
+  const embedded=new URLSearchParams(location.search).get('embed')==='1';
+  if(embedded){
+    if(intro) intro.remove();
+    document.body.classList.remove('promoLock');
+    window.scrollTo(0,0);
+    return;
+  }
   function enterApp(){
     intro.style.opacity='0';
     intro.style.transition='opacity .32s ease';
