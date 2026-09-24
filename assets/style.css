@@ -1103,3 +1103,30 @@ body.feedbackOpen{overflow:hidden}
     box-shadow:0 5px 14px rgba(198,111,48,.16),0 2px 0 #e6a66e;
   }
 }
+
+/* admin inbox filters 2026-09-24 */
+.adminFilterBar{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 160px;
+  gap:10px;
+  margin:4px 0 16px;
+}
+.adminFilterBar input,.adminFilterBar select{
+  width:100%;
+  box-sizing:border-box;
+  min-height:46px;
+  padding:10px 13px;
+  border:1px solid #cfdee9;
+  border-radius:13px;
+  background:#fff;
+  color:#183a5d;
+  font:inherit;
+  font-weight:700;
+}
+.adminFilterBar input:focus,.adminFilterBar select:focus{
+  outline:3px solid rgba(30,149,245,.12);
+  border-color:#55aef3;
+}
+@media(max-width:600px){
+  .adminFilterBar{grid-template-columns:1fr}
+}
