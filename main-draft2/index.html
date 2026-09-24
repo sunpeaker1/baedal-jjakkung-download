@@ -150,7 +150,7 @@ h1 em{font-style:normal;color:var(--cyan)}
       </div>
     </a>
 
-    <div class="storeIntro">Google Play · Galaxy Store 등록 준비 중입니다</div>
+    <div class="storeIntro">Google Play · Galaxy Store 등록 준비 중 · 지금은 버튼을 누르면 TEST APK 다운로드</div>
     <div class="storeActions">
       <a class="storeBtn google" href="#" onclick="return openStore('google')">
         <span class="storeIcon">▶</span>
@@ -174,13 +174,15 @@ h1 em{font-style:normal;color:var(--cyan)}
 </main>
 <script>
 const STORE_URLS={google:"",samsung:""};
+const TEST_APK_URL="https://github.com/sunpeaker1/baedal-jjakkung-download/releases/download/v1.57.78/RiderJjakkung-V1.57.78.apk";
 function openStore(store){
   const url=STORE_URLS[store];
-  if(!url){
-    alert((store==='google'?'Google Play':'Galaxy Store')+' 등록 주소 연결 전입니다.');
+  if(url){
+    location.href=url;
     return false;
   }
-  location.href=url;
+  if(!confirm('스토어 등록 준비 중입니다. 현재 TEST APK를 다운로드하시겠습니까?')) return false;
+  location.href=TEST_APK_URL;
   return false;
 }
 </script>
