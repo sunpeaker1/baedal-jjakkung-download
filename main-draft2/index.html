@@ -51,40 +51,23 @@ h1{margin:14px 0 0;font-size:42px;line-height:1.06;letter-spacing:-2.3px;font-we
 h1 em{font-style:normal;color:var(--cyan)}
 .lead{margin:13px 0 0;color:#deefff;font-size:14px;line-height:1.62;font-weight:780;letter-spacing:-.15px}
 .visual{
-  margin-top:20px;position:relative;display:block;min-height:258px;border-radius:26px;overflow:hidden;
+  margin-top:20px;position:relative;display:block;border-radius:26px;overflow:hidden;
   border:1px solid rgba(255,255,255,.22);
-  background:
-    radial-gradient(circle at 88% 14%,rgba(91,226,255,.24),transparent 31%),
-    radial-gradient(circle at 12% 88%,rgba(71,234,181,.16),transparent 28%),
-    linear-gradient(125deg,rgba(5,28,62,.96),rgba(8,81,139,.88) 56%,rgba(25,179,157,.42));
+  background:rgba(5,28,62,.86);
   box-shadow:0 22px 50px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.08)
 }
-.visual:after{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(90deg,rgba(2,25,55,.20),transparent 48%,rgba(255,255,255,.03))
+.visualPoster{display:block;width:100%;aspect-ratio:1.54/1;object-fit:cover;object-position:center center}
+.visualFooter{
+  min-height:58px;padding:10px 13px 11px 14px;display:flex;align-items:center;gap:10px;
+  background:linear-gradient(100deg,rgba(5,30,64,.98),rgba(7,86,143,.96) 62%,rgba(20,160,143,.93));
+  border-top:1px solid rgba(255,255,255,.14)
 }
-.visualTitle{position:absolute;z-index:5;left:18px;top:18px;max-width:47%}
-.visualTitle span{display:inline-flex;align-items:center;gap:5px;padding:5px 8px;border-radius:999px;background:rgba(78,227,187,.13);border:1px solid rgba(94,238,199,.27);color:#a9ffe1;font-size:8.5px;font-weight:1000;letter-spacing:.11em}
-.visualTitle strong{display:block;margin-top:9px;font-size:22px;line-height:1.18;letter-spacing:-1px}
-.visualTitle p{margin:8px 0 0;color:#d7ecfb;font-size:10.5px;line-height:1.5;font-weight:760}
-.previewPoints{position:absolute;z-index:5;left:18px;bottom:18px;display:grid;gap:6px;max-width:40%}
-.previewPoints span{display:flex;align-items:center;gap:5px;color:#e9f7ff;font-size:9.5px;font-weight:850}
-.previewPoints i{width:6px;height:6px;border-radius:50%;background:#67e7c0;box-shadow:0 0 0 4px rgba(103,231,192,.10)}
-.previewCta{position:absolute;z-index:6;right:15px;top:14px;padding:6px 9px;border-radius:999px;background:rgba(255,255,255,.92);color:#0969b2;font-size:9px;font-weight:1000;box-shadow:0 6px 16px rgba(0,0,0,.14)}
-.phone{
-  position:absolute;z-index:4;right:12px;bottom:-7px;width:55%;height:222px;
-  border:1px solid rgba(255,255,255,.34);border-radius:27px 27px 0 0;background:#08182c;padding:5px;
-  box-shadow:0 18px 34px rgba(0,0,0,.30);overflow:hidden
-}
-.phone:before{content:"";position:absolute;z-index:3;top:7px;left:50%;transform:translateX(-50%);width:38px;height:4px;border-radius:99px;background:rgba(7,24,45,.55)}
-.phone iframe{
-  width:430px;height:760px;border:0;background:#eef6fb;transform:scale(.48);
-  transform-origin:top left;pointer-events:none
-}
-.visualArrow{
-  position:absolute;z-index:7;right:17px;bottom:15px;width:30px;height:30px;border-radius:50%;
-  display:grid;place-items:center;background:#fff;color:#0a6eb8;font-size:19px;font-weight:1000;
-  box-shadow:0 8px 18px rgba(0,0,0,.18)
+.visualFooterText{min-width:0;flex:1}
+.visualFooterText strong{display:block;font-size:13px;line-height:1.25;letter-spacing:-.35px}
+.visualFooterText small{display:block;margin-top:3px;color:#c8e8f7;font-size:9.5px;font-weight:800}
+.visualCta{
+  flex:0 0 auto;padding:7px 10px;border-radius:999px;background:#fff;color:#0a68b8;
+  font-size:9.5px;font-weight:1000;box-shadow:0 7px 15px rgba(0,0,0,.15)
 }
 .visual:active{transform:translateY(1px)}
 .actions{display:grid;grid-template-columns:1.28fr .72fr;gap:9px;margin-top:15px}
@@ -99,9 +82,7 @@ h1 em{font-style:normal;color:var(--cyan)}
   .logo{width:49px;height:49px}.brand strong{font-size:22px}.brand span{font-size:8.5px}
   .topBrowse{padding:9px 10px;font-size:10px}
   .hero{padding-top:18px}.badge{font-size:10px}h1{font-size:37px}.lead{font-size:13.5px}
-  .visual{min-height:238px;margin-top:17px}.visualTitle{left:15px;top:15px}.visualTitle strong{font-size:19px}.visualTitle p{font-size:9.5px}.previewPoints{left:15px;bottom:15px}.previewPoints span{font-size:8.8px}
-  .phone{right:9px;height:207px;width:54%}.phone iframe{transform:scale(.445)}
-  .previewCta{right:12px;top:12px}
+  .visual{margin-top:17px}.visualFooter{min-height:54px;padding:9px 11px 10px 12px}.visualFooterText strong{font-size:12px}.visualFooterText small{font-size:8.8px}.visualCta{padding:6px 8px;font-size:8.8px}
   .actions{grid-template-columns:1.2fr .8fr}
 }
 </style>
@@ -124,22 +105,15 @@ h1 em{font-style:normal;color:var(--cyan)}
     <h1>수익은 올리고,<br><em>관리는 줄이고.</em></h1>
     <p class="lead">자동기록 · 정산 · 지역판단 · 정비 · 안전 · 짝꿍내비까지<br>배달 라이더의 운행 관리를 하나로.</p>
 
-    <a class="visual" href="../homepage2/" aria-label="라이더짝꿍 실제 앱 화면 체험하기">
-      <div class="visualTitle">
-        <span>● LIVE APP PREVIEW</span>
-        <strong>실제 앱 화면을<br>직접 체험하세요.</strong>
-        <p>홈 · 수익 · 운행기록 · 지역판단까지<br>실제 화면 그대로.</p>
+    <a class="visual" href="../homepage2/" aria-label="라이더짝꿍 주요 기능과 실제 앱 화면 둘러보기">
+      <img class="visualPoster" src="./rider-safety-promo.webp" alt="라이더짝꿍 안전도우미와 주요 운행 기능 소개">
+      <div class="visualFooter">
+        <div class="visualFooterText">
+          <strong>라이더 안전도우미 · 주요 기능 미리보기</strong>
+          <small>실제 앱 화면과 메뉴는 앱 둘러보기에서 직접 확인</small>
+        </div>
+        <span class="visualCta">앱에서 보기 ›</span>
       </div>
-      <div class="previewPoints">
-        <span><i></i>오늘 수익 한눈에</span>
-        <span><i></i>100일 목표 확인</span>
-        <span><i></i>메뉴 직접 체험</span>
-      </div>
-      <div class="previewCta">눌러서 체험</div>
-      <div class="phone">
-        <iframe src="../homepage2/?embed=1" title="라이더짝꿍 앱 화면 미리보기"></iframe>
-      </div>
-      <span class="visualArrow">›</span>
     </a>
 
     <div class="actions">
