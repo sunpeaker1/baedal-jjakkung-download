@@ -47,21 +47,19 @@ module.exports = async function handler(req, res) {
       type,
       title,
       body: content,
+      status: 'unread',
       createdAt: now.toISOString(),
+      updatedAt: now.toISOString(),
       userAgent: text(req.headers['user-agent'], 240)
     };
 
-    // Keep a server-side copy in Vercel Runtime Cache for 30 days.
-    // Runtime Cache is used as a lightweight beta inbox; the structured log is a second copy.
-    try {
-      const cache = getCache({ namespace: 'rider-jjakkung-feedback' });
-      await cache.set(id, feedback, { ttl: 60 * 60 * 24 * 30, tags: ['feedback'] });
-      const current = (await cache.get('recent')) || [];
-      const next = [id, ...current.filter(x => x !== id)].slice(0, 200);
-      await cache.set('recent', next, { ttl: 60 * 60 * 24 * 30, tags: ['feedback-index'] });
-    } catch (cacheError) {
-      console.error('feedback_cache_error', cacheError && cacheError.message ? cacheError.message : cacheError);
-    }
+    // Store feedback in the server-side inbox.
+    // Do not report success if storage fails.
+    const cache = getCache(undefined, 'rider-jjakkung-feedback');
+    await cache.set(id, feedback, { ttl: 60 * 60 * 24 * 90, tags: ['feedback'] });
+    const current = (await cache.get('recent')) || [];
+    const next = [id, ...current.filter(x => x !== id)].slice(0, 300);
+    await cache.set('recent', next, { ttl: 60 * 60 * 24 * 90, tags: ['feedback-index'] });
 
     console.log('RIDER_FEEDBACK', JSON.stringify(feedback));
     return res.status(200).json({ ok: true, id, message: '접수 완료' });
