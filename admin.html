@@ -3,14 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#f4fbff">\n<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="theme-color" content="#f4fbff">
+<meta name="robots" content="noindex,nofollow,noarchive">
 <title>관리자 접수함 | 라이더짝꿍</title>
 <script>
 if(location.hostname==='sunpeaker1.github.io'){
   location.replace('https://baedal-jjakkung-download.vercel.app/admin.html');
 }
 </script>
-<link rel="stylesheet" href="assets/style.css?v=20260924-25">
+<link rel="stylesheet" href="assets/style.css?v=20260924-26">
 </head>
 <body class="homeLight adminInboxPage">
 <nav class="nav"><div class="wrap"><div class="navin">
@@ -33,11 +34,14 @@ if(location.hostname==='sunpeaker1.github.io'){
 <div class="adminToolbar">
 <div class="adminCounts" id="adminCounts"></div>
 <div class="adminToolbarButtons">
+<button class="btn" id="adminExportCsv" type="button">CSV 내보내기</button>
+<button class="btn" id="adminExportJson" type="button">JSON 백업</button>
 <button class="btn" id="adminRefresh" type="button">새로고침</button>
 <button class="btn" id="adminLogout" type="button">로그아웃</button>
 </div>
 </div>
-<div class="adminFilterBar"><input id="adminSearch" type="search" placeholder="제목·내용·접수번호 검색"><select id="adminStatusFilter"><option value="all">전체 상태</option><option value="unread">미확인</option><option value="reviewed">확인</option><option value="done">처리완료</option></select></div>\n<div class="adminMessage" id="adminInboxMessage"></div>
+<div class="adminFilterBar"><input id="adminSearch" type="search" placeholder="제목·내용·접수번호 검색"><select id="adminStatusFilter"><option value="all">전체 상태</option><option value="unread">미확인</option><option value="reviewed">확인</option><option value="done">처리완료</option></select></div>
+<div class="adminMessage" id="adminInboxMessage"></div>
 <div class="adminFeedbackList" id="adminFeedbackList"></div>
 </section>
 </div>
@@ -54,8 +58,13 @@ if(location.hostname==='sunpeaker1.github.io'){
   const list=document.getElementById('adminFeedbackList');
   const counts=document.getElementById('adminCounts');
   const refresh=document.getElementById('adminRefresh');
-  const logout=document.getElementById('adminLogout');\n  const search=document.getElementById('adminSearch');\n  const statusFilter=document.getElementById('adminStatusFilter');
+  const logout=document.getElementById('adminLogout');
+  const exportCsv=document.getElementById('adminExportCsv');
+  const exportJson=document.getElementById('adminExportJson');
+  const search=document.getElementById('adminSearch');
+  const statusFilter=document.getElementById('adminStatusFilter');
   let token=sessionStorage.getItem('riderAdminToken')||'';
+  let allItems=[];
 
   const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   const fmt=s=>{try{return new Intl.DateTimeFormat('ko-KR',{dateStyle:'short',timeStyle:'short'}).format(new Date(s))}catch{return s||''}};
@@ -102,6 +111,7 @@ if(location.hostname==='sunpeaker1.github.io'){
   }
 
   function render(items){
+    allItems=Array.isArray(items)?items:[];
     const n={unread:0,reviewed:0,done:0};
     items.forEach(x=>n[x.status||'unread']=(n[x.status||'unread']||0)+1);
     counts.innerHTML='<b>전체 '+items.length+'</b><span>미확인 '+n.unread+'</span><span>확인 '+n.reviewed+'</span><span>처리완료 '+n.done+'</span>';
@@ -125,6 +135,7 @@ if(location.hostname==='sunpeaker1.github.io'){
           <button type="button" data-status="done">처리완료</button>
         </div>
       </article>`).join('');
+    applyAdminFilter();
   }
 
   function applyAdminFilter(){
@@ -138,6 +149,70 @@ if(location.hostname==='sunpeaker1.github.io'){
   }
   search?.addEventListener('input',applyAdminFilter);
   statusFilter?.addEventListener('change',applyAdminFilter);
+
+  function fileStamp(){
+    const d=new Date();
+    const p=n=>String(n).padStart(2,'0');
+    return d.getFullYear()+p(d.getMonth()+1)+p(d.getDate())+'-'+p(d.getHours())+p(d.getMinutes());
+  }
+
+  function downloadAdminFile(name,type,content){
+    const blob=new Blob([content],{type});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download=name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),30000);
+  }
+
+  function exportAllJson(){
+    if(!allItems.length){inboxMsg.textContent='내보낼 접수 데이터가 없습니다.';return;}
+    const payload={
+      exportedAt:new Date().toISOString(),
+      count:allItems.length,
+      items:allItems
+    };
+    downloadAdminFile(
+      'rider-feedback-backup-'+fileStamp()+'.json',
+      'application/json;charset=utf-8',
+      JSON.stringify(payload,null,2)
+    );
+    inboxMsg.textContent='JSON 백업 파일을 만들었습니다.';
+  }
+
+  function csvCell(v){
+    const x=String(v??'').replace(/"/g,'""');
+    return '"'+x+'"';
+  }
+
+  function exportAllCsv(){
+    if(!allItems.length){inboxMsg.textContent='내보낼 접수 데이터가 없습니다.';return;}
+    const rows=[
+      ['접수번호','종류','제목','내용','상태','접수시간','수정시간'],
+      ...allItems.map(x=>[
+        x.id||'',
+        x.type||'',
+        x.title||'',
+        x.body||'',
+        label[x.status||'unread']||x.status||'',
+        x.createdAt||'',
+        x.updatedAt||''
+      ])
+    ];
+    const csv='\uFEFF'+rows.map(row=>row.map(csvCell).join(',')).join('\r\n');
+    downloadAdminFile(
+      'rider-feedback-'+fileStamp()+'.csv',
+      'text/csv;charset=utf-8',
+      csv
+    );
+    inboxMsg.textContent='CSV 파일을 만들었습니다.';
+  }
+
+  exportCsv?.addEventListener('click',exportAllCsv);
+  exportJson?.addEventListener('click',exportAllJson);
 
   list.addEventListener('click',async e=>{
     const btn=e.target.closest('[data-status]');
