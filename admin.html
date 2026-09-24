@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#f4fbff">
+<meta name="theme-color" content="#f4fbff">\n<meta name="robots" content="noindex,nofollow,noarchive">
 <title>관리자 접수함 | 라이더짝꿍</title>
 <script>
 if(location.hostname==='sunpeaker1.github.io'){
   location.replace('https://baedal-jjakkung-download.vercel.app/admin.html');
 }
 </script>
-<link rel="stylesheet" href="assets/style.css?v=20260924-22">
+<link rel="stylesheet" href="assets/style.css?v=20260924-25">
 </head>
 <body class="homeLight adminInboxPage">
 <nav class="nav"><div class="wrap"><div class="navin">
@@ -37,7 +37,7 @@ if(location.hostname==='sunpeaker1.github.io'){
 <button class="btn" id="adminLogout" type="button">로그아웃</button>
 </div>
 </div>
-<div class="adminMessage" id="adminInboxMessage"></div>
+<div class="adminFilterBar"><input id="adminSearch" type="search" placeholder="제목·내용·접수번호 검색"><select id="adminStatusFilter"><option value="all">전체 상태</option><option value="unread">미확인</option><option value="reviewed">확인</option><option value="done">처리완료</option></select></div>\n<div class="adminMessage" id="adminInboxMessage"></div>
 <div class="adminFeedbackList" id="adminFeedbackList"></div>
 </section>
 </div>
@@ -54,7 +54,7 @@ if(location.hostname==='sunpeaker1.github.io'){
   const list=document.getElementById('adminFeedbackList');
   const counts=document.getElementById('adminCounts');
   const refresh=document.getElementById('adminRefresh');
-  const logout=document.getElementById('adminLogout');
+  const logout=document.getElementById('adminLogout');\n  const search=document.getElementById('adminSearch');\n  const statusFilter=document.getElementById('adminStatusFilter');
   let token=sessionStorage.getItem('riderAdminToken')||'';
 
   const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -110,7 +110,7 @@ if(location.hostname==='sunpeaker1.github.io'){
       return;
     }
     list.innerHTML=items.map(x=>`
-      <article class="adminFeedbackItem" data-id="${esc(x.id)}">
+      <article class="adminFeedbackItem" data-id="${esc(x.id)}" data-state="${esc(x.status||'unread')}">
         <div class="adminFeedbackMeta">
           <span class="adminType">${esc(x.type)}</span>
           <span class="adminStatus status-${esc(x.status||'unread')}">${label[x.status||'unread']}</span>
@@ -126,6 +126,18 @@ if(location.hostname==='sunpeaker1.github.io'){
         </div>
       </article>`).join('');
   }
+
+  function applyAdminFilter(){
+    const q=(search?.value||'').trim().toLowerCase();
+    const state=statusFilter?.value||'all';
+    [...list.querySelectorAll('.adminFeedbackItem')].forEach(item=>{
+      const matchText=!q || item.textContent.toLowerCase().includes(q);
+      const matchState=state==='all' || item.dataset.state===state;
+      item.hidden=!(matchText&&matchState);
+    });
+  }
+  search?.addEventListener('input',applyAdminFilter);
+  statusFilter?.addEventListener('change',applyAdminFilter);
 
   list.addEventListener('click',async e=>{
     const btn=e.target.closest('[data-status]');
