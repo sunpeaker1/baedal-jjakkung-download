@@ -2,48 +2,77 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#f7fbff">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#edf7ff">
   <meta name="robots" content="noindex,nofollow">
-  <title>라이더짝꿍 홈페이지2 개발판</title>
-  <link rel="stylesheet" href="./style.css?v=20260924-1">
+  <title>라이더짝꿍 웹 체험판 | 홈페이지2</title>
+  <link rel="stylesheet" href="./style.css?v=20260924-2">
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="./">
-      <img src="../assets/rider-app-icon.png?v=20260924-8" alt="">
-      <span>라이더짝꿍</span>
-    </a>
-    <span class="devBadge">홈페이지2 개발판</span>
-  </header>
+  <main class="webAppStage">
+    <section class="appReplica" aria-label="라이더짝꿍 웹 체험판">
+      <header class="appTop">
+        <div class="appBrand">
+          <img src="../assets/rider-app-icon.png?v=20260924-8" alt="">
+          <div>
+            <div class="brandLine"><strong>라이더짝꿍</strong><span>Syn</span></div>
+            <small>운행도우미</small>
+          </div>
+        </div>
+        <button class="demoBadge explainBtn" data-help="demo" type="button">웹 체험판</button>
+      </header>
 
-  <main class="stage">
-    <section class="hero">
-      <div class="eyebrow">RIDER MATE · HOMEPAGE 2</div>
-      <h1>새 홈페이지를<br>여기서 따로 만듭니다.</h1>
-      <p>기존 홈페이지는 그대로 유지하고, 이 페이지에서 디자인·구성·기능을 새로 개발합니다.</p>
-      <div class="statusCard">
-        <b>현재 상태</b>
-        <span>홈페이지2 독립 개발 공간 생성 완료</span>
+      <div class="appSubbar">
+        <span class="autoOn">● 자동기록 ON</span>
+        <time id="todayText"></time>
       </div>
-    </section>
 
-    <section class="rules">
-      <h2>보호 원칙</h2>
-      <div class="ruleGrid">
-        <article><b>기존 홈페이지 보호</b><p>현재 공개 홈페이지 파일은 수정하지 않습니다.</p></article>
-        <article><b>완전 분리 개발</b><p>homepage2 폴더 안에서만 디자인과 기능을 개발합니다.</p></article>
-        <article><b>검증 후 전환</b><p>홈페이지2가 완성된 뒤에만 공개 전환 여부를 결정합니다.</p></article>
-      </div>
-    </section>
+      <section class="appViewport" id="appViewport" aria-live="polite"></section>
 
-    <section class="next">
-      <h2>다음 단계</h2>
-      <p>이제 홈페이지2의 메인 디자인부터 새로 잡으면 됩니다.</p>
-      <a href="../">현재 홈페이지 보기</a>
+      <nav class="appBottomNav" aria-label="라이더짝꿍 메뉴">
+        <button class="navItem active" type="button" data-screen="home">
+          <span class="navIcon">⌂</span><small>홈</small>
+        </button>
+        <button class="navItem" type="button" data-screen="region">
+          <span class="navIcon">⌖</span><small>지역판단</small>
+        </button>
+        <button class="navItem" type="button" data-screen="record">
+          <span class="navIcon">▤</span><small>운행기록</small>
+        </button>
+        <button class="navItem" type="button" data-screen="nav">
+          <span class="navIcon">➤</span><small>짝꿍내비</small>
+        </button>
+        <button class="navItem" type="button" data-screen="manage">
+          <span class="navIcon">☷</span><small>관리</small>
+        </button>
+      </nav>
     </section>
   </main>
 
-  <script src="./site.js?v=20260924-1"></script>
+  <section class="helpSheet" id="helpSheet" hidden aria-modal="true" role="dialog">
+    <button class="sheetBackdrop" type="button" aria-label="닫기" data-close-sheet></button>
+    <div class="sheetCard">
+      <div class="sheetGrab"></div>
+      <div class="sheetHead">
+        <div>
+          <span class="sheetKicker" id="sheetKicker">기능 안내</span>
+          <h2 id="sheetTitle"></h2>
+        </div>
+        <button class="sheetClose" type="button" aria-label="닫기" data-close-sheet>×</button>
+      </div>
+      <p class="sheetDesc" id="sheetDesc"></p>
+      <div class="sheetImageWrap" id="sheetImageWrap" hidden>
+        <img id="sheetImage" alt="">
+      </div>
+      <div class="sheetGuide">
+        <h3>사용방법</h3>
+        <ol id="sheetSteps"></ol>
+      </div>
+      <div class="sheetNote" id="sheetNote"></div>
+      <button class="sheetDone" type="button" data-close-sheet>확인</button>
+    </div>
+  </section>
+
+  <script src="./site.js?v=20260924-2"></script>
 </body>
 </html>
