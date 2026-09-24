@@ -162,6 +162,7 @@ if(location.hostname==='sunpeaker1.github.io'){
   }
 
   function downloadAdminFile(name,type,content){
+    if(!window.confirm('파일을 저장하시겠습니까?')) return false;
     const blob=new Blob([content],{type});
     const url=URL.createObjectURL(blob);
     const a=document.createElement('a');
@@ -171,6 +172,7 @@ if(location.hostname==='sunpeaker1.github.io'){
     a.click();
     a.remove();
     setTimeout(()=>URL.revokeObjectURL(url),30000);
+    return true;
   }
 
   function exportAllJson(){
@@ -180,12 +182,12 @@ if(location.hostname==='sunpeaker1.github.io'){
       count:allItems.length,
       items:allItems
     };
-    downloadAdminFile(
+    const saved=downloadAdminFile(
       'rider-feedback-backup-'+fileStamp()+'.json',
       'application/json;charset=utf-8',
       JSON.stringify(payload,null,2)
     );
-    inboxMsg.textContent='JSON 백업 파일을 만들었습니다.';
+    inboxMsg.textContent=saved?'JSON 백업 파일을 만들었습니다.':'저장을 취소했습니다.';
   }
 
   function csvCell(v){
@@ -208,12 +210,12 @@ if(location.hostname==='sunpeaker1.github.io'){
       ])
     ];
     const csv='\uFEFF'+rows.map(row=>row.map(csvCell).join(',')).join('\r\n');
-    downloadAdminFile(
+    const saved=downloadAdminFile(
       'rider-feedback-'+fileStamp()+'.csv',
       'text/csv;charset=utf-8',
       csv
     );
-    inboxMsg.textContent='CSV 파일을 만들었습니다.';
+    inboxMsg.textContent=saved?'CSV 파일을 만들었습니다.':'저장을 취소했습니다.';
   }
 
   exportCsv?.addEventListener('click',exportAllCsv);
