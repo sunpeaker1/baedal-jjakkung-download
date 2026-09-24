@@ -1,4 +1,4 @@
-const { getCache } = require('@vercel/functions');
+const { saveFeedback } = require('./_feedback-store');
 
 const ALLOWED_ORIGINS = new Set([
   'https://sunpeaker1.github.io',
@@ -33,7 +33,6 @@ module.exports = async function handler(req, res) {
     const content = text(body.body, 3000);
     const website = text(body.website, 120);
 
-    // Honeypot: bots often fill hidden fields.
     if (website) return res.status(200).json({ ok: true });
 
     if (!['오류 제보', '기능 제안'].includes(type) || title.length < 2 || content.length < 2) {
@@ -53,16 +52,16 @@ module.exports = async function handler(req, res) {
       userAgent: text(req.headers['user-agent'], 240)
     };
 
-    // Store feedback in the server-side inbox.
-    // Do not report success if storage fails.
-    const cache = getCache(undefined, 'rider-jjakkung-feedback');
-    await cache.set(id, feedback, { ttl: 60 * 60 * 24 * 90, tags: ['feedback'] });
-    const current = (await cache.get('recent')) || [];
-    const next = [id, ...current.filter(x => x !== id)].slice(0, 300);
-    await cache.set('recent', next, { ttl: 60 * 60 * 24 * 90, tags: ['feedback-index'] });
+    const stored = await saveFeedback(feedback);
 
-    console.log('RIDER_FEEDBACK', JSON.stringify(feedback));
-    return res.status(200).json({ ok: true, id, message: '접수 완료' });
+    console.log('RIDER_FEEDBACK', JSON.stringify({...feedback,storage:stored.storage}));
+    return res.status(200).json({
+      ok: true,
+      id,
+      message: stored.persistent ? '접수 완료' : '임시 접수 완료',
+      persistent: stored.persistent,
+      storage: stored.storage
+    });
   } catch (error) {
     console.error('feedback_submit_error', error);
     return res.status(500).json({ ok: false, message: '접수 중 오류가 발생했습니다.' });
