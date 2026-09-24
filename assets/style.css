@@ -982,3 +982,51 @@ body.feedbackOpen{overflow:hidden}
   background:linear-gradient(90deg,#20b6ff,#0e72ef);
   color:#fff;font-size:16px;font-weight:900;
 }
+
+/* 2026-09-24 protected admin feedback inbox */
+.adminFooterLink{margin-top:10px;font-size:12px}
+.adminFooterLink a{color:#9eb1c3;text-decoration:none}
+.adminInboxMain{padding:38px 0 70px}
+.adminInboxHead h1{margin:6px 0;color:#102a52;font-size:clamp(30px,5vw,46px)}
+.adminInboxHead p{margin:8px 0 22px;color:#71829a}
+.adminLoginCard{
+  max-width:520px;padding:22px;background:#fff;border:1px solid #dbe7f0;border-radius:22px;
+  box-shadow:0 12px 30px rgba(36,90,135,.08)
+}
+.adminLoginCard label{display:block;color:#16395d;font-weight:900}
+.adminLoginCard input{
+  width:100%;box-sizing:border-box;margin:9px 0 14px;padding:14px 15px;border:1px solid #cfdee9;
+  border-radius:14px;background:#f9fcff;font:inherit
+}
+.adminLoginCard .btn{width:100%}
+.adminMessage{min-height:22px;margin-top:10px;color:#a23a33;font-size:13px;font-weight:700}
+.adminToolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:18px 0}
+.adminCounts{display:flex;gap:8px;flex-wrap:wrap}
+.adminCounts b,.adminCounts span{padding:8px 10px;background:#fff;border:1px solid #dce7ef;border-radius:999px;color:#345873;font-size:12px}
+.adminToolbarButtons{display:flex;gap:8px}
+.adminFeedbackList{display:grid;gap:12px}
+.adminFeedbackItem{
+  padding:18px;background:#fff;border:1px solid #dce7ef;border-radius:20px;
+  box-shadow:0 8px 22px rgba(36,90,135,.06)
+}
+.adminFeedbackMeta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px}
+.adminType{font-weight:900;color:#1674bd}
+.adminStatus{padding:4px 8px;border-radius:999px;font-weight:900}
+.status-unread{background:#fff1e8;color:#b45117}
+.status-reviewed{background:#eaf4ff;color:#1b6dad}
+.status-done{background:#e8f9f1;color:#0a8057}
+.adminFeedbackMeta time{margin-left:auto;color:#8293a3}
+.adminFeedbackItem h3{margin:12px 0 8px;color:#102a52;font-size:20px}
+.adminFeedbackItem p{margin:0;color:#536b80;line-height:1.65;white-space:pre-wrap;word-break:break-word}
+.adminReceipt{margin-top:12px;color:#8a9baa;font-size:12px;font-weight:800}
+.adminStatusButtons{display:flex;gap:7px;margin-top:14px;flex-wrap:wrap}
+.adminStatusButtons button{
+  border:1px solid #d4e1eb;background:#f7fafc;color:#31536f;border-radius:11px;padding:9px 12px;font-weight:800
+}
+.adminEmpty{padding:30px;text-align:center;background:#fff;border:1px dashed #cfdde7;border-radius:18px;color:#71829a}
+@media(max-width:760px){
+  .adminInboxMain{padding:24px 0 90px}
+  .adminToolbar{display:block}
+  .adminToolbarButtons{margin-top:10px}
+  .adminFeedbackMeta time{width:100%;margin-left:0}
+}
