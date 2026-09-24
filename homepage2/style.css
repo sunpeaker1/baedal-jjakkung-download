@@ -181,3 +181,171 @@ body.sheetOpen{overflow:hidden}
   .appViewport{padding-left:12px;padding-right:12px}
   .sheetCard{border-radius:24px 24px 0 0}
 }
+
+
+/* 2026-09-24 exact app-home visual pass */
+.appTopExact{
+  padding:20px 16px 16px;
+  align-items:flex-start;
+}
+.appBrandExact{
+  align-items:flex-start;
+}
+.appBrandExact img{
+  width:60px;
+  height:60px;
+  border-radius:16px;
+}
+.brandCopy{min-width:0}
+.appBrandExact .brandLine{
+  align-items:center;
+  gap:8px;
+}
+.appBrandExact .brandLine strong{
+  font-size:26px;
+  line-height:1.1;
+  letter-spacing:-.06em;
+  color:#102d4f;
+}
+.synMark{
+  font-family:"Segoe Script","Bradley Hand",cursive;
+  font-style:italic;
+  font-size:18px!important;
+  font-weight:400!important;
+  color:#5f6e7d!important;
+}
+.appBrandExact small{
+  margin-top:12px;
+  font-size:14px;
+  color:#6c8398;
+  font-weight:900;
+}
+.topStatus{
+  margin-left:auto;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:10px;
+}
+.autoBadge{
+  border:0;
+  background:#daf8ee;
+  color:#0c845c;
+  border-radius:999px;
+  padding:12px 16px;
+  font-weight:1000;
+  font-size:14px;
+  white-space:nowrap;
+}
+.topStatus time{
+  color:#0f2f53;
+  font-size:16px;
+  font-weight:1000;
+  white-space:nowrap;
+}
+.appViewport{
+  background:linear-gradient(180deg,#f8fcff 0%,#eff8fc 100%);
+}
+.homeRevenueHero{
+  position:relative;
+  min-height:170px;
+  padding:22px 22px;
+  border:0;
+  color:#fff;
+  overflow:hidden;
+  background:linear-gradient(135deg,#1ba9f4 0%,#087cf1 100%);
+  box-shadow:0 16px 28px rgba(15,131,232,.22);
+}
+.homeRevenueHero:before{
+  content:"";
+  position:absolute;
+  width:230px;height:230px;
+  border-radius:50%;
+  right:-70px;top:-105px;
+  background:rgba(255,255,255,.06);
+}
+.homeRevenueHero .cardLabel{color:#fff;font-size:16px}
+.homeRevenueHero .bigMoney{font-size:44px;color:#fff;margin-top:6px}
+.heroHint{margin-top:12px;font-size:13px;color:rgba(255,255,255,.92);font-weight:800}
+.heroChart{
+  position:absolute;right:34px;bottom:30px;
+  display:flex;align-items:flex-end;gap:7px
+}
+.heroChart i{
+  width:13px;border-radius:8px 8px 4px 4px;
+  background:rgba(255,255,255,.30)
+}
+.heroChart i:nth-child(1){height:42px}
+.heroChart i:nth-child(2){height:58px}
+.heroChart i:nth-child(3){height:76px}
+.platformCards{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px
+}
+.platformCard{
+  min-height:132px;padding:14px 12px;border-radius:24px;
+  border:1px solid rgba(255,255,255,.92);
+  box-shadow:0 10px 24px rgba(50,95,128,.08);
+  text-align:left;color:#123552
+}
+.platformCard.coupang{background:linear-gradient(180deg,#e8f7ff,#cfeeff)}
+.platformCard.baemin{background:linear-gradient(180deg,#dcfff5,#bdf6e4)}
+.platformCard.etc{background:linear-gradient(180deg,#f8f9fc,#e7edf3)}
+.platformTitle{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.platformTitle b{font-size:15px}
+.logoMini{
+  min-width:54px;height:44px;padding:6px 7px;border-radius:12px;background:#fff;
+  display:grid;place-items:center;text-align:center;font-size:10px;font-weight:1000;line-height:1.05
+}
+.logoMini.coupangLogo{color:#e43c2f}
+.logoMini.baeminLogo{color:#058e86;background:#17c6ba;color:#fff}
+.logoMini.moreLogo{font-size:22px;color:#748799}
+.platformMoney{margin-top:12px;font-size:24px;font-weight:1000}
+.platformCount{margin-top:2px;color:#637b90;font-size:13px}
+.metricGridExact{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.metricExact{
+  min-height:86px;padding:14px 9px;border-radius:22px;background:#fff;
+  border:1px solid #e0ebf2;text-align:center;color:#153654
+}
+.metricIcon{
+  width:38px;height:38px;margin:0 auto 7px;border-radius:50%;
+  display:grid;place-items:center;background:#e8f6ff;font-size:18px
+}
+.metricExact small{display:block;color:#6e8498;font-size:11px;font-weight:900}
+.metricExact b{display:block;margin-top:4px;font-size:18px}
+.maintenanceAlert{
+  background:#fff8e8;
+  border-color:#f4d792;
+}
+.maintenanceAlert .statusIcon{background:linear-gradient(180deg,#ff9e39,#ff6d26);color:#fff}
+.challengeExact{
+  padding:20px 18px;
+  overflow:hidden;
+  position:relative;
+}
+.challengeExact .challengeHead b{font-size:19px}
+.challengeExact .challengePercent{
+  font-size:34px;color:#27b978;font-weight:1000
+}
+.challengeSlogan{margin-top:7px;color:#1684d7;font-size:13px;font-weight:1000}
+.challengeGoal{margin-top:9px;font-size:27px;font-weight:1000}
+.challengeCurrent{margin-top:3px;font-size:20px;font-weight:1000}
+.challengeCurrent small{font-size:10px;color:#6d8295;font-weight:900}
+.challengeExact .progress{margin-top:16px;height:11px}
+.challengeExact .progress i{width:1.3%}
+.challengeBottom{
+  margin-top:8px;display:flex;justify-content:space-between;gap:8px;
+  color:#6f8295;font-size:10px;font-weight:900
+}
+.appBottomNav .navIcon{font-size:23px}
+.appBottomNav .navItem small{font-size:10px}
+@media(max-width:390px){
+  .appBrandExact img{width:52px;height:52px}
+  .appBrandExact .brandLine strong{font-size:22px}
+  .synMark{font-size:16px!important}
+  .autoBadge{padding:10px 13px;font-size:12px}
+  .topStatus time{font-size:14px}
+  .homeRevenueHero{min-height:158px}
+  .homeRevenueHero .bigMoney{font-size:40px}
+  .platformCard{min-height:122px;padding:12px 9px}
+  .logoMini{min-width:48px;height:40px}
+}
