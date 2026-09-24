@@ -57,6 +57,138 @@ html = html.replace(
     '<div class="progress"><i id="goalBar" style="width:1.3%"></i></div>',
 )
 
+promo = r'''
+<style>
+body.promoLock{overflow:hidden}
+.promoIntro{
+  position:fixed;inset:0;z-index:20000;overflow:auto;
+  background:
+    radial-gradient(circle at 15% 15%,rgba(63,205,255,.30),transparent 28%),
+    radial-gradient(circle at 85% 25%,rgba(66,240,179,.24),transparent 30%),
+    radial-gradient(circle at 50% 90%,rgba(64,126,255,.24),transparent 36%),
+    linear-gradient(160deg,#071a35 0%,#0b315b 46%,#0d67a5 100%);
+  color:#fff;
+}
+.promoGlow{position:absolute;border-radius:50%;filter:blur(10px);opacity:.55;animation:promoFloat 6s ease-in-out infinite}
+.promoGlow.g1{width:180px;height:180px;left:-60px;top:110px;background:#16c8ff}
+.promoGlow.g2{width:220px;height:220px;right:-85px;top:240px;background:#32e0a0;animation-delay:-2s}
+.promoGlow.g3{width:180px;height:180px;left:30%;bottom:-70px;background:#407dff;animation-delay:-4s}
+@keyframes promoFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-18px) scale(1.08)}}
+.promoSkip{
+  position:fixed;right:18px;top:calc(18px + env(safe-area-inset-top));z-index:2;
+  border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);
+  color:#fff;border-radius:999px;padding:9px 14px;font-size:12px;font-weight:900;
+  backdrop-filter:blur(10px)
+}
+.promoInner{
+  position:relative;z-index:1;width:min(100%,430px);min-height:100dvh;margin:auto;
+  padding:calc(72px + env(safe-area-inset-top)) 22px calc(36px + env(safe-area-inset-bottom));
+  display:flex;flex-direction:column;justify-content:center
+}
+.promoBrand{display:flex;align-items:center;gap:14px}
+.promoBrand img{width:74px;height:74px;border-radius:21px;box-shadow:0 16px 34px rgba(0,0,0,.26)}
+.promoBrandCopy strong{display:block;font-size:30px;letter-spacing:-1.4px}
+.promoBrandCopy span{display:block;margin-top:2px;color:#bfeaff;font-size:13px;font-weight:800}
+.promoBadge{
+  display:inline-flex;align-self:flex-start;margin-top:28px;padding:7px 11px;
+  border-radius:999px;background:rgba(76,233,177,.16);border:1px solid rgba(76,233,177,.35);
+  color:#bfffe3;font-size:11px;font-weight:950;letter-spacing:.04em
+}
+.promoTitle{margin:15px 0 0;font-size:39px;line-height:1.16;letter-spacing:-2px;font-weight:1000}
+.promoTitle em{font-style:normal;color:#62ddff}
+.promoLead{margin:16px 0 0;color:#d8ecff;font-size:17px;line-height:1.7;font-weight:650}
+.promoFeatureGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:24px}
+.promoFeature{
+  padding:15px 14px;border-radius:18px;background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(10px);
+  box-shadow:0 12px 28px rgba(0,0,0,.10)
+}
+.promoFeature b{display:block;font-size:14px}
+.promoFeature small{display:block;margin-top:4px;color:#c6def4;font-size:11px;line-height:1.45}
+.promoFeatureIcon{font-size:23px;display:block;margin-bottom:7px}
+.promoTrust{
+  margin-top:20px;padding:14px 15px;border-radius:17px;
+  background:linear-gradient(90deg,rgba(0,157,255,.18),rgba(42,235,177,.15));
+  border:1px solid rgba(171,233,255,.2);color:#dff7ff;font-size:12px;line-height:1.6;font-weight:750
+}
+.promoActions{margin-top:25px;display:grid;gap:10px}
+.promoStart{
+  width:100%;border:0;border-radius:18px;padding:17px;
+  background:linear-gradient(90deg,#24c6ff,#1b83ff);color:#fff;
+  font-size:18px;font-weight:1000;box-shadow:0 14px 30px rgba(0,111,255,.34)
+}
+.promoSub{margin-top:8px;text-align:center;color:#b8d6ef;font-size:10px;font-weight:800}
+@media(max-width:380px){
+  .promoTitle{font-size:34px}
+  .promoLead{font-size:15px}
+  .promoBrand img{width:64px;height:64px}
+  .promoBrandCopy strong{font-size:26px}
+}
+</style>
+
+<section class="promoIntro" id="promoIntro" aria-label="라이더짝꿍 소개">
+  <div class="promoGlow g1"></div>
+  <div class="promoGlow g2"></div>
+  <div class="promoGlow g3"></div>
+  <button class="promoSkip" type="button" id="promoSkip">SKIP</button>
+  <div class="promoInner">
+    <div class="promoBrand">
+      <img src="./rider_master_icon.png" alt="라이더짝꿍">
+      <div class="promoBrandCopy">
+        <strong>라이더짝꿍</strong>
+        <span>배달 라이더를 위한 운행 파트너</span>
+      </div>
+    </div>
+
+    <span class="promoBadge">RIDER MATE · V1.57.78 TEST</span>
+
+    <h1 class="promoTitle">
+      배달은 더 간단하게,<br>
+      <em>수익과 운행은 더 똑똑하게.</em>
+    </h1>
+
+    <p class="promoLead">
+      자동기록부터 수익·정산, 지역판단, 정비·안전, 짝꿍내비까지.<br>
+      라이더의 하루를 하나의 앱에서 관리합니다.
+    </p>
+
+    <div class="promoFeatureGrid">
+      <div class="promoFeature"><span class="promoFeatureIcon">🧾</span><b>자동기록</b><small>배달 완료 기록과 수익을 한눈에</small></div>
+      <div class="promoFeature"><span class="promoFeatureIcon">📊</span><b>수익·정산</b><small>번 돈부터 받을 돈까지 관리</small></div>
+      <div class="promoFeature"><span class="promoFeatureIcon">📍</span><b>지역판단</b><small>선호·주의·회피지역을 빠르게 확인</small></div>
+      <div class="promoFeature"><span class="promoFeatureIcon">🧭</span><b>짝꿍내비</b><small>메인폰 목적지를 보조폰 내비로</small></div>
+    </div>
+
+    <div class="promoTrust">
+      정비 · 주유 · 지출 · 렌트/리스 · 증빙 · 백업 · 안전도우미까지<br>
+      <b>라이더에게 필요한 기능을 하나로.</b>
+    </div>
+
+    <div class="promoActions">
+      <button class="promoStart" type="button" id="promoStart">앱 둘러보기</button>
+    </div>
+    <div class="promoSub">현재 공개 버전은 테스트 버전이며 일부 기능은 테스트 중입니다.</div>
+  </div>
+</section>
+<script>
+document.body.classList.add('promoLock');
+(()=>{
+  const intro=document.getElementById('promoIntro');
+  function enterApp(){
+    intro.style.opacity='0';
+    intro.style.transition='opacity .32s ease';
+    setTimeout(()=>{
+      intro.remove();
+      document.body.classList.remove('promoLock');
+      window.scrollTo(0,0);
+    },320);
+  }
+  document.getElementById('promoSkip').addEventListener('click',enterApp);
+  document.getElementById('promoStart').addEventListener('click',enterApp);
+})();
+</script>
+'''
+
 demo = r'''
 </div>
 <style>
@@ -265,5 +397,5 @@ demo = r'''
 </body></html>
 '''
 
-(out_dir / "index.html").write_text(html + demo, encoding="utf-8")
+(out_dir / "index.html").write_text(html.replace("<body", "<body", 1) + promo + demo, encoding="utf-8")
 print("homepage2 generated from", apk)
