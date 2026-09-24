@@ -234,11 +234,23 @@ demo = r'''
   const steps=document.getElementById('demoInfoSteps');
   const testNote=document.getElementById('demoTestNote');
 
-  function showPage(id){
-    if(!allowedPages.has(id)) return;
+  let currentPage='home';
+
+  function renderPage(id){
+    if(!allowedPages.has(id)) id='home';
+    currentPage=id;
     document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===id));
     document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));
+    sheet.classList.remove('show');
     window.scrollTo(0,0);
+  }
+
+  function showPage(id,push=true){
+    if(!allowedPages.has(id)) return;
+    renderPage(id);
+    if(push){
+      history.pushState({riderDemo:true,view:'page',page:id},'',location.href);
+    }
   }
 
   function labelFor(el){
@@ -250,8 +262,7 @@ demo = r'''
       .find(k=>text.includes(k)) || text.slice(0,38) || '기능 안내';
   }
 
-  function openInfo(el){
-    const label=labelFor(el);
+  function renderInfo(label){
     const info=featureInfo[label] || {
       desc:'실제 라이더짝꿍 앱의 화면과 같은 위치에서 이 기능의 역할과 사용방법을 확인할 수 있습니다.',
       steps:['실제 앱에서 해당 카드 또는 메뉴를 누릅니다.','화면 안내에 따라 필요한 정보나 설정을 확인합니다.','홈페이지2에서는 기능을 실행하지 않고 설명만 제공합니다.']
@@ -262,6 +273,12 @@ demo = r'''
     testNote.classList.toggle('show',!!info.test);
     sheet.classList.add('show');
     document.querySelector('.demoInfoCard').scrollTop=0;
+  }
+
+  function openInfo(el){
+    const label=labelFor(el);
+    renderInfo(label);
+    history.pushState({riderDemo:true,view:'info',page:currentPage,label},'',location.href);
   }
 
   document.querySelectorAll('.nav button').forEach(btn=>{
@@ -278,15 +295,35 @@ demo = r'''
     openInfo(target);
   },true);
 
-  document.getElementById('demoCloseBtn').addEventListener('click',()=>sheet.classList.remove('show'));
-  sheet.addEventListener('click',e=>{if(e.target===sheet) sheet.classList.remove('show')});
+  function closeInfo(){
+    if(history.state?.riderDemo && history.state?.view==='info'){
+      history.back();
+    }else{
+      sheet.classList.remove('show');
+    }
+  }
+
+  document.getElementById('demoCloseBtn').addEventListener('click',closeInfo);
+  sheet.addEventListener('click',e=>{if(e.target===sheet) closeInfo()});
+
+  window.addEventListener('popstate',e=>{
+    const s=e.state;
+    if(!s?.riderDemo) return;
+    if(s.view==='info'){
+      renderPage(s.page||'home');
+      renderInfo(s.label||'기능 안내');
+    }else{
+      renderPage(s.page||'home');
+    }
+  });
 
   const d=new Date();
   const wk=['일','월','화','수','목','금','토'][d.getDay()];
   const date=document.getElementById('dateText');
   if(date) date.textContent=d.getFullYear()+'년 '+(d.getMonth()+1)+'월 '+d.getDate()+'일 ('+wk+')';
 
-  showPage('home');
+  history.replaceState({riderDemo:true,view:'page',page:'home'},'',location.href);
+  showPage('home',false);
 })();
 </script>
 </body></html>
