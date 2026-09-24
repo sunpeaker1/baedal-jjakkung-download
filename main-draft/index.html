@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#083b73">
+<meta name="description" content="라이더짝꿍 - 배달 라이더를 위한 운행 파트너">
+<title>라이더짝꿍 | 메인 초안</title>
+<style>
+:root{
+  --deep:#071a35;--blue:#0b3f87;--cyan:#62ddff;--mint:#51e7b5;
+  --line:rgba(255,255,255,.17);--muted:#d8ecff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Apple SD Gothic Neo","Segoe UI",sans-serif}
+body{
+  color:#fff;
+  background:
+    radial-gradient(circle at 14% 14%,rgba(46,205,255,.28),transparent 27%),
+    radial-gradient(circle at 88% 34%,rgba(54,234,180,.24),transparent 30%),
+    radial-gradient(circle at 50% 96%,rgba(55,118,255,.28),transparent 38%),
+    linear-gradient(160deg,#071a35 0%,#0b315b 46%,#0d67a5 100%);
+}
+a{text-decoration:none;color:inherit}
+.page{
+  width:min(100%,430px);
+  min-height:100dvh;
+  margin:0 auto;
+  padding:calc(18px + env(safe-area-inset-top)) 22px calc(18px + env(safe-area-inset-bottom));
+  display:flex;flex-direction:column;position:relative;overflow:hidden
+}
+.glow{position:absolute;border-radius:50%;filter:blur(8px);opacity:.50;pointer-events:none}
+.g1{width:170px;height:170px;left:-65px;top:118px;background:#19c8ff}
+.g2{width:220px;height:220px;right:-90px;top:270px;background:#35e2aa}
+.g3{width:170px;height:170px;left:31%;bottom:-76px;background:#407dff}
+.top{display:flex;align-items:center;gap:12px;position:relative;z-index:2}
+.logo{width:58px;height:58px;border-radius:17px;box-shadow:0 12px 26px rgba(0,0,0,.25)}
+.brand{min-width:0}
+.brand strong{display:block;font-size:26px;line-height:1.05;letter-spacing:-1.4px;font-weight:1000;white-space:nowrap}
+.brand span{display:block;margin-top:5px;color:#bfeaff;font-size:10px;font-weight:850;white-space:nowrap}
+.browse{
+  margin-left:auto;border:1px solid rgba(120,226,255,.50);
+  background:rgba(28,186,243,.13);color:#fff;border-radius:999px;
+  padding:11px 14px;font-size:12px;font-weight:950;white-space:nowrap;
+  backdrop-filter:blur(10px);box-shadow:0 9px 22px rgba(0,0,0,.10)
+}
+.hero{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;justify-content:center;padding:26px 0 8px}
+.badge{
+  display:inline-flex;align-self:flex-start;padding:8px 12px;border-radius:999px;
+  border:1px solid rgba(78,234,184,.38);background:rgba(64,225,175,.13);
+  color:#c2ffe6;font-size:12px;font-weight:950;letter-spacing:.045em
+}
+h1{margin:16px 0 0;font-size:43px;line-height:1.08;letter-spacing:-2.4px;font-weight:1000}
+h1 em{font-style:normal;color:var(--cyan)}
+.lead{margin:14px 0 0;color:#dceeff;font-size:15px;line-height:1.65;font-weight:750}
+.visual{
+  position:relative;min-height:190px;margin-top:24px;border-radius:25px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.20);
+  background:linear-gradient(115deg,rgba(6,32,66,.91),rgba(14,103,166,.76) 56%,rgba(40,219,175,.28));
+  box-shadow:0 20px 42px rgba(0,0,0,.20)
+}
+.visual:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 82% 24%,rgba(91,228,255,.31),transparent 34%)}
+.visual-copy{position:relative;z-index:2;width:62%;padding:20px 0 18px 20px}
+.visual-copy span{display:block;color:#7eeaff;font-size:10px;font-weight:1000;letter-spacing:.13em}
+.visual-copy strong{display:block;margin-top:7px;font-size:25px;line-height:1.22;letter-spacing:-1.2px}
+.visual-copy p{margin:10px 0 0;color:#d9ecfb;font-size:11px;line-height:1.55;font-weight:760}
+.visual img{position:absolute;right:-9px;bottom:-1px;width:47%;max-height:178px;object-fit:contain;filter:drop-shadow(0 13px 22px rgba(0,0,0,.25))}
+.trust{
+  margin-top:13px;padding:12px 14px;border-radius:17px;
+  background:linear-gradient(90deg,rgba(0,157,255,.17),rgba(42,235,177,.14));
+  border:1px solid rgba(171,233,255,.20);color:#e3f8ff;font-size:12px;line-height:1.58;font-weight:780
+}
+.actions{display:grid;grid-template-columns:1.15fr .85fr;gap:9px;margin-top:15px}
+.primary,.secondary{
+  min-height:48px;border-radius:15px;display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:1000
+}
+.primary{background:#fff;color:#0b67b8;box-shadow:0 12px 24px rgba(0,35,89,.18)}
+.secondary{border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.08);color:#fff}
+.note{margin-top:10px;text-align:center;color:#bcd9ed;font-size:9px;font-weight:800}
+@media(max-width:380px){
+  .page{padding-left:16px;padding-right:16px}
+  .logo{width:51px;height:51px}.brand strong{font-size:23px}.brand span{font-size:9px}
+  .browse{padding:9px 11px;font-size:10px}
+  .hero{padding-top:18px}.badge{font-size:11px}h1{font-size:38px}.lead{font-size:14px}
+  .visual{min-height:174px;margin-top:18px}.visual-copy{padding-left:16px}.visual-copy strong{font-size:22px}
+  .actions{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<main class="page">
+  <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div>
+
+  <header class="top">
+    <img class="logo" src="../homepage2/rider_master_icon.png" alt="라이더짝꿍">
+    <div class="brand">
+      <strong>라이더짝꿍</strong>
+      <span>배달 라이더를 위한 운행 파트너</span>
+    </div>
+    <a class="browse" href="../homepage2/">앱 둘러보기</a>
+  </header>
+
+  <section class="hero">
+    <span class="badge">RIDER MATE · V1.57.78 TEST</span>
+    <h1>수익은 올리고,<br><em>관리는 줄이고.</em></h1>
+    <p class="lead">자동기록부터 정산, 지역판단, 정비관리, 안전, 백업, 짝꿍내비까지.<br>배달 라이더에게 필요한 기능을 한 흐름으로.</p>
+
+    <div class="visual">
+      <div class="visual-copy">
+        <span>RIDER MATE</span>
+        <strong>라이더의 하루를<br>더 효율적으로.</strong>
+        <p>수익 · 운행 · 정비 · 안전 · 내비까지<br>한 번에 관리하는 라이더 전용 파트너</p>
+      </div>
+      <img src="../homepage2/rider_goal_art.png" alt="라이더짝꿍 운행 이미지">
+    </div>
+
+    <div class="trust">
+      정비 · 주유 · 지출 · 렌트/리스 · 증빙 · 백업 · 안전도우미까지<br>
+      <b>라이더에게 필요한 기능을 하나로.</b>
+    </div>
+
+    <div class="actions">
+      <a class="primary" href="../homepage2/">앱 둘러보기 →</a>
+      <a class="secondary" href="#" onclick="return downloadRider()">앱 다운로드</a>
+    </div>
+    <div class="note">현재 공개 버전은 테스트 버전이며 일부 기능은 테스트 중입니다.</div>
+  </section>
+</main>
+<script>
+function downloadRider(){
+  if(!confirm('파일을 저장하시겠습니까?')) return false;
+  location.href='https://github.com/sunpeaker1/baedal-jjakkung-download/releases/download/v1.57.78/RiderJjakkung-V1.57.78.apk';
+  return false;
+}
+</script>
+</body>
+</html>
