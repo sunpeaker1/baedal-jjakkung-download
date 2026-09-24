@@ -1130,3 +1130,21 @@ body.feedbackOpen{overflow:hidden}
 @media(max-width:600px){
   .adminFilterBar{grid-template-columns:1fr}
 }
+
+/* admin export buttons 2026-09-24 */
+.adminToolbarButtons{flex-wrap:wrap}
+#adminExportCsv,#adminExportJson{
+  background:#f4f9fd;
+  border-color:#cfe0ec;
+}
+@media(max-width:760px){
+  .adminToolbarButtons{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .adminToolbarButtons .btn{
+    width:100%;
+    min-width:0;
+    text-align:center;
+  }
+}
