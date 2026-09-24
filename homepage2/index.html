@@ -6,26 +6,24 @@
   <meta name="theme-color" content="#edf7ff">
   <meta name="robots" content="noindex,nofollow">
   <title>라이더짝꿍 웹 체험판 | 홈페이지2</title>
-  <link rel="stylesheet" href="./style.css?v=20260924-2">
+  <link rel="stylesheet" href="./style.css?v=20260924-3">
 </head>
 <body>
   <main class="webAppStage">
     <section class="appReplica" aria-label="라이더짝꿍 웹 체험판">
-      <header class="appTop">
-        <div class="appBrand">
+      <header class="appTop appTopExact">
+        <div class="appBrand appBrandExact">
           <img src="../assets/rider-app-icon.png?v=20260924-8" alt="">
-          <div>
-            <div class="brandLine"><strong>라이더짝꿍</strong><span>Syn</span></div>
+          <div class="brandCopy">
+            <div class="brandLine"><strong>라이더짝꿍</strong><span class="synMark">Syn</span></div>
             <small>운행도우미</small>
           </div>
         </div>
-        <button class="demoBadge explainBtn" data-help="demo" type="button">웹 체험판</button>
+        <div class="topStatus">
+          <button class="autoBadge explainBtn" data-help="demo" type="button">자동기록 ON</button>
+          <time id="todayText"></time>
+        </div>
       </header>
-
-      <div class="appSubbar">
-        <span class="autoOn">● 자동기록 ON</span>
-        <time id="todayText"></time>
-      </div>
 
       <section class="appViewport" id="appViewport" aria-live="polite"></section>
 
@@ -39,11 +37,11 @@
         <button class="navItem" type="button" data-screen="record">
           <span class="navIcon">▤</span><small>운행기록</small>
         </button>
-        <button class="navItem" type="button" data-screen="nav">
-          <span class="navIcon">➤</span><small>짝꿍내비</small>
-        </button>
         <button class="navItem" type="button" data-screen="manage">
-          <span class="navIcon">☷</span><small>관리</small>
+          <span class="navIcon">🛠</span><small>관리</small>
+        </button>
+        <button class="navItem" type="button" data-screen="all">
+          <span class="navIcon">☰</span><small>전체</small>
         </button>
       </nav>
     </section>
@@ -73,6 +71,6 @@
     </div>
   </section>
 
-  <script src="./site.js?v=20260924-2"></script>
+  <script src="./site.js?v=20260924-3"></script>
 </body>
 </html>
