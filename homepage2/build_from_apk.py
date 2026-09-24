@@ -74,29 +74,36 @@ body.promoLock{overflow:hidden}
 .promoGlow.g2{width:220px;height:220px;right:-85px;top:240px;background:#32e0a0;animation-delay:-2s}
 .promoGlow.g3{width:180px;height:180px;left:30%;bottom:-70px;background:#407dff;animation-delay:-4s}
 @keyframes promoFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-18px) scale(1.08)}}
-.promoSkip{
-  position:fixed;right:18px;top:calc(18px + env(safe-area-inset-top));z-index:2;
+.promoTopActions{
+  position:fixed;right:18px;top:calc(18px + env(safe-area-inset-top));z-index:3;
+  display:flex;align-items:center;gap:8px
+}
+.promoSkip,.promoBrowse{
   border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);
-  color:#fff;border-radius:999px;padding:9px 14px;font-size:12px;font-weight:900;
-  backdrop-filter:blur(10px)
+  color:#fff;border-radius:999px;padding:9px 13px;font-size:12px;font-weight:900;
+  backdrop-filter:blur(10px);white-space:nowrap
+}
+.promoBrowse{
+  background:rgba(36,198,255,.18);
+  border-color:rgba(122,226,255,.48)
 }
 .promoInner{
   position:relative;z-index:1;width:min(100%,430px);min-height:100dvh;margin:auto;
-  padding:calc(58px + env(safe-area-inset-top)) 22px calc(30px + env(safe-area-inset-bottom));
-  display:flex;flex-direction:column;justify-content:center
+  padding:calc(22px + env(safe-area-inset-top)) 22px calc(22px + env(safe-area-inset-bottom));
+  display:flex;flex-direction:column;justify-content:flex-start
 }
-.promoBrand{display:flex;align-items:center;gap:14px}
-.promoBrand img{width:66px;height:66px;border-radius:19px;box-shadow:0 14px 30px rgba(0,0,0,.24)}
-.promoBrandCopy strong{display:block;font-size:28px;letter-spacing:-1.3px}
-.promoBrandCopy span{display:block;margin-top:2px;color:#bfeaff;font-size:12px;font-weight:800}
+.promoBrand{display:flex;align-items:center;gap:12px;min-height:54px;padding-right:176px}
+.promoBrand img{width:54px;height:54px;border-radius:16px;box-shadow:0 12px 25px rgba(0,0,0,.22)}
+.promoBrandCopy strong{display:block;font-size:24px;letter-spacing:-1.2px;line-height:1.05;white-space:nowrap}
+.promoBrandCopy span{display:block;margin-top:4px;color:#bfeaff;font-size:10px;font-weight:800;white-space:nowrap}
 .promoBadge{
-  display:inline-flex;align-self:flex-start;margin-top:22px;padding:7px 11px;
+  display:inline-flex;align-self:flex-start;margin-top:20px;padding:7px 11px;
   border-radius:999px;background:rgba(76,233,177,.16);border:1px solid rgba(76,233,177,.35);
   color:#bfffe3;font-size:11px;font-weight:950;letter-spacing:.04em
 }
-.promoTitle{margin:16px 0 0;font-size:43px;line-height:1.12;letter-spacing:-2.2px;font-weight:1000}
+.promoTitle{margin:15px 0 0;font-size:41px;line-height:1.1;letter-spacing:-2.1px;font-weight:1000}
 .promoTitle em{font-style:normal;color:#62ddff}
-.promoLead{margin:16px 0 0;color:#d8ecff;font-size:16px;line-height:1.72;font-weight:700}
+.promoLead{margin:13px 0 0;color:#d8ecff;font-size:15px;line-height:1.62;font-weight:700}
 .promoFeatureGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
 .promoFeature{
   min-height:126px;padding:15px 14px;border-radius:18px;background:rgba(255,255,255,.10);
@@ -106,8 +113,28 @@ body.promoLock{overflow:hidden}
 .promoFeature b{display:block;font-size:14px}
 .promoFeature small{display:block;margin-top:4px;color:#c6def4;font-size:11px;line-height:1.45}
 .promoFeatureIcon{font-size:23px;display:block;margin-bottom:7px}
+.promoVisual{
+  position:relative;min-height:190px;margin-top:18px;overflow:hidden;
+  border-radius:24px;border:1px solid rgba(255,255,255,.20);
+  background:
+    linear-gradient(115deg,rgba(6,32,66,.92) 0%,rgba(14,103,166,.76) 54%,rgba(40,219,175,.30) 100%);
+  box-shadow:0 18px 40px rgba(0,0,0,.18)
+}
+.promoVisual:before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 82% 25%,rgba(91,228,255,.32),transparent 34%);
+  pointer-events:none
+}
+.promoVisualText{position:relative;z-index:2;width:62%;padding:22px 0 20px 20px}
+.promoVisualText span{display:block;color:#7eeaff;font-size:10px;font-weight:1000;letter-spacing:.12em}
+.promoVisualText strong{display:block;margin-top:7px;font-size:25px;line-height:1.23;letter-spacing:-1.2px}
+.promoVisualText p{margin:10px 0 0;color:#d9ecfb;font-size:11px;line-height:1.55;font-weight:750}
+.promoVisual img{
+  position:absolute;right:-12px;bottom:-3px;width:48%;max-height:178px;object-fit:contain;
+  filter:drop-shadow(0 12px 20px rgba(0,0,0,.24))
+}
 .promoTrust{
-  margin-top:20px;padding:14px 15px;border-radius:17px;
+  margin-top:14px;padding:12px 14px;border-radius:17px;
   background:linear-gradient(90deg,rgba(0,157,255,.18),rgba(42,235,177,.15));
   border:1px solid rgba(171,233,255,.2);color:#dff7ff;font-size:12px;line-height:1.6;font-weight:750
 }
@@ -117,12 +144,19 @@ body.promoLock{overflow:hidden}
   background:linear-gradient(90deg,#24c6ff,#1b83ff);color:#fff;
   font-size:18px;font-weight:1000;box-shadow:0 14px 30px rgba(0,111,255,.34)
 }
-.promoSub{margin-top:8px;text-align:center;color:#b8d6ef;font-size:10px;font-weight:800}
+.promoSub{margin-top:11px;text-align:center;color:#b8d6ef;font-size:9px;font-weight:800}
 @media(max-width:380px){
-  .promoTitle{font-size:34px}
-  .promoLead{font-size:15px}
-  .promoBrand img{width:64px;height:64px}
-  .promoBrandCopy strong{font-size:26px}
+  .promoTopActions{right:10px;gap:5px}
+  .promoSkip,.promoBrowse{padding:8px 10px;font-size:10px}
+  .promoBrand{padding-right:142px}
+  .promoTitle{font-size:35px}
+  .promoLead{font-size:14px}
+  .promoBrand img{width:48px;height:48px}
+  .promoBrandCopy strong{font-size:21px}
+  .promoBrandCopy span{font-size:9px}
+  .promoVisual{min-height:174px}
+  .promoVisualText{padding-left:16px}
+  .promoVisualText strong{font-size:22px}
 }
 </style>
 
@@ -130,7 +164,10 @@ body.promoLock{overflow:hidden}
   <div class="promoGlow g1"></div>
   <div class="promoGlow g2"></div>
   <div class="promoGlow g3"></div>
-  <button class="promoSkip" type="button" id="promoSkip">SKIP</button>
+  <div class="promoTopActions">
+    <button class="promoBrowse" type="button" id="promoBrowse">앱 둘러보기</button>
+    <button class="promoSkip" type="button" id="promoSkip">SKIP</button>
+  </div>
   <div class="promoInner">
     <div class="promoBrand">
       <img src="./rider_master_icon.png" alt="라이더짝꿍">
@@ -152,11 +189,13 @@ body.promoLock{overflow:hidden}
       자동기록부터 정산, 지역판단, 정비관리, 짝꿍내비까지 한 번에.
     </p>
 
-    <div class="promoFeatureGrid">
-      <div class="promoFeature"><span class="promoFeatureIcon">🧾</span><b>자동기록</b><small>배달 완료 기록과 수익을 한눈에</small></div>
-      <div class="promoFeature"><span class="promoFeatureIcon">📊</span><b>수익·정산</b><small>번 돈부터 받을 돈까지 관리</small></div>
-      <div class="promoFeature"><span class="promoFeatureIcon">📍</span><b>지역판단</b><small>선호·주의·회피지역을 빠르게 확인</small></div>
-      <div class="promoFeature"><span class="promoFeatureIcon">🧭</span><b>짝꿍내비</b><small>메인폰 목적지를 보조폰 내비로</small></div>
+    <div class="promoVisual">
+      <div class="promoVisualText">
+        <span>RIDER MATE</span>
+        <strong>라이더의 하루를<br>더 효율적으로.</strong>
+        <p>수익 · 운행 · 정비 · 안전 · 내비까지<br>한 번에 관리하는 라이더 전용 파트너</p>
+      </div>
+      <img src="./rider_goal_art.png" alt="라이더짝꿍 홍보 이미지">
     </div>
 
     <div class="promoTrust">
@@ -164,9 +203,6 @@ body.promoLock{overflow:hidden}
       <b>라이더에게 필요한 기능을 하나로.</b>
     </div>
 
-    <div class="promoActions">
-      <button class="promoStart" type="button" id="promoStart">앱 둘러보기</button>
-    </div>
     <div class="promoSub">현재 공개 버전은 테스트 버전이며 일부 기능은 테스트 중입니다.</div>
   </div>
 </section>
@@ -184,7 +220,7 @@ document.body.classList.add('promoLock');
     },320);
   }
   document.getElementById('promoSkip').addEventListener('click',enterApp);
-  document.getElementById('promoStart').addEventListener('click',enterApp);
+  document.getElementById('promoBrowse').addEventListener('click',enterApp);
 })();
 </script>
 '''
