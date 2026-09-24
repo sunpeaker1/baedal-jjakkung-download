@@ -2141,8 +2141,9 @@ button.rideAudit40Source{width:100%;margin:0;font:inherit;color:inherit;appearan
 .demoNote{margin-top:18px;padding:15px 16px;border-radius:16px;background:#eef8ff;border:1px solid #d4eafb;color:#255f8b;font-size:14px;font-weight:850;line-height:1.65}
 .demoTestNote{display:none;margin-top:14px;padding:15px 16px;border-radius:16px;background:#fff4df;border:1px solid #f2c97a;color:#8a5a12;font-size:14px;font-weight:900;line-height:1.65}
 .demoTestNote.show{display:block}
-.demoFeedback{width:100%;margin-top:18px;border:1px solid #f2b173;border-radius:16px;padding:15px;background:#fff0df;color:#9a4d10;font-size:17px;font-weight:950;text-decoration:none;display:flex;align-items:center;justify-content:center}
-.demoClose{width:100%;margin-top:10px;border:0;border-radius:16px;padding:15px;background:#118cf3;color:#fff;font-size:17px;font-weight:950}
+.demoActions{position:sticky;bottom:-26px;margin:18px -20px -26px;padding:12px 20px calc(14px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);border-top:1px solid #e3ebf1;backdrop-filter:blur(10px);display:grid;gap:10px;z-index:3}
+.demoFeedback{width:100%;border:1px solid #f2b173;border-radius:16px;padding:15px;background:#fff0df;color:#9a4d10;font-size:17px;font-weight:950;text-decoration:none;display:flex;align-items:center;justify-content:center}
+.demoClose{width:100%;border:0;border-radius:16px;padding:15px;background:#118cf3;color:#fff;font-size:17px;font-weight:950}
 .demoOnlyTag{position:fixed;right:max(10px,calc((100vw - 430px)/2 + 10px));bottom:calc(var(--navh) + 10px);z-index:30;padding:6px 9px;border-radius:999px;background:rgba(16,37,68,.78);color:#fff;font-size:9px;font-weight:900;backdrop-filter:blur(8px);pointer-events:none}
 </style>
 
@@ -2155,8 +2156,10 @@ button.rideAudit40Source{width:100%;margin:0;font:inherit;color:inherit;appearan
     <ol id="demoInfoSteps"></ol>
     <div class="demoTestNote" id="demoTestNote">⚠️ 현재 테스트 중이며 공개 버전에서는 일부 동작이 제한될 수 있습니다.</div>
     <div class="demoNote">홈페이지2에서는 실제 자동기록·내비·위치·전화·저장 기능을 실행하지 않습니다. 실제 기능은 Android 앱에서 사용합니다.</div>
-    <a class="demoFeedback" href="../contact.html">오류·제안 입력</a>
-    <button class="demoClose" type="button" id="demoCloseBtn">확인</button>
+    <div class="demoActions">
+      <a class="demoFeedback" href="../contact.html">오류·제안 입력</a>
+      <button class="demoClose" type="button" id="demoCloseBtn">확인</button>
+    </div>
   </div>
 </div>
 
