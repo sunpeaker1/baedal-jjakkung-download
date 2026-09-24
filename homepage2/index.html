@@ -2157,19 +2157,23 @@ body.promoLock{overflow:hidden}
 }
 .promoInner{
   position:relative;z-index:1;width:min(100%,430px);min-height:100dvh;margin:auto;
-  padding:calc(22px + env(safe-area-inset-top)) 22px calc(22px + env(safe-area-inset-bottom));
-  display:flex;flex-direction:column;justify-content:flex-start
+  padding:calc(22px + env(safe-area-inset-top)) 22px calc(16px + env(safe-area-inset-bottom));
+  display:flex;flex-direction:column
+}
+.promoBody{
+  flex:1;display:flex;flex-direction:column;justify-content:center;
+  padding:18px 0 10px
 }
 .promoBrand{display:flex;align-items:center;gap:12px;min-height:54px;padding-right:126px}
 .promoBrand img{width:54px;height:54px;border-radius:16px;box-shadow:0 12px 25px rgba(0,0,0,.22)}
 .promoBrandCopy strong{display:block;font-size:24px;letter-spacing:-1.2px;line-height:1.05;white-space:nowrap}
 .promoBrandCopy span{display:block;margin-top:4px;color:#bfeaff;font-size:10px;font-weight:800;white-space:nowrap}
 .promoBadge{
-  display:inline-flex;align-self:flex-start;margin-top:18px;padding:7px 11px;
+  display:inline-flex;align-self:flex-start;margin-top:0;padding:7px 11px;
   border-radius:999px;background:rgba(76,233,177,.16);border:1px solid rgba(76,233,177,.35);
   color:#bfffe3;font-size:11px;font-weight:950;letter-spacing:.04em
 }
-.promoTitle{margin:14px 0 0;font-size:40px;line-height:1.08;letter-spacing:-2px;font-weight:1000}
+.promoTitle{margin:13px 0 0;font-size:40px;line-height:1.08;letter-spacing:-2px;font-weight:1000}
 .promoTitle em{font-style:normal;color:#62ddff}
 .promoLead{margin:12px 0 0;color:#d8ecff;font-size:15px;line-height:1.58;font-weight:700}
 .promoFeatureGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
@@ -2182,7 +2186,7 @@ body.promoLock{overflow:hidden}
 .promoFeature small{display:block;margin-top:4px;color:#c6def4;font-size:11px;line-height:1.45}
 .promoFeatureIcon{font-size:23px;display:block;margin-bottom:7px}
 .promoVisual{
-  position:relative;min-height:178px;margin-top:16px;overflow:hidden;
+  position:relative;min-height:176px;margin-top:14px;overflow:hidden;
   border-radius:24px;border:1px solid rgba(255,255,255,.20);
   background:
     linear-gradient(115deg,rgba(6,32,66,.92) 0%,rgba(14,103,166,.76) 54%,rgba(40,219,175,.30) 100%);
@@ -2202,7 +2206,7 @@ body.promoLock{overflow:hidden}
   filter:drop-shadow(0 12px 20px rgba(0,0,0,.24))
 }
 .promoTrust{
-  margin-top:13px;padding:11px 14px;border-radius:17px;
+  margin-top:12px;padding:11px 14px;border-radius:17px;
   background:linear-gradient(90deg,rgba(0,157,255,.18),rgba(42,235,177,.15));
   border:1px solid rgba(171,233,255,.2);color:#dff7ff;font-size:12px;line-height:1.6;font-weight:750
 }
@@ -2212,7 +2216,7 @@ body.promoLock{overflow:hidden}
   background:linear-gradient(90deg,#24c6ff,#1b83ff);color:#fff;
   font-size:18px;font-weight:1000;box-shadow:0 14px 30px rgba(0,111,255,.34)
 }
-.promoSub{margin-top:9px;text-align:center;color:#b8d6ef;font-size:9px;font-weight:800}
+.promoSub{margin-top:8px;text-align:center;color:#b8d6ef;font-size:9px;font-weight:800}
 @media(max-width:380px){
   .promoTopActions{right:10px;gap:5px}
   .promoBrowse{padding:8px 11px;font-size:10px}
@@ -2222,7 +2226,8 @@ body.promoLock{overflow:hidden}
   .promoBrand img{width:48px;height:48px}
   .promoBrandCopy strong{font-size:21px}
   .promoBrandCopy span{font-size:9px}
-  .promoVisual{min-height:174px}
+  .promoBody{padding-top:14px;padding-bottom:6px}
+  .promoVisual{min-height:168px}
   .promoVisualText{padding-left:16px}
   .promoVisualText strong{font-size:22px}
 }
@@ -2244,6 +2249,7 @@ body.promoLock{overflow:hidden}
       </div>
     </div>
 
+    <div class="promoBody">
     <span class="promoBadge">RIDER MATE · V1.57.78 TEST</span>
 
     <h1 class="promoTitle">
@@ -2271,6 +2277,7 @@ body.promoLock{overflow:hidden}
     </div>
 
     <div class="promoSub">현재 공개 버전은 테스트 버전이며 일부 기능은 테스트 중입니다.</div>
+    </div>
   </div>
 </section>
 <script>
