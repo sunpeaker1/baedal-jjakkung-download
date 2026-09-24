@@ -355,7 +355,7 @@ download_css = r'''<style id="homepage2DownloadStyle">
 download_panel = r'''<div class="appDownloadCard" id="app-download">
   <div class="appDownloadHead"><h3>📲 앱 다운로드</h3><span>Android</span></div>
   <div class="appDownloadGrid">
-    <a class="appDownloadBtn rider" href="https://github.com/sunpeaker1/baedal-jjakkung-download/releases/download/v1.57.78/RiderJjakkung-V1.57.101.apk" onclick="return confirm('파일을 저장하시겠습니까?')"><strong>라이더짝꿍 다운로드</strong><small>V1.57.101 TEST</small></a>
+    <a class="appDownloadBtn rider" href="https://github.com/sunpeaker1/baedal-jjakkung-download/releases/download/v1.57.101/RiderJjakkung-V1.57.101-debug.apk" onclick="return confirm('파일을 저장하시겠습니까?')"><strong>라이더짝꿍 다운로드</strong><small>V1.57.101 TEST</small></a>
     <a class="appDownloadBtn quickMate" href="../quick.html#admin-download"><strong>퀵짝꿍 다운로드</strong><small>관리자 암호 인증</small></a>
   </div>
   <p class="appDownloadNote">라이더짝꿍은 공개 테스트 버전이며, 퀵짝꿍은 관리자 인증 후 다운로드됩니다.</p>
