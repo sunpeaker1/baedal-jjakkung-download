@@ -462,17 +462,21 @@ demo = r'''
 '''
 
 download_css = r'''<style id="homepage2DownloadStyle">
-.appDownloadCard{margin:3px 0 12px;padding:14px;border:1px solid #dce9f3;border-radius:20px;background:linear-gradient(145deg,#f8fcff,#f5fff9);box-shadow:0 7px 18px rgba(38,76,114,.07)}
-.appDownloadHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
-.appDownloadHead h3{margin:0;font-size:16px;font-weight:950;color:#173654}
-.appDownloadHead span{font-size:9px;font-weight:900;color:#6f8195}
-.appDownloadGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.appDownloadBtn{min-height:62px;border-radius:16px;padding:10px 8px;text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-weight:950;box-sizing:border-box}
-.appDownloadBtn strong{font-size:13px;line-height:1.25}
-.appDownloadBtn small{display:block;margin-top:4px;font-size:8.5px;font-weight:800;opacity:.78}
-.appDownloadBtn.rider{background:linear-gradient(145deg,#e8f5ff,#d9efff);border:1px solid #a9d7f7;color:#1269aa}
-.appDownloadBtn.quickMate{background:linear-gradient(145deg,#eafaf2,#dff6ea);border:1px solid #bfe7cf;color:#197452}
-.appDownloadNote{margin:8px 2px 0;color:#7b8ca0;font-size:8.5px;line-height:1.45;font-weight:750;text-align:center}
+.appDownloadCard{position:relative;overflow:hidden;margin:8px 0 16px;padding:17px 14px 15px;border:1px solid rgba(107,181,231,.72);border-radius:25px;background:linear-gradient(145deg,#fbfeff 0%,#edf8ff 48%,#effdf7 100%);box-shadow:0 16px 34px rgba(25,103,162,.18),0 4px 10px rgba(38,76,114,.10),inset 0 2px 0 rgba(255,255,255,.96),inset 0 -2px 0 rgba(80,150,205,.06)}
+.appDownloadCard:before{content:"";position:absolute;right:-45px;top:-58px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(68,177,255,.16) 0%,rgba(68,177,255,0) 68%);pointer-events:none}
+.appDownloadHead{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.appDownloadHead h3{margin:0;font-size:18px;font-weight:1000;letter-spacing:-.6px;color:#123b63;text-shadow:0 1px 0 #fff}
+.appDownloadHead span{padding:5px 9px;border-radius:999px;background:#173e69;color:#fff;font-size:9px;font-weight:950;box-shadow:0 4px 9px rgba(23,62,105,.16)}
+.appDownloadGrid{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.appDownloadBtn{position:relative;min-height:76px;border-radius:19px;padding:13px 28px 12px 9px;text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-weight:950;box-sizing:border-box;transition:transform .12s ease,filter .12s ease,box-shadow .12s ease}
+.appDownloadBtn:active{transform:translateY(2px);filter:brightness(.98)}
+.appDownloadBtn:before{content:"↓";position:absolute;right:9px;top:9px;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.82);font-size:13px;font-weight:1000;box-shadow:0 3px 8px rgba(39,82,119,.14)}
+.appDownloadBtn strong{font-size:14.5px;line-height:1.25;letter-spacing:-.45px;text-shadow:0 1px 0 rgba(255,255,255,.9)}
+.appDownloadBtn small{display:block;margin-top:5px;font-size:9.5px;font-weight:900;opacity:.82}
+.appDownloadBtn.rider{background:linear-gradient(145deg,#eef9ff 0%,#c9eaff 48%,#b8e1ff 100%);border:1px solid #7fc7f4;color:#075f9d;box-shadow:0 10px 20px rgba(20,130,208,.24),inset 0 2px 0 rgba(255,255,255,.92),inset 0 -3px 0 rgba(31,132,202,.10)}
+.appDownloadBtn.quickMate{background:linear-gradient(145deg,#effdf5 0%,#d3f4e2 48%,#c1ecd4 100%);border:1px solid #8bd4aa;color:#13663f;box-shadow:0 10px 20px rgba(28,145,89,.22),inset 0 2px 0 rgba(255,255,255,.92),inset 0 -3px 0 rgba(36,132,82,.09)}
+.appDownloadNote{position:relative;z-index:1;margin:10px 3px 0;color:#60778d;font-size:9px;line-height:1.5;font-weight:850;text-align:center}
+@media(max-width:380px){.appDownloadCard{padding:15px 12px 14px}.appDownloadGrid{gap:8px}.appDownloadBtn{min-height:72px;padding-right:25px}.appDownloadBtn strong{font-size:13.5px}}
 </style>'''
 download_panel = r'''<div class="appDownloadCard" id="app-download">
   <div class="appDownloadHead"><h3>📲 앱 다운로드</h3><span>Android</span></div>
