@@ -208,6 +208,27 @@ document.addEventListener('DOMContentLoaded',()=>{
   const feedbackOpeners=[...document.querySelectorAll('[data-open-feedback]')];
   const feedbackClose=feedbackPanel ? feedbackPanel.querySelector('.inlineFeedbackClose') : null;
   const feedbackForm=document.getElementById('inlineFeedbackForm');
+  const feedbackRecent=document.getElementById('feedbackRecent');
+  const feedbackSuccessModal=document.getElementById('feedback-success');
+  const feedbackSuccessId=document.getElementById('feedbackSuccessId');
+  const feedbackSuccessClose=document.getElementById('feedbackSuccessClose');
+
+  function showRecentFeedback(){
+    try{
+      const recent=JSON.parse(localStorage.getItem('riderFeedbackRecent')||'null');
+      if(recent && recent.id && feedbackRecent){
+        feedbackRecent.hidden=false;
+        feedbackRecent.innerHTML='<b>최근 접수</b><span>'+recent.id+'</span>';
+      }
+    }catch(e){}
+  }
+  showRecentFeedback();
+
+  if(feedbackSuccessClose){
+    feedbackSuccessClose.addEventListener('click',()=>{
+      if(feedbackSuccessModal) feedbackSuccessModal.hidden=true;
+    });
+  }
 
   function openFeedback(e){
     if(e) e.preventDefault();
@@ -253,6 +274,17 @@ document.addEventListener('DOMContentLoaded',()=>{
         if(result){
           result.className='feedbackResult success';
           result.textContent='접수 완료 · 접수번호 '+data.id;
+        }
+        try{
+          localStorage.setItem('riderFeedbackRecent',JSON.stringify({id:data.id,at:new Date().toISOString()}));
+        }catch(e){}
+        if(feedbackRecent){
+          feedbackRecent.hidden=false;
+          feedbackRecent.innerHTML='<b>최근 접수</b><span>'+data.id+'</span>';
+        }
+        if(feedbackSuccessModal && feedbackSuccessId){
+          feedbackSuccessId.textContent='접수번호 '+data.id;
+          feedbackSuccessModal.hidden=false;
         }
         feedbackForm.reset();
       }catch(error){
