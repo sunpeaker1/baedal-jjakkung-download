@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
-Disallow: /baedal-jjakkung-download/admin.html
+Disallow: /admin.html
+Disallow: /legacy/
 
-Sitemap: https://sunpeaker1.github.io/baedal-jjakkung-download/sitemap.txt
+Sitemap: https://baedal-jjakkung-download.vercel.app/sitemap.xml
