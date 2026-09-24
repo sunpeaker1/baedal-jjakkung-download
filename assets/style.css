@@ -1148,3 +1148,23 @@ body.feedbackOpen{overflow:hidden}
     text-align:center;
   }
 }
+
+/* footer admin mini 2026-09-24 */
+.footerAdminMini{
+  margin-top:12px;
+  font-size:11px;
+}
+.footerAdminMini a{
+  display:inline-block;
+  padding:5px 8px;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:999px;
+  color:#8296a8;
+  text-decoration:none;
+  font-weight:700;
+}
+.footerAdminMini a:hover,
+.footerAdminMini a:focus-visible{
+  color:#d7e5f0;
+  border-color:rgba(255,255,255,.3);
+}
