@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /baedal-jjakkung-download/admin.html
 
-Sitemap: https://sunpeaker1.github.io/baedal-jjakkung-download/sitemap.xml
+Sitemap: https://sunpeaker1.github.io/baedal-jjakkung-download/sitemap.txt
