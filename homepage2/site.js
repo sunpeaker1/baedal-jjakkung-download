@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   const sheetImage=document.getElementById('sheetImage');
 
   try{
-    today.textContent=new Intl.DateTimeFormat('ko-KR',{month:'long',day:'numeric',weekday:'short'}).format(new Date());
+    today.textContent=new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'short'}).format(new Date());
   }catch(e){today.textContent='오늘';}
 
   const help={
@@ -173,42 +173,47 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   const screens={
     home:()=>`
-      <div class="screen">
-        <button class="appCard infoBanner explainBtn" data-help="demo" type="button">
-          <div class="infoTop"><span class="infoDot">i</span><div><b>라이더짝꿍</b><p>오늘 운행을 한눈에 확인하세요</p></div></div>
-        </button>
-
-        <button class="appCard revenueCard explainBtn" data-help="income" type="button">
+      <div class="screen homeExact">
+        <button class="appCard homeRevenueHero explainBtn" data-help="income" type="button">
           <span class="cardLabel">오늘 총수익</span>
           <div class="bigMoney">0원</div>
-          <div class="platformGrid">
-            <div class="platformCell"><small>쿠팡</small><b>0원</b></div>
-            <div class="platformCell"><small>배민</small><b>0원</b></div>
-            <div class="platformCell"><small>기타</small><b>0원</b></div>
-          </div>
+          <div class="heroHint">오늘도 안전운전하세요 🙂</div>
+          <div class="heroChart" aria-hidden="true"><i></i><i></i><i></i></div>
         </button>
 
-        <div class="metricGrid">
-          <button class="appCard metricCard explainBtn" data-help="record" type="button"><small>총콜수</small><b>0건</b></button>
-          <button class="appCard metricCard explainBtn" data-help="driving" type="button"><small>운행시간</small><b>00:00</b></button>
-          <button class="appCard metricCard explainBtn" data-help="driving" type="button"><small>시간당수익</small><b>0원</b></button>
+        <div class="platformCards">
+          <button class="platformCard coupang explainBtn" data-help="income" type="button">
+            <div class="platformTitle"><b>쿠팡</b><span class="logoMini coupangLogo">coupang<br>eats</span></div>
+            <div class="platformMoney">0원</div><div class="platformCount">0콜</div>
+          </button>
+          <button class="platformCard baemin explainBtn" data-help="income" type="button">
+            <div class="platformTitle"><b>배민</b><span class="logoMini baeminLogo">배민</span></div>
+            <div class="platformMoney">0원</div><div class="platformCount">0콜</div>
+          </button>
+          <button class="platformCard etc explainBtn" data-help="manual" type="button">
+            <div class="platformTitle"><b>기타</b><span class="logoMini moreLogo">•••</span></div>
+            <div class="platformMoney">0원</div><div class="platformCount">0콜</div>
+          </button>
         </div>
 
-        <button class="appCard explainBtn" data-help="maintenance" type="button">
-          <div class="statusRow"><span class="statusIcon orange">🔧</span><div class="statusCopy"><b>정비 임박</b><small>바이크 정비 시점을 확인하세요</small></div><span class="chev">›</span></div>
+        <div class="metricGridExact">
+          <button class="metricExact explainBtn" data-help="record" type="button"><span class="metricIcon">☷</span><small>총콜수</small><b>0콜</b></button>
+          <button class="metricExact explainBtn" data-help="driving" type="button"><span class="metricIcon">◷</span><small>운행시간</small><b>0분</b></button>
+          <button class="metricExact explainBtn" data-help="driving" type="button"><span class="metricIcon">▥</span><small>시간당수익</small><b>계산 대기</b></button>
+        </div>
+
+        <button class="appCard maintenanceAlert explainBtn" data-help="maintenance" type="button">
+          <div class="statusRow"><span class="statusIcon">◆</span><div class="statusCopy"><b>정비 3건 임박</b><small>엔진오일 · 점검 임박 · 320km 남음</small></div><span class="chev">›</span></div>
         </button>
 
-        <button class="appCard explainBtn" data-help="challenge" type="button">
-          <div class="challengeHead"><b>100일 목표 챌린지</b><span>진행률 8%</span></div>
+        <button class="appCard challengeExact explainBtn" data-help="challenge" type="button">
+          <div class="challengeHead"><b>🎯 100일 목표 챌린지</b><span class="challengePercent">1.3%</span></div>
+          <div class="challengeSlogan">꾸준히, 반드시 이루자!</div>
+          <div class="challengeGoal">1,000만원 목표</div>
+          <div class="challengeCurrent">134,082원 <small>/ 10,000,000원</small></div>
           <div class="progress"><i></i></div>
-          <div class="challengeMeta"><span>누적 목표 관리</span><span>남은 기간 확인</span></div>
+          <div class="challengeBottom"><span>남은 금액 9,865,918원</span><span>남은 기간 95일</span></div>
         </button>
-
-        <div class="sectionLabel">빠른 관리</div>
-        <div class="quickGrid">
-          <button class="appCard quickBtn explainBtn" data-help="settlement" type="button"><b>수익·정산</b><small>번 돈 · 받을 돈 · 검산</small></button>
-          <button class="appCard quickBtn explainBtn" data-help="safety" type="button"><b>안전도우미</b><small>112·119 · 사고 기록</small></button>
-        </div>
       </div>`,
     region:()=>`
       <div class="screen">
@@ -310,7 +315,23 @@ document.addEventListener('DOMContentLoaded',()=>{
           <button class="menuTile explainBtn" data-help="diagnostics" type="button"><span>🩺</span><b>상태감시</b><small>자동기록 진단</small></button>
           <button class="menuTile explainBtn" data-help="settlement" type="button"><span>📊</span><b>수익·정산</b><small>분석·검산</small></button>
         </div>
+      </div>`,
+    all:()=>`
+      <div class="screen">
+        <div class="screenTitleRow"><div><h1>전체</h1><p>라이더짝꿍의 모든 기능을 확인합니다</p></div></div>
+        <div class="manageGrid">
+          <button class="menuTile explainBtn" data-help="nav" type="button"><span>➤</span><b>짝꿍내비</b><small>목적지 전송</small></button>
+          <button class="menuTile explainBtn" data-help="settlement" type="button"><span>📊</span><b>수익·정산</b><small>분석·검산</small></button>
+          <button class="menuTile explainBtn" data-help="safety" type="button"><span>🛡</span><b>안전도우미</b><small>사고·긴급</small></button>
+          <button class="menuTile explainBtn" data-help="enforcement" type="button"><span>⚠</span><b>단속경고</b><small>전방·후면</small></button>
+          <button class="menuTile explainBtn" data-help="evidence" type="button"><span>📁</span><b>증빙보관함</b><small>사진·자료</small></button>
+          <button class="menuTile explainBtn" data-help="backup" type="button"><span>↻</span><b>백업·복원</b><small>기기교체</small></button>
+          <button class="menuTile explainBtn" data-help="convenience" type="button"><span>🗺</span><b>편의지도</b><small>쉼터·정비</small></button>
+          <button class="menuTile explainBtn" data-help="hazard" type="button"><span>📍</span><b>위험도로</b><small>메모·위치</small></button>
+          <button class="menuTile explainBtn" data-help="diagnostics" type="button"><span>🩺</span><b>상태감시</b><small>자동기록 진단</small></button>
+        </div>
       </div>`
+
   };
 
   function render(screen){
@@ -352,7 +373,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   navItems.forEach(btn=>btn.addEventListener('click',()=>render(btn.dataset.screen)));
   document.querySelectorAll('[data-close-sheet]').forEach(btn=>btn.addEventListener('click',closeSheet));
-  document.querySelector('.demoBadge')?.addEventListener('click',()=>openHelp('demo'));
+  document.querySelector('.autoBadge')?.addEventListener('click',()=>openHelp('demo'));
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!sheet.hidden)closeSheet();});
 
   render('home');
