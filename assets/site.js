@@ -311,3 +311,14 @@ document.addEventListener('DOMContentLoaded',()=>{
     });
   }
 });
+
+
+// Official Vercel deployment: normalize legacy GitHub Pages absolute paths.
+document.addEventListener('DOMContentLoaded',()=>{
+  const legacy='/baedal-jjakkung-download/';
+  document.querySelectorAll('[href^="'+legacy+'"],[src^="'+legacy+'"]').forEach(el=>{
+    const attr=el.hasAttribute('href')?'href':'src';
+    const value=el.getAttribute(attr)||'';
+    el.setAttribute(attr,'/'+value.slice(legacy.length));
+  });
+});
