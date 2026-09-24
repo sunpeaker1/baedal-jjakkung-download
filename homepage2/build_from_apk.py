@@ -242,8 +242,8 @@ demo = r'''
 .demoNote{margin-top:18px;padding:15px 16px;border-radius:16px;background:#eef8ff;border:1px solid #d4eafb;color:#255f8b;font-size:14px;font-weight:850;line-height:1.65}
 .demoTestNote{display:none;margin-top:14px;padding:15px 16px;border-radius:16px;background:#fff4df;border:1px solid #f2c97a;color:#8a5a12;font-size:14px;font-weight:900;line-height:1.65}
 .demoTestNote.show{display:block}
-.demoActions{position:sticky;bottom:-26px;margin:18px -20px -26px;padding:12px 20px calc(14px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);border-top:1px solid #e3ebf1;backdrop-filter:blur(10px);display:grid;gap:10px;z-index:3}
-.demoFeedback{width:100%;border:1px solid #f2b173;border-radius:16px;padding:15px;background:#fff0df;color:#9a4d10;font-size:17px;font-weight:950;text-decoration:none;display:flex;align-items:center;justify-content:center}
+.demoActions{position:sticky;bottom:-26px;margin:14px -20px -26px;padding:8px 20px calc(12px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);border-top:1px solid #e3ebf1;backdrop-filter:blur(10px);display:grid;gap:8px;z-index:3}
+.demoFeedback{width:72%;justify-self:center;border:1px solid #f2b173;border-radius:13px;padding:10px 12px;background:#fff0df;color:#9a4d10;font-size:14px;font-weight:950;text-decoration:none;display:flex;align-items:center;justify-content:center}
 .demoClose{width:100%;border:0;border-radius:16px;padding:15px;background:#118cf3;color:#fff;font-size:17px;font-weight:950}
 .demoOnlyTag{position:fixed;right:max(10px,calc((100vw - 430px)/2 + 10px));bottom:calc(var(--navh) + 10px);z-index:30;padding:6px 9px;border-radius:999px;background:rgba(16,37,68,.78);color:#fff;font-size:9px;font-weight:900;backdrop-filter:blur(8px);pointer-events:none}
 </style>
