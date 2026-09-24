@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 // admin env refresh 2026-09-24
-const { getCache } = require('@vercel/functions');
+const { listFeedback, updateFeedbackStatus } = require('./_feedback-store');
 
 const ALLOWED_ORIGINS = new Set([
   'https://sunpeaker1.github.io',
@@ -76,16 +76,9 @@ module.exports = async function handler(req, res) {
     return res.status(401).json({ ok:false, message:'관리자 로그인이 필요합니다.' });
   }
 
-  const cache = getCache(undefined, 'rider-jjakkung-feedback');
-
   if (req.method === 'GET') {
-    const ids = (await cache.get('recent')) || [];
-    const items = [];
-    for (const id of ids.slice(0, 300)) {
-      const item = await cache.get(id);
-      if (item) items.push({ ...item, status:item.status || 'unread' });
-    }
-    return res.status(200).json({ ok:true, items });
+    const data = await listFeedback();
+    return res.status(200).json({ ok:true, items:data.items, storage:data.storage, persistent:data.persistent });
   }
 
   if (req.method === 'PATCH') {
@@ -95,10 +88,8 @@ module.exports = async function handler(req, res) {
     if (!id || !['unread','reviewed','done'].includes(status)) {
       return res.status(400).json({ ok:false, message:'상태 변경값을 확인해 주세요.' });
     }
-    const item = await cache.get(id);
-    if (!item) return res.status(404).json({ ok:false, message:'접수 내용을 찾을 수 없습니다.' });
-    const updated = { ...item, status, updatedAt:new Date().toISOString() };
-    await cache.set(id, updated, { ttl:60*60*24*90, tags:['feedback'] });
+    const updated = await updateFeedbackStatus(id,status);
+    if (!updated) return res.status(404).json({ ok:false, message:'접수 내용을 찾을 수 없습니다.' });
     return res.status(200).json({ ok:true, item:updated });
   }
 
