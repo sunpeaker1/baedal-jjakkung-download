@@ -1168,3 +1168,14 @@ body.feedbackOpen{overflow:hidden}
   color:#d7e5f0;
   border-color:rgba(255,255,255,.3);
 }
+
+
+/* 2026-09-24 keep feature back button above fixed mobile action dock */
+@media(max-width:760px){
+  body.featureDetailMode .featureDetailSection{
+    padding-bottom:calc(128px + env(safe-area-inset-bottom));
+  }
+  body.featureDetailMode .featureBackBottom{
+    margin-bottom:8px;
+  }
+}
