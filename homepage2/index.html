@@ -1293,6 +1293,10 @@ button.rideAudit40Source{width:100%;margin:0;font:inherit;color:inherit;appearan
 .appDownloadBtn.quickMate{background:linear-gradient(145deg,#effdf5 0%,#d3f4e2 48%,#c1ecd4 100%);border:1px solid #8bd4aa;color:#13663f;box-shadow:0 10px 20px rgba(28,145,89,.22),inset 0 2px 0 rgba(255,255,255,.92),inset 0 -3px 0 rgba(36,132,82,.09)}
 .appDownloadNote{position:relative;z-index:1;margin:10px 3px 0;color:#60778d;font-size:9px;line-height:1.5;font-weight:850;text-align:center}
 @media(max-width:380px){.appDownloadCard{padding:15px 12px 14px}.appDownloadGrid{gap:8px}.appDownloadBtn{min-height:72px;padding-right:25px}.appDownloadBtn strong{font-size:13.5px}}
+.homepage2DownloadFloat{position:fixed;right:max(12px,calc((100vw - 430px)/2 + 12px));bottom:calc(var(--navh) + 48px);z-index:40;min-width:132px;height:43px;padding:0 15px;border:1px solid rgba(255,255,255,.78);border-radius:999px;background:linear-gradient(145deg,#188ff0,#0a6fd4);color:#fff;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;font-weight:1000;letter-spacing:-.3px;box-shadow:0 10px 24px rgba(9,108,195,.34),inset 0 1px 0 rgba(255,255,255,.35);backdrop-filter:blur(8px)}
+.homepage2DownloadFloat:active{transform:translateY(2px);box-shadow:0 6px 14px rgba(9,108,195,.28)}
+.homepage2DownloadFloat .downIcon{font-size:15px;line-height:1}
+@media(max-width:380px){.homepage2DownloadFloat{right:10px;min-width:124px;height:40px;padding:0 12px;font-size:11.5px}}
 </style></head><body><div class="app"><header class="top"><div class="brand"><img src="./rider_master_icon.png" alt=""><div class="bt"><div class="brandTitleRow"><h1>라이더짝꿍</h1><img class="brandSignature" src="./sym_signature.png" alt="" aria-hidden="true"></div><p>운행도우미</p></div></div><div class="right"><button class="auto" id="autoBtn" type="button" aria-label="자동기록 안내">자동기록 ON</button><div class="date" id="dateText"></div></div></header><main>
 <section id="home" class="page active"><div class="home">
 <div class="hero" onclick="showPage('analytics')" role="button">
@@ -2150,6 +2154,16 @@ button.rideAudit40Source{width:100%;margin:0;font:inherit;color:inherit;appearan
 </div>
 
 </main>
+<a class="homepage2DownloadFloat" href="#app-download" onclick="return homepage2GoDownload(event)"><span class="downIcon">⬇</span><span>앱 다운로드</span></a>
+<script>
+function homepage2GoDownload(e){
+  if(e) e.preventDefault();
+  document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id==='home'));
+  document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page==='home'));
+  setTimeout(()=>document.getElementById('app-download')?.scrollIntoView({behavior:'smooth',block:'center'}),30);
+  return false;
+}
+</script>
 <nav class="nav"><button class="active" data-page="home"><span class="ico">🏠</span>홈</button><button data-page="region"><span class="ico">📍</span>지역판단</button><button data-page="records"><span class="ico">📋</span>운행기록</button><button data-page="manage"><span class="ico">🛠</span>관리</button><button data-page="all"><span class="ico">☰</span>전체</button></nav>
 <style>
 body.promoLock{overflow:hidden}
