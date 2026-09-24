@@ -2378,6 +2378,11 @@ document.body.classList.add('promoLock');
       desc:'100일 동안 정한 목표금액을 얼마나 달성했는지 관리하는 기능입니다. 자동기록과 수동입력으로 쌓인 누적 수익을 기준으로 현재 누적금액, 달성률, 남은 금액, 남은 기간을 한눈에 보여줍니다. 홈의 100일 목표 카드는 전체 진행상황을 요약해서 보여주는 화면입니다.',
       steps:['100일 목표관리에서 시작일과 목표금액을 설정합니다.','운행 수익이 기록되면 누적금액에 반영됩니다.','홈 카드에서 현재 누적금액과 달성률을 확인합니다.','남은 목표금액과 남은 기간을 함께 확인해 하루·주간 목표를 조절합니다.']
     },
+    '100일 목표 관리':{
+      title:'100일 목표 챌린지',
+      desc:'100일 동안 정한 목표금액을 얼마나 달성했는지 관리하는 기능입니다. 자동기록과 수동입력으로 쌓인 누적 수익을 기준으로 현재 누적금액, 달성률, 남은 금액, 남은 기간을 한눈에 보여줍니다. 홈의 100일 목표 카드는 전체 진행상황을 요약해서 보여주는 화면입니다.',
+      steps:['100일 목표관리에서 시작일과 목표금액을 설정합니다.','운행 수익이 기록되면 누적금액에 반영됩니다.','홈 카드에서 현재 누적금액과 달성률을 확인합니다.','남은 목표금액과 남은 기간을 함께 확인해 하루·주간 목표를 조절합니다.']
+    },
     '긴급정비':{
       desc:'운행 중 갑작스러운 고장이나 정비가 필요한 상황에서 관련 정보를 빠르게 확인하는 기능입니다.',
       steps:['안전한 곳에 정차합니다.','정비 관련 정보를 확인합니다.','필요한 경우 정비소나 긴급 도움을 이용합니다.']
@@ -2460,7 +2465,8 @@ document.body.classList.add('promoLock');
   }
 
   function labelFor(el){
-    if(el.classList && el.classList.contains('goal')) return '100일 목표 챌린지';
+    const onclick=(el.getAttribute&&el.getAttribute('onclick'))||'';
+    if((el.classList && el.classList.contains('goal')) || onclick.includes('openGoal')) return '100일 목표 챌린지';
     const text=(el.innerText||el.textContent||'').replace(/\s+/g,' ').trim();
     return Object.keys(featureInfo)
       .sort((a,b)=>b.length-a.length)
