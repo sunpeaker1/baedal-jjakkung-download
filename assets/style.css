@@ -1087,3 +1087,19 @@ body.feedbackOpen{overflow:hidden}
     box-shadow:0 2px 7px rgba(28,72,108,.12);
   }
 }
+
+/* 2026-09-24 mobile dock stronger colors */
+@media(max-width:760px){
+  .mobileDockDownload{
+    background:#cfeeff;
+    color:#0b5688;
+    border:1px solid #8fd1ef;
+    box-shadow:0 5px 14px rgba(43,143,196,.18),0 2px 0 #79c4e6;
+  }
+  .mobileDockFeedback{
+    background:#ffdcbc;
+    color:#9a4610;
+    border:1px solid #f3b377;
+    box-shadow:0 5px 14px rgba(198,111,48,.16),0 2px 0 #e6a66e;
+  }
+}
