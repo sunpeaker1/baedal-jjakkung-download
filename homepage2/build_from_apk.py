@@ -256,7 +256,7 @@ demo = r'''
     <p id="demoInfoDesc"></p>
     <ol id="demoInfoSteps"></ol>
     <div class="demoTestNote" id="demoTestNote">⚠️ 현재 테스트 중이며 공개 버전에서는 일부 동작이 제한될 수 있습니다.</div>
-    <div class="demoNote">홈페이지2에서는 실제 자동기록·내비·위치·전화·저장 기능을 실행하지 않습니다. 실제 기능은 Android 앱에서 사용합니다.</div>
+    <div class="demoNote">홈페이지에서는 실제 자동기록·내비·위치·전화·저장 기능을 실행하지 않습니다. 실제 기능은 Android 앱에서 사용합니다.</div>
     <div class="demoActions">
       <a class="demoFeedback" href="../contact.html">오류·제안 입력</a>
       <button class="demoClose" type="button" id="demoCloseBtn">확인</button>
