@@ -44,17 +44,17 @@ linear-gradient(155deg,#071d45 0%,#0b3f87 45%,#0c71bf 100%)}
 .section{padding:78px 0}.section.soft{background:var(--soft)}
 .section-head{max-width:760px;margin-bottom:28px}.kicker{color:var(--blue);font-size:12px;font-weight:1000;letter-spacing:.11em;text-transform:uppercase}
 .section h2{font-size:clamp(31px,4vw,46px);line-height:1.1;letter-spacing:-.05em;margin:8px 0 11px}.section-head p{margin:0;color:var(--muted)}
-.download-strip{position:sticky;top:64px;z-index:50;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 8px 22px rgba(36,78,122,.07)}
-.download-strip .inner{min-height:55px;display:flex;align-items:center;gap:8px}
-.download-strip strong{font-size:14px}.spacer{flex:1}
-.mini-dl{border:0;border-radius:11px;padding:8px 11px;font-size:11px;font-weight:950;cursor:pointer;background:#e8f3ff;color:#0e6bb4}.mini-dl.quick{background:#eaf8f2;color:#197151}
-.experience-grid{display:grid;grid-template-columns:minmax(0,480px) 1fr;gap:32px;align-items:start}
-.phone-shell{background:#0c1728;border-radius:36px;padding:9px;box-shadow:var(--shadow);position:sticky;top:136px}
-.phone-shell iframe{display:block;width:100%;height:760px;border:0;border-radius:28px;background:#eef5fa}
+.experience-cta{display:grid;grid-template-columns:1.08fr .92fr;gap:22px;align-items:center;border:1px solid var(--line);border-radius:28px;padding:28px;background:linear-gradient(145deg,#f5faff,#edf7ff);box-shadow:var(--shadow)}
+.experience-preview{position:relative;min-height:300px;border-radius:24px;overflow:hidden;background:linear-gradient(135deg,#0b2f68,#0b75bd);color:#fff;padding:24px;box-shadow:0 18px 40px rgba(10,73,132,.20)}
+.experience-preview:after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;right:-70px;top:-55px;background:radial-gradient(circle,rgba(91,227,255,.34),rgba(91,227,255,0) 68%)}
+.experience-preview .label{font-size:11px;font-weight:950;letter-spacing:.12em;color:#8cecff}
+.experience-preview h3{margin:8px 0 7px;font-size:31px;line-height:1.18;letter-spacing:-1.2px}
+.experience-preview p{margin:0;color:#dceeff;font-size:14px;max-width:78%}
+.experience-preview img{position:absolute;right:4px;bottom:-4px;width:46%;max-height:190px;object-fit:contain;filter:drop-shadow(0 14px 24px rgba(0,0,0,.22))}
 .experience-copy{display:grid;gap:12px}
-.copy-card{border:1px solid var(--line);border-radius:20px;background:#fff;padding:20px;box-shadow:0 10px 28px rgba(33,74,119,.06)}
-.copy-card b{display:block;font-size:19px;margin-bottom:5px}.copy-card p{margin:0;color:var(--muted);font-size:14px}
-.full-link{display:inline-flex;align-items:center;justify-content:center;min-height:46px;border-radius:13px;background:#0b56db;color:#fff;font-weight:950;padding:0 15px}
+.copy-card{border:1px solid var(--line);border-radius:18px;background:#fff;padding:17px}
+.copy-card b{display:block;font-size:18px;margin-bottom:4px}.copy-card p{margin:0;color:var(--muted);font-size:13.5px}
+.full-link{display:inline-flex;align-items:center;justify-content:center;min-height:50px;border-radius:14px;background:#0b56db;color:#fff;font-weight:950;padding:0 16px}
 .feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
 .feature{border:1px solid var(--line);border-radius:20px;background:#fff;padding:20px;min-height:170px}
 .feature .ico{width:42px;height:42px;border-radius:13px;background:#eaf3ff;display:grid;place-items:center;font-size:20px}
@@ -71,8 +71,8 @@ linear-gradient(155deg,#071d45 0%,#0b3f87 45%,#0c71bf 100%)}
 .action-link.admin{background:#edf3f8;color:#334a62}
 .legacy{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.legacy a{padding:8px 11px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12px;font-weight:900}
 footer{padding:34px 0 48px;border-top:1px solid var(--line);color:#738399;font-size:12px}.foot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
-@media(max-width:900px){.hero-grid,.experience-grid{grid-template-columns:1fr}.hero-visual{max-width:520px}.phone-shell{position:relative;top:auto;max-width:460px;margin:auto}.feature-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:600px){.wrap{width:min(100% - 20px,1120px)}.topbar .inner{height:58px}.topnav .hide-mobile{display:none}.topnav a{padding:7px 10px}.hero{padding-top:92px}.hero h1{font-size:46px}.hero-actions{display:grid}.hero-btn{width:100%}.hero-visual{padding:15px}.hero-art{grid-template-columns:1fr 120px}.download-strip{top:58px}.download-strip .inner{min-height:50px}.download-strip strong{font-size:11px}.mini-dl{padding:7px 8px;font-size:10px}.section{padding:60px 0}.phone-shell{padding:7px;border-radius:30px}.phone-shell iframe{height:720px;border-radius:24px}.feature-grid,.download-grid,.feedback-grid{grid-template-columns:1fr}.section h2{font-size:34px}}
+@media(max-width:900px){.hero-grid,.experience-cta{grid-template-columns:1fr}.hero-visual{max-width:520px}.feature-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.wrap{width:min(100% - 20px,1120px)}.topbar .inner{height:58px}.topnav .hide-mobile{display:none}.topnav a{padding:7px 10px}.hero{padding-top:92px}.hero h1{font-size:46px}.hero-actions{display:grid}.hero-btn{width:100%}.hero-visual{padding:15px}.hero-art{grid-template-columns:1fr 120px}.experience-cta{padding:18px}.experience-preview{min-height:270px;padding:20px}.experience-preview h3{font-size:27px}.experience-preview p{max-width:66%;font-size:13px}.section{padding:60px 0}.feature-grid,.download-grid,.feedback-grid{grid-template-columns:1fr}.section h2{font-size:34px}}
 </style>
 </head>
 <body>
@@ -82,7 +82,7 @@ footer{padding:34px 0 48px;border-top:1px solid var(--line);color:#738399;font-s
     <nav class="topnav">
       <a class="hide-mobile" href="#features">기능</a>
       <a class="hide-mobile" href="#download">다운로드</a>
-      <a class="primary" href="#app-experience">앱 둘러보기</a>
+      <a class="primary" href="../homepage2/">앱 체험하기</a>
     </nav>
   </div>
 </header>
@@ -95,7 +95,7 @@ footer{padding:34px 0 48px;border-top:1px solid var(--line);color:#738399;font-s
       <h1>수익은 올리고,<br><em>관리는 줄이고.</em></h1>
       <p>자동기록부터 정산, 지역판단, 정비관리, 안전, 백업, 짝꿍내비까지. 배달 라이더에게 필요한 기능을 한 흐름으로 연결합니다.</p>
       <div class="hero-actions">
-        <a class="hero-btn main" href="#app-experience">앱 둘러보기 ↓</a>
+        <a class="hero-btn main" href="../homepage2/">앱 체험하기 →</a>
         <a class="hero-btn sub" href="#download">앱 다운로드</a>
       </div>
     </div>
@@ -105,9 +105,7 @@ footer{padding:34px 0 48px;border-top:1px solid var(--line);color:#738399;font-s
       <p>수익 · 운행 · 정비 · 안전 · 내비까지 한 번에 관리하는 라이더 전용 파트너</p>
       <div class="hero-art">
         <div class="points">
-          <div>📊 수익 · 정산 관리</div>
-          <div>📍 지역판단 · 안전</div>
-          <div>🧭 짝꿍내비 · 백업</div>
+          <div>실제 앱 화면과 기능을 직접 체험해보세요.</div>
         </div>
         <img src="../homepage2/rider_goal_art.png" alt="라이더짝꿍">
       </div>
@@ -115,30 +113,24 @@ footer{padding:34px 0 48px;border-top:1px solid var(--line);color:#738399;font-s
   </div>
 </section>
 
-<div class="download-strip">
-  <div class="wrap inner">
-    <strong>라이더짝꿍 · 퀵짝꿍 앱 다운로드</strong><span class="spacer"></span>
-    <button class="mini-dl" type="button" onclick="downloadRider()">라이더짝꿍</button>
-    <button class="mini-dl quick" type="button" onclick="location.href='../quick.html#admin-download'">퀵짝꿍</button>
-  </div>
-</div>
-
 <section class="section soft" id="app-experience">
   <div class="wrap">
     <div class="section-head">
       <div class="kicker">App Experience</div>
-      <h2>홈페이지2를 그대로 체험하세요</h2>
-      <p>새로 흉내 낸 화면이 아니라, 지금까지 만든 실제 홈페이지2를 통합 홈페이지 안에서 그대로 보여줍니다.</p>
+      <h2>설명보다 직접 보는 게 빠릅니다</h2>
+      <p>앱 체험은 별도 화면으로 분리했습니다. 홈페이지2에서 실제 라이더짝꿍 화면과 메뉴 흐름을 그대로 확인할 수 있습니다.</p>
     </div>
-    <div class="experience-grid">
-      <div class="phone-shell">
-        <iframe src="../homepage2/?embed=1" title="라이더짝꿍 홈페이지2 실제 앱 체험"></iframe>
+    <div class="experience-cta">
+      <div class="experience-preview">
+        <div class="label">RIDER MATE EXPERIENCE</div>
+        <h3>실제 앱 화면을<br>그대로 체험하세요.</h3>
+        <p>오늘 총수익, 플랫폼별 수익, 운행기록, 지역판단, 관리 메뉴와 100일 목표까지 실제 홈페이지2에서 확인합니다.</p>
+        <img src="../homepage2/rider_goal_art.png" alt="라이더짝꿍 앱 체험">
       </div>
       <div class="experience-copy">
-        <div class="copy-card"><b>실제 홈페이지2 그대로</b><p>오늘 총수익, 쿠팡·배민·기타, 총콜수, 운행시간, 시간당수익, 100일 목표와 전체 메뉴까지 기존 홈페이지2 화면을 그대로 사용합니다.</p></div>
-        <div class="copy-card"><b>기존 페이지는 보존</b><p>홈페이지1과 홈페이지2는 삭제하거나 덮어쓰지 않았습니다. 통합 홈페이지는 별도 경로로 추가했습니다.</p></div>
-        <div class="copy-card"><b>앱 기능 설명까지 연결</b><p>홈페이지2에서 기능을 체험한 뒤 아래에서 홈페이지1 스타일의 기능 설명과 다운로드, 오류·제안 접수까지 이어집니다.</p></div>
-        <a class="full-link" href="../homepage2/" target="_blank" rel="noopener">홈페이지2 전체화면으로 보기</a>
+        <div class="copy-card"><b>홈페이지2 전체화면</b><p>페이지 안에 작은 화면으로 넣지 않고, 모바일 화면 전체를 사용해 앱처럼 체험합니다.</p></div>
+        <div class="copy-card"><b>기존 페이지 그대로 보존</b><p>홈페이지1과 홈페이지2는 그대로 유지하고, 이 페이지는 상세 소개와 다운로드 역할만 담당합니다.</p></div>
+        <a class="full-link" href="../homepage2/">라이더짝꿍 앱 체험하기 →</a>
       </div>
     </div>
   </div>
@@ -146,7 +138,7 @@ footer{padding:34px 0 48px;border-top:1px solid var(--line);color:#738399;font-s
 
 <section class="section" id="features">
   <div class="wrap">
-    <div class="section-head"><div class="kicker">Features</div><h2>운행부터 기록·관리까지 한 흐름으로</h2><p>홈페이지1에서 소개해 온 주요 기능을 통합 홈페이지에서도 한눈에 확인할 수 있습니다.</p></div>
+    <div class="section-head"><div class="kicker">Features</div><h2>운행부터 기록·관리까지 한 흐름으로</h2><p>라이더짝꿍의 주요 기능을 분야별로 정리했습니다.</p></div>
     <div class="feature-grid">
       <article class="feature"><div class="ico">🧾</div><h3>자동기록</h3><p>배달 완료 기록을 바탕으로 건수와 수익을 모아 운행기록을 관리합니다.</p><span class="tag">배민 자동기록 테스트 중</span></article>
       <article class="feature"><div class="ico">📊</div><h3>수익 · 정산</h3><p>일·주·월 수익과 공제, 지출, 실제 순수익과 정산 검산을 한 흐름으로 확인합니다.</p></article>
@@ -156,10 +148,6 @@ footer{padding:34px 0 48px;border-top:1px solid var(--line);color:#738399;font-s
       <article class="feature"><div class="ico">🛡️</div><h3>안전도우미</h3><p>사고메모, 긴급연락, 안전정보와 전·후면 단속경고 설정을 한곳에서 확인합니다.</p><span class="tag">단속경고 테스트 중</span></article>
       <article class="feature"><div class="ico">💾</div><h3>백업 · 복원</h3><p>수익·정비·지출·증빙 등 주요 기록을 백업하고 새 기기에서 복원합니다.</p></article>
       <article class="feature"><div class="ico">🎯</div><h3>100일 목표</h3><p>목표금액, 누적수익, 달성률, 남은 금액과 남은 기간을 계속 확인합니다.</p></article>
-    </div>
-    <div class="legacy">
-      <a href="../">홈페이지1 그대로 보기</a>
-      <a href="../homepage2/">홈페이지2 그대로 보기</a>
     </div>
   </div>
 </section>
