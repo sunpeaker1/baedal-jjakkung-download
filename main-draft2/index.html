@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#073d78">
+<meta name="description" content="라이더짝꿍 - 배달 라이더를 위한 운행 파트너">
+<title>라이더짝꿍 | 메인 초안 2</title>
+<style>
+:root{
+  --cyan:#62ddff;--mint:#59edbf;--text:#fff;--muted:#d8ecff;
+  --line:rgba(255,255,255,.19);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Apple SD Gothic Neo","Segoe UI",sans-serif}
+body{
+  color:#fff;
+  background:
+    radial-gradient(circle at 14% 14%,rgba(42,202,255,.28),transparent 27%),
+    radial-gradient(circle at 88% 38%,rgba(54,235,181,.23),transparent 31%),
+    radial-gradient(circle at 50% 100%,rgba(55,119,255,.25),transparent 36%),
+    linear-gradient(160deg,#071a35 0%,#0a315d 45%,#0b6aa8 100%);
+}
+a{text-decoration:none;color:inherit}
+.page{
+  width:min(100%,430px);min-height:100dvh;margin:0 auto;position:relative;overflow:hidden;
+  padding:calc(18px + env(safe-area-inset-top)) 20px calc(18px + env(safe-area-inset-bottom));
+  display:flex;flex-direction:column;
+}
+.glow{position:absolute;border-radius:50%;filter:blur(10px);opacity:.48;pointer-events:none}
+.g1{width:170px;height:170px;left:-72px;top:118px;background:#16c8ff}
+.g2{width:220px;height:220px;right:-95px;top:305px;background:#34e0aa}
+.g3{width:170px;height:170px;left:30%;bottom:-80px;background:#3e7fff}
+.top{display:flex;align-items:center;gap:11px;position:relative;z-index:5}
+.logo{width:55px;height:55px;border-radius:16px;box-shadow:0 12px 25px rgba(0,0,0,.23)}
+.brand{min-width:0}
+.brand strong{display:block;font-size:25px;line-height:1.05;letter-spacing:-1.35px;font-weight:1000;white-space:nowrap}
+.brand span{display:block;margin-top:4px;color:#c3eaff;font-size:9.5px;font-weight:850;white-space:nowrap}
+.topBrowse{
+  margin-left:auto;white-space:nowrap;padding:10px 13px;border-radius:999px;
+  border:1px solid rgba(124,228,255,.46);background:rgba(38,191,244,.12);
+  backdrop-filter:blur(10px);font-size:11px;font-weight:1000;box-shadow:0 9px 22px rgba(0,0,0,.10)
+}
+.hero{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;justify-content:center;padding:24px 0 4px}
+.badge{
+  display:inline-flex;align-self:flex-start;padding:7px 11px;border-radius:999px;
+  border:1px solid rgba(83,236,188,.35);background:rgba(75,228,180,.12);
+  color:#c6ffe8;font-size:11px;font-weight:1000;letter-spacing:.045em
+}
+h1{margin:14px 0 0;font-size:42px;line-height:1.06;letter-spacing:-2.3px;font-weight:1000}
+h1 em{font-style:normal;color:var(--cyan)}
+.lead{margin:13px 0 0;color:#deefff;font-size:14px;line-height:1.62;font-weight:780;letter-spacing:-.15px}
+.visual{
+  margin-top:20px;position:relative;min-height:236px;border-radius:25px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.20);
+  background:
+    radial-gradient(circle at 20% 20%,rgba(92,223,255,.16),transparent 34%),
+    linear-gradient(120deg,rgba(5,28,62,.93),rgba(8,85,143,.83) 60%,rgba(33,204,164,.33));
+  box-shadow:0 20px 46px rgba(0,0,0,.20)
+}
+.visualTitle{position:absolute;z-index:3;left:17px;top:16px}
+.visualTitle span{display:block;color:#80eaff;font-size:9px;font-weight:1000;letter-spacing:.13em}
+.visualTitle strong{display:block;margin-top:5px;font-size:20px;line-height:1.2;letter-spacing:-.8px}
+.art{
+  position:absolute;z-index:4;left:-10px;bottom:-1px;width:47%;max-height:150px;object-fit:contain;
+  filter:drop-shadow(0 12px 20px rgba(0,0,0,.24))
+}
+.phone{
+  position:absolute;z-index:2;right:12px;bottom:10px;width:47%;height:194px;
+  border:1px solid rgba(255,255,255,.28);border-radius:25px;background:#09182b;padding:5px;
+  box-shadow:0 14px 30px rgba(0,0,0,.25);overflow:hidden
+}
+.phone iframe{
+  width:430px;height:760px;border:0;background:#eef6fb;transform:scale(.425);
+  transform-origin:top left;pointer-events:none
+}
+.visualHint{
+  position:absolute;z-index:5;left:16px;bottom:14px;max-width:43%;
+  padding:8px 9px;border-radius:12px;background:rgba(6,34,67,.70);backdrop-filter:blur(7px);
+  font-size:9.5px;line-height:1.45;color:#e5f6ff;font-weight:850;border:1px solid rgba(255,255,255,.12)
+}
+.actions{display:grid;grid-template-columns:1.28fr .72fr;gap:9px;margin-top:15px}
+.primary,.secondary{
+  min-height:50px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:1000
+}
+.primary{background:#fff;color:#0a68b8;box-shadow:0 12px 24px rgba(0,33,84,.18)}
+.secondary{border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.08);color:#fff}
+.note{margin-top:9px;text-align:center;color:#bcd9ed;font-size:9px;font-weight:800}
+@media(max-width:380px){
+  .page{padding-left:15px;padding-right:15px}
+  .logo{width:49px;height:49px}.brand strong{font-size:22px}.brand span{font-size:8.5px}
+  .topBrowse{padding:9px 10px;font-size:10px}
+  .hero{padding-top:18px}.badge{font-size:10px}h1{font-size:37px}.lead{font-size:13.5px}
+  .visual{min-height:220px;margin-top:17px}.visualTitle strong{font-size:18px}
+  .phone{height:183px}.phone iframe{transform:scale(.40)}
+  .visualHint{font-size:9px;left:13px}
+  .actions{grid-template-columns:1.2fr .8fr}
+}
+</style>
+</head>
+<body>
+<main class="page">
+  <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div>
+
+  <header class="top">
+    <img class="logo" src="../homepage2/rider_master_icon.png" alt="라이더짝꿍">
+    <div class="brand">
+      <strong>라이더짝꿍</strong>
+      <span>배달 라이더를 위한 운행 파트너</span>
+    </div>
+    <a class="topBrowse" href="../homepage2/">앱 둘러보기</a>
+  </header>
+
+  <section class="hero">
+    <span class="badge">RIDER MATE · V1.57.78 TEST</span>
+    <h1>수익은 올리고,<br><em>관리는 줄이고.</em></h1>
+    <p class="lead">자동기록 · 정산 · 지역판단 · 정비 · 안전 · 짝꿍내비까지<br>배달 라이더의 운행 관리를 하나로.</p>
+
+    <div class="visual" aria-label="라이더짝꿍 실제 앱 미리보기">
+      <div class="visualTitle">
+        <span>RIDER MATE</span>
+        <strong>실제 앱 화면을<br>바로 체험하세요.</strong>
+      </div>
+      <img class="art" src="../homepage2/rider_goal_art.png" alt="">
+      <div class="phone">
+        <iframe src="../homepage2/?embed=1" title="라이더짝꿍 앱 화면 미리보기"></iframe>
+      </div>
+      <div class="visualHint">수익 · 운행 · 목표관리<br>실제 홈페이지2 화면</div>
+    </div>
+
+    <div class="actions">
+      <a class="primary" href="../homepage2/">앱 둘러보기 →</a>
+      <a class="secondary" href="#" onclick="return downloadRider()">앱 다운로드</a>
+    </div>
+    <div class="note">현재 공개 버전은 테스트 버전이며 일부 기능은 테스트 중입니다.</div>
+  </section>
+</main>
+<script>
+function downloadRider(){
+  if(!confirm('파일을 저장하시겠습니까?')) return false;
+  location.href='https://github.com/sunpeaker1/baedal-jjakkung-download/releases/download/v1.57.78/RiderJjakkung-V1.57.78.apk';
+  return false;
+}
+</script>
+</body>
+</html>
