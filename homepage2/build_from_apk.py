@@ -461,5 +461,30 @@ demo = r'''
 </body></html>
 '''
 
-(out_dir / "index.html").write_text(html.replace("<body", "<body", 1) + promo + demo, encoding="utf-8")
+download_css = r'''<style id="homepage2DownloadStyle">
+.appDownloadCard{margin:3px 0 12px;padding:14px;border:1px solid #dce9f3;border-radius:20px;background:linear-gradient(145deg,#f8fcff,#f5fff9);box-shadow:0 7px 18px rgba(38,76,114,.07)}
+.appDownloadHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.appDownloadHead h3{margin:0;font-size:16px;font-weight:950;color:#173654}
+.appDownloadHead span{font-size:9px;font-weight:900;color:#6f8195}
+.appDownloadGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.appDownloadBtn{min-height:62px;border-radius:16px;padding:10px 8px;text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-weight:950;box-sizing:border-box}
+.appDownloadBtn strong{font-size:13px;line-height:1.25}
+.appDownloadBtn small{display:block;margin-top:4px;font-size:8.5px;font-weight:800;opacity:.78}
+.appDownloadBtn.rider{background:linear-gradient(145deg,#e8f5ff,#d9efff);border:1px solid #a9d7f7;color:#1269aa}
+.appDownloadBtn.quickMate{background:linear-gradient(145deg,#eafaf2,#dff6ea);border:1px solid #bfe7cf;color:#197452}
+.appDownloadNote{margin:8px 2px 0;color:#7b8ca0;font-size:8.5px;line-height:1.45;font-weight:750;text-align:center}
+</style>'''
+download_panel = r'''<div class="appDownloadCard" id="app-download">
+  <div class="appDownloadHead"><h3>📲 앱 다운로드</h3><span>Android</span></div>
+  <div class="appDownloadGrid">
+    <a class="appDownloadBtn rider" href="https://github.com/sunpeaker1/baedal-jjakkung-download/releases/download/v1.57.78/RiderJjakkung-V1.57.78.apk" onclick="return confirm('파일을 저장하시겠습니까?')"><strong>라이더짝꿍 다운로드</strong><small>V1.57.78 TEST</small></a>
+    <a class="appDownloadBtn quickMate" href="../quick.html#admin-download"><strong>퀵짝꿍 다운로드</strong><small>관리자 암호 인증</small></a>
+  </div>
+  <p class="appDownloadNote">라이더짝꿍은 공개 테스트 버전이며, 퀵짝꿍은 관리자 인증 후 다운로드됩니다.</p>
+</div>'''
+home_download_marker = '''<div class="quick"><button class="q em" onclick="showPage('emergency')"><span class="qicon">🔧</span><span><b>긴급정비</b><small>사고·고장 시 빠른 도움</small></span><span class="qa">›</span></button><button class="q safe" onclick="showPage('safety')"><span class="qicon">🛡</span><span><b>안전</b><small>사고를 예방하는 습관</small></span><span class="qa">›</span></button></div>'''
+web_html = html.replace("</head>", download_css + "</head>", 1)
+web_html = web_html.replace(home_download_marker, home_download_marker + download_panel, 1)
+
+(out_dir / "index.html").write_text(web_html.replace("<body", "<body", 1) + promo + demo, encoding="utf-8")
 print("homepage2 generated from", apk)
