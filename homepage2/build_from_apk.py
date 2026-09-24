@@ -477,10 +477,12 @@ download_css = r'''<style id="homepage2DownloadStyle">
 .appDownloadBtn.quickMate{background:linear-gradient(145deg,#effdf5 0%,#d3f4e2 48%,#c1ecd4 100%);border:1px solid #8bd4aa;color:#13663f;box-shadow:0 10px 20px rgba(28,145,89,.22),inset 0 2px 0 rgba(255,255,255,.92),inset 0 -3px 0 rgba(36,132,82,.09)}
 .appDownloadNote{position:relative;z-index:1;margin:10px 3px 0;color:#60778d;font-size:9px;line-height:1.5;font-weight:850;text-align:center}
 @media(max-width:380px){.appDownloadCard{padding:15px 12px 14px}.appDownloadGrid{gap:8px}.appDownloadBtn{min-height:72px;padding-right:25px}.appDownloadBtn strong{font-size:13.5px}}
-.homepage2DownloadFloat{position:fixed;right:max(12px,calc((100vw - 430px)/2 + 12px));top:108px;z-index:40;min-width:132px;height:43px;padding:0 15px;border:1px solid rgba(255,255,255,.78);border-radius:999px;background:linear-gradient(145deg,#188ff0,#0a6fd4);color:#fff;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;font-weight:1000;letter-spacing:-.3px;box-shadow:0 10px 24px rgba(9,108,195,.34),inset 0 1px 0 rgba(255,255,255,.35);backdrop-filter:blur(8px)}
-.homepage2DownloadFloat:active{transform:translateY(2px);box-shadow:0 6px 14px rgba(9,108,195,.28)}
-.homepage2DownloadFloat .downIcon{font-size:15px;line-height:1}
-@media(max-width:380px){.homepage2DownloadFloat{right:10px;min-width:124px;height:40px;padding:0 12px;font-size:11.5px}}
+.homepage2DownloadBar{margin:0 16px 10px;height:46px;border:1px solid #8fcdf6;border-radius:16px;background:linear-gradient(145deg,#eaf7ff,#dff5ff);box-shadow:0 8px 18px rgba(20,126,204,.18),inset 0 1px 0 rgba(255,255,255,.95);display:flex;align-items:center;justify-content:center}
+.homepage2DownloadBar a{width:100%;height:100%;padding:0 14px;text-decoration:none;color:#0b67a7;display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:1000;letter-spacing:-.35px}
+.homepage2DownloadBar .barIcon{font-size:16px}
+.homepage2DownloadBar .barArrow{margin-left:auto;font-size:18px;color:#3f8fc3}
+.homepage2DownloadBar:active{transform:translateY(1px)}
+@media(max-width:380px){.homepage2DownloadBar{margin-left:13px;margin-right:13px;height:44px}.homepage2DownloadBar a{font-size:12.5px;padding:0 12px}}
 </style>'''
 download_panel = r'''<div class="appDownloadCard" id="app-download">
   <div class="appDownloadHead"><h3>📲 앱 다운로드</h3><span>Android</span></div>
@@ -492,18 +494,9 @@ download_panel = r'''<div class="appDownloadCard" id="app-download">
 </div>'''
 home_download_marker = '''<div class="quick"><button class="q em" onclick="showPage('emergency')"><span class="qicon">🔧</span><span><b>긴급정비</b><small>사고·고장 시 빠른 도움</small></span><span class="qa">›</span></button><button class="q safe" onclick="showPage('safety')"><span class="qicon">🛡</span><span><b>안전</b><small>사고를 예방하는 습관</small></span><span class="qa">›</span></button></div>'''
 web_html = html.replace("</head>", download_css + "</head>", 1)
+download_bar = r'''<div class="homepage2DownloadBar"><a href="#app-download" onclick="event.preventDefault();document.getElementById('app-download')?.scrollIntoView({behavior:'smooth',block:'center'});"><span class="barIcon">⬇</span><span>라이더짝꿍 · 퀵짝꿍 앱 다운로드</span><span class="barArrow">›</span></a></div>'''
+web_html = web_html.replace("</header><main>", "</header>" + download_bar + "<main>", 1)
 web_html = web_html.replace(home_download_marker, home_download_marker + download_panel, 1)
-download_float = r'''<a class="homepage2DownloadFloat" href="#app-download" onclick="return homepage2GoDownload(event)"><span class="downIcon">⬇</span><span>앱 다운로드</span></a>
-<script>
-function homepage2GoDownload(e){
-  if(e) e.preventDefault();
-  document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id==='home'));
-  document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page==='home'));
-  setTimeout(()=>document.getElementById('app-download')?.scrollIntoView({behavior:'smooth',block:'center'}),30);
-  return false;
-}
-</script>'''
-web_html = web_html.replace("</main>\n<nav class=\"nav\">", "</main>\n" + download_float + "\n<nav class=\"nav\">", 1)
 
 (out_dir / "index.html").write_text(web_html.replace("<body", "<body", 1) + promo + demo, encoding="utf-8")
 print("homepage2 generated from", apk)
