@@ -17,9 +17,11 @@
  form.addEventListener('submit',async e=>{
    e.preventDefault();
    const submit=form.querySelector('.feedbackSubmit');
+   const source=new URLSearchParams(location.search).get('source')||'';
+   const rawTitle=document.getElementById('feedbackTitle').value.trim();
    const payload={
      type:document.getElementById('feedbackType').value,
-     title:document.getElementById('feedbackTitle').value.trim(),
+     title:source==='homepage2'?'[홈페이지2] '+rawTitle:rawTitle,
      body:document.getElementById('feedbackBody').value.trim(),
      website:document.getElementById('feedbackWebsite').value
    };
