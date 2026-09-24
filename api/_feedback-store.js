@@ -4,7 +4,9 @@ const CACHE_NAMESPACE='rider-jjakkung-feedback';
 const BLOB_PREFIX='feedback/items/';
 
 function hasBlob(){
-  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+  // New Vercel Blob connections use OIDC by default and expose BLOB_STORE_ID
+  // instead of a long-lived BLOB_READ_WRITE_TOKEN.
+  return Boolean(process.env.BLOB_STORE_ID || process.env.BLOB_READ_WRITE_TOKEN);
 }
 
 async function blobApi(){
