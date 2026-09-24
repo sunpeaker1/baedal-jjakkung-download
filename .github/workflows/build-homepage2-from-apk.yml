@@ -1,0 +1,34 @@
+name: Build Homepage2 from Rider APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "homepage2/build_from_apk.py"
+      - ".github/workflows/build-homepage2-from-apk.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download public RiderJjakkung APK
+        run: |
+          curl -L --fail --retry 3             -o /tmp/RiderJjakkung-V1.57.78.apk             "https://github.com/sunpeaker1/baedal-jjakkung-download/releases/download/v1.57.78/RiderJjakkung-V1.57.78.apk"
+      - name: Build exact non-functional web demo from APK
+        run: python homepage2/build_from_apk.py /tmp/RiderJjakkung-V1.57.78.apk
+      - name: Commit generated Homepage2
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add homepage2/index.html                   homepage2/rider_master_icon.png                   homepage2/sym_signature.png                   homepage2/platform_logo_coupang.png                   homepage2/platform_logo_baemin.png                   homepage2/rider_goal_art.png
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Build Homepage2 directly from RiderJjakkung V1.57.78 APK"
+            git push
+          fi
