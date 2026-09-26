@@ -71,7 +71,17 @@ h1 em{font-style:normal;color:var(--cyan)}
   background:rgba(5,28,62,.86);
   box-shadow:0 22px 50px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.08)
 }
-.visualPoster{display:block;width:100%;aspect-ratio:1.54/1;object-fit:cover;object-position:center center}
+.visualVideoWrap{
+  position:relative;display:grid;place-items:center;width:100%;aspect-ratio:1.54/1;overflow:hidden;
+  background:#03101f url("./main-draft2/rider-safety-promo-main.jpg?v=13") center/cover no-repeat
+}
+.visualVideoWrap:before{
+  content:"";position:absolute;inset:-14px;
+  background:rgba(3,16,31,.58);backdrop-filter:blur(14px)
+}
+.visualVideo{
+  position:relative;z-index:1;display:block;width:100%;height:100%;object-fit:contain;background:rgba(2,10,20,.22)
+}
 .visualFooter{
   min-height:58px;padding:10px 13px 11px 14px;display:flex;align-items:center;gap:10px;
   background:linear-gradient(100deg,rgba(5,30,64,.98),rgba(7,86,143,.96) 62%,rgba(20,160,143,.93));
@@ -156,16 +166,23 @@ h1 em{font-style:normal;color:var(--cyan)}
     <h1>수익은 올리고,<br><em>관리는 줄이고.</em></h1>
     <p class="lead">자동기록 · 정산 · 지역판단 · 정비 · 안전 · 짝꿍내비까지<br>배달 라이더의 운행 관리를 하나로.</p>
 
-    <a class="visual" href="./homepage2/?v=20" aria-label="라이더짝꿍 주요 기능과 실제 앱 화면 둘러보기">
-      <img class="visualPoster" src="./main-draft2/rider-safety-promo-main.jpg?v=13" alt="라이더짝꿍 안전운행 주요 기능 소개">
-      <div class="visualFooter">
+    <div class="visual" aria-label="라이더짝꿍 홍보영상과 실제 앱 화면 둘러보기">
+      <div class="visualVideoWrap">
+        <video class="visualVideo" autoplay muted loop playsinline controls preload="metadata"
+          poster="./main-draft2/rider-safety-promo-main.jpg?v=13"
+          aria-label="라이더짝꿍 30초 홍보영상">
+          <source src="./media/rider-jjakkung-promo.mp4" type="video/mp4">
+          현재 브라우저에서는 영상을 재생할 수 없습니다.
+        </video>
+      </div>
+      <a class="visualFooter" href="./homepage2/?v=20" aria-label="라이더짝꿍 실제 앱 화면 둘러보기">
         <div class="visualFooterText">
-          <strong>라이더 안전도우미 · 주요 기능 미리보기</strong>
+          <strong>라이더짝꿍 · 30초 주요 기능 영상</strong>
           <small>실제 앱 화면과 메뉴는 앱 둘러보기에서 직접 확인</small>
         </div>
         <span class="visualCta">앱에서 보기 ›</span>
-      </div>
-    </a>
+      </a>
+    </div>
 
     <div class="storeIntro">Google Play · Galaxy Store 등록 준비 중 · 지금은 버튼을 누르면 TEST APK 다운로드</div>
     <div class="storeActions">
