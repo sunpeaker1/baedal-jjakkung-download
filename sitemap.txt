@@ -2,6 +2,7 @@ https://baedal-jjakkung-download.vercel.app/
 https://baedal-jjakkung-download.vercel.app/rider.html
 https://baedal-jjakkung-download.vercel.app/nav.html
 https://baedal-jjakkung-download.vercel.app/quick.html
+https://baedal-jjakkung-download.vercel.app/news.html
 https://baedal-jjakkung-download.vercel.app/guide.html
 https://baedal-jjakkung-download.vercel.app/updates.html
 https://baedal-jjakkung-download.vercel.app/contact.html
