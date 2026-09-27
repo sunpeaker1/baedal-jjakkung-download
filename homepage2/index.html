@@ -1308,7 +1308,6 @@ button.rideAudit40Source{width:100%;margin:0;font:inherit;color:inherit;appearan
   </div>
   <div class="money" id="homeTotal">0원</div>
   <div class="safe">오늘도 안전운전하세요 🙂</div>
-  <button class="usageGuideBtn" id="usageGuideBtn" type="button" aria-label="라이더짝꿍 사용법 열기">? 사용법</button>
   <div class="bars"><i></i><i></i><i></i></div>
   <div class="arrow">›</div>
 </div>
@@ -2174,11 +2173,31 @@ button.rideAudit40Source{width:100%;margin:0;font:inherit;color:inherit;appearan
 .demoActions{position:sticky;bottom:-26px;margin:14px -20px -26px;padding:8px 20px calc(12px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);border-top:1px solid #e3ebf1;backdrop-filter:blur(10px);display:grid;gap:8px;z-index:3}
 .demoFeedback{width:72%;justify-self:center;border:1px solid #f2b173;border-radius:13px;padding:10px 12px;background:#fff0df;color:#9a4d10;font-size:14px;font-weight:950;text-decoration:none;display:flex;align-items:center;justify-content:center}
 .demoClose{width:100%;border:0;border-radius:16px;padding:15px;background:#118cf3;color:#fff;font-size:17px;font-weight:950}
-.demoOnlyTag{position:fixed;right:max(10px,calc((100vw - 430px)/2 + 10px));bottom:calc(var(--navh) + 10px);z-index:30;padding:6px 9px;border-radius:999px;background:rgba(16,37,68,.78);color:#fff;font-size:9px;font-weight:900;backdrop-filter:blur(8px);pointer-events:none}
+.demoOnlyTag{position:fixed;left:max(10px,calc((100vw - 430px)/2 + 10px));bottom:calc(var(--navh) + 10px);z-index:30;padding:6px 9px;border-radius:999px;background:rgba(16,37,68,.78);color:#fff;font-size:9px;font-weight:900;backdrop-filter:blur(8px);pointer-events:none}
 
 /* 홈페이지 체험 화면 사용법 */
-.usageGuideBtn{position:absolute;right:16px;bottom:13px;z-index:7;border:1px solid rgba(255,255,255,.44);border-radius:999px;padding:6px 9px;background:rgba(4,54,112,.28);color:#fff;font-size:10px;font-weight:950;line-height:1;backdrop-filter:blur(6px);box-shadow:0 4px 12px rgba(0,70,145,.14)}
-.usageGuideBtn:active{transform:translateY(1px)}
+.usageGuideBtn{
+  position:fixed;
+  right:max(16px,calc((100vw - 430px)/2 + 16px));
+  bottom:calc(var(--navh) + 18px);
+  z-index:10010;
+  border:1px solid rgba(255,255,255,.72);
+  border-radius:999px;
+  padding:12px 17px;
+  background:linear-gradient(145deg,#20c77a,#0ea966);
+  color:#fff;
+  font-size:14px;
+  font-weight:1000;
+  line-height:1;
+  letter-spacing:-.2px;
+  box-shadow:0 10px 24px rgba(10,132,82,.34),inset 0 1px 0 rgba(255,255,255,.28);
+  backdrop-filter:blur(8px);
+}
+.usageGuideBtn:before{content:"?";display:inline-grid;place-items:center;width:19px;height:19px;margin-right:6px;border-radius:50%;background:rgba(255,255,255,.20);font-size:12px;vertical-align:-1px}
+.usageGuideBtn:active{transform:translateY(1px);filter:brightness(.98)}
+@media(max-width:380px){
+  .usageGuideBtn{right:12px;bottom:calc(var(--navh) + 14px);padding:11px 14px;font-size:13px}
+}
 .usageGuideSheet{position:fixed;inset:0;z-index:10020;display:none;align-items:flex-end;justify-content:center;background:rgba(16,37,68,.52);backdrop-filter:blur(3px)}
 .usageGuideSheet.show{display:flex}
 .usageGuideCard{width:100%;max-width:430px;max-height:84dvh;overflow:auto;background:#fff;border-radius:28px 28px 0 0;padding:14px 18px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -14px 38px rgba(16,37,68,.20);-webkit-overflow-scrolling:touch}
@@ -2201,6 +2220,7 @@ button.rideAudit40Source{width:100%;margin:0;font:inherit;color:inherit;appearan
 </style>
 
 <div class="demoOnlyTag">웹 체험 · 실제 기능 미실행</div>
+<button class="usageGuideBtn" id="usageGuideBtn" type="button" aria-label="라이더짝꿍 사용법 열기">사용법</button>
 
 <div class="usageGuideSheet" id="usageGuideSheet" role="dialog" aria-modal="true" aria-labelledby="usageGuideTitle">
   <div class="usageGuideCard">
