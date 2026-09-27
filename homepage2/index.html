@@ -1308,6 +1308,7 @@ button.rideAudit40Source{width:100%;margin:0;font:inherit;color:inherit;appearan
   </div>
   <div class="money" id="homeTotal">0원</div>
   <div class="safe">오늘도 안전운전하세요 🙂</div>
+  <button class="usageGuideBtn" id="usageGuideBtn" type="button" aria-label="라이더짝꿍 사용법 열기">? 사용법</button>
   <div class="bars"><i></i><i></i><i></i></div>
   <div class="arrow">›</div>
 </div>
@@ -2174,9 +2175,94 @@ button.rideAudit40Source{width:100%;margin:0;font:inherit;color:inherit;appearan
 .demoFeedback{width:72%;justify-self:center;border:1px solid #f2b173;border-radius:13px;padding:10px 12px;background:#fff0df;color:#9a4d10;font-size:14px;font-weight:950;text-decoration:none;display:flex;align-items:center;justify-content:center}
 .demoClose{width:100%;border:0;border-radius:16px;padding:15px;background:#118cf3;color:#fff;font-size:17px;font-weight:950}
 .demoOnlyTag{position:fixed;right:max(10px,calc((100vw - 430px)/2 + 10px));bottom:calc(var(--navh) + 10px);z-index:30;padding:6px 9px;border-radius:999px;background:rgba(16,37,68,.78);color:#fff;font-size:9px;font-weight:900;backdrop-filter:blur(8px);pointer-events:none}
+
+/* 홈페이지 체험 화면 사용법 */
+.usageGuideBtn{position:absolute;right:16px;bottom:13px;z-index:7;border:1px solid rgba(255,255,255,.44);border-radius:999px;padding:6px 9px;background:rgba(4,54,112,.28);color:#fff;font-size:10px;font-weight:950;line-height:1;backdrop-filter:blur(6px);box-shadow:0 4px 12px rgba(0,70,145,.14)}
+.usageGuideBtn:active{transform:translateY(1px)}
+.usageGuideSheet{position:fixed;inset:0;z-index:10020;display:none;align-items:flex-end;justify-content:center;background:rgba(16,37,68,.52);backdrop-filter:blur(3px)}
+.usageGuideSheet.show{display:flex}
+.usageGuideCard{width:100%;max-width:430px;max-height:84dvh;overflow:auto;background:#fff;border-radius:28px 28px 0 0;padding:14px 18px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -14px 38px rgba(16,37,68,.20);-webkit-overflow-scrolling:touch}
+.usageGuideGrab{width:56px;height:6px;border-radius:99px;background:#d9e4ed;margin:0 auto 14px}
+.usageGuideHead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+.usageGuideHead h3{margin:0;color:#102544;font-size:24px;letter-spacing:-.8px}
+.usageGuideClose{border:0;border-radius:12px;background:#edf4fa;color:#49657f;padding:8px 11px;font-size:12px;font-weight:950}
+.usageGuideIntro{margin:0 0 12px;color:#60758b;font-size:13px;font-weight:750;line-height:1.6}
+.usageGuideCard details{border:1px solid #e4edf4;border-radius:15px;background:#fbfdff;margin:8px 0;overflow:hidden}
+.usageGuideCard summary{list-style:none;cursor:pointer;padding:13px 14px;color:#173553;font-size:14px;font-weight:950;display:flex;align-items:center;justify-content:space-between}
+.usageGuideCard summary::-webkit-details-marker{display:none}
+.usageGuideCard summary:after{content:"＋";color:#5f84a3;font-size:17px}
+.usageGuideCard details[open] summary:after{content:"−"}
+.usageGuideBody{padding:0 14px 14px;color:#4f687f;font-size:12px;font-weight:700;line-height:1.7}
+.usageGuideBody p{margin:8px 0 0}
+.usageGuideBody ul{margin:8px 0 0;padding-left:18px}
+.usageGuideBody li+li{margin-top:5px}
+.usageGuideImportant{margin-top:10px;padding:11px 12px;border-radius:12px;background:#eef8ff;border:1px solid #d4eafb;color:#1d5f90;font-weight:900}
+.usageGuideFoot{margin-top:12px;color:#7b8c9d;font-size:10px;font-weight:750;line-height:1.55}
 </style>
 
 <div class="demoOnlyTag">웹 체험 · 실제 기능 미실행</div>
+
+<div class="usageGuideSheet" id="usageGuideSheet" role="dialog" aria-modal="true" aria-labelledby="usageGuideTitle">
+  <div class="usageGuideCard">
+    <div class="usageGuideGrab"></div>
+    <div class="usageGuideHead">
+      <h3 id="usageGuideTitle">라이더짝꿍 사용법</h3>
+      <button class="usageGuideClose" id="usageGuideClose" type="button">닫기</button>
+    </div>
+    <p class="usageGuideIntro">현재 화면을 벗어나지 않고 필요한 사용법만 펼쳐서 확인할 수 있습니다.</p>
+
+    <details open>
+      <summary>기본 사용</summary>
+      <div class="usageGuideBody">
+        <ul>
+          <li>앱 설치 후 접근성·위치·알림 등 필요한 권한을 설정합니다.</li>
+          <li>홈에서 자동기록 상태와 운행시간을 확인합니다.</li>
+          <li>배달 완료 기록은 운행기록과 수익분석에서 확인합니다.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary>운행 시작·종료</summary>
+      <div class="usageGuideBody">
+        <p>운행시간을 시작하면 홈에서 누적 운행시간과 시간당수익 계산에 사용됩니다.</p>
+        <div class="usageGuideImportant">홈 화면에서 휴대폰의 뒤로가기 버튼을 누른 뒤 <b>종료</b>를 선택하면 라이더짝꿍 화면이 닫히고 진행 중이던 운행시간도 종료 처리됩니다. 지금까지의 운행기록은 저장되며 자동기록은 계속 동작합니다.</div>
+      </div>
+    </details>
+
+    <details>
+      <summary>자동기록</summary>
+      <div class="usageGuideBody">
+        <ul>
+          <li>자동기록 ON 상태와 접근성 권한을 확인합니다.</li>
+          <li>배달 완료 후 플랫폼별 금액과 건수가 반영됐는지 확인합니다.</li>
+          <li>앱 화면을 닫아도 자동기록 서비스는 계속 동작할 수 있습니다.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary>짝꿍내비</summary>
+      <div class="usageGuideBody">
+        <ul>
+          <li>메인폰과 보조폰 역할을 정하고 최초 1회 페어링합니다.</li>
+          <li>두 기기 모두 연결됨 상태인지 확인합니다.</li>
+          <li>메인폰에서 확인한 목적지를 보조폰 내비로 전송해 사용합니다.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details>
+      <summary>기타 기능</summary>
+      <div class="usageGuideBody">
+        <p>수익분석, 운행기록, 정비관리, 목표 챌린지, 안전도우미 등은 각 카드와 메뉴를 눌러 기능 설명을 확인할 수 있습니다.</p>
+      </div>
+    </details>
+
+    <div class="usageGuideFoot">※ 이 페이지는 웹 체험 화면입니다. 실제 자동기록·내비·위치 기능은 Android 앱에서 동작합니다.</div>
+  </div>
+</div>
+
 <div class="demoInfoSheet" id="demoInfoSheet" role="dialog" aria-modal="true">
   <div class="demoInfoCard">
     <div class="demoGrab"></div>
@@ -2326,6 +2412,9 @@ button.rideAudit40Source{width:100%;margin:0;font:inherit;color:inherit;appearan
   };
 
   const sheet=document.getElementById('demoInfoSheet');
+  const usageGuideSheet=document.getElementById('usageGuideSheet');
+  const usageGuideBtn=document.getElementById('usageGuideBtn');
+  const usageGuideClose=document.getElementById('usageGuideClose');
   const title=document.getElementById('demoInfoTitle');
   const desc=document.getElementById('demoInfoDesc');
   const steps=document.getElementById('demoInfoSteps');
@@ -2339,6 +2428,7 @@ button.rideAudit40Source{width:100%;margin:0;font:inherit;color:inherit;appearan
     document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===id));
     document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===id));
     sheet.classList.remove('show');
+    usageGuideSheet.classList.remove('show');
     window.scrollTo(0,0);
   }
 
@@ -2387,10 +2477,32 @@ button.rideAudit40Source{width:100%;margin:0;font:inherit;color:inherit;appearan
 
   document.addEventListener('click',e=>{
     const target=e.target.closest('button,[role="button"],.hero,.goal');
-    if(!target || target.closest('.promoIntro') || target.closest('.nav') || target.id==='demoCloseBtn') return;
+    if(!target || target.closest('.promoIntro') || target.closest('.nav') || target.closest('#usageGuideSheet') || target.id==='demoCloseBtn' || target.id==='usageGuideBtn') return;
     e.preventDefault(); e.stopImmediatePropagation();
     openInfo(target);
   },true);
+
+  function openUsageGuide(){
+    usageGuideSheet.classList.add('show');
+    usageGuideSheet.querySelector('.usageGuideCard').scrollTop=0;
+    history.pushState({riderDemo:true,view:'guide',page:currentPage},'',location.href);
+  }
+
+  function closeUsageGuide(){
+    if(history.state?.riderDemo && history.state?.view==='guide'){
+      history.back();
+    }else{
+      usageGuideSheet.classList.remove('show');
+    }
+  }
+
+  usageGuideBtn.addEventListener('click',e=>{
+    e.preventDefault();
+    e.stopPropagation();
+    openUsageGuide();
+  });
+  usageGuideClose.addEventListener('click',closeUsageGuide);
+  usageGuideSheet.addEventListener('click',e=>{if(e.target===usageGuideSheet) closeUsageGuide()});
 
   function closeInfo(){
     if(history.state?.riderDemo && history.state?.view==='info'){
@@ -2409,6 +2521,9 @@ button.rideAudit40Source{width:100%;margin:0;font:inherit;color:inherit;appearan
     if(s.view==='info'){
       renderPage(s.page||'home');
       renderInfo(s.label||'기능 안내');
+    }else if(s.view==='guide'){
+      renderPage(s.page||'home');
+      usageGuideSheet.classList.add('show');
     }else{
       renderPage(s.page||'home');
     }
