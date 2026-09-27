@@ -136,6 +136,23 @@ h1 em{font-style:normal;color:var(--cyan)}
 .storeBtn.samsung .storeText small,.storeBtn.samsung .storeText em{color:rgba(255,255,255,.82)}
 .storeBtn:active{transform:translateY(2px);filter:brightness(.98)}
 .note{margin-top:9px;text-align:center;color:#bcd9ed;font-size:9px;font-weight:800}
+@media(min-width:900px){
+  .page{
+    width:min(100%,920px);
+    padding-left:36px;padding-right:36px;
+  }
+  .top{max-width:820px;width:100%;margin:0 auto}
+  .hero{max-width:820px;width:100%;margin:0 auto;padding-top:30px}
+  h1{font-size:56px;line-height:1.03}
+  .lead{font-size:17px}
+  .visual{max-width:720px;margin-left:auto;margin-right:auto}
+  .storeIntro{font-size:11px}
+  .storeActions{max-width:720px;margin-left:auto;margin-right:auto;grid-template-columns:1fr 1fr;gap:18px}
+  .storeBtn{min-height:60px;padding:8px 12px}
+  .storeIcon{width:32px;height:32px;flex-basis:32px}
+  .storeText strong{font-size:12px}.storeText small,.storeText em{font-size:8px}
+  .note{font-size:10px}
+}
 @media(max-width:380px){
   .page{padding-left:15px;padding-right:15px}
   .logo{width:49px;height:49px}.brand strong{font-size:22px}.brand span{font-size:8.5px}
