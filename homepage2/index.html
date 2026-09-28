@@ -5,10 +5,10 @@
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#eaf2f8;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Apple SD Gothic Neo",sans-serif}body{display:flex;justify-content:center;overscroll-behavior:none}.app{width:100%;max-width:430px;min-height:100%;background:linear-gradient(180deg,#fbfdff 0%,#eef8ff 62%,#fffaf3 100%);overflow-x:hidden}.top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:14px 16px 10px;align-items:start}.brand{display:flex;gap:10px;align-items:center;min-width:0}.brand>img{width:54px;height:54px;border-radius:16px;box-shadow:0 6px 16px rgba(17,135,239,.18)}.bt{min-width:0}.bt h1{font-size:25px;line-height:1;margin:0;white-space:nowrap;letter-spacing:-1.2px;font-weight:950}.bt p{margin:6px 0 0;font-size:14px;color:var(--muted);font-weight:800}
 .brandTitleRow{display:flex;align-items:center;gap:5px;min-width:0;white-space:nowrap}
 .brandTitleRow h1{flex:0 0 auto}
-.brandSignature{display:block;width:62px;height:31px;object-fit:contain;object-position:left center;box-shadow:none!important;border-radius:0!important;flex:0 0 auto}
+.brandSignature{display:inline-block;flex:0 0 auto;margin-left:1px;color:#3e4b5c;font-family:Georgia,"Times New Roman",serif;font-size:24px;font-style:italic;font-weight:600;line-height:1;letter-spacing:.8px;transform:translateY(1px) rotate(-3deg);transform-origin:left center}
 @media(max-width:385px){
   .bt h1{font-size:23px}
-  .brandSignature{width:52px;height:27px}
+  .brandSignature{font-size:21px;letter-spacing:.6px}
   .top{gap:7px;padding-left:13px;padding-right:13px}
   .auto{padding:8px 10px;font-size:12px}
   .date{font-size:16px}
@@ -1299,7 +1299,7 @@ button.rideAudit40Source{width:100%;margin:0;font:inherit;color:inherit;appearan
 .homepage2DownloadBar .barArrow{margin-left:auto;font-size:18px;color:#3f8fc3}
 .homepage2DownloadBar:active{transform:translateY(1px)}
 @media(max-width:380px){.homepage2DownloadBar{margin-left:13px;margin-right:13px;height:44px}.homepage2DownloadBar a{font-size:12.5px;padding:0 12px}}
-</style></head><body><div class="app"><header class="top"><div class="brand"><img src="./rider_master_icon.png" alt=""><div class="bt"><div class="brandTitleRow"><h1>라이더짝꿍</h1><img class="brandSignature" src="./sym_signature.png" alt="" aria-hidden="true"></div><p>운행도우미</p></div></div><div class="right"><button class="auto" id="autoBtn" type="button" aria-label="자동기록 안내">자동기록 ON</button><div class="date" id="dateText"></div></div></header><div class="homepage2DownloadBar"><a href="#app-download" onclick="event.preventDefault();document.getElementById('app-download')?.scrollIntoView({behavior:'smooth',block:'center'});"><span class="barIcon">⬇</span><span>라이더짝꿍 · 퀵짝꿍 앱 다운로드</span><span class="barArrow">›</span></a></div><main>
+</style></head><body><div class="app"><header class="top"><div class="brand"><img src="./rider_master_icon.png" alt=""><div class="bt"><div class="brandTitleRow"><h1>라이더짝꿍</h1><span class="brandSignature">SUN</span></div><p>운행도우미</p></div></div><div class="right"><button class="auto" id="autoBtn" type="button" aria-label="자동기록 안내">자동기록 ON</button><div class="date" id="dateText"></div></div></header><div class="homepage2DownloadBar"><a href="#app-download" onclick="event.preventDefault();document.getElementById('app-download')?.scrollIntoView({behavior:'smooth',block:'center'});"><span class="barIcon">⬇</span><span>라이더짝꿍 · 퀵짝꿍 앱 다운로드</span><span class="barArrow">›</span></a></div><main>
 <section id="home" class="page active"><div class="home">
 <div class="hero" onclick="showPage('analytics')" role="button">
   <div class="label">오늘 총수익</div>
