@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="라이더짝꿍">
 <meta property="og:title" content="라이더짝꿍 | 배달 라이더를 위한 운행 파트너">
-<meta property="og:description" content="수익은 올리고, 관리는 줄이고. 자동기록·정산·지역판단·정비·안전·짝꿍내비까지 한 번에.">
+<meta property="og:description" content="수익은 올리고, 관리는 줄이고. 자동기록·정산·지역판단·바이크관리·안전·짝꿍내비까지 한 번에.">
 <meta property="og:url" content="https://baedal-jjakkung-download.vercel.app/">
 <meta property="og:image" content="https://baedal-jjakkung-download.vercel.app/main-draft2/rider-safety-promo-main.jpg?v=13">
 <meta property="og:image:width" content="640">
@@ -17,7 +17,7 @@
 <meta property="og:image:alt" content="라이더짝꿍 안전운행 주요 기능 소개">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="라이더짝꿍 | 배달 라이더를 위한 운행 파트너">
-<meta name="twitter:description" content="자동기록·정산·지역판단·정비·안전·짝꿍내비까지 한 번에.">
+<meta name="twitter:description" content="자동기록·정산·지역판단·바이크관리·안전·짝꿍내비까지 한 번에.">
 <meta name="twitter:image" content="https://baedal-jjakkung-download.vercel.app/main-draft2/rider-safety-promo-main.jpg?v=13">
 <link rel="icon" href="./homepage2/rider_master_icon.png">
 <link rel="apple-touch-icon" href="./homepage2/rider_master_icon.png">
@@ -95,6 +95,17 @@ h1 em{font-style:normal;color:var(--cyan)}
   font-size:9.5px;font-weight:1000;box-shadow:0 7px 15px rgba(0,0,0,.15)
 }
 .visual:active{transform:translateY(1px)}
+.bikeMileageNew{
+  margin-top:12px;padding:12px 13px;border-radius:18px;display:flex;align-items:flex-start;gap:10px;
+  border:1px solid rgba(91,239,192,.36);
+  background:linear-gradient(135deg,rgba(13,76,104,.72),rgba(15,129,116,.48));
+  box-shadow:0 10px 24px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.08)
+}
+.bikeMileageIcon{flex:0 0 34px;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:rgba(92,236,190,.17);border:1px solid rgba(115,250,208,.26);font-size:17px}
+.bikeMileageText{min-width:0}
+.bikeMileageTitle{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:1000;letter-spacing:-.35px}
+.bikeMileageTag{display:inline-flex;padding:3px 6px;border-radius:999px;background:#63efbf;color:#074f43;font-size:7.5px;font-weight:1000;letter-spacing:.04em}
+.bikeMileageText p{margin:5px 0 0;color:#d7f7f0;font-size:9.5px;line-height:1.45;font-weight:780;letter-spacing:-.15px}
 .storeIntro{margin-top:12px;text-align:center;color:#dff4ff;font-size:9.5px;font-weight:900;letter-spacing:-.15px}
 .storeActions{display:grid;grid-template-columns:44% 44%;justify-content:space-between;gap:0;width:100%;max-width:none;margin:6px 0 0}
 .storeBtn{
@@ -181,7 +192,7 @@ h1 em{font-style:normal;color:var(--cyan)}
   <section class="hero">
     <span class="badge">RIDER MATE · V1.58.05 TEST</span>
     <h1>수익은 올리고,<br><em>관리는 줄이고.</em></h1>
-    <p class="lead">자동기록 · 정산 · 지역판단 · 정비 · 안전 · 짝꿍내비까지<br>배달 라이더의 운행 관리를 하나로.</p>
+    <p class="lead">자동기록 · 정산 · 지역판단 · 바이크관리 · 안전 · 짝꿍내비까지<br>배달 라이더의 운행 관리를 하나로.</p>
 
     <div class="visual" aria-label="라이더짝꿍 홍보영상과 실제 앱 화면 둘러보기">
       <div class="visualVideoWrap">
@@ -199,6 +210,14 @@ h1 em{font-style:normal;color:var(--cyan)}
         </div>
         <span class="visualCta">앱에서 보기 ›</span>
       </a>
+    </div>
+
+    <div class="bikeMileageNew" aria-label="바이크관리 주행거리 자동 누적 기능">
+      <div class="bikeMileageIcon" aria-hidden="true">🏍️</div>
+      <div class="bikeMileageText">
+        <div class="bikeMileageTitle"><span class="bikeMileageTag">NEW</span><span>바이크관리 · 주행거리 자동 누적</span></div>
+        <p>처음 현재 주행거리만 설정하면 이후 운행거리가 자동으로 누적됩니다. 매번 km를 직접 입력하지 않아도 정비주기 관리가 편해집니다.</p>
+      </div>
     </div>
 
     <div class="storeIntro">Google Play · Galaxy Store 등록 준비 중 · 현재 다운로드 APK V1.57.101</div>
