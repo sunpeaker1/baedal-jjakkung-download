@@ -1,16 +1,57 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><meta name="description" content="오늘얼마 목표 수입 관리 앱 소개와 사용법"><title>오늘얼마 | 라이더짝꿍 앱 포털</title><link rel="stylesheet" href="./assets/portal-detail.css"></head><body>
-<header class="portalNav"><div class="wrap navin"><a class="brand" href="./index.html"><img src="./homepage2/rider_master_icon.png" alt=""><strong>라이더짝꿍 앱 포털</strong></a><nav class="navlinks"><a href="./index.html#apps">앱</a><a href="#guide">사용법</a><a href="./index.html#download">다운로드</a></nav></div></header>
-<main><section class="hero"><div class="wrap"><span class="eyebrow">ONEUL EOLMA · V1.8.1</span><h1>목표를 정하면,<br>오늘 필요한 금액이 보입니다.</h1><p><b>오늘얼마</b>는 목표금액과 남은 기간을 기준으로 오늘 필요한 금액을 계산하고, 현재 달성액과 남은 금액을 보기 쉽게 관리하는 독립 수입관리 앱입니다.</p><div class="chips"><span class="chip">목표금액</span><span class="chip">오늘 필요금액</span><span class="chip">달성률</span><span class="chip">통계·기록</span></div><div class="actions"><a class="btn ghost" href="./index.html#apps">앱 목록으로</a></div></div></section>
-<section class="section"><div class="wrap"><div class="head"><div class="kicker">Core Features</div><h2>오늘 얼마를 해야 하는지 바로 확인</h2></div><div class="grid">
-<div class="card"><div class="icon">🎯</div><h3>목표 자동 계산</h3><p>목표금액, 시작일, 종료일과 현재 누적금액을 기준으로 남은 기간에 필요한 금액을 계산합니다.</p></div>
-<div class="card"><div class="icon">📅</div><h3>휴무일 반영</h3><p>쉬는 요일을 제외하고 남은 근무일 기준으로 필요한 금액을 다시 분배해 보여줍니다.</p></div>
-<div class="card"><div class="icon">📊</div><h3>기간별 통계</h3><p>오늘, 최근 7일, 이번 달 등 기간별 기록을 통해 수입 흐름과 평균을 확인합니다.</p></div>
-<div class="card"><div class="icon">💾</div><h3>백업·복원</h3><p>기록을 기기에서 관리하고 전체 백업·복원과 기록 내보내기를 지원하는 구조입니다.</p></div>
+<!doctype html><html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071a35"><meta name="robots" content="noindex,nofollow">
+<meta name="description" content="오늘얼마 목표 수입관리 앱의 오늘 필요금액, 기록, 통계, 목표설정, 백업과 사용법.">
+<title>오늘얼마 | 기능 소개와 사용법</title><link rel="stylesheet" href="./assets/portal-detail.css">
+</head><body>
+<header class="portalNav"><div class="wrap navin"><a class="brand" href="./index.html"><img src="./homepage2/rider_master_icon.png" alt=""><strong>라이더짝꿍 앱 포털</strong></a><nav class="navlinks"><a href="./index.html">홈</a><a href="#guide">사용법</a><a href="./guide.html">전체 가이드</a></nav></div></header>
+<main>
+<section class="hero"><div class="wrap"><span class="eyebrow">ONEUL EOLMA · V1.8.1</span>
+<h1>목표금액을 정하면,<br>오늘 필요한 금액이 보입니다.</h1>
+<p><b>오늘얼마</b>는 목표금액, 현재 달성액, 남은 기간과 휴무일을 기준으로 오늘 필요한 금액을 계산하고, 기록과 통계를 통해 목표까지의 흐름을 관리하는 독립 Android 앱입니다.</p>
+<div class="statusRow"><span class="statusPill test">V1.8.1 TEST</span><span class="statusPill dev">독립 앱</span></div>
+<div class="quickNav"><a href="#features">핵심 기능</a><a href="#guide">처음 설정</a><a href="#daily">매일 사용</a><a href="#stats">통계·기록</a><a href="#trouble">문제 해결</a></div>
+</div></section>
+
+<section class="section" id="features"><div class="wrap"><div class="head"><div class="kicker">Core Features</div><h2>오늘 얼마나 해야 하는지 계산</h2></div><div class="grid">
+<div class="card"><div class="icon">🎯</div><h3>목표금액 관리</h3><p>목표금액과 기간, 시작 전 누적금액을 기준으로 목표 진행상태를 관리합니다.</p></div>
+<div class="card"><div class="icon">₩</div><h3>오늘 필요금액</h3><p>현재까지 달성한 금액과 남은 근무일을 계산해 오늘 필요한 금액을 큰 카드로 보여줍니다.</p></div>
+<div class="card"><div class="icon">📅</div><h3>휴무일 자동 반영</h3><p>일하지 않는 요일을 제외해 실제 남은 근무일 기준으로 필요한 금액을 다시 분배합니다.</p></div>
+<div class="card"><div class="icon">🧾</div><h3>수입 기록 관리</h3><p>기록을 추가하고 날짜별로 확인하며 필요한 경우 상세·수정·삭제할 수 있습니다.</p></div>
+<div class="card"><div class="icon">📊</div><h3>통계·달성률</h3><p>오늘·주간·월간 흐름, 목표 달성률, 남은 금액, 기록한 날 평균과 최근 수입을 확인합니다.</p></div>
+<div class="card"><div class="icon">💾</div><h3>백업·복원·내보내기</h3><p>앱 기록을 백업·복원하고 필요한 기록을 파일로 내보내는 관리 기능을 제공합니다.</p></div>
 </div></div></section>
-<section class="section" id="guide"><div class="wrap"><div class="head"><div class="kicker">How It Works</div><h2>처음 설정부터 기록까지</h2></div><div class="steps">
-<div class="step"><b>01</b><strong>목표 설정</strong><p>목표금액과 기간을 정합니다.</p></div>
-<div class="step"><b>02</b><strong>휴무일 설정</strong><p>일하지 않는 요일을 선택합니다.</p></div>
-<div class="step"><b>03</b><strong>금액 기록</strong><p>현재 달성액을 기록합니다.</p></div>
-<div class="step"><b>04</b><strong>오늘 필요금액 확인</strong><p>남은 기간에 맞춰 자동 계산된 오늘 필요금액을 확인합니다.</p></div>
-</div><div class="notice">오늘얼마는 라이더짝꿍과 데이터·패키지·저장소를 공유하지 않는 독립 앱입니다.</div></div></section></main>
-<footer><div class="wrap">© 2026 Rider Mate · 오늘얼마</div></footer></body></html>
+
+<section class="section" id="guide"><div class="wrap"><div class="head"><div class="kicker">First Setup</div><h2>처음에는 목표부터 설정</h2></div><div class="steps">
+<div class="step"><b>01</b><strong>목표 설정</strong><p>목표금액과 시작일·종료일을 입력합니다.</p></div>
+<div class="step"><b>02</b><strong>휴무일 설정</strong><p>일하지 않는 요일을 지정합니다.</p></div>
+<div class="step"><b>03</b><strong>현재 기준 입력</strong><p>이미 달성한 금액이 있다면 시작 기준에 반영합니다.</p></div>
+<div class="step"><b>04</b><strong>오늘 필요금액 확인</strong><p>홈에서 오늘 필요한 금액과 남은 금액·달성률을 확인합니다.</p></div>
+</div></div></section>
+
+<section class="section" id="daily"><div class="wrap"><div class="head"><div class="kicker">Daily Use</div><h2>매일 사용하는 흐름</h2></div><div class="howList">
+<div class="howCard"><h3>일 시작 전</h3><ol><li>홈에서 오늘 필요금액을 확인합니다.</li><li>현재 금액·남은 금액·달성률을 같이 봅니다.</li><li>오늘 쉬는 날이라면 휴무 설정이 반영됐는지 확인합니다.</li></ol></div>
+<div class="howCard"><h3>수입 기록</h3><ol><li>기록 메뉴 또는 추가 버튼에서 수입을 기록합니다.</li><li>날짜와 필요한 분류 정보를 확인합니다.</li><li>저장 후 홈의 현재금액과 달성률이 바뀌었는지 확인합니다.</li></ol></div>
+<div class="howCard"><h3>기록 수정</h3><ol><li>기록 목록에서 수정할 항목을 선택합니다.</li><li>잘못 입력한 금액이나 내용을 고칩니다.</li><li>수정 후 목표 계산값이 함께 바뀌었는지 확인합니다.</li></ol></div>
+<div class="howCard"><h3>목표 조정</h3><ol><li>목표기간이나 금액이 바뀌면 목표 설정을 수정합니다.</li><li>휴무일이 바뀌면 실제 쉬는 요일에 맞춰 다시 설정합니다.</li><li>남은 근무일 기준의 오늘 필요금액을 다시 확인합니다.</li></ol></div>
+</div>
+<div class="callout">오늘얼마는 라이더짝꿍 자동기록 데이터를 공유하지 않는 독립 앱입니다. 앱 안에서 관리하는 기록을 기준으로 목표와 통계를 계산합니다.</div>
+</div></section>
+
+<section class="section" id="stats"><div class="wrap"><div class="head"><div class="kicker">Records & Stats</div><h2>기록은 쌓이고, 목표 흐름은 보이게</h2></div><div class="grid">
+<div class="card"><h3>최근 기록</h3><p>최근 입력한 수입을 홈에서 빠르게 확인하고 기록 메뉴에서 날짜별 내역을 확인합니다.</p></div>
+<div class="card"><h3>기간별 통계</h3><p>오늘·최근 7일·이번 달 등의 수입 흐름을 확인해 목표 달성 속도를 비교합니다.</p></div>
+<div class="card"><h3>플랫폼·시간대 정보</h3><p>현재 UI에서는 기록된 데이터를 플랫폼별·시간대별로 나눠 보는 구성도 포함합니다.</p></div>
+<div class="card"><h3>백업</h3><p>휴대폰 변경이나 초기화 전에는 백업 기능으로 현재 데이터를 보관한 뒤 복원합니다.</p></div>
+</div></div></section>
+
+<section class="section" id="trouble"><div class="wrap"><div class="head"><div class="kicker">Troubleshooting</div><h2>계산이 예상과 다를 때</h2></div><div class="grid">
+<div class="card"><h3>오늘 필요금액이 너무 커요</h3><p>목표 종료일, 남은 금액, 휴무일이 실제 계획과 맞는지 확인합니다. 남은 근무일이 줄면 하루 필요금액은 커집니다.</p></div>
+<div class="card"><h3>기록했는데 금액이 이상해요</h3><p>최근 기록에서 중복 입력이나 잘못된 금액이 있는지 확인하고 해당 기록을 수정합니다.</p></div>
+<div class="card"><h3>목표를 다시 잡고 싶어요</h3><p>기존 기록을 무조건 지우기보다 목표 설정만 먼저 변경해 새 기준으로 계산되는지 확인합니다.</p></div>
+<div class="card"><h3>휴대폰을 바꾸려 해요</h3><p>기존 폰에서 백업 파일을 만든 뒤 새 폰에서 오늘얼마를 설치하고 복원 기능을 사용합니다.</p></div>
+</div>
+<div class="notice">V1.8.1부터 테스트 빌드는 고정 테스트 서명을 사용합니다. 이전 임시서명 설치본에서는 한 번 삭제 후 재설치가 필요할 수 있습니다.</div>
+</div></section>
+</main><footer><div class="wrap">© 2026 Rider Mate · 오늘얼마 V1.8.1 · 라이더짝꿍과 분리된 독립 앱입니다.</div></footer>
+</body></html>
