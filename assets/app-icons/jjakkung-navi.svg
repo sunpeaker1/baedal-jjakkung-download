@@ -1,10 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108">
-<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0b2d59"/><stop offset="1" stop-color="#1269a8"/></linearGradient></defs>
-<rect width="108" height="108" rx="24" fill="url(#g)"/>
-<circle cx="37" cy="56" r="18" fill="#1bc89b"/><circle cx="71" cy="52" r="18" fill="#2da8ff"/>
-<path d="M45 50C51 44 57 42 63 43" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
-<path d="M61 38l8 5-8 6" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-<rect x="25" y="43" width="24" height="31" rx="5" fill="none" stroke="#fff" stroke-width="4"/>
-<rect x="59" y="39" width="24" height="31" rx="5" fill="none" stroke="#fff" stroke-width="4"/>
-<circle cx="37" cy="68" r="2.5" fill="#fff"/><circle cx="71" cy="64" r="2.5" fill="#fff"/>
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#08244b"/><stop offset="1" stop-color="#0878b8"/></linearGradient>
+  <linearGradient id="l" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#1ad2a3"/><stop offset="1" stop-color="#0ca778"/></linearGradient>
+  <linearGradient id="r" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#3ab5ff"/><stop offset="1" stop-color="#136fd1"/></linearGradient>
+</defs>
+<rect width="108" height="108" rx="24" fill="url(#bg)"/>
+<rect x="14" y="29" width="31" height="50" rx="7" fill="url(#l)" stroke="#fff" stroke-width="3"/>
+<rect x="63" y="29" width="31" height="50" rx="7" fill="url(#r)" stroke="#fff" stroke-width="3"/>
+<circle cx="29.5" cy="70" r="2.5" fill="#fff"/><circle cx="78.5" cy="70" r="2.5" fill="#fff"/>
+<path d="M44 47h18" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+<path d="M56 40l8 7-8 7" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M23 43l13 0M72 43l13 0" stroke="rgba(255,255,255,.82)" stroke-width="3.5" stroke-linecap="round"/>
 </svg>
