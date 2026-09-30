@@ -1,0 +1,11 @@
+name: VRH Runner Test
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - ".github/workflows/vrh-runner-test.yml"
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "runner-ok"
