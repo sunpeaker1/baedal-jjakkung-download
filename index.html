@@ -3,260 +3,204 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#073d78">
-<meta name="description" content="라이더짝꿍 공식 홈페이지 - 배달 라이더를 위한 운행 파트너. 운행관리, 안전도우미와 테스트 앱을 소개합니다.">
-<title>라이더짝꿍 공식 홈페이지</title>
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="라이더짝꿍">
-<meta property="og:title" content="라이더짝꿍 | 배달 라이더를 위한 운행 파트너">
-<meta property="og:description" content="수익은 올리고, 관리는 줄이고. 자동기록·정산·지역판단·바이크관리·안전·짝꿍내비까지 한 번에.">
-<meta property="og:url" content="https://baedal-jjakkung-download.vercel.app/">
-<meta property="og:image" content="https://baedal-jjakkung-download.vercel.app/main-draft2/rider-safety-promo-main.jpg?v=13">
-<meta property="og:image:width" content="640">
-<meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="라이더짝꿍 안전운행 주요 기능 소개">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="라이더짝꿍 | 배달 라이더를 위한 운행 파트너">
-<meta name="twitter:description" content="자동기록·정산·지역판단·바이크관리·안전·짝꿍내비까지 한 번에.">
-<meta name="twitter:image" content="https://baedal-jjakkung-download.vercel.app/main-draft2/rider-safety-promo-main.jpg?v=13">
+<meta name="theme-color" content="#071a35">
+<meta name="description" content="라이더짝꿍 공식 앱 포털. 라이더짝꿍, 짝꿍내비, 퀵짝꿍 등 라이더용 앱의 기능 소개, 사용법, 다운로드를 한곳에서 확인하세요.">
+<title>라이더짝꿍 | 공식 앱 포털</title>
+<meta name="robots" content="noindex,nofollow">
 <link rel="icon" href="./homepage2/rider_master_icon.png">
-<link rel="apple-touch-icon" href="./homepage2/rider_master_icon.png">
 <style>
 :root{
-  --cyan:#62ddff;--mint:#59edbf;--text:#fff;--muted:#d8ecff;
-  --line:rgba(255,255,255,.19);
+  --bg:#06172d;--panel:#0d2947;--panel2:#0f365b;--line:rgba(255,255,255,.12);
+  --text:#fff;--muted:#b7cde0;--blue:#47b7ff;--mint:#55e4b6;--yellow:#ffd768;
+  --shadow:0 18px 46px rgba(0,0,0,.22)
 }
 *{box-sizing:border-box}
-html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Apple SD Gothic Neo","Segoe UI",sans-serif}
-body{
-  color:#fff;
-  background:
-    radial-gradient(circle at 14% 14%,rgba(42,202,255,.28),transparent 27%),
-    radial-gradient(circle at 88% 38%,rgba(54,235,181,.23),transparent 31%),
-    radial-gradient(circle at 50% 100%,rgba(55,119,255,.25),transparent 36%),
-    linear-gradient(160deg,#071a35 0%,#0a315d 45%,#0b6aa8 100%);
-}
+html{scroll-behavior:smooth}
+body{margin:0;background:
+  radial-gradient(circle at 12% 8%,rgba(47,185,255,.20),transparent 28%),
+  radial-gradient(circle at 90% 32%,rgba(62,232,183,.16),transparent 30%),
+  linear-gradient(160deg,#06162b,#092d52 58%,#0a5275);
+  color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Apple SD Gothic Neo","Segoe UI",sans-serif}
 a{text-decoration:none;color:inherit}
-.page{
-  width:min(100%,430px);min-height:100dvh;margin:0 auto;position:relative;overflow:hidden;
-  padding:calc(18px + env(safe-area-inset-top)) 20px calc(18px + env(safe-area-inset-bottom));
-  display:flex;flex-direction:column;
+.wrap{width:min(1160px,calc(100% - 34px));margin:0 auto}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(5,20,39,.82);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.nav{height:74px;display:flex;align-items:center;gap:18px}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.brand img{width:47px;height:47px;border-radius:14px;box-shadow:0 9px 24px rgba(0,0,0,.22)}
+.brandText strong{display:block;font-size:20px;letter-spacing:-.9px}
+.brandText span{display:block;margin-top:3px;color:#a7c3dc;font-size:10px;font-weight:800}
+.navlinks{margin-left:auto;display:flex;align-items:center;gap:7px}
+.navlinks a{padding:10px 13px;border-radius:999px;color:#d8eaff;font-size:12px;font-weight:900}
+.navlinks a:hover{background:rgba(255,255,255,.08)}
+.hero{padding:56px 0 30px}
+.heroGrid{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:center}
+.eyebrow{display:inline-flex;padding:7px 11px;border-radius:999px;background:rgba(82,230,183,.12);border:1px solid rgba(82,230,183,.30);color:#bfffe9;font-size:10px;font-weight:1000;letter-spacing:.06em}
+.hero h1{margin:16px 0 0;font-size:52px;line-height:1.04;letter-spacing:-2.5px}
+.hero h1 em{font-style:normal;color:#65d6ff}
+.hero p{margin:17px 0 0;color:#d1e4f2;font-size:16px;line-height:1.72;font-weight:700}
+.heroActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:45px;padding:0 17px;border-radius:13px;font-size:12px;font-weight:1000;border:1px solid rgba(255,255,255,.15)}
+.btn.primary{background:linear-gradient(135deg,#1c9dff,#18c79a);box-shadow:0 10px 24px rgba(22,169,211,.22)}
+.btn.ghost{background:rgba(255,255,255,.06)}
+.videoCard{overflow:hidden;border-radius:25px;border:1px solid rgba(255,255,255,.15);background:#03101f;box-shadow:var(--shadow)}
+.videoWrap{aspect-ratio:1.54/1;overflow:hidden;background:#03101f url("./main-draft2/rider-safety-promo-main.jpg?v=13") center/cover no-repeat}
+.videoWrap video{width:100%;height:100%;object-fit:cover;display:block}
+.videoFoot{padding:13px 15px;background:linear-gradient(100deg,#082441,#0a5e8c 62%,#128a77)}
+.videoFoot strong{display:block;font-size:13px}.videoFoot span{display:block;margin-top:3px;color:#c7ecf6;font-size:10px;font-weight:800}
+.section{padding:38px 0}
+.sectionHead{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:18px}
+.sectionHead .kicker{color:#7ddaff;font-size:10px;font-weight:1000;letter-spacing:.1em;text-transform:uppercase}
+.sectionHead h2{margin:5px 0 0;font-size:30px;letter-spacing:-1.4px}
+.sectionHead p{margin:6px 0 0;color:var(--muted);font-size:13px;line-height:1.55}
+.appGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.appCard{position:relative;min-height:210px;padding:18px;border-radius:22px;background:linear-gradient(145deg,rgba(13,41,71,.92),rgba(10,31,56,.94));border:1px solid var(--line);box-shadow:0 12px 28px rgba(0,0,0,.12);display:flex;flex-direction:column}
+.appCard.featured{background:linear-gradient(145deg,rgba(10,65,107,.98),rgba(12,111,106,.82));border-color:rgba(89,231,190,.30)}
+.appTop{display:flex;align-items:center;gap:11px}
+.appIcon{width:49px;height:49px;border-radius:14px;display:grid;place-items:center;background:rgba(255,255,255,.09);font-size:24px;overflow:hidden}
+.appIcon img{width:100%;height:100%;object-fit:cover}
+.appName{font-size:18px;font-weight:1000;letter-spacing:-.7px}
+.status{display:inline-flex;margin-top:4px;padding:3px 7px;border-radius:999px;font-size:8px;font-weight:1000}
+.status.live{background:#58e5b8;color:#064b3f}
+.status.test{background:#7ed3ff;color:#064267}
+.status.dev{background:rgba(255,255,255,.11);color:#d7e5ef}
+.appCard p{margin:14px 0 0;color:#bed4e6;font-size:12px;line-height:1.62;font-weight:720}
+.appLinks{display:flex;gap:7px;flex-wrap:wrap;margin-top:auto;padding-top:16px}
+.appLinks a,.appLinks span{padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.08);font-size:10px;font-weight:950}
+.appLinks a{border:1px solid rgba(255,255,255,.09)}
+.appLinks span{color:#8fa8bc}
+.guideGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.guideCard{padding:17px;border-radius:18px;background:rgba(255,255,255,.065);border:1px solid var(--line)}
+.guideCard b{font-size:14px}.guideCard p{margin:7px 0 0;color:#b7ccdd;font-size:11px;line-height:1.55}
+.guideCard a{display:inline-block;margin-top:10px;color:#74dfff;font-size:10px;font-weight:1000}
+.downloadBox{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;padding:22px;border-radius:23px;background:linear-gradient(135deg,rgba(15,63,101,.90),rgba(13,103,92,.70));border:1px solid rgba(92,229,189,.25)}
+.downloadBox h3{margin:0;font-size:22px}.downloadBox p{margin:7px 0 0;color:#c9e7e3;font-size:12px;line-height:1.55}
+.downloadActions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.notice{margin-top:12px;color:#9fb7c9;font-size:10px;line-height:1.55}
+footer{padding:35px 0 50px;color:#91a9bc;font-size:11px;border-top:1px solid rgba(255,255,255,.08);margin-top:18px}
+@media(max-width:900px){
+  .heroGrid{grid-template-columns:1fr}.hero h1{font-size:42px}.appGrid{grid-template-columns:repeat(2,1fr)}.guideGrid{grid-template-columns:repeat(2,1fr)}
 }
-.glow{position:absolute;border-radius:50%;filter:blur(10px);opacity:.48;pointer-events:none}
-.g1{width:170px;height:170px;left:-72px;top:118px;background:#16c8ff}
-.g2{width:220px;height:220px;right:-95px;top:305px;background:#34e0aa}
-.g3{width:170px;height:170px;left:30%;bottom:-80px;background:#3e7fff}
-.top{display:flex;align-items:center;gap:11px;position:relative;z-index:5}
-.logo{width:55px;height:55px;border-radius:16px;box-shadow:0 12px 25px rgba(0,0,0,.23)}
-.brand{min-width:0}
-.brand strong{display:block;font-size:25px;line-height:1.05;letter-spacing:-1.35px;font-weight:1000;white-space:nowrap}
-.brand span{display:block;margin-top:4px;color:#c3eaff;font-size:9.5px;font-weight:850;white-space:nowrap}
-.topBrowse{
-  margin-left:auto;white-space:nowrap;padding:10px 13px;border-radius:999px;
-  border:1px solid rgba(124,228,255,.46);background:rgba(38,191,244,.12);
-  backdrop-filter:blur(10px);font-size:11px;font-weight:1000;box-shadow:0 9px 22px rgba(0,0,0,.10)
-}
-.hero{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;justify-content:center;padding:24px 0 4px}
-.badge{
-  display:inline-flex;align-self:flex-start;padding:7px 11px;border-radius:999px;
-  border:1px solid rgba(83,236,188,.35);background:rgba(75,228,180,.12);
-  color:#c6ffe8;font-size:11px;font-weight:1000;letter-spacing:.045em
-}
-h1{margin:14px 0 0;font-size:42px;line-height:1.06;letter-spacing:-2.3px;font-weight:1000}
-h1 em{font-style:normal;color:var(--cyan)}
-.lead{margin:13px 0 0;color:#deefff;font-size:14px;line-height:1.62;font-weight:780;letter-spacing:-.15px}
-.visual{
-  margin-top:20px;position:relative;display:block;border-radius:26px;overflow:hidden;
-  border:1px solid rgba(255,255,255,.22);
-  background:rgba(5,28,62,.86);
-  box-shadow:0 22px 50px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.08)
-}
-.visualVideoWrap{
-  position:relative;display:grid;place-items:center;width:100%;aspect-ratio:1.54/1;overflow:hidden;
-  background:#03101f url("./main-draft2/rider-safety-promo-main.jpg?v=13") center/cover no-repeat
-}
-.visualVideoWrap:before{
-  content:"";position:absolute;inset:-14px;
-  background:rgba(3,16,31,.58);backdrop-filter:blur(14px)
-}
-.visualVideo{
-  position:relative;z-index:1;display:block;width:100%;height:100%;object-fit:cover;object-position:center center;background:rgba(2,10,20,.22)
-}
-.visualFooter{
-  min-height:58px;padding:10px 13px 11px 14px;display:flex;align-items:center;gap:10px;
-  background:linear-gradient(100deg,rgba(5,30,64,.98),rgba(7,86,143,.96) 62%,rgba(20,160,143,.93));
-  border-top:1px solid rgba(255,255,255,.14)
-}
-.visualFooterText{min-width:0;flex:1}
-.visualFooterText strong{display:block;font-size:13px;line-height:1.25;letter-spacing:-.35px}
-.visualFooterText small{display:block;margin-top:3px;color:#c8e8f7;font-size:9.5px;font-weight:800}
-.visualCta{
-  flex:0 0 auto;padding:7px 10px;border-radius:999px;background:#fff;color:#0a68b8;
-  font-size:9.5px;font-weight:1000;box-shadow:0 7px 15px rgba(0,0,0,.15)
-}
-.visual:active{transform:translateY(1px)}
-.bikeMileageNew{
-  margin-top:12px;padding:12px 13px;border-radius:18px;display:flex;align-items:flex-start;gap:10px;
-  border:1px solid rgba(91,239,192,.36);
-  background:linear-gradient(135deg,rgba(13,76,104,.72),rgba(15,129,116,.48));
-  box-shadow:0 10px 24px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.08)
-}
-.bikeMileageIcon{flex:0 0 34px;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:rgba(92,236,190,.17);border:1px solid rgba(115,250,208,.26);font-size:17px}
-.bikeMileageText{min-width:0}
-.bikeMileageTitle{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:1000;letter-spacing:-.35px}
-.bikeMileageTag{display:inline-flex;padding:3px 6px;border-radius:999px;background:#63efbf;color:#074f43;font-size:7.5px;font-weight:1000;letter-spacing:.04em}
-.bikeMileageText p{margin:5px 0 0;color:#d7f7f0;font-size:9.5px;line-height:1.45;font-weight:780;letter-spacing:-.15px}
-.storeIntro{margin-top:12px;text-align:center;color:#dff4ff;font-size:9.5px;font-weight:900;letter-spacing:-.15px}
-.storeActions{display:grid;grid-template-columns:44% 44%;justify-content:space-between;gap:0;width:100%;max-width:none;margin:6px 0 0}
-.storeBtn{
-  min-height:52px;border-radius:13px;display:flex;align-items:center;gap:6px;padding:6px 7px;
-  border:1px solid rgba(255,255,255,.34);position:relative;overflow:hidden;
-  box-shadow:0 15px 30px rgba(0,32,84,.22),inset 0 1px 0 rgba(255,255,255,.72)
-}
-.storeBtn:before{
-  content:"";position:absolute;inset:auto -22px -28px auto;width:78px;height:78px;border-radius:50%;
-  background:rgba(255,255,255,.15);filter:blur(2px);pointer-events:none
-}
-.storeBtn.google{
-  background:linear-gradient(145deg,#ffffff 0%,#f7fbff 55%,#eef7ff 100%);color:#13233a
-}
-.storeBtn.google:after{
-  content:"";position:absolute;left:0;right:0;bottom:0;height:4px;
-  background:linear-gradient(90deg,#34a853 0 25%,#4285f4 25% 50%,#fbbc05 50% 75%,#ea4335 75% 100%)
-}
-.storeBtn.samsung{
-  background:linear-gradient(135deg,#1b76ff 0%,#3c5bf7 48%,#7356f5 100%);color:#fff;
-  box-shadow:0 16px 34px rgba(45,80,229,.34),inset 0 1px 0 rgba(255,255,255,.34)
-}
-.storeIcon{
-  flex:0 0 26px;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;
-  font-size:13px;font-weight:1000;position:relative;z-index:1
-}
-.storeBtn.google .storeIcon{
-  color:#fff;background:conic-gradient(from 20deg,#34a853,#4285f4,#ea4335,#fbbc05,#34a853);
-  box-shadow:0 7px 16px rgba(20,77,130,.18)
-}
-.storeBtn.samsung .storeIcon{
-  background:rgba(255,255,255,.17);border:1px solid rgba(255,255,255,.34);color:#fff;
-  box-shadow:0 7px 16px rgba(19,42,144,.22)
-}
-.storeText{min-width:0;display:block;text-align:left;line-height:1.08;position:relative;z-index:1}
-.storeText small{display:block;font-size:6.3px;font-weight:900;opacity:.72;margin-bottom:2px;white-space:nowrap}
-.storeText strong{display:block;font-size:9.6px;font-weight:1000;letter-spacing:-.2px;white-space:nowrap}
-.storeText em{display:block;margin-top:2px;font-style:normal;font-size:6.3px;font-weight:850;opacity:.72;white-space:nowrap}
-.storeBtn.samsung .storeText small,.storeBtn.samsung .storeText em{color:rgba(255,255,255,.82)}
-.storeBtn:active{transform:translateY(2px);filter:brightness(.98)}
-.note{margin-top:9px;text-align:center;color:#bcd9ed;font-size:9px;font-weight:800}
-@media(min-width:900px){
-  .page{
-    width:min(100%,920px);
-    padding-left:36px;padding-right:36px;
-  }
-  .top{max-width:820px;width:100%;margin:0 auto}
-  .hero{max-width:820px;width:100%;margin:0 auto;padding-top:30px}
-  h1{font-size:56px;line-height:1.03}
-  .lead{font-size:17px}
-  .visual{max-width:720px;margin-left:auto;margin-right:auto}
-  .storeIntro{font-size:11px}
-  .storeActions{max-width:720px;margin-left:auto;margin-right:auto;grid-template-columns:1fr 1fr;gap:18px}
-  .storeBtn{min-height:60px;padding:8px 12px}
-  .storeIcon{width:32px;height:32px;flex-basis:32px}
-  .storeText strong{font-size:12px}.storeText small,.storeText em{font-size:8px}
-  .note{font-size:10px}
-}
-@media(max-width:380px){
-  .page{padding-left:15px;padding-right:15px}
-  .logo{width:49px;height:49px}.brand strong{font-size:22px}.brand span{font-size:8.5px}
-  .topBrowse{padding:9px 10px;font-size:10px}
-  .hero{padding-top:18px}.badge{font-size:10px}h1{font-size:37px}.lead{font-size:13.5px}
-  .visual{margin-top:17px}.visualFooter{min-height:54px;padding:9px 11px 10px 12px}.visualFooterText strong{font-size:12px}.visualFooterText small{font-size:8.8px}.visualCta{padding:6px 8px;font-size:8.8px}
-  .storeActions{grid-template-columns:45% 45%;justify-content:space-between;gap:0;width:100%;max-width:none}.storeBtn{min-height:50px;padding:5px 6px;gap:5px;border-radius:12px}.storeIcon{width:24px;height:24px;flex-basis:24px;font-size:12px}.storeText strong{font-size:9px}.storeText small{font-size:6px}.storeText em{font-size:6px}
+@media(max-width:620px){
+  .wrap{width:min(100% - 26px,430px)}
+  .nav{height:67px}.brand img{width:42px;height:42px}.brandText strong{font-size:18px}.brandText span{display:none}
+  .navlinks{gap:1px}.navlinks a{padding:9px 8px;font-size:10px}.navlinks a:nth-child(2){display:none}
+  .hero{padding:32px 0 22px}.hero h1{font-size:37px;letter-spacing:-2px}.hero p{font-size:13px}
+  .appGrid{grid-template-columns:1fr}.guideGrid{grid-template-columns:1fr 1fr}
+  .section{padding:28px 0}.sectionHead h2{font-size:25px}.downloadBox{grid-template-columns:1fr}.downloadActions{justify-content:flex-start}
 }
 </style>
-<meta name="robots" content="index,follow">
-<link rel="canonical" href="https://baedal-jjakkung-download.vercel.app/">
 </head>
 <body>
-<main class="page">
-  <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div>
+<header class="topbar">
+  <div class="wrap nav">
+    <a class="brand" href="#home">
+      <img src="./homepage2/rider_master_icon.png" alt="라이더짝꿍">
+      <div class="brandText"><strong>라이더짝꿍</strong><span>RIDER APP PORTAL</span></div>
+    </a>
+    <nav class="navlinks" aria-label="주요 메뉴">
+      <a href="#home">홈</a>
+      <a href="#apps">앱</a>
+      <a href="#guide">사용법</a>
+      <a href="#download">다운로드</a>
+    </nav>
+  </div>
+</header>
 
-  <header class="top">
-    <img class="logo" src="./homepage2/rider_master_icon.png" alt="라이더짝꿍">
-    <div class="brand">
-      <strong>라이더짝꿍</strong>
-      <span>배달 라이더를 위한 운행 파트너</span>
+<main id="home">
+<section class="hero">
+  <div class="wrap heroGrid">
+    <div>
+      <span class="eyebrow">RIDER MATE · OFFICIAL APP PORTAL</span>
+      <h1>라이더를 위한 앱,<br><em>한곳에서 보고 배우고.</em></h1>
+      <p>라이더짝꿍, 짝꿍내비, 퀵짝꿍과 앞으로 추가될 라이더용 앱까지.<br>기능 소개부터 실제 사용법, 다운로드 안내를 한곳에 모읍니다.</p>
+      <div class="heroActions">
+        <a class="btn primary" href="#apps">우리 앱 보기</a>
+        <a class="btn ghost" href="./homepage2/">라이더짝꿍 앱 둘러보기</a>
+      </div>
     </div>
-    <a class="topBrowse" href="./homepage2/?v=20">앱 둘러보기</a>
-  </header>
-
-  <section class="hero">
-    <span class="badge">RIDER MATE · V1.58.05 TEST</span>
-    <h1>수익은 올리고,<br><em>관리는 줄이고.</em></h1>
-    <p class="lead">자동기록 · 정산 · 지역판단 · 바이크관리 · 안전 · 짝꿍내비까지<br>배달 라이더의 운행 관리를 하나로.</p>
-
-    <div class="visual" aria-label="라이더짝꿍 홍보영상과 실제 앱 화면 둘러보기">
-      <div class="visualVideoWrap">
-        <video class="visualVideo" autoplay muted loop playsinline controls preload="metadata"
-          poster="./main-draft2/rider-safety-promo-main.jpg?v=13"
-          aria-label="라이더짝꿍 30초 홍보영상">
+    <div class="videoCard">
+      <div class="videoWrap">
+        <video autoplay muted loop playsinline controls preload="metadata" poster="./main-draft2/rider-safety-promo-main.jpg?v=13">
           <source src="./media/rider-jjakkung-promo.mp4" type="video/mp4">
-          현재 브라우저에서는 영상을 재생할 수 없습니다.
         </video>
       </div>
-      <a class="visualFooter" href="./homepage2/?v=20" aria-label="라이더짝꿍 실제 앱 화면 둘러보기">
-        <div class="visualFooterText">
-          <strong>라이더짝꿍 · 30초 주요 기능 영상</strong>
-          <small>실제 앱 화면과 메뉴는 앱 둘러보기에서 직접 확인</small>
-        </div>
-        <span class="visualCta">앱에서 보기 ›</span>
-      </a>
+      <div class="videoFoot"><strong>라이더짝꿍 주요 기능 영상</strong><span>자동기록 · 수익관리 · 안전 · 바이크관리 · 짝꿍내비</span></div>
     </div>
+  </div>
+</section>
 
-    <div class="bikeMileageNew" aria-label="바이크관리 주행거리 자동 누적 기능">
-      <div class="bikeMileageIcon" aria-hidden="true">🏍️</div>
-      <div class="bikeMileageText">
-        <div class="bikeMileageTitle"><span class="bikeMileageTag">NEW</span><span>바이크관리 · 주행거리 자동 누적</span></div>
-        <p>처음 현재 주행거리만 설정하면 이후 운행거리가 자동으로 누적됩니다. 매번 km를 직접 입력하지 않아도 정비주기 관리가 편해집니다.</p>
+<section class="section" id="apps">
+  <div class="wrap">
+    <div class="sectionHead"><div><div class="kicker">Our Apps</div><h2>라이더짝꿍 앱 패밀리</h2><p>실제 라이더 업무에서 반복되는 불편을 줄이는 앱들을 하나씩 만들고 있습니다.</p></div></div>
+    <div class="appGrid">
+      <article class="appCard featured">
+        <div class="appTop"><div class="appIcon"><img src="./homepage2/rider_master_icon.png" alt=""></div><div><div class="appName">라이더짝꿍</div><span class="status test">TEST 공개</span></div></div>
+        <p>자동기록, 수익·운행기록, 목표관리, 지역판단, 바이크관리, 안전도우미를 한 앱에 모은 메인 운행도우미입니다.</p>
+        <div class="appLinks"><a href="./rider.html">기능 소개</a><a href="./homepage2/">앱 둘러보기</a><a href="./guide.html">사용법</a></div>
+      </article>
+      <article class="appCard">
+        <div class="appTop"><div class="appIcon">🧭</div><div><div class="appName">짝꿍내비</div><span class="status test">라이더짝꿍 포함</span></div></div>
+        <p>메인폰에서 확인한 목적지를 보조폰으로 보내 길안내를 이어주는 두 기기 연동 내비 기능입니다.</p>
+        <div class="appLinks"><a href="./nav.html">기능·연결 방법</a><a href="./guide.html">사용법</a></div>
+      </article>
+      <article class="appCard">
+        <div class="appTop"><div class="appIcon">🗺️</div><div><div class="appName">배달내비</div><span class="status dev">개발 중</span></div></div>
+        <p>배달 운행에 맞춘 지도 표시와 현재위치 추적을 목표로 개발 중인 보조 내비 앱입니다.</p>
+        <div class="appLinks"><span>상세페이지 준비 중</span></div>
+      </article>
+      <article class="appCard">
+        <div class="appTop"><div class="appIcon">⚡</div><div><div class="appName">퀵짝꿍</div><span class="status live">관리자 배포</span></div></div>
+        <p>퀵 오더를 출발·도착·반경·금액 등 내 조건에 맞춰 빠르게 확인하도록 돕는 보조 앱입니다.</p>
+        <div class="appLinks"><a href="./quick.html">기능 소개·다운로드</a><a href="./guide.html">사용법</a></div>
+      </article>
+      <article class="appCard">
+        <div class="appTop"><div class="appIcon">₩</div><div><div class="appName">오늘얼마</div><span class="status dev">개발 중</span></div></div>
+        <p>오늘 필요한 금액, 현재 수익, 남은 금액과 목표 달성 흐름을 직관적으로 관리하는 독립 수입관리 앱입니다.</p>
+        <div class="appLinks"><span>상세페이지 준비 중</span></div>
+      </article>
+      <article class="appCard">
+        <div class="appTop"><div class="appIcon">🛠️</div><div><div class="appName">바이크체크</div><span class="status dev">개발 중</span></div></div>
+        <p>주행거리, 소모품 교체주기, 정비이력, 유지비를 한곳에서 관리하는 독립 바이크 관리 앱입니다.</p>
+        <div class="appLinks"><span>상세페이지 준비 중</span></div>
+      </article>
+      <article class="appCard">
+        <div class="appTop"><div class="appIcon">🛡️</div><div><div class="appName">안심링크</div><span class="status dev">개발 중</span></div></div>
+        <p>안전과 보안을 중심으로 준비 중인 독립 앱입니다. 공개 가능한 기능부터 순차적으로 안내할 예정입니다.</p>
+        <div class="appLinks"><span>상세페이지 준비 중</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="guide">
+  <div class="wrap">
+    <div class="sectionHead"><div><div class="kicker">Guide Center</div><h2>처음 써도 따라갈 수 있게</h2><p>기능 설명만이 아니라 실제 설정 순서와 사용 흐름까지 안내합니다.</p></div><a class="btn ghost" href="./guide.html">전체 사용법</a></div>
+    <div class="guideGrid">
+      <div class="guideCard"><b>📲 설치·권한 설정</b><p>APK 설치부터 접근성·위치·알림 권한까지 처음 필요한 설정을 확인합니다.</p><a href="./guide.html">사용법 보기 ›</a></div>
+      <div class="guideCard"><b>🧾 자동기록</b><p>배달 완료 기록과 수익이 어떻게 저장되는지, 무엇을 확인해야 하는지 안내합니다.</p><a href="./homepage2/">앱 화면 보기 ›</a></div>
+      <div class="guideCard"><b>🧭 짝꿍내비</b><p>메인폰·보조폰 역할 선택, 최초 QR 페어링, 목적지 전송 흐름을 설명합니다.</p><a href="./nav.html">연결 방법 보기 ›</a></div>
+      <div class="guideCard"><b>🏍️ 바이크관리</b><p>현재 주행거리를 처음 한 번 설정하고 이후 운행거리 자동 누적을 사용하는 방법을 안내합니다.</p><a href="./homepage2/">기능 확인 ›</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="download">
+  <div class="wrap">
+    <div class="sectionHead"><div><div class="kicker">Download Center</div><h2>공개 가능한 앱만 정확하게</h2><p>개발 버전과 실제 공개 다운로드 버전을 구분해 안내합니다.</p></div></div>
+    <div class="downloadBox">
+      <div><h3>라이더짝꿍 · 공개 TEST APK</h3><p>현재 공개 다운로드는 V1.57.101 TEST입니다. 내부 개발 버전과 공개 버전은 다를 수 있습니다.</p></div>
+      <div class="downloadActions">
+        <a class="btn primary" href="https://github.com/sunpeaker1/baedal-jjakkung-download/releases/download/v1.57.101/RiderJjakkung-V1.57.101-debug.apk">라이더짝꿍 APK</a>
+        <a class="btn ghost" href="./quick.html#admin-download">퀵짝꿍 관리자 다운로드</a>
       </div>
     </div>
-
-    <div class="storeIntro">Google Play · Galaxy Store 등록 준비 중 · 현재 다운로드 APK V1.57.101</div>
-    <div class="storeActions">
-      <a class="storeBtn google" href="#" onclick="return openStore('google')">
-        <span class="storeIcon">▶</span>
-        <span class="storeText">
-          <small>GET IT ON</small>
-          <strong>Google Play</strong>
-          <em>일반 안드로이드 설치</em>
-        </span>
-      </a>
-      <a class="storeBtn samsung" href="#" onclick="return openStore('samsung')">
-        <span class="storeIcon">S</span>
-        <span class="storeText">
-          <small>DOWNLOAD FROM</small>
-          <strong>Galaxy Store</strong>
-          <em>삼성폰 빠른 설치</em>
-        </span>
-      </a>
-    </div>
-    <div class="note">현재 공개 버전은 테스트 버전이며 일부 기능은 테스트 중입니다.</div>
-  </section>
+    <div class="notice">배달내비·오늘얼마·바이크체크·안심링크 등 개발 중 앱은 공개 준비가 끝난 뒤 다운로드 버튼을 추가합니다.</div>
+  </div>
+</section>
 </main>
-<script>
-const STORE_URLS={google:"",samsung:""};
-const TEST_APK_URL="https://github.com/sunpeaker1/baedal-jjakkung-download/releases/download/v1.57.101/RiderJjakkung-V1.57.101-debug.apk";
-function openStore(store){
-  const url=STORE_URLS[store];
-  if(url){
-    location.href=url;
-    return false;
-  }
-  if(!confirm('스토어 등록 준비 중입니다. 현재 TEST APK를 다운로드하시겠습니까?')) return false;
-  location.href=TEST_APK_URL;
-  return false;
-}
-</script>
-<!-- redeploy: main-draft2 promo image -->
-<!-- production-redeploy-v20 -->
+
+<footer>
+  <div class="wrap"><strong style="color:#fff">라이더짝꿍 공식 앱 포털</strong><div style="margin-top:6px">라이더를 위한 앱의 기능 소개 · 사용법 · 다운로드</div><div style="margin-top:10px">© 2026 Rider Mate · 공개 버전과 개발 중 기능은 변경될 수 있습니다.</div></div>
+</footer>
 </body>
 </html>
