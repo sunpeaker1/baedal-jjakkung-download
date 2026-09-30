@@ -60,3 +60,7 @@ details.guideDetail[open] summary:after{content:"−"}
 .appHeroState .dev{background:rgba(255,255,255,.10);color:#d5e4ef;border:1px solid rgba(255,255,255,.08)}
 .appHeroState .beta{background:#8fd9ff;color:#0a4568}
 @media(max-width:720px){.appHeroMeta{gap:10px}.appHeroIcon{width:52px;height:52px;flex-basis:52px;border-radius:15px}.appHeroName{font-size:16px}.appHeroState span{font-size:7.6px;padding:5px 7px}}
+
+.heroTitleCompact{letter-spacing:-2px}
+@media(max-width:720px){.heroTitleCompact{font-size:33px;line-height:1.08;letter-spacing:-1.75px}}
+@media(max-width:390px){.heroTitleCompact{font-size:31px;letter-spacing:-1.55px}}
