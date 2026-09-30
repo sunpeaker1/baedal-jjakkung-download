@@ -1,17 +1,57 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><meta name="description" content="바이크체크 정비·자동 주행거리·유지비 관리 앱 소개와 사용법"><title>바이크체크 | 라이더짝꿍 앱 포털</title><link rel="stylesheet" href="./assets/portal-detail.css"></head><body>
-<header class="portalNav"><div class="wrap navin"><a class="brand" href="./index.html"><img src="./homepage2/rider_master_icon.png" alt=""><strong>라이더짝꿍 앱 포털</strong></a><nav class="navlinks"><a href="./index.html#apps">앱</a><a href="#guide">사용법</a><a href="./index.html#download">다운로드</a></nav></div></header>
-<main><section class="hero"><div class="wrap"><span class="eyebrow">BIKECHECK · V0.1.14</span><h1>달린 거리부터 정비까지.<br>바이크 관리를 한곳에.</h1><p><b>바이크체크</b>는 배달·퀵 라이더의 주행거리, 소모품 교체주기, 정비기록, 비용과 유지비를 관리하는 독립 Android 앱입니다.</p><div class="chips"><span class="chip">자동 주행거리</span><span class="chip">정비주기</span><span class="chip">교체기록</span><span class="chip">유지비 분석</span></div><div class="actions"><a class="btn ghost" href="./index.html#apps">앱 목록으로</a></div></div></section>
-<section class="section"><div class="wrap"><div class="head"><div class="kicker">Highlight</div><h2>초기 설정 후 주행거리를 자동으로</h2></div><div class="highlight"><strong>🏍️ 자동 주행거리 누적</strong><p>현재 계기판 주행거리를 기준으로 설정한 뒤 실제 주행으로 판별된 거리를 자동 누적합니다. 매번 km를 직접 입력하지 않고 누적 주행거리로 정비주기를 계산할 수 있습니다.</p></div></div></section>
-<section class="section"><div class="wrap"><div class="head"><div class="kicker">Core Features</div><h2>정비와 비용을 함께 관리</h2></div><div class="grid">
-<div class="card"><div class="icon">🛠️</div><h3>소모품 정비주기</h3><p>엔진오일, 타이어, 브레이크패드, 에어필터, 구동계 등의 교체주기와 남은 거리를 확인합니다.</p></div>
-<div class="card"><div class="icon">🧾</div><h3>교체·정비 기록</h3><p>교체한 날짜와 당시 주행거리를 기록해 다음 점검 기준으로 사용합니다.</p></div>
-<div class="card"><div class="icon">💸</div><h3>비용 기록</h3><p>정비비와 기타 바이크 비용을 기록하고 기간별 유지비 흐름을 확인합니다.</p></div>
-<div class="card"><div class="icon">📈</div><h3>유지비 분석</h3><p>실제 기록한 비용과 주행거리 이력을 기준으로 기간별 비용과 km당 유지비를 확인합니다.</p></div>
+<!doctype html><html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071a35"><meta name="robots" content="noindex,nofollow">
+<meta name="description" content="바이크체크 자동 주행거리, 정비주기, 교체기록, 비용, 유지비 분석과 계기판 보정 사용법.">
+<title>바이크체크 | 기능 소개와 사용법</title><link rel="stylesheet" href="./assets/portal-detail.css">
+</head><body>
+<header class="portalNav"><div class="wrap navin"><a class="brand" href="./index.html"><img src="./homepage2/rider_master_icon.png" alt=""><strong>라이더짝꿍 앱 포털</strong></a><nav class="navlinks"><a href="./index.html">홈</a><a href="#guide">사용법</a><a href="./guide.html">전체 가이드</a></nav></div></header>
+<main>
+<section class="hero"><div class="wrap"><span class="eyebrow">BIKECHECK · V0.1.14</span>
+<h1>주행거리는 자동으로.<br>정비 시점은 놓치지 않게.</h1>
+<p><b>바이크체크</b>는 배달·퀵 라이더의 주행거리, 소모품 교체주기, 정비기록, 비용과 유지비를 관리하는 독립 Android 앱입니다. 매번 계기판 km를 입력하는 불편을 줄이기 위해 자동 주행거리 관리 기능도 포함합니다.</p>
+<div class="statusRow"><span class="statusPill test">V0.1.14</span><span class="statusPill dev">독립 앱</span></div>
+<div class="quickNav"><a href="#auto">자동 주행거리</a><a href="#features">정비·비용</a><a href="#guide">처음 설정</a><a href="#daily">실제 사용</a><a href="#trouble">문제 해결</a></div>
+</div></section>
+
+<section class="section" id="auto"><div class="wrap"><div class="head"><div class="kicker">Automatic Odometer</div><h2>현재 계기판을 한 번 맞추고 이후는 자동 누적</h2></div>
+<div class="highlight"><strong>🏍️ 자동 주행거리 관리</strong><p>처음 실제 계기판 주행거리를 기준값으로 설정한 뒤 주행으로 판단된 거리를 자동 누적합니다. 엔진오일·타이어·브레이크 등 소모품의 남은 거리 계산도 이 현재 주행거리를 기준으로 이어집니다.</p></div>
+<div class="howList">
+<div class="howCard"><h3>주행 판별</h3><ul><li>자동관리 설정에서 사용할 주행 판별 조건을 확인합니다.</li><li>GPS 속도와 설정된 보조 신호를 이용해 실제 주행 여부를 판단합니다.</li><li>신호대기나 잠깐 정차는 바로 한 세션을 끝내지 않도록 설계되어 있습니다.</li></ul></div>
+<div class="howCard"><h3>계기판 보정</h3><ul><li>앱 거리와 실제 계기판이 달라지면 보정 메뉴에서 현재 값을 맞춥니다.</li><li>보정은 현재 주행거리 기준을 맞추는 기능이며 과거 정비기록 자체를 지우지 않습니다.</li><li>보정 후 새 기준에서 자동 누적을 계속합니다.</li></ul></div>
 </div></div></section>
-<section class="section" id="guide"><div class="wrap"><div class="head"><div class="kicker">How It Works</div><h2>자동 주행거리 사용 순서</h2></div><div class="steps">
-<div class="step"><b>01</b><strong>바이크 등록</strong><p>바이크 정보와 현재 계기판 주행거리를 설정합니다.</p></div>
-<div class="step"><b>02</b><strong>자동관리 설정</strong><p>주행 판별에 사용할 설정을 확인합니다.</p></div>
-<div class="step"><b>03</b><strong>주행거리 누적</strong><p>실제 주행으로 판단된 거리가 현재 주행거리에 자동 반영됩니다.</p></div>
-<div class="step"><b>04</b><strong>정비시점 확인</strong><p>자동 누적된 거리 기준으로 각 소모품의 남은 거리를 확인합니다.</p></div>
-</div><div class="notice">실제 계기판과 차이가 생기면 계기판 보정 기능으로 현재 주행거리 기준을 맞추고 이후부터 다시 자동 누적할 수 있습니다.</div></div></section></main>
-<footer><div class="wrap">© 2026 Rider Mate · 바이크체크</div></footer></body></html>
+
+<section class="section" id="features"><div class="wrap"><div class="head"><div class="kicker">Core Features</div><h2>정비·기록·비용까지 한곳에</h2></div><div class="grid">
+<div class="card"><div class="icon">🛠️</div><h3>소모품 정비주기</h3><p>엔진오일, 앞·뒤 타이어, 앞·뒤 브레이크패드, 에어필터, 구동계 등의 교체주기와 남은 거리를 관리합니다.</p></div>
+<div class="card"><div class="icon">🧾</div><h3>교체·정비 기록</h3><p>교체 날짜와 당시 주행거리를 남기면 다음 점검 기준으로 자동 반영합니다.</p></div>
+<div class="card"><div class="icon">🔔</div><h3>점검 알림</h3><p>현재 주행거리와 마지막 교체기록, 교체주기를 비교해 점검이 가까운 항목을 확인합니다.</p></div>
+<div class="card"><div class="icon">📷</div><h3>사진 기록</h3><p>정비·비용 기록에 관련 사진을 함께 남겨 나중에 부품이나 영수증을 확인할 수 있습니다.</p></div>
+<div class="card"><div class="icon">💸</div><h3>비용 기록</h3><p>정비비와 기타 바이크 지출을 날짜별로 기록하고 상세 확인·수정·삭제가 가능합니다.</p></div>
+<div class="card"><div class="icon">📈</div><h3>유지비 분석</h3><p>선택 기간의 실제 비용과 주행거리 이력을 기준으로 총 유지비와 km당 유지비를 확인합니다.</p></div>
+</div></div></section>
+
+<section class="section" id="guide"><div class="wrap"><div class="head"><div class="kicker">First Setup</div><h2>처음 한 번 설정할 것</h2></div><div class="steps">
+<div class="step"><b>01</b><strong>바이크 등록</strong><p>바이크 정보와 필요한 사진을 등록합니다.</p></div>
+<div class="step"><b>02</b><strong>계기판 기준 설정</strong><p>현재 실제 계기판 주행거리를 정확히 입력합니다.</p></div>
+<div class="step"><b>03</b><strong>자동관리 설정</strong><p>자동 주행거리 판별에 사용할 설정과 상태를 확인합니다.</p></div>
+<div class="step"><b>04</b><strong>정비주기 입력</strong><p>내 바이크에 맞는 소모품별 교체주기를 직접 설정합니다.</p></div>
+</div>
+<div class="callout">교체주기는 앱이 임의의 제조사 기준을 넣는 것이 아니라 사용자가 자신의 바이크·부품·정비 기준에 맞춰 설정하는 방식입니다.</div>
+</div></section>
+
+<section class="section" id="daily"><div class="wrap"><div class="head"><div class="kicker">Daily Use</div><h2>평소에는 이렇게 관리</h2></div><div class="howList">
+<div class="howCard"><h3>운행 후</h3><ol><li>홈에서 자동관리 상태와 오늘 자동 누적거리를 확인합니다.</li><li>현재 총 주행거리가 실제 계기판 흐름과 크게 다르지 않은지 가끔 확인합니다.</li><li>점검 임박 항목이 있는지 홈과 정비관리에서 확인합니다.</li></ol></div>
+<div class="howCard"><h3>소모품을 교체했을 때</h3><ol><li>해당 정비항목 상세로 들어갑니다.</li><li>교체기록을 추가하고 날짜·주행거리·비용 등을 확인합니다.</li><li>저장하면 마지막 교체 기준이 새 기록으로 반영되는지 확인합니다.</li></ol></div>
+<div class="howCard"><h3>비용을 썼을 때</h3><ol><li>비용기록 추가에서 금액·날짜·분류를 입력합니다.</li><li>필요하면 영수증이나 관련 사진을 함께 남깁니다.</li><li>분석 화면에서 기간별 총비용과 km당 유지비를 확인합니다.</li></ol></div>
+<div class="howCard"><h3>계기판과 차이가 생겼을 때</h3><ol><li>일반 주행거리 입력으로 임의 덮어쓰기보다 계기판 보정 메뉴를 사용합니다.</li><li>실제 계기판 값을 입력해 차이를 확인합니다.</li><li>보정 적용 후 새 기준에서 자동 누적을 계속합니다.</li></ol></div>
+</div></div></section>
+
+<section class="section" id="trouble"><div class="wrap"><div class="head"><div class="kicker">Troubleshooting</div><h2>자동거리·정비 계산이 이상할 때</h2></div><div class="grid">
+<div class="card"><h3>자동거리가 안 늘어요</h3><p>자동관리 ON 상태, 위치 권한, GPS 상태와 자동관리 설정에 필요한 주행 판별 조건을 확인합니다.</p></div>
+<div class="card"><h3>실제 계기판과 차이가 커요</h3><p>계기판 보정 기능으로 현재 기준을 맞춥니다. 과거 정비기록을 억지로 수정하지 않고 현재 기준만 바로잡는 방식입니다.</p></div>
+<div class="card"><h3>정비 진행률이 안 보여요</h3><p>현재 계기판 기준, 정비주기, 마지막 교체기록 중 필요한 기준값이 빠져 있지 않은지 확인합니다.</p></div>
+<div class="card"><h3>교체했는데 다음 주기가 안 바뀌어요</h3><p>해당 소모품의 교체기록이 정상 저장됐는지와 교체 당시 주행거리가 현재 기준보다 올바른지 확인합니다.</p></div>
+</div>
+<div class="notice">자동 주행거리는 GPS와 주행 판별 조건을 사용하는 보조 기록입니다. 실제 계기판이 최종 기준이며 필요할 때 보정 기능으로 맞춰 사용합니다.</div>
+</div></section>
+</main><footer><div class="wrap">© 2026 Rider Mate · 바이크체크 V0.1.14 · 배달·퀵 라이더용 독립 바이크 관리 앱</div></footer>
+</body></html>
