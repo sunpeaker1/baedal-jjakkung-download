@@ -1,16 +1,54 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><meta name="description" content="배달내비 기능 소개와 사용 흐름"><title>배달내비 | 라이더짝꿍 앱 포털</title><link rel="stylesheet" href="./assets/portal-detail.css"></head><body>
-<header class="portalNav"><div class="wrap navin"><a class="brand" href="./index.html"><img src="./homepage2/rider_master_icon.png" alt=""><strong>라이더짝꿍 앱 포털</strong></a><nav class="navlinks"><a href="./index.html#apps">앱</a><a href="#guide">사용법</a><a href="./index.html#download">다운로드</a></nav></div></header>
-<main><section class="hero"><div class="wrap"><span class="eyebrow">DELIVERY NAVIGATION · V0.4.5 DEV</span><h1>배달길을 보기 편하게.<br>보조폰에서 계속 따라가게.</h1><p><b>배달내비</b>는 배달 운행에 맞춘 보조 내비 앱입니다. 운행방향에 맞춰 지도를 회전하고 현재 위치를 따라가며, 배달 중 손으로 지도를 계속 확대·이동하는 불편을 줄이는 방향으로 개발하고 있습니다.</p><div class="chips"><span class="chip">2D 지도</span><span class="chip">진행방향 자동 회전</span><span class="chip">현재위치 추적</span><span class="chip">짝꿍내비 연동</span></div><div class="actions"><a class="btn ghost" href="./index.html#apps">앱 목록으로</a><a class="btn primary" href="./nav.html">짝꿍내비 보기</a></div></div></section>
-<section class="section"><div class="wrap"><div class="head"><div class="kicker">Core Features</div><h2>배달 운행에 필요한 지도 표시</h2></div><div class="grid">
-<div class="card"><div class="icon">🧭</div><h3>운행방향 자동 회전</h3><p>주행 방향이 화면 위쪽을 향하도록 지도를 자동으로 회전해 다음 진행 방향을 빠르게 파악할 수 있게 합니다.</p></div>
-<div class="card"><div class="icon">📍</div><h3>현재위치 자동 추적</h3><p>현재 위치를 따라 지도가 이동해 운행 중 반복적으로 지도를 끌어다 놓는 동작을 줄이는 것을 목표로 합니다.</p></div>
-<div class="card"><div class="icon">↗️</div><h3>거리·회전 안내</h3><p>상단 거리 정보와 중간 회전 안내 등 실제 운행에서 필요한 정보가 한눈에 들어오도록 화면을 구성합니다.</p></div>
-<div class="card"><div class="icon">🔗</div><h3>짝꿍내비와 연결</h3><p>기존 메인폰·보조폰 페어링과 목적지 전송 흐름을 활용해 보조폰 내비 화면으로 이어지는 구조를 개발하고 있습니다.</p></div>
+<!doctype html><html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071a35"><meta name="robots" content="noindex,nofollow">
+<meta name="description" content="배달내비의 지도 추적, 운행방향 회전, 길안내 화면, 짝꿍내비 연동과 사용법.">
+<title>배달내비 | 기능 소개와 사용법</title><link rel="stylesheet" href="./assets/portal-detail.css">
+</head><body>
+<header class="portalNav"><div class="wrap navin"><a class="brand" href="./index.html"><img src="./homepage2/rider_master_icon.png" alt=""><strong>라이더짝꿍 앱 포털</strong></a><nav class="navlinks"><a href="./index.html">홈</a><a href="#guide">사용법</a><a href="./nav.html">짝꿍내비</a></nav></div></header>
+<main>
+<section class="hero"><div class="wrap"><span class="eyebrow">DELIVERY NAVIGATION · V0.4.5 DEV</span>
+<h1>배달길을 보기 편하게.<br>지도는 운행방향을 따라가게.</h1>
+<p><b>배달내비</b>는 배달 운행 중 지도를 손으로 계속 확대하거나 위치를 다시 맞추는 불편을 줄이기 위해 개발 중인 보조 내비 앱입니다. 현재위치 추적, 운행방향 회전, 경로·회전 안내와 짝꿍내비 연결을 중심으로 검증하고 있습니다.</p>
+<div class="statusRow"><span class="statusPill dev">V0.4.5 개발 버전</span><span class="statusPill dev">실주행 검증 중</span></div>
+<div class="quickNav"><a href="#purpose">목적</a><a href="#features">핵심 기능</a><a href="#guide">사용 흐름</a><a href="#screenread">화면 보는 법</a><a href="#trouble">문제 해결</a></div>
+</div></section>
+
+<section class="section" id="purpose"><div class="wrap"><div class="head"><div class="kicker">Purpose</div><h2>배달할 때 지도를 덜 만지게</h2></div>
+<div class="highlight"><strong>핵심은 보조폰에서 계속 보기 좋은 지도</strong><p>현재 위치를 따라가고, 운행 방향에 맞춰 지도를 돌리고, 다음 회전과 남은 거리 같은 정보를 고정된 안내 영역에서 보여주는 것을 목표로 합니다.</p></div>
+</div></section>
+
+<section class="section" id="features"><div class="wrap"><div class="head"><div class="kicker">Core Features</div><h2>배달 운행에 맞춘 표시 기능</h2></div><div class="grid">
+<div class="card"><div class="icon">📍</div><h3>현재위치 자동 추적</h3><p>GPS 위치를 따라 지도가 이동해 운행 중 현재 위치를 다시 찾는 동작을 줄입니다.</p></div>
+<div class="card"><div class="icon">🧭</div><h3>운행방향 자동 회전</h3><p>이동 방향과 센서 정보를 바탕으로 지도를 돌려 진행 방향을 화면 위쪽 기준으로 보기 쉽게 합니다.</p></div>
+<div class="card"><div class="icon">↪️</div><h3>다음 회전 안내</h3><p>상단·중간 안내 영역에서 다음 회전 방향과 거리를 확인할 수 있도록 구성합니다.</p></div>
+<div class="card"><div class="icon">📏</div><h3>남은 거리·진행 정보</h3><p>목적지까지 남은 거리와 경로 진행 상태를 주행 화면에서 빠르게 확인합니다.</p></div>
+<div class="card"><div class="icon">🔎</div><h3>배달용 지도 확대</h3><p>골목과 목적지 접근 구간을 보기 쉽도록 실제 휴대폰 화면에서 지도 확대 비율을 계속 조정하고 있습니다.</p></div>
+<div class="card"><div class="icon">🔗</div><h3>짝꿍내비 연동</h3><p>메인폰에서 받은 목적지를 보조폰 배달내비 화면으로 이어주는 연결 구조를 목표로 개발합니다.</p></div>
 </div></div></section>
+
 <section class="section" id="guide"><div class="wrap"><div class="head"><div class="kicker">How It Works</div><h2>사용 흐름</h2></div><div class="steps">
-<div class="step"><b>01</b><strong>보조폰 준비</strong><p>배달내비를 실행하고 위치 권한과 현재위치 상태를 확인합니다.</p></div>
-<div class="step"><b>02</b><strong>짝꿍내비 연결</strong><p>메인폰과 보조폰을 최초 1회 페어링합니다.</p></div>
-<div class="step"><b>03</b><strong>목적지 전달</strong><p>메인폰에서 확인한 배달 목적지를 보조폰으로 전달합니다.</p></div>
-<div class="step"><b>04</b><strong>자동 추적</strong><p>보조폰에서 현재위치와 운행방향을 따라 지도를 확인합니다.</p></div>
-</div><div class="notice">현재 개발·실주행 검증 중인 앱입니다. 공개 다운로드는 기능 안정화와 연결 검증이 끝난 뒤 추가합니다.</div></div></section></main>
-<footer><div class="wrap">© 2026 Rider Mate · 배달내비는 개발 중이며 화면과 기능은 변경될 수 있습니다.</div></footer></body></html>
+<div class="step"><b>01</b><strong>보조폰 준비</strong><p>배달내비를 실행하고 위치 권한과 GPS 상태를 확인합니다.</p></div>
+<div class="step"><b>02</b><strong>목적지 준비</strong><p>직접 목적지를 입력하거나 짝꿍내비 연동으로 목적지를 전달받습니다.</p></div>
+<div class="step"><b>03</b><strong>길찾기·주행 시작</strong><p>경로가 표시되면 주행 화면으로 전환해 안내를 확인합니다.</p></div>
+<div class="step"><b>04</b><strong>자동 추적</strong><p>현재위치와 운행방향을 따라 지도와 안내 정보를 확인합니다.</p></div>
+</div>
+<div class="callout">짝꿍내비 연결을 사용하는 경우에는 먼저 메인폰·보조폰 페어링과 연결됨 상태를 확인한 뒤 배달내비를 선택합니다.</div>
+</div></section>
+
+<section class="section" id="screenread"><div class="wrap"><div class="head"><div class="kicker">On The Road</div><h2>주행 화면에서 볼 것</h2></div><div class="howList">
+<div class="howCard"><h3>상단 안내</h3><ul><li>다음 회전 방향과 남은 거리를 확인합니다.</li><li>경로 계산 중에는 로딩·상태 문구를 확인합니다.</li></ul></div>
+<div class="howCard"><h3>지도 중앙</h3><ul><li>현재위치 표시와 진행 방향을 확인합니다.</li><li>지도를 손으로 움직이면 자동 추적 복귀 상태를 확인합니다.</li></ul></div>
+<div class="howCard"><h3>목적지 접근</h3><ul><li>목적지 표식과 주변 골목 형태를 함께 봅니다.</li><li>실제 도로 상황과 배달앱의 목적지 정보를 우선 확인합니다.</li></ul></div>
+<div class="howCard"><h3>카메라·안전정보</h3><ul><li>개발 버전의 안전카메라 기능은 테스트 데이터와 실제 도로 상황이 다를 수 있습니다.</li><li>도로표지와 제한속도를 항상 우선합니다.</li></ul></div>
+</div></div></section>
+
+<section class="section" id="trouble"><div class="wrap"><div class="head"><div class="kicker">Troubleshooting</div><h2>이상할 때 먼저 확인</h2></div><div class="grid">
+<div class="card"><h3>현재 위치가 안 잡혀요</h3><p>위치 권한과 GPS가 켜져 있는지 확인하고, 실외에서 위치 정확도가 확보될 때까지 잠시 기다립니다.</p></div>
+<div class="card"><h3>지도가 진행방향과 달라요</h3><p>이동 중 GPS 방향이 안정되는지 확인하고 센서 상태에 따라 잠시 지연될 수 있으므로 실제 도로 방향을 함께 확인합니다.</p></div>
+<div class="card"><h3>목적지가 안 넘어와요</h3><p>배달내비보다 먼저 짝꿍내비의 메인폰·보조폰 연결됨 상태와 목적지 전송 여부를 확인합니다.</p></div>
+<div class="card"><h3>지도 확대가 불편해요</h3><p>현재 확대 비율은 실주행 조정 중입니다. 목적지 접근 구간에서는 실제 배달앱 지도와 도로 상황도 함께 확인합니다.</p></div>
+</div>
+<div class="notice">현재 개발·실주행 검증 중이므로 공개 다운로드는 연결 안정성과 주행 화면 검증이 끝난 뒤 추가합니다.</div>
+</div></section>
+</main><footer><div class="wrap">© 2026 Rider Mate · 배달내비 V0.4.5 DEV · 개발 중 기능은 변경될 수 있습니다.</div></footer>
+</body></html>
