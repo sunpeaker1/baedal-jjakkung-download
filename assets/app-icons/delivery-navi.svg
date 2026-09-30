@@ -1,8 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108">
-<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071d43"/><stop offset=".55" stop-color="#075da7"/><stop offset="1" stop-color="#12c6a1"/></linearGradient></defs>
-<rect width="108" height="108" rx="24" fill="url(#g)"/>
-<path d="M18 74c15-24 28-38 43-41 10-2 20 2 31 10" fill="none" stroke="#5af0c4" stroke-width="7" stroke-linecap="round"/>
-<path d="M62 25l27 10-10 27-6-15-15-6z" fill="#fff"/>
-<circle cx="28" cy="73" r="8" fill="#ff4e62" stroke="#fff" stroke-width="3"/>
-<path d="M28 68v10M23 73h10" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/>
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071d43"/><stop offset=".6" stop-color="#075fa9"/><stop offset="1" stop-color="#0bb68f"/></linearGradient>
+</defs>
+<rect width="108" height="108" rx="24" fill="url(#bg)"/>
+<path d="M24 91c8-17 9-31 23-40 10-7 22-7 35-24" fill="none" stroke="#fff" stroke-width="13" stroke-linecap="round"/>
+<path d="M24 91c8-17 9-31 23-40 10-7 22-7 35-24" fill="none" stroke="#50e6bd" stroke-width="4" stroke-linecap="round" stroke-dasharray="7 7"/>
+<path d="M70 18l25 9-10 25-6-14-14-6z" fill="#fff"/>
+<circle cx="25" cy="87" r="8" fill="#ff5366" stroke="#fff" stroke-width="3"/>
+<circle cx="25" cy="87" r="2.5" fill="#fff"/>
 </svg>
