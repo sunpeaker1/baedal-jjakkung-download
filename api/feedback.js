@@ -31,11 +31,12 @@ module.exports = async function handler(req, res) {
     const type = text(body.type, 20);
     const title = text(body.title, 80);
     const content = text(body.body, 3000);
+    const contact = text(body.contact, 120);
     const website = text(body.website, 120);
 
     if (website) return res.status(200).json({ ok: true });
 
-    if (!['오류 제보', '기능 제안', '광고·제휴 문의'].includes(type) || title.length < 2 || content.length < 2) {
+    if (!['오류 제보', '기능 제안', '광고·제휴 문의'].includes(type) || title.length < 2 || content.length < 2 || (type === '광고·제휴 문의' && contact.length < 4)) {
       return res.status(400).json({ ok: false, message: '필수 내용을 확인해 주세요.' });
     }
 
@@ -46,6 +47,7 @@ module.exports = async function handler(req, res) {
       type,
       title,
       body: content,
+      ...(contact ? { contact } : {}),
       status: 'unread',
       createdAt: now.toISOString(),
       updatedAt: now.toISOString(),
