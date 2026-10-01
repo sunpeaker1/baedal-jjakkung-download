@@ -9,7 +9,7 @@
  const recent=document.getElementById('feedbackRecent');
  const modal=document.getElementById('feedbackSuccess');
  const modalId=document.getElementById('feedbackSuccessId');
- const endpoint='https://baedal-jjakkung-download.vercel.app/api/feedback';
+ const endpoint='/api/feedback';
  function showRecent(){
    try{
      const x=JSON.parse(localStorage.getItem('riderFeedbackRecent')||'null');
