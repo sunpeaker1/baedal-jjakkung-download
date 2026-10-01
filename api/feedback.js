@@ -35,7 +35,7 @@ module.exports = async function handler(req, res) {
 
     if (website) return res.status(200).json({ ok: true });
 
-    if (!['오류 제보', '기능 제안'].includes(type) || title.length < 2 || content.length < 2) {
+    if (!['오류 제보', '기능 제안', '광고·제휴 문의'].includes(type) || title.length < 2 || content.length < 2) {
       return res.status(400).json({ ok: false, message: '필수 내용을 확인해 주세요.' });
     }
 
