@@ -21,7 +21,7 @@ async function saveToCache(item){
   const cache=getCache(undefined,CACHE_NAMESPACE);
   await cache.set(item.id,item,{ttl:60*60*24*90,tags:['feedback']});
   const current=(await cache.get('recent'))||[];
-  const next=[item.id,...current.filter(x=>x!==item.id)].slice(0,300);
+  const next=[item.id,...current.filter(x=>x!==item.id)].slice(0,1000);
   await cache.set('recent',next,{ttl:60*60*24*90,tags:['feedback-index']});
 }
 
@@ -29,7 +29,7 @@ async function listFromCache(){
   const cache=getCache(undefined,CACHE_NAMESPACE);
   const ids=(await cache.get('recent'))||[];
   const items=[];
-  for(const id of ids.slice(0,300)){
+  for(const id of ids.slice(0,1000)){
     const item=await cache.get(id);
     if(item) items.push({...item,status:item.status||'unread'});
   }
@@ -65,7 +65,7 @@ async function listFromBlob(){
     }
     cursor=page.cursor;
   }while(cursor);
-  return items.sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||''))).slice(0,300);
+  return items.sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||''))).slice(0,1000);
 }
 
 async function getBlobItem(id){
