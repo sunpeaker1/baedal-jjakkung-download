@@ -123,7 +123,7 @@ async function updateFeedbackStatus(id,status){
 
 
 async function deleteFeedback(ids){
-  const clean=[...new Set((Array.isArray(ids)?ids:[]).map(x=>String(x||'').trim()).filter(Boolean))].slice(0,300);
+  const clean=[...new Set((Array.isArray(ids)?ids:[]).map(x=>String(x||'').trim()).filter(Boolean))].slice(0,1000);
   if(!clean.length) return {deleted:0,storage:hasBlob()?'blob':'cache'};
 
   if(hasBlob()){
