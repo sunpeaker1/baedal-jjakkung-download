@@ -1,4 +1,5 @@
 const {
+  hasBlob,
   deleteFeedback,
   deleteFeedbackByStatus,
   resetFeedback
@@ -37,6 +38,9 @@ module.exports=async function handler(req,res){
   }
 
   try{
+    if(!hasBlob()){
+      return res.status(409).json({ok:false,code:'PERSISTENT_STORAGE_REQUIRED',message:'영구저장 연결 상태에서만 삭제할 수 있습니다.'});
+    }
     const body=typeof req.body==='string'?JSON.parse(req.body||'{}'):(req.body||{});
     const action=String(body.action||'').trim();
 
