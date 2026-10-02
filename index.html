@@ -4,8 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#071a35">
-<meta name="description" content="라이더짝꿍 공식 앱 포털. 라이더용 앱의 기능 소개, 사용법, 다운로드를 한곳에서 확인하세요.">
-<title>라이더짝꿍 | 공식 앱 포털</title>
+<meta name="description" content="배달·퀵 라이더를 위한 앱, 무료 수익 계산기, 정비·안전 정보와 사용법을 한곳에서 확인하세요. 라이더짝꿍·짝꿍내비·배달내비·퀵짝꿍·오늘번돈·바이크체크를 안내합니다.">
+<link rel="canonical" href="https://baedal-jjakkung-download.vercel.app/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="라이더짝꿍 | 라이더용 앱·무료 계산기·정보">
+<meta property="og:description" content="라이더용 앱, 무료 수익 계산기, 정비·안전 정보와 사용법을 한곳에서 확인하세요.">
+<meta property="og:url" content="https://baedal-jjakkung-download.vercel.app/">
+<meta property="og:image" content="https://baedal-jjakkung-download.vercel.app/homepage2/rider_master_icon.png">
+<title>라이더짝꿍 | 라이더용 앱·무료 계산기·정보</title>
 <meta name="robots" content="index,follow">
 <link rel="icon" href="./homepage2/rider_master_icon.png">
 <style>
@@ -88,7 +94,21 @@ a{text-decoration:none;color:inherit}
 .guideGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .guideCard{padding:15px;border-radius:17px;background:rgba(255,255,255,.06);border:1px solid var(--line)}
 .guideCard b{font-size:12.5px}.guideCard p{margin:7px 0 0;color:#b7ccdd;font-size:10.5px;line-height:1.5}
+
 .guideCard a{display:inline-block;margin-top:9px;color:#74dfff;font-size:9.5px;font-weight:1000}
+
+.toolGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.toolCard{display:block;padding:16px;border-radius:18px;background:linear-gradient(145deg,rgba(16,54,84,.92),rgba(8,35,59,.92));border:1px solid rgba(103,215,255,.22);box-shadow:0 9px 22px rgba(0,0,0,.12)}
+.toolCard.featured{background:linear-gradient(145deg,rgba(12,89,139,.95),rgba(12,112,97,.82));border-color:rgba(97,238,197,.28)}
+.toolCard .emoji{font-size:23px}.toolCard h3{margin:8px 0 5px;font-size:15px}.toolCard p{margin:0;color:#bed1df;font-size:10.5px;line-height:1.55}.toolCard span{display:inline-block;margin-top:9px;color:#7ce6c3;font-size:9.5px;font-weight:1000}
+.infoGrid{display:grid;grid-template-columns:1.2fr .8fr;gap:10px}
+.infoCard{padding:18px;border-radius:19px;background:rgba(255,255,255,.055);border:1px solid var(--line)}
+.infoCard h3{margin:0;font-size:15px}.infoCard p{margin:7px 0 0;color:#bfd2df;font-size:10.5px;line-height:1.6}
+.infoTags{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}.infoTags a{padding:7px 9px;border-radius:999px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.08);font-size:9px;font-weight:900;color:#d5e4ef}
+.businessBox{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;padding:18px;border-radius:19px;background:linear-gradient(135deg,rgba(15,63,101,.82),rgba(13,93,82,.66));border:1px solid rgba(92,229,189,.20)}
+.businessBox h3{margin:0;font-size:16px}.businessBox p{margin:6px 0 0;color:#c9e7e3;font-size:10.5px;line-height:1.5}
+.footerLinks{display:flex;flex-wrap:wrap;gap:10px;margin-top:9px}.footerLinks a{color:#c6d8e5}
+
 
 .downloadBox{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;padding:20px;border-radius:21px;background:linear-gradient(135deg,rgba(15,63,101,.90),rgba(13,103,92,.70));border:1px solid rgba(92,229,189,.25)}
 .downloadBox h3{margin:0;font-size:19px}.downloadBox p{margin:6px 0 0;color:#c9e7e3;font-size:11px;line-height:1.5}
@@ -114,12 +134,26 @@ footer{padding:28px 0 42px;color:#91a9bc;font-size:10px;border-top:1px solid rgb
   .launcherIcon{width:44px;height:44px;border-radius:13px;font-size:22px}
   .launcherName{font-size:11px}.launcherStatus{font-size:8px}
   .section{padding:25px 0}.sectionHead h2{font-size:22px}
-  .guideGrid{grid-template-columns:1fr 1fr}.downloadBox{grid-template-columns:1fr}.downloadActions{justify-content:flex-start}
+  .guideGrid{grid-template-columns:1fr 1fr}.toolGrid{grid-template-columns:1fr}.infoGrid{grid-template-columns:1fr}.businessBox{grid-template-columns:1fr}.downloadBox{grid-template-columns:1fr}.downloadActions{justify-content:flex-start}
 }
 @media(max-width:350px){
   .launcherName{font-size:10px}.launcherCard{min-height:99px}.launcherIcon{width:41px;height:41px}
 }
 </style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"WebSite","name":"라이더짝꿍","url":"https://baedal-jjakkung-download.vercel.app/","description":"라이더용 앱, 무료 수익 계산기, 정비·안전 정보와 사용법을 제공하는 통합 홈페이지"},
+{"@type":"ItemList","name":"라이더용 주요 앱과 도구","itemListElement":[
+{"@type":"ListItem","position":1,"name":"라이더짝꿍","url":"https://baedal-jjakkung-download.vercel.app/rider.html"},
+{"@type":"ListItem","position":2,"name":"짝꿍내비","url":"https://baedal-jjakkung-download.vercel.app/nav.html"},
+{"@type":"ListItem","position":3,"name":"배달내비","url":"https://baedal-jjakkung-download.vercel.app/delivery-navi.html"},
+{"@type":"ListItem","position":4,"name":"퀵짝꿍","url":"https://baedal-jjakkung-download.vercel.app/quick.html"},
+{"@type":"ListItem","position":5,"name":"오늘번돈","url":"https://baedal-jjakkung-download.vercel.app/oneul-eolma.html"},
+{"@type":"ListItem","position":6,"name":"바이크체크","url":"https://baedal-jjakkung-download.vercel.app/bikecheck.html"},
+{"@type":"ListItem","position":7,"name":"무료 라이더 계산기","url":"https://baedal-jjakkung-download.vercel.app/tools.html"}
+]}
+]}
+</script>
 </head>
 <body>
 <header class="topbar">
@@ -129,8 +163,9 @@ footer{padding:28px 0 42px;color:#91a9bc;font-size:10px;border-top:1px solid rgb
       <div class="brandText"><strong>라이더짝꿍</strong><span>RIDER APP PORTAL</span></div>
     </a>
     <nav class="navlinks" aria-label="주요 메뉴">
-      <a href="#home">홈</a>
-      <a href="#guide">사용법</a>
+      <a href="#apps">앱</a>
+      <a href="#tools">계산기</a>
+      <a href="#info">정보</a>
       <a href="#download">다운로드</a>
     </nav>
   </div>
@@ -141,11 +176,11 @@ footer{padding:28px 0 42px;color:#91a9bc;font-size:10px;border-top:1px solid rgb
   <div class="wrap">
     <div class="portalIntro">
       <span class="eyebrow">RIDER MATE · APP PORTAL</span>
-      <h1>라이더용 앱을 <em>한눈에.</em></h1>
-      <p>앱을 누르면 기능 소개와 사용법을 바로 확인할 수 있습니다.</p>
+      <h1>라이더용 앱과 도구를 <em>한눈에.</em></h1>
+      <p>앱 소개부터 무료 수익 계산기, 정비·안전 정보와 사용법까지 라이더에게 필요한 기능을 한곳에 모았습니다.</p>
     </div>
 
-    <div class="launcherWrap" aria-label="라이더짝꿍 앱 목록">
+    <div class="launcherWrap" id="apps" aria-label="라이더짝꿍 앱 목록">
       <div class="launcherGrid">
         <a class="launcherCard primary" href="./rider.html">
           <div class="launcherIcon"><img src="./homepage2/rider_master_icon.png" alt=""></div>
@@ -169,8 +204,8 @@ footer{padding:28px 0 42px;color:#91a9bc;font-size:10px;border-top:1px solid rgb
         </a>
         <a class="launcherCard" href="./oneul-eolma.html">
           <div class="launcherIcon"><img src="./assets/app-icons/oneul-eolma.svg" alt=""></div>
-          <div class="launcherName">오늘얼마</div>
-          <div class="launcherStatus test">V1.8.1 · 테스트 중</div>
+          <div class="launcherName">오늘번돈</div>
+          <div class="launcherStatus test">V1.14.1 · 테스트 중</div>
         </a>
         <a class="launcherCard" href="./bikecheck.html">
           <div class="launcherIcon"><img src="./assets/app-icons/bikecheck.svg" alt=""></div>
@@ -201,11 +236,34 @@ footer{padding:28px 0 42px;color:#91a9bc;font-size:10px;border-top:1px solid rgb
           <div class="devStateItem"><b>짝꿍내비</b>라이더짝꿍에 포함된 기능이며 메인폰↔보조폰 연결과 목적지 전송을 실주행 환경에서 계속 점검 중입니다.</div>
           <div class="devStateItem"><b>배달내비</b>별도 보조 내비 앱으로 지도 추적·회전·안내 UI와 짝꿍내비 연동을 개발·실주행 테스트 중입니다.</div>
           <div class="devStateItem"><b>퀵짝꿍</b>Stage 5.11 Final Safe 안정 기준본을 관리자 배포 중이며 새 기능은 기준본을 보호한 별도 개발 흐름에서 진행합니다.</div>
-          <div class="devStateItem"><b>오늘얼마</b>V1.8.1 테스트 버전 기준으로 목표수입·기록·통계 UI와 사용성을 계속 다듬고 있습니다.</div>
+          <div class="devStateItem"><b>오늘번돈</b>V1.14.1 테스트 기준으로 수입기록·목표관리·통계·월별 리포트와 데이터 관리 기능을 계속 검증하고 있습니다.</div>
           <div class="devStateItem"><b>바이크체크</b>V0.1.14 기준으로 자동 주행거리, 정비주기, 비용·유지비 기능을 테스트하며 보완 중입니다.</div>
           <div class="devStateItem"><b>안심링크</b>V0.2.0 Beta 기준으로 링크·QR·문자 위험신호 검사를 테스트하며 기능을 보강 중입니다.</div>
         </div>
       </details>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="tools">
+  <div class="wrap">
+    <div class="sectionHead"><div><div class="kicker">Free Rider Tools</div><h2>무료 계산기</h2><p>앱 설치 없이 바로 계산하고, 반복 관리가 필요하면 관련 앱으로 이어갈 수 있습니다.</p></div><a class="btn ghost" href="./tools.html">계산기 전체 보기</a></div>
+    <div class="toolGrid">
+      <a class="toolCard featured" href="./hourly-profit.html"><div class="emoji">⏱️</div><h3>시간당 순수익</h3><p>총수입에서 운행비용을 빼 실제 시간당 남는 금액을 계산합니다.</p><span>계산하기 ›</span></a>
+      <a class="toolCard" href="./daily-goal.html"><div class="emoji">🎯</div><h3>오늘 목표수입</h3><p>현재 수입과 남은 시간을 기준으로 목표까지 필요한 금액을 확인합니다.</p><span>계산하기 ›</span></a>
+      <a class="toolCard" href="./monthly-net-profit.html"><div class="emoji">📊</div><h3>월 순수익</h3><p>주유·정비·보험·렌트 등 월 업무비용을 제외한 순수익을 계산합니다.</p><span>계산하기 ›</span></a>
+      <a class="toolCard" href="./km-profit.html"><div class="emoji">🛣️</div><h3>km당 수익</h3><p>총 주행거리 기준으로 1km당 매출과 순수익을 확인합니다.</p><span>계산하기 ›</span></a>
+      <a class="toolCard" href="./bike-maintenance-cost.html"><div class="emoji">🏍️</div><h3>바이크 유지비</h3><p>주유·충전·정비·보험 등 바이크 월 유지비와 km당 비용을 계산합니다.</p><span>계산하기 ›</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="info">
+  <div class="wrap">
+    <div class="sectionHead"><div><div class="kicker">Rider Information</div><h2>라이더 정보센터</h2><p>수익·정비·장비·안전처럼 실제 운행에 필요한 정보를 계속 쌓아갑니다.</p></div><a class="btn ghost" href="./rider-info.html">정보센터 보기</a></div>
+    <div class="infoGrid">
+      <div class="infoCard"><h3>수익 · 정비 · 안전</h3><p>배달 시급, 월 순수익, 바이크 유지비와 정비, 장비·안전 정보를 실제 라이더 기준으로 정리합니다.</p><div class="infoTags"><a href="./hourly-profit.html">시간당수익</a><a href="./monthly-net-profit.html">월순수익</a><a href="./km-profit.html">km당수익</a><a href="./bike-maintenance-cost.html">바이크 유지비</a><a href="./news.html">라이더 소식</a></div></div>
+      <div class="infoCard"><h3>계산 → 기록 → 관리</h3><p>한 번 계산한 뒤 반복해서 기록해야 한다면 라이더짝꿍·오늘번돈·바이크체크 같은 관리 앱으로 이어서 사용할 수 있습니다.</p><div class="infoTags"><a href="./rider.html">라이더짝꿍</a><a href="./oneul-eolma.html">오늘번돈</a><a href="./bikecheck.html">바이크체크</a></div></div>
     </div>
   </div>
 </section>
@@ -249,13 +307,21 @@ footer{padding:28px 0 42px;color:#91a9bc;font-size:10px;border-top:1px solid rgb
         <a class="btn ghost" href="./quick.html#admin-download">퀵짝꿍 관리자 다운로드</a>
       </div>
     </div>
-    <div class="notice">배달내비·오늘얼마·바이크체크·안심링크 등은 공개 준비가 끝난 뒤 다운로드 버튼을 추가합니다.</div>
+    <div class="notice">배달내비·오늘번돈·바이크체크·안심링크는 개발·테스트 상태를 확인한 뒤 공개 배포 준비가 끝난 앱부터 다운로드 버튼을 추가합니다.</div>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap">
+    <div class="businessBox">
+      <div><h3>광고·정비·장비 제휴 및 문의</h3><p>라이더에게 실제 도움이 되는 제품·정비·서비스 중심으로 검토합니다. 개인정보처리방침과 문의 창구도 함께 운영합니다.</p></div>
+      <div class="downloadActions"><a class="btn ghost" href="./partnership.html">제휴 안내</a><a class="btn ghost" href="./contact.html?type=partner">문의</a></div>
+    </div>
   </div>
 </section>
 </main>
 
 <footer>
-  <div class="wrap"><strong style="color:#fff">라이더짝꿍 공식 앱 포털</strong><div style="margin-top:6px">라이더용 앱의 기능 소개 · 사용법 · 다운로드</div><div style="margin-top:9px">© 2026 Rider Mate · 공개 버전과 개발 중 기능은 변경될 수 있습니다.</div></div>
+  <div class="wrap"><strong style="color:#fff">라이더짝꿍</strong><div style="margin-top:6px">라이더용 앱 · 무료 계산기 · 운행 정보 · 사용법</div><div class="footerLinks"><a href="./tools.html">무료 계산기</a><a href="./rider-info.html">라이더 정보</a><a href="./guide.html">사용법</a><a href="./privacy.html">개인정보처리방침</a><a href="./partnership.html">광고·제휴</a><a href="./contact.html">문의</a></div><div style="margin-top:9px">© 2026 Rider Mate · 공개 버전과 개발 중 기능은 변경될 수 있습니다.</div></div>
 </footer>
 </body>
 </html>
