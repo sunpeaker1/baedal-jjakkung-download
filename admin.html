@@ -53,6 +53,9 @@ if(location.hostname==='sunpeaker1.github.io'){
 .adminMessage{min-height:20px}
 .adminMessage.success{color:#17845c}.adminMessage.error{color:#a53b35}
 .adminSummaryLine{color:#60778c;font-size:12px;font-weight:800}
+.adminStorageBanner{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:12px;border:1px solid #d5e3ec;background:#fff;font-size:12px;font-weight:900;color:#526b83}
+.adminStorageBanner.persistent{background:#effcf6;border-color:#bcebd5;color:#17845c}
+.adminStorageBanner.temporary{background:#fff9ee;border-color:#f0d8a8;color:#9a6514}
 @media(max-width:520px){
   .adminInboxPage .nav .brand img{width:38px;height:38px}
   .adminInboxPage .nav .brand span{font-size:17px}
@@ -89,6 +92,8 @@ if(location.hostname==='sunpeaker1.github.io'){
     <button class="adminTab" type="button" data-filter="done">처리완료 <b id="countDone">0</b></button>
   </div>
 
+  <div id="adminStorageState" class="adminStorageBanner">저장 상태 확인 중...</div>
+
   <div class="adminFilterRow">
     <input id="adminSearch" type="search" placeholder="제목 · 내용 · 업체 · 연락처 · 접수번호 검색">
     <label class="adminPageSelect"><input id="selectPage" type="checkbox"> 현재 20건 선택</label>
@@ -105,7 +110,6 @@ if(location.hostname==='sunpeaker1.github.io'){
   </div>
 
   <div class="adminSummaryLine" id="adminSummaryLine"></div>
-  <div id="adminStorageState" style="font-size:12px;font-weight:850;color:#526b83"></div>
 </div>
 
 <div class="adminMessage" id="adminInboxMessage"></div>
@@ -207,7 +211,7 @@ if(location.hostname==='sunpeaker1.github.io'){
       [...selected].forEach(id=>{if(!validIds.has(id))selected.delete(id)});
       render();
       storageState.textContent=data.persistent?'● 영구저장 연결됨 · 삭제/초기화 가능':'⚠ 임시저장 상태 · 삭제/초기화 제한';
-      storageState.style.color=data.persistent?'#17845c':'#9a6514';
+      storageState.className='adminStorageBanner '+(data.persistent?'persistent':'temporary');
     }catch(e){
       if(e.status===401){
         token='';sessionStorage.removeItem('riderAdminToken');
