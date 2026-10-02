@@ -1,6 +1,36 @@
 const crypto = require('crypto');
+const { getCache } = require('@vercel/functions');
 // admin env refresh 2026-09-24
 const { listFeedback, updateFeedbackStatus } = require('./_feedback-store');
+
+const ADMIN_LOGIN_LIMIT = 5;
+const ADMIN_LOGIN_LOCK_SECONDS = 15 * 60;
+const ADMIN_LOGIN_CACHE_NAMESPACE = 'rider-jjakkung-admin-login';
+
+function requestFingerprint(req) {
+  const forwarded = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim();
+  const raw = forwarded || String(req.headers['x-real-ip'] || req.socket?.remoteAddress || 'unknown');
+  return crypto.createHash('sha256').update(raw).digest('hex').slice(0, 32);
+}
+
+async function getLoginState(req) {
+  try {
+    const cache = getCache(undefined, ADMIN_LOGIN_CACHE_NAMESPACE);
+    return (await cache.get('fail:' + requestFingerprint(req))) || { count: 0 };
+  } catch (error) {
+    console.error('admin_login_rate_read_error', error);
+    return { count: 0 };
+  }
+}
+
+async function setLoginState(req, count) {
+  try {
+    const cache = getCache(undefined, ADMIN_LOGIN_CACHE_NAMESPACE);
+    await cache.set('fail:' + requestFingerprint(req), { count }, { ttl: ADMIN_LOGIN_LOCK_SECONDS, tags: ['admin-login'] });
+  } catch (error) {
+    console.error('admin_login_rate_write_error', error);
+  }
+}
 
 const ALLOWED_ORIGINS = new Set([
   'https://sunpeaker1.github.io',
@@ -68,7 +98,32 @@ module.exports = async function handler(req, res) {
   if (req.method === 'POST') {
     const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
     if (body.action !== 'login') return res.status(400).json({ ok:false, message:'잘못된 요청입니다.' });
-    if (!sameSecret(body.password, secret)) return res.status(401).json({ ok:false, message:'비밀번호가 올바르지 않습니다.' });
+
+    const loginState = await getLoginState(req);
+    const failedCount = Number(loginState.count || 0);
+    if (failedCount >= ADMIN_LOGIN_LIMIT) {
+      res.setHeader('Retry-After', String(ADMIN_LOGIN_LOCK_SECONDS));
+      return res.status(429).json({
+        ok:false,
+        code:'ADMIN_LOGIN_LOCKED',
+        message:'로그인 시도가 너무 많습니다. 약 15분 후 다시 시도해 주세요.'
+      });
+    }
+
+    if (!sameSecret(body.password, secret)) {
+      const nextCount = failedCount + 1;
+      await setLoginState(req, nextCount);
+      const remaining = Math.max(0, ADMIN_LOGIN_LIMIT - nextCount);
+      return res.status(401).json({
+        ok:false,
+        code:'ADMIN_LOGIN_FAILED',
+        message: remaining > 0
+          ? '비밀번호가 올바르지 않습니다. 남은 시도 ' + remaining + '회'
+          : '로그인 시도가 너무 많습니다. 약 15분 후 다시 시도해 주세요.'
+      });
+    }
+
+    await setLoginState(req, 0);
     return res.status(200).json({ ok:true, token:makeToken(secret), expiresIn:43200 });
   }
 
