@@ -1,7 +1,4 @@
 User-agent: *
-Allow: /
-Disallow: /admin.html
-Disallow: /api/
-Disallow: /legacy/
+Disallow: /
 
-Sitemap: https://baedal-jjakkung-download.vercel.app/sitemap.xml
+# 고객 도메인 설정과 최종 검증이 끝난 뒤 공개용으로 변경하세요.
