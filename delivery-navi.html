@@ -20,13 +20,14 @@
   </div>
 </div>
 <h1 class="heroTitleCompact">배달길을 보기 편하게.<br>지도는 운행방향을<br>따라가게.</h1>
-<p><b>배달내비</b>는 배달 운행 중 지도를 손으로 계속 확대하거나 위치를 다시 맞추는 불편을 줄이기 위해 개발 중인 보조 내비 앱입니다. 현재위치 추적, 운행방향 회전, 경로·회전 안내와 짝꿍내비 연결을 중심으로 검증하고 있습니다.</p>
+<p><b>배달내비</b>는 쿠팡이츠·배민 지도처럼 배달에 필요한 짧은 경로를 보기 쉽게 보여주면서, 운행 중 지도를 손가락으로 계속 확대·축소하거나 현재 위치를 다시 맞추는 불편을 줄이기 위해 개발 중인 보조 내비 앱입니다. 현재위치 자동 추적, 운행방향 회전, 경로·회전 안내와 <b>후면단속 경고 표시</b>를 더해 일반 내비처럼 사용할 수 있도록 실주행 검증하고 있습니다.</p>
 <div class="statusRow"><span class="statusPill dev">V0.4.5 개발 버전</span><span class="statusPill dev">실주행 검증 중</span></div>
 <div class="quickNav"><a href="#purpose">목적</a><a href="#features">핵심 기능</a><a href="#guide">사용 흐름</a><a href="#screenread">화면 보는 법</a><a href="#trouble">문제 해결</a></div>
 </div></section>
 
 <section class="section" id="purpose"><div class="wrap"><div class="head"><div class="kicker">Purpose</div><h2>배달할 때 지도를 덜 만지게</h2></div>
-<div class="highlight"><strong>핵심은 보조폰에서 계속 보기 좋은 지도</strong><p>현재 위치를 따라가고, 운행 방향에 맞춰 지도를 돌리고, 다음 회전과 남은 거리 같은 정보를 고정된 안내 영역에서 보여주는 것을 목표로 합니다.</p></div>
+<div class="highlight"><strong>배달앱 지도처럼 짧은 경로는 보기 쉽게, 운행 중에는 일반 내비처럼</strong><p>쿠팡이츠·배민 지도는 배달 경로를 확인하기 좋지만 운행 중에는 손으로 확대·축소하거나 지도를 다시 맞추는 일이 생길 수 있습니다. 배달내비는 배달에 필요한 짧은 경로를 보기 쉽게 유지하면서 현재 위치를 따라가고, 운행 방향에 맞춰 지도를 돌리고, 다음 회전·남은 거리·후면단속 경고를 한 화면에서 확인하는 것을 목표로 합니다.</p></div>
+<div class="callout"><strong>설치 안내</strong> · 배달내비는 라이더짝꿍 안에 포함된 화면이 아니라 <b>별도로 설치하는 독립 앱</b>입니다. 사용할 때는 <b>라이더짝꿍과 배달내비를 각각 다운로드·설치</b>해야 합니다. 라이더짝꿍은 메인폰↔보조폰 연결과 목적지 전달을 담당하고, 배달내비는 보조폰에서 지도·경로·주행 화면을 표시합니다.</div>
 </div></section>
 
 <section class="section" id="features"><div class="wrap"><div class="head"><div class="kicker">Core Features</div><h2>배달 운행에 맞춘 표시 기능</h2></div><div class="grid">
@@ -35,6 +36,7 @@
 <div class="card"><div class="icon">↪️</div><h3>다음 회전 안내</h3><p>상단·중간 안내 영역에서 다음 회전 방향과 거리를 확인할 수 있도록 구성합니다.</p></div>
 <div class="card"><div class="icon">📏</div><h3>남은 거리·진행 정보</h3><p>목적지까지 남은 거리와 경로 진행 상태를 주행 화면에서 빠르게 확인합니다.</p></div>
 <div class="card"><div class="icon">🔎</div><h3>배달용 지도 확대</h3><p>골목과 목적지 접근 구간을 보기 쉽도록 실제 휴대폰 화면에서 지도 확대 비율을 계속 조정하고 있습니다.</p></div>
+<div class="card"><div class="icon">📷</div><h3>후면단속 경고 표시</h3><p>후면단속 구간을 주행 화면에서 알아보기 쉽게 경고해 일반 내비처럼 안전 정보를 함께 확인할 수 있도록 테스트하고 있습니다.</p></div>
 <div class="card"><div class="icon">🔗</div><h3>짝꿍내비 연동</h3><p>메인폰에서 받은 목적지를 보조폰 배달내비 화면으로 이어주는 연결 구조를 목표로 개발합니다.</p></div>
 </div></div></section>
 
@@ -47,19 +49,21 @@
 </div></section>
 
 <section class="section" id="guide"><div class="wrap"><div class="head"><div class="kicker">How It Works</div><h2>사용 흐름</h2></div><div class="steps">
-<div class="step"><b>01</b><strong>보조폰 준비</strong><p>배달내비를 실행하고 위치 권한과 GPS 상태를 확인합니다.</p></div>
-<div class="step"><b>02</b><strong>목적지 준비</strong><p>직접 목적지를 입력하거나 짝꿍내비 연동으로 목적지를 전달받습니다.</p></div>
-<div class="step"><b>03</b><strong>길찾기·주행 시작</strong><p>경로가 표시되면 주행 화면으로 전환해 안내를 확인합니다.</p></div>
-<div class="step"><b>04</b><strong>자동 추적</strong><p>현재위치와 운행방향을 따라 지도와 안내 정보를 확인합니다.</p></div>
+<div class="step"><b>01</b><strong>두 앱을 각각 설치</strong><p>라이더짝꿍과 배달내비는 별도 앱이므로 각각 다운로드·설치합니다.</p></div>
+<div class="step"><b>02</b><strong>메인폰·보조폰 연결</strong><p>라이더짝꿍에서 메인폰과 보조폰을 페어링하고 연결됨 상태를 확인합니다.</p></div>
+<div class="step"><b>03</b><strong>보조폰에서 배달내비 실행</strong><p>배달내비의 위치 권한과 GPS 상태를 확인하고 목적지를 전달받을 준비를 합니다.</p></div>
+<div class="step"><b>04</b><strong>목적지 전송·주행 시작</strong><p>목적지가 전달되면 경로를 확인하고 주행을 시작합니다.</p></div>
+<div class="step"><b>05</b><strong>자동 추적·회전 확인</strong><p>현재 위치를 따라 지도가 움직이고 운행방향에 맞춰 회전하는지 확인합니다.</p></div>
+<div class="step"><b>06</b><strong>회전·거리·후면단속 확인</strong><p>주행 중 다음 회전과 남은 거리, 후면단속 경고 표시를 함께 확인합니다.</p></div>
 </div>
-<div class="callout">짝꿍내비 연결을 사용하는 경우에는 먼저 메인폰·보조폰 페어링과 연결됨 상태를 확인한 뒤 배달내비를 선택합니다.</div>
+<div class="callout"><strong>핵심:</strong> 쿠팡이츠·배민 지도처럼 배달 경로를 보기 쉽게 보면서도, 운행 중에는 손으로 계속 확대·축소하지 않고 일반 내비처럼 현재 위치를 따라가며 확인하는 방식입니다.</div>
 </div></section>
 
 <section class="section" id="screenread"><div class="wrap"><div class="head"><div class="kicker">On The Road</div><h2>주행 화면에서 볼 것</h2></div><div class="howList">
 <div class="howCard"><h3>상단 안내</h3><ul><li>다음 회전 방향과 남은 거리를 확인합니다.</li><li>경로 계산 중에는 로딩·상태 문구를 확인합니다.</li></ul></div>
 <div class="howCard"><h3>지도 중앙</h3><ul><li>현재위치 표시와 진행 방향을 확인합니다.</li><li>지도를 손으로 움직이면 자동 추적 복귀 상태를 확인합니다.</li></ul></div>
 <div class="howCard"><h3>목적지 접근</h3><ul><li>목적지 표식과 주변 골목 형태를 함께 봅니다.</li><li>실제 도로 상황과 배달앱의 목적지 정보를 우선 확인합니다.</li></ul></div>
-<div class="howCard"><h3>카메라·안전정보</h3><ul><li>개발 버전의 안전카메라 기능은 테스트 데이터와 실제 도로 상황이 다를 수 있습니다.</li><li>도로표지와 제한속도를 항상 우선합니다.</li></ul></div>
+<div class="howCard"><h3>후면단속·안전정보</h3><ul><li>후면단속 경고가 표시되면 주행 화면에서 위치와 경고 구간을 확인합니다.</li><li>개발 버전의 안전카메라 정보는 실제 도로 상황과 다를 수 있으므로 도로표지와 제한속도를 항상 우선합니다.</li></ul></div>
 </div></div></section>
 
 <section class="section" id="trouble"><div class="wrap"><div class="head"><div class="kicker">Troubleshooting</div><h2>이상할 때 먼저 확인</h2></div><div class="grid">
