@@ -114,15 +114,21 @@ a{text-decoration:none;color:inherit}
 .operatorCard:hover{background:rgba(255,255,255,.065);border-color:rgba(255,255,255,.14)}
 .operatorCard .lock{font-size:15px}.operatorCard strong{display:block;color:#c8d9e5;font-size:9.5px}.operatorCard span{display:block;margin-top:1px;font-size:8.5px}
 .kakaoFloat{
-  position:fixed;right:16px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:90;
-  display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:0 16px;
-  border-radius:999px;background:#fee500;color:#171717;border:1px solid rgba(0,0,0,.10);
-  box-shadow:0 10px 26px rgba(0,0,0,.24);font-size:13px;font-weight:1000;
-  letter-spacing:-.35px;transition:transform .12s ease,box-shadow .12s ease
+  position:fixed;right:14px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:90;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:42px;padding:0 13px;border-radius:999px;
+  background:#fee500;color:#111;border:1px solid rgba(0,0,0,.08);
+  box-shadow:0 8px 20px rgba(0,0,0,.20);
+  font-size:12.5px;font-weight:1000;letter-spacing:-.35px;
+  transition:transform .12s ease,box-shadow .12s ease
 }
 .kakaoFloat:active{transform:scale(.97)}
-.kakaoFloat .bubble{font-size:18px;line-height:1}
-.kakaoFloat .sub{display:none}
+.kakaoFloat .kakaoIcon{position:relative;display:block;width:18px;height:14px;border-radius:50%;background:#111;flex:0 0 auto}
+.kakaoFloat .kakaoIcon:after{content:"";position:absolute;left:2px;bottom:-4px;width:7px;height:7px;background:#111;clip-path:polygon(0 0,100% 0,0 100%)}
+@media(max-width:620px){
+  .kakaoFloat{right:12px;bottom:calc(14px + env(safe-area-inset-bottom));min-height:40px;padding:0 12px;font-size:12px}
+  .kakaoFloat .kakaoIcon{width:17px;height:13px}
+}
 
 
 .downloadBox{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;padding:20px;border-radius:21px;background:linear-gradient(135deg,rgba(15,63,101,.90),rgba(13,103,92,.70));border:1px solid rgba(92,229,189,.25)}
@@ -355,7 +361,7 @@ footer{padding:28px 0 42px;color:#91a9bc;font-size:10px;border-top:1px solid rgb
 <footer>
   <div class="wrap"><strong style="color:#fff">라이더짝꿍</strong><div style="margin-top:6px">라이더용 앱 · 무료 계산기 · 운행 정보 · 사용법</div><div class="footerLinks"><a href="./tools.html">무료 계산기</a><a href="./rider-info.html">라이더 정보</a><a href="./guide.html">사용법</a><a href="./privacy.html">개인정보처리방침</a><a href="./partnership.html">광고·제휴</a><a href="./contact.html">문의</a></div><a class="operatorCard" href="./admin.html" aria-label="관리자 문의 접수함"><span class="lock">🔐</span><span><strong>운영자 전용</strong><span>관리자 문의 접수함</span></span></a><div style="margin-top:12px">© 2026 Rider Mate · 공개 버전과 개발 중 기능은 변경될 수 있습니다.</div></div>
 </footer>
-<a class="kakaoFloat" href="https://pf.kakao.com/_jRxexiX/chat" target="_blank" rel="noopener noreferrer" aria-label="카카오톡으로 라이더짝꿍 문의하기"><span class="bubble">💬</span><span>카톡 문의</span></a>
+<a class="kakaoFloat" href="https://pf.kakao.com/_jRxexiX/chat" target="_blank" rel="noopener noreferrer" aria-label="카카오톡으로 라이더짝꿍 문의하기"><span class="kakaoIcon" aria-hidden="true"></span><span>문의</span></a>
 <!-- preview-redeploy-20261002 -->
 </body>
 </html>
