@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /admin.html
+Disallow: /api/
 Disallow: /legacy/
 
 Sitemap: https://baedal-jjakkung-download.vercel.app/sitemap.xml

@@ -17,6 +17,8 @@ async function sendFeedbackMail(feedback) {
     '접수번호: ' + feedback.id,
     '종류: ' + feedback.type,
     '제목: ' + subjectTitle,
+    '업체/이름: ' + (feedback.organization || feedback.name || '미입력'),
+    '담당자: ' + (feedback.name || '미입력'),
     '연락처: ' + (feedback.contact || '미입력'),
     '접수시각: ' + feedback.createdAt,
     '',
@@ -77,12 +79,15 @@ module.exports = async function handler(req, res) {
     const type = text(body.type, 20);
     const title = text(body.title, 80);
     const content = text(body.body, 3000);
+    const organization = text(body.organization, 120);
+    const name = text(body.name, 80);
     const contact = text(body.contact, 120);
     const website = text(body.website, 120);
 
     if (website) return res.status(200).json({ ok: true });
 
-    if (!['일반 문의', '오류 제보', '기능 제안', '광고·제휴 문의'].includes(type) || title.length < 2 || content.length < 2 || (type === '광고·제휴 문의' && contact.length < 4)) {
+    const partnerInvalid = type === '광고·제휴 문의' && (organization.length < 2 || name.length < 2 || contact.length < 4);
+    if (!['일반 문의', '오류 제보', '기능 제안', '광고·제휴 문의'].includes(type) || title.length < 2 || content.length < 2 || partnerInvalid) {
       return res.status(400).json({ ok: false, message: '필수 내용을 확인해 주세요.' });
     }
 
@@ -93,6 +98,8 @@ module.exports = async function handler(req, res) {
       type,
       title,
       body: content,
+      ...(organization ? { organization } : {}),
+      ...(name ? { name } : {}),
       ...(contact ? { contact } : {}),
       status: 'unread',
       createdAt: now.toISOString(),
