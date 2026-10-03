@@ -5,6 +5,7 @@ on:
     branches: [ main ]
     paths:
       - 'release-manifest/*.json'
+      - '.github/workflows/publish-public-apk.yml'
   workflow_dispatch:
     inputs:
       manifest:
@@ -69,19 +70,36 @@ jobs:
             if [ "$source_type" = "release" ]; then
               source_tag=$(jq -r '.sourceTag' "$manifest")
               source_asset=$(jq -r '.sourceAsset' "$manifest")
-              GH_TOKEN="$SOURCE_TOKEN" gh release download "$source_tag" \
-                --repo "$source_repo" \
-                --pattern "$source_asset" \
-                --dir "$workdir/source"
-              found=$(find "$workdir/source" -maxdepth 1 -type f -name "$source_asset" | head -1)
-              test -n "$found"
-              cp "$found" "$source_apk"
+
+              release_json="$workdir/release.json"
+              curl --fail --silent --show-error --location \
+                -H "Authorization: Bearer $SOURCE_TOKEN" \
+                -H "Accept: application/vnd.github+json" \
+                -H "X-GitHub-Api-Version: 2022-11-28" \
+                "https://api.github.com/repos/$source_repo/releases/tags/$source_tag" \
+                -o "$release_json"
+
+              asset_id=$(jq -r --arg name "$source_asset" '.assets[] | select(.name==$name) | .id' "$release_json" | head -1)
+              test -n "$asset_id"
+              test "$asset_id" != "null"
+
+              curl --fail --silent --show-error --location \
+                -H "Authorization: Bearer $SOURCE_TOKEN" \
+                -H "Accept: application/octet-stream" \
+                -H "X-GitHub-Api-Version: 2022-11-28" \
+                "https://api.github.com/repos/$source_repo/releases/assets/$asset_id" \
+                -o "$source_apk"
             elif [ "$source_type" = "file" ]; then
               source_ref=$(jq -r '.sourceRef' "$manifest")
               source_path=$(jq -r '.sourcePath' "$manifest")
-              GH_TOKEN="$SOURCE_TOKEN" gh api \
+              encoded_ref=$(python3 -c 'import urllib.parse,sys; print(urllib.parse.quote(sys.argv[1], safe=""))' "$source_ref")
+
+              curl --fail --silent --show-error --location \
+                -H "Authorization: Bearer $SOURCE_TOKEN" \
                 -H "Accept: application/vnd.github.raw+json" \
-                "repos/$source_repo/contents/$source_path?ref=$source_ref" > "$source_apk"
+                -H "X-GitHub-Api-Version: 2022-11-28" \
+                "https://api.github.com/repos/$source_repo/contents/$source_path?ref=$encoded_ref" \
+                -o "$source_apk"
             else
               echo "Unsupported sourceType: $source_type"
               exit 1
