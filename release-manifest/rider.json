@@ -1,10 +1,10 @@
 {
   "name": "라이더짝꿍",
-  "version": "V1.58.93 TEST",
+  "version": "V1.58.98 TEST",
   "sourceRepo": "sunpeaker1/rider-jjakkung-app",
   "sourceType": "release",
-  "sourceTag": "test-v1.58.93",
-  "sourceAsset": "RiderJjakkung-V1.58.93-debug.apk",
+  "sourceTag": "test-v1.58.98",
+  "sourceAsset": "RiderJjakkung-V1.58.98-debug.apk",
   "publicReleaseTag": "rider-latest",
   "publicAssetName": "RiderJjakkung-latest.apk"
 }
