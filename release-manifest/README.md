@@ -4,6 +4,7 @@
 
 - 라이더짝꿍: `rider-latest/RiderJjakkung-latest.apk`
 - 퀵짝꿍: `quickmate-latest/QuickMateClean-latest.apk`
+- 배달내비: `delivery-navi-latest/BaedalNavi-latest.apk`
 
 새 공개본을 올릴 때 APK를 홈페이지 저장소에 직접 복사하지 않습니다.
 

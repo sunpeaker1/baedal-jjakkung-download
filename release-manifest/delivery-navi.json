@@ -1,0 +1,10 @@
+{
+  "name": "배달내비",
+  "version": "V0.4.33 TEST",
+  "sourceRepo": "sunpeaker1/kubae-navi",
+  "sourceType": "release",
+  "sourceTag": "baedalnavi-kakao-poc-v0.4.33",
+  "sourceAsset": "BaedalNavi-V0.4.33-auto-reroute-debug.apk",
+  "publicReleaseTag": "delivery-navi-latest",
+  "publicAssetName": "BaedalNavi-latest.apk"
+}
