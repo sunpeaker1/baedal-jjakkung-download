@@ -1,0 +1,111 @@
+name: Publish Public APK
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'release-manifest/*.json'
+  workflow_dispatch:
+    inputs:
+      manifest:
+        description: 'Manifest file name under release-manifest, or all'
+        required: false
+        default: 'all'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout public download repository
+        uses: actions/checkout@v4
+
+      - name: Check source token
+        shell: bash
+        env:
+          APP_SOURCE_READ_TOKEN: ${{ secrets.APP_SOURCE_READ_TOKEN }}
+        run: |
+          if [ -z "$APP_SOURCE_READ_TOKEN" ]; then
+            echo "APP_SOURCE_READ_TOKEN repository secret is required."
+            exit 1
+          fi
+
+      - name: Publish fixed latest APK assets
+        shell: bash
+        env:
+          SOURCE_TOKEN: ${{ secrets.APP_SOURCE_READ_TOKEN }}
+          DEST_TOKEN: ${{ github.token }}
+          MANIFEST_INPUT: ${{ github.event.inputs.manifest || 'all' }}
+        run: |
+          set -euo pipefail
+
+          if [ "$MANIFEST_INPUT" = "all" ]; then
+            mapfile -t MANIFESTS < <(find release-manifest -maxdepth 1 -type f -name '*.json' | sort)
+          else
+            MANIFESTS=("release-manifest/$MANIFEST_INPUT")
+          fi
+
+          if [ "${#MANIFESTS[@]}" -eq 0 ]; then
+            echo "No release manifests found."
+            exit 0
+          fi
+
+          for manifest in "${MANIFESTS[@]}"; do
+            test -f "$manifest"
+
+            app_name=$(jq -r '.name' "$manifest")
+            version=$(jq -r '.version' "$manifest")
+            source_repo=$(jq -r '.sourceRepo' "$manifest")
+            source_type=$(jq -r '.sourceType' "$manifest")
+            release_tag=$(jq -r '.publicReleaseTag' "$manifest")
+            public_asset=$(jq -r '.publicAssetName' "$manifest")
+
+            workdir=$(mktemp -d)
+            source_apk="$workdir/source.apk"
+            public_apk="$workdir/$public_asset"
+
+            if [ "$source_type" = "release" ]; then
+              source_tag=$(jq -r '.sourceTag' "$manifest")
+              source_asset=$(jq -r '.sourceAsset' "$manifest")
+              GH_TOKEN="$SOURCE_TOKEN" gh release download "$source_tag" \
+                --repo "$source_repo" \
+                --pattern "$source_asset" \
+                --dir "$workdir/source"
+              found=$(find "$workdir/source" -maxdepth 1 -type f -name "$source_asset" | head -1)
+              test -n "$found"
+              cp "$found" "$source_apk"
+            elif [ "$source_type" = "file" ]; then
+              source_ref=$(jq -r '.sourceRef' "$manifest")
+              source_path=$(jq -r '.sourcePath' "$manifest")
+              GH_TOKEN="$SOURCE_TOKEN" gh api \
+                -H "Accept: application/vnd.github.raw+json" \
+                "repos/$source_repo/contents/$source_path?ref=$source_ref" > "$source_apk"
+            else
+              echo "Unsupported sourceType: $source_type"
+              exit 1
+            fi
+
+            test -s "$source_apk"
+            unzip -t "$source_apk" >/dev/null
+            cp "$source_apk" "$public_apk"
+
+            if GH_TOKEN="$DEST_TOKEN" gh release view "$release_tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+              GH_TOKEN="$DEST_TOKEN" gh release upload "$release_tag" "$public_apk" \
+                --repo "$GITHUB_REPOSITORY" \
+                --clobber
+              GH_TOKEN="$DEST_TOKEN" gh release edit "$release_tag" \
+                --repo "$GITHUB_REPOSITORY" \
+                --title "$app_name $version" \
+                --notes "$app_name 공개 다운로드 최신본: $version"
+            else
+              GH_TOKEN="$DEST_TOKEN" gh release create "$release_tag" "$public_apk" \
+                --repo "$GITHUB_REPOSITORY" \
+                --target main \
+                --title "$app_name $version" \
+                --notes "$app_name 공개 다운로드 최신본: $version"
+            fi
+
+            echo "Published $app_name $version -> $release_tag/$public_asset"
+          done
