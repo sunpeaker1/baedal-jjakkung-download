@@ -10,7 +10,7 @@
 <style>
 :root{--blue:#1769e0;--blue2:#0e56c7;--ink:#172033;--muted:#667085;--line:#e5eaf1;--bg:#f5f8fc;--panel:#fff;--green:#16a36a;--orange:#e78616;--red:#d74343;--shadow:0 14px 34px rgba(27,47,77,.09)}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Apple SD Gothic Neo","Segoe UI",sans-serif}a{text-decoration:none;color:inherit}button,input{font:inherit}
-.top{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}.topin{max-width:1180px;margin:auto;padding:12px 20px;display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center}.brand{display:flex;align-items:center;gap:10px}.logo{width:43px;height:43px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,#2278ef,#0a4db7);color:#fff;font-weight:1000;box-shadow:0 8px 20px rgba(23,105,224,.22)}.brand strong{display:block;font-size:20px;letter-spacing:-.7px}.brand small{display:block;color:var(--muted);font-size:10px;font-weight:800}.search{display:flex;border:2px solid var(--blue);border-radius:14px;overflow:hidden;background:white}.search input{width:100%;border:0;outline:0;padding:12px 14px}.search button{border:0;background:var(--blue);color:#fff;font-weight:900;padding:0 18px}.auth{display:flex;gap:7px}.auth button{border:1px solid var(--line);background:#fff;padding:9px 12px;border-radius:11px;font-weight:900}.auth .join{background:var(--blue);border-color:var(--blue);color:#fff}
+.top{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}.topin{max-width:1180px;margin:auto;padding:12px 20px;display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center}.brand{display:flex;align-items:center;gap:9px}.logoMetal{width:58px;height:44px;display:block;filter:drop-shadow(0 6px 10px rgba(20,92,190,.22))}.brandWord{display:block;font-size:20px;line-height:1;font-weight:1000;letter-spacing:-.8px;white-space:nowrap}.brandWord .rider{background:linear-gradient(180deg,#ffffff 0%,#eef3f8 28%,#9eacbc 74%,#5e6c7b 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 1px 0 rgba(255,255,255,.55)}.brandWord .nex{background:linear-gradient(180deg,#55c5ff 0%,#1689ff 46%,#0750c8 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 9px rgba(30,139,255,.16)}.brand small{display:block;margin-top:5px;color:var(--muted);font-size:10px;font-weight:800}.search{display:flex;border:2px solid var(--blue);border-radius:14px;overflow:hidden;background:white}.search input{width:100%;border:0;outline:0;padding:12px 14px}.search button{border:0;background:var(--blue);color:#fff;font-weight:900;padding:0 18px}.auth{display:flex;gap:7px}.auth button{border:1px solid var(--line);background:#fff;padding:9px 12px;border-radius:11px;font-weight:900}.auth .join{background:var(--blue);border-color:var(--blue);color:#fff}
 .nav{background:#fff;border-bottom:1px solid var(--line);overflow:auto;white-space:nowrap}.navin{max-width:1180px;margin:auto;padding:0 20px;display:flex;gap:3px}.nav a{padding:13px 12px;font-size:13px;font-weight:900;color:#46536a}.nav a:hover{color:var(--blue);background:#f2f7ff}
 .wrap{max-width:1180px;margin:auto;padding:22px 20px 46px}.beta{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;background:#fff0d8;color:#9a5b00;border:1px solid #f5d8a4;font-size:11px;font-weight:1000}
 .hero{margin-top:12px;display:grid;grid-template-columns:1.55fr .75fr;gap:16px}.heroMain{min-height:280px;padding:34px;border-radius:26px;background:linear-gradient(135deg,#174fa8,#1769e0 55%,#25a8d7);color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow)}.heroMain:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.11);right:-70px;bottom:-110px}.heroMain h1{margin:0;font-size:38px;line-height:1.13;letter-spacing:-2px}.heroMain p{margin:15px 0 0;max-width:620px;color:#eaf3ff;font-weight:700;line-height:1.65}.bridge{margin-top:22px;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.12);display:inline-flex;flex-direction:column;gap:2px}.bridge b{font-size:13px}.bridge span{font-size:11px;color:#dfeeff}.heroSide{display:grid;gap:12px}.sidecard{padding:18px;border-radius:22px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow)}.sidecard h3{margin:0;font-size:16px}.sidecard p{margin:8px 0 0;color:var(--muted);font-size:12px;line-height:1.55}.sideBtns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}.sideBtns a{padding:11px;border-radius:11px;text-align:center;background:#f3f7fd;font-size:12px;font-weight:900;color:#345}
@@ -22,13 +22,46 @@
 .tools{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.tool{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;text-align:center}.tool b{display:block;margin-top:7px;font-size:12px}.tool small{display:block;margin-top:3px;color:var(--muted);font-size:9px}.tool.main{border:2px solid #7ab1fa;background:#f2f7ff}.tool em{display:inline-block;margin-top:7px;font-style:normal;font-size:9px;font-weight:1000;color:var(--blue)}
 .statusbar{margin-top:22px;padding:14px 16px;border-radius:16px;background:#eef7ff;border:1px solid #d6e9ff;color:#36506c;font-size:11px;line-height:1.55}.statusbar b{color:#18385d}
 footer{margin-top:30px;padding:25px 0 10px;border-top:1px solid var(--line);color:var(--muted);font-size:11px}.footbrand{color:var(--ink);font-weight:1000;font-size:14px}
-@media(max-width:800px){.topin{grid-template-columns:1fr auto}.search{grid-column:1/-1;grid-row:2}.auth .login{display:none}.hero{grid-template-columns:1fr}.heroMain{min-height:235px;padding:25px}.heroMain h1{font-size:30px}.grid3,.two{grid-template-columns:1fr}.market{grid-template-columns:1fr 1fr}.tools{grid-template-columns:1fr 1fr}.tool.main{grid-column:1/-1}.navin{padding:0 12px}.wrap{padding:16px 12px 36px}.brand strong{font-size:18px}}
+@media(max-width:800px){.topin{grid-template-columns:1fr auto}.search{grid-column:1/-1;grid-row:2}.auth .login{display:none}.hero{grid-template-columns:1fr}.heroMain{min-height:235px;padding:25px}.heroMain h1{font-size:30px}.grid3,.two{grid-template-columns:1fr}.market{grid-template-columns:1fr 1fr}.tools{grid-template-columns:1fr 1fr}.tool.main{grid-column:1/-1}.navin{padding:0 12px}.wrap{padding:16px 12px 36px}.brandWord{font-size:18px}}
 @media(max-width:390px){.market{grid-template-columns:1fr}.sideBtns{grid-template-columns:1fr}.heroMain h1{font-size:27px}}
 </style>
 </head>
 <body>
 <header class="top"><div class="topin">
-<a class="brand" href="#"><span class="logo">RN</span><span><strong>RiderNex</strong><small>Rider Nexus · 라이더넥스</small></span></a>
+<a class="brand" href="#">
+  <svg class="logoMetal" viewBox="0 0 128 96" role="img" aria-label="RN">
+    <defs>
+      <linearGradient id="rmBlue" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#63d4ff"/>
+        <stop offset=".28" stop-color="#178dff"/>
+        <stop offset=".65" stop-color="#0b62dd"/>
+        <stop offset="1" stop-color="#053b9f"/>
+      </linearGradient>
+      <linearGradient id="rmBlueHi" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#b9efff"/>
+        <stop offset=".18" stop-color="#40c7ff"/>
+        <stop offset="1" stop-color="#0870ed"/>
+      </linearGradient>
+      <linearGradient id="rmSilver" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#ffffff"/>
+        <stop offset=".22" stop-color="#edf4fb"/>
+        <stop offset=".52" stop-color="#9aa8b8"/>
+        <stop offset=".76" stop-color="#f4f7fb"/>
+        <stop offset="1" stop-color="#718194"/>
+      </linearGradient>
+      <filter id="rnGlow" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="1.5" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <path d="M8 82 25 17h39c20 0 30 8 30 22 0 11-7 19-21 23l15 20H63L51 65H34l-5 17H8Zm30-47-4 15h26c8 0 12-3 12-8s-4-7-12-7H38Z" fill="url(#rmBlue)" stroke="#1eb7ff" stroke-width="1.2" filter="url(#rnGlow)"/>
+    <path d="M25 17h39c10 0 18 2 23 6L75 35H38l-4 15H17Z" fill="url(#rmBlueHi)" opacity=".86"/>
+    <path d="M72 17h20l19 31V17h17v65h-19L90 51v31H72Z" fill="url(#rmSilver)" stroke="#d7e5f4" stroke-width=".9"/>
+    <path d="M88 17h4l19 31v12L92 30v52h-4Z" fill="#ffffff" opacity=".28"/>
+    <path d="M15 84h98" stroke="#228fff" stroke-width="2" opacity=".45"/>
+  </svg>
+  <span><span class="brandWord"><span class="rider">Rider</span><span class="nex">Nex</span></span><small>Rider Nexus · 라이더넥스</small></span>
+</a>
 <form class="search" id="search"><input id="q" placeholder="지역, 게시글, 업체, 장터를 검색하세요"><button>검색</button></form>
 <div class="auth"><button class="login">로그인</button><button class="join">회원가입</button></div>
 </div></header>
