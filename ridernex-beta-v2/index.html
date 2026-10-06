@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#f6f8fc">
+<title>RiderNex 라이더넥스 베타 V2</title>
+<meta name="description" content="RiderNex 라이더넥스 베타 V2. 지역정보, 라이더장터, 구인·구직, 라이더 도구를 더 단순하게 구성한 미리보기입니다.">
+<style>
+:root{--blue:#1769e0;--blue2:#0e55c4;--ink:#172033;--muted:#667085;--line:#e5eaf1;--bg:#f6f8fc;--panel:#fff;--green:#17a36b;--red:#d84b4b;--orange:#df8b19;--shadow:0 10px 26px rgba(30,49,76,.07)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Apple SD Gothic Neo","Segoe UI",sans-serif}a{text-decoration:none;color:inherit}button,input{font:inherit}
+.top{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.toprow{max-width:1180px;margin:auto;padding:12px 20px;display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center}
+.brand{display:flex;align-items:center;gap:9px}.logo{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(145deg,#2580f2,#0b54c2);color:#fff;font-weight:1000;box-shadow:0 7px 18px rgba(23,105,224,.2)}.brand strong{display:block;font-size:20px;letter-spacing:-.7px}.brand small{display:block;color:var(--muted);font-size:10px;font-weight:800}
+.search{display:flex;border:2px solid var(--blue);border-radius:13px;overflow:hidden;background:#fff}.search input{width:100%;border:0;outline:0;padding:11px 13px}.search button{border:0;background:var(--blue);color:#fff;font-weight:900;padding:0 17px}.auth{display:flex;gap:7px}.auth button{border:1px solid var(--line);background:#fff;padding:9px 11px;border-radius:10px;font-weight:900}.auth .join{background:var(--blue);border-color:var(--blue);color:#fff}
+.nav{background:#fff;border-bottom:1px solid var(--line);overflow:auto;white-space:nowrap}.navin{max-width:1180px;margin:auto;padding:0 20px;display:flex;gap:2px}.nav a{padding:12px 12px;font-size:13px;font-weight:900;color:#47546a}.nav a:hover{background:#f2f6fd;color:var(--blue)}
+.wrap{max-width:1180px;margin:auto;padding:18px 20px 44px}.beta{display:inline-flex;padding:6px 9px;border-radius:999px;background:#fff1da;border:1px solid #f1d7a7;color:#965f0e;font-size:10px;font-weight:1000}
+.hero{margin-top:10px;display:grid;grid-template-columns:1.6fr .7fr;gap:13px}.heroMain{padding:25px 28px;border-radius:23px;background:linear-gradient(135deg,#174ea6,#1769e0 60%,#24a7d5);color:#fff;box-shadow:var(--shadow)}.heroMain h1{margin:0;font-size:33px;line-height:1.12;letter-spacing:-1.7px}.heroMain p{margin:11px 0 0;color:#eaf3ff;font-size:14px;line-height:1.55;font-weight:750}.bridge{margin-top:16px;display:inline-flex;gap:8px;align-items:center;padding:9px 12px;border-radius:12px;background:rgba(255,255,255,.12);font-size:11px;font-weight:900}
+.regionCard{background:#fff;border:1px solid var(--line);border-radius:21px;padding:17px;box-shadow:var(--shadow)}.regionCard h3{margin:0;font-size:16px}.regionCard p{margin:7px 0 12px;color:var(--muted);font-size:12px;line-height:1.5}.regionBtns{display:grid;grid-template-columns:1fr 1fr;gap:7px}.regionBtns a{padding:10px;border-radius:10px;background:#f2f6fc;text-align:center;font-size:11px;font-weight:900}.regionBtns .primary{background:var(--blue);color:#fff}
+.quick{margin-top:14px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.quick a{background:#fff;border:1px solid var(--line);border-radius:17px;padding:15px;box-shadow:0 7px 18px rgba(30,49,76,.05);display:flex;align-items:center;gap:11px}.quick .ico{width:42px;height:42px;border-radius:13px;background:#f2f6fd;display:grid;place-items:center;font-size:22px}.quick b{display:block;font-size:13px}.quick small{display:block;margin-top:2px;color:var(--muted);font-size:10px;line-height:1.3}
+.section{margin-top:22px}.head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:10px}.head h2{margin:0;font-size:21px;letter-spacing:-.7px}.head p{margin:4px 0 0;color:var(--muted);font-size:11px}.head a{color:var(--blue);font-size:11px;font-weight:900}
+.two{display:grid;grid-template-columns:1.25fr .75fr;gap:12px}.card{background:#fff;border:1px solid var(--line);border-radius:19px;padding:16px;box-shadow:var(--shadow)}.cardTitle{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.cardTitle h3{margin:0;font-size:15px}.tag{padding:5px 7px;border-radius:999px;background:#edf4ff;color:var(--blue);font-size:9px;font-weight:1000}
+.feed{display:grid;gap:7px}.feedItem{padding:10px 11px;border:1px solid #eef1f5;border-radius:12px;display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:start}.feedItem b{font-size:12px}.feedItem p{margin:2px 0 0;color:#5c687c;font-size:10px;line-height:1.4}.feedItem time{font-size:9px;color:#98a2b3}.dot{width:8px;height:8px;border-radius:50%;background:var(--green);margin-top:4px}.dot.red{background:var(--red)}.dot.orange{background:var(--orange)}
+.smallList{display:grid;gap:7px}.smallList a{padding:10px 11px;border-radius:12px;background:#f7f9fc;display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:850}.smallList span{color:#98a2b3}
+.market{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.item{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}.pic{height:88px;background:linear-gradient(135deg,#e5edf8,#f7f9fc);display:grid;place-items:center;font-size:36px}.body{padding:11px}.body b{font-size:12px}.price{margin-top:5px;font-size:14px;font-weight:1000}.meta{margin-top:4px;color:var(--muted);font-size:9px}
+.infoStrip{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.mini{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}.mini .emoji{font-size:21px}.mini h3{margin:7px 0 3px;font-size:14px}.mini p{margin:0;color:var(--muted);font-size:10px;line-height:1.45}
+.tools{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}.tool{background:#fff;border:1px solid var(--line);border-radius:15px;padding:13px;text-align:center}.tool.main{border:2px solid #79aff6;background:#f2f7ff}.tool b{display:block;margin-top:6px;font-size:11px}.tool small{display:block;margin-top:3px;color:var(--muted);font-size:9px}.tool em{display:inline-block;margin-top:5px;color:var(--blue);font-style:normal;font-size:8px;font-weight:1000}
+.note{margin-top:22px;padding:13px 15px;border:1px solid #d9e8fb;background:#eef6ff;border-radius:15px;color:#40566f;font-size:10px;line-height:1.55}.note b{color:#18395f}
+footer{margin-top:28px;padding:22px 0 8px;border-top:1px solid var(--line);color:var(--muted);font-size:10px}.footbrand{font-size:13px;color:var(--ink);font-weight:1000}
+@media(max-width:800px){
+.toprow{grid-template-columns:1fr auto;padding:11px 14px;gap:10px}.brand strong{font-size:18px}.brand small{font-size:9px}.auth .login{display:none}.search{grid-column:1/-1;grid-row:2}.search input{padding:10px 11px}.search button{padding:0 15px}.navin{padding:0 10px}.nav a{padding:11px 10px;font-size:11px}
+.wrap{padding:14px 12px 34px}.hero{grid-template-columns:1fr}.heroMain{padding:20px 21px;border-radius:20px}.heroMain h1{font-size:27px}.heroMain p{font-size:12px;margin-top:9px}.bridge{margin-top:13px;font-size:10px}.regionCard{padding:14px}
+.quick{grid-template-columns:1fr 1fr;gap:8px}.quick a{padding:12px;border-radius:15px}.quick .ico{width:38px;height:38px;font-size:20px}.quick b{font-size:12px}.quick small{font-size:9px}
+.two{grid-template-columns:1fr}.market{grid-template-columns:1fr 1fr}.market .item:nth-child(n+3){display:none}.infoStrip{grid-template-columns:1fr}.tools{display:flex;overflow:auto;padding-bottom:3px}.tool{min-width:118px}.tool.main{min-width:132px}.head h2{font-size:19px}.section{margin-top:19px}.beta{font-size:9px}
+}
+@media(max-width:380px){.market{grid-template-columns:1fr}.market .item:nth-child(2){display:none}.heroMain h1{font-size:25px}.quick a{gap:8px}.quick small{display:none}}
+</style>
+</head>
+<body>
+<header class="top">
+<div class="toprow">
+<a class="brand" href="#"><span class="logo">RN</span><span><strong>RiderNex</strong><small>Rider Nexus · 라이더넥스</small></span></a>
+<form class="search" id="search"><input id="q" placeholder="지역, 게시글, 업체, 장터를 검색하세요"><button>검색</button></form>
+<div class="auth"><button class="login">로그인</button><button class="join">회원가입</button></div>
+</div>
+<nav class="nav"><div class="navin"><a href="#region">📍 지역정보</a><a href="#community">💬 커뮤니티</a><a href="#market">🛵 장터</a><a href="#jobs">💼 구인·구직</a><a href="#more">☰ 전체메뉴</a></div></nav>
+</header>
+
+<main class="wrap">
+<span class="beta">BETA V2 · 복잡함을 줄인 비교 화면</span>
+
+<section class="hero">
+<div class="heroMain">
+<h1>전국 라이더가<br>지역과 정보를 연결하는 곳.</h1>
+<p>지역정보 · 커뮤니티 · 장터 · 구인 · 라이더도구를 한곳에서.</p>
+<div class="bridge">라이더짝꿍에서 시작해, 모든 라이더를 연결합니다.</div>
+</div>
+<aside class="regionCard">
+<h3>내 지역</h3>
+<p>주 활동지역의 현장정보와 지역방을 먼저 확인합니다.</p>
+<div class="regionBtns"><a class="primary" href="#region">관악구 라이더방</a><a href="#region">지역 변경</a></div>
+</aside>
+</section>
+
+<section class="quick" aria-label="빠른 메뉴">
+<a href="#region"><span class="ico">📍</span><span><b>내 지역방</b><small>콜·교통·사고·질문</small></span></a>
+<a href="#market"><span class="ico">🛵</span><span><b>라이더장터</b><small>중고·장비·새상품</small></span></a>
+<a href="#jobs"><span class="ico">💼</span><span><b>구인정보</b><small>내 지역 일자리</small></span></a>
+<a href="#tools"><span class="ico">🧰</span><span><b>라이더도구</b><small>앱·계산·관리</small></span></a>
+</section>
+
+<section class="section" id="region">
+<div class="head"><div><h2>지금 우리 지역</h2><p>오래된 정보보다 최신 현장정보를 먼저 보여줍니다.</p></div><a href="#">지역 전체보기 ›</a></div>
+<div class="two">
+<article class="card"><div class="cardTitle"><h3>관악구 현장정보</h3><span class="tag">서울 관악구</span></div><div class="feed">
+<div class="feedItem"><span class="dot"></span><div><b>봉천동 배민 콜 잘 나옵니다</b><p>서울대입구 방향 괜찮아요.</p></div><time>7분 전</time></div>
+<div class="feedItem"><span class="dot red"></span><div><b>신림역 앞 사고로 정체</b><p>남부순환로 진입 전 우회 추천.</p></div><time>12분 전</time></div>
+<div class="feedItem"><span class="dot orange"></span><div><b>낙성대 공사구간 주의</b><p>골목 한쪽 차선 통제 중.</p></div><time>31분 전</time></div>
+</div></article>
+<article class="card" id="community"><div class="cardTitle"><h3>지역방 바로가기</h3><span class="tag">매일 확인</span></div><div class="smallList">
+<a href="#"><b>💬 오늘 콜정보 · 자유수다</b><span>›</span></a>
+<a href="#"><b>🚨 교통 · 사고 · 공사</b><span>›</span></a>
+<a href="#"><b>🔧 정비 · 장비 · Q&A</b><span>›</span></a>
+<a href="#"><b>👤 내 방 · 관심방</b><span>›</span></a>
+</div></article>
+</div>
+</section>
+
+<section class="section" id="market">
+<div class="head"><div><h2>라이더장터</h2><p>전국 매물 기본 · 내 지역과 가까운 매물을 먼저 추천</p></div><a href="#">전체 장터 ›</a></div>
+<div class="market">
+<article class="item"><div class="pic">🛵</div><div class="body"><b>PCX 125 중고</b><div class="price">2,350,000원</div><div class="meta">서울 관악구 · 개인</div></div></article>
+<article class="item"><div class="pic">⚡</div><div class="body"><b>배달용 전기자전거</b><div class="price">980,000원</div><div class="meta">서울 동작구 · 중고</div></div></article>
+<article class="item"><div class="pic">🪖</div><div class="body"><b>풀페이스 헬멧</b><div class="price">85,000원</div><div class="meta">전국택배 · 장비</div></div></article>
+<article class="item"><div class="pic">🧤</div><div class="body"><b>겨울 방한 장비 세트</b><div class="price">59,000원</div><div class="meta">업체 새상품 · 시즌</div></div></article>
+</div>
+</section>
+
+<section class="section" id="more">
+<div class="head"><div><h2>필요한 정보 바로 찾기</h2><p>상단에는 핵심만 두고 나머지는 여기서 연결합니다.</p></div></div>
+<div class="infoStrip">
+<article class="mini"><div class="emoji">🔧</div><h3>정비·장비</h3><p>센터, 소모품, 헬멧, 우천·여름·겨울장비 정보</p></article>
+<article class="mini"><div class="emoji">🏪</div><h3>업체정보</h3><p>정비소·렌탈·장비점·대행·퀵업체 지역 검색</p></article>
+<article class="mini" id="jobs"><div class="emoji">💼</div><h3>구인·구직</h3><p>지역별 기사모집과 라이더 일자리 정보</p></article>
+</div>
+</section>
+
+<section class="section" id="tools">
+<div class="head"><div><h2>라이더도구</h2><p>기존 앱과 다운로드 자산을 그대로 RiderNex 안에서 연결합니다.</p></div></div>
+<div class="tools">
+<a class="tool main" href="../rider.html"><span>🟩</span><b>라이더짝꿍</b><small>수입·운행·내비</small><em>대표 앱</em></a>
+<a class="tool" href="../delivery-navi.html"><span>🗺️</span><b>배달내비</b><small>주행안내</small></a>
+<a class="tool" href="../quick.html"><span>⚡</span><b>퀵짝꿍</b><small>퀵 업무</small></a>
+<a class="tool" href="../bikecheck.html"><span>🔧</span><b>바이크체크</b><small>정비관리</small></a>
+<a class="tool" href="../oneul-eolma.html"><span>💰</span><b>오늘얼마</b><small>수입관리</small></a>
+</div>
+</section>
+
+<div class="note"><b>V2 비교 기준</b> · 첫 화면에서 꼭 필요한 것만 먼저 보여주고, 상세 기능은 아래로 내려 복잡함을 줄였습니다. 기존 라이더짝꿍·배달내비·퀵짝꿍 페이지와 APK 다운로드 시스템은 변경하지 않습니다.</div>
+<footer><div class="footbrand">RiderNex 라이더넥스</div><div style="margin-top:4px">라이더짝꿍을 품은 전국 배달·퀵 라이더 플랫폼 · Beta V2</div></footer>
+</main>
+
+<script>
+document.getElementById('search').addEventListener('submit',e=>{e.preventDefault();const q=document.getElementById('q').value.trim();if(q)alert('베타 통합검색 예시: '+q+'\n정식 버전에서는 지역글·장터·업체·구인을 함께 검색합니다.');});
+document.querySelectorAll('.auth button').forEach(b=>b.addEventListener('click',()=>alert('베타 미리보기입니다. 회원 기능은 정식 DB 연결 단계에서 활성화합니다.')));
+</script>
+</body>
+</html>
