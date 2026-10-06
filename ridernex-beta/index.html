@@ -40,75 +40,76 @@ button{cursor:pointer}
 .top{
   position:sticky;top:0;z-index:80;overflow:hidden;
   background:
-    linear-gradient(90deg,rgba(4,27,59,.98) 0%,rgba(6,40,83,.93) 43%,rgba(6,35,76,.55) 68%,rgba(3,20,47,.35) 100%),
-    url("../main-draft2/rider-safety-promo-main.jpg?v=13") 78% 44%/cover no-repeat;
-  border-bottom:1px solid rgba(88,170,255,.22);
-  box-shadow:0 12px 34px rgba(4,23,47,.24)
+    radial-gradient(circle at 82% 15%,rgba(44,132,255,.22),transparent 25%),
+    linear-gradient(180deg,#0d3768 0%,#0b315e 58%,#0a2b53 100%);
+  border-bottom:1px solid rgba(80,166,255,.22);
+  box-shadow:0 12px 34px rgba(4,23,47,.25)
 }
 .top:before{
-  content:"";position:absolute;inset:0;pointer-events:none;
+  content:"";position:absolute;inset:auto -8% 20px -8%;height:92px;pointer-events:none;
   background:
-    radial-gradient(circle at 20% 10%,rgba(66,157,255,.18),transparent 23%),
-    linear-gradient(115deg,transparent 0 48%,rgba(42,143,255,.10) 57%,transparent 73%)
+    linear-gradient(178deg,transparent 0 38%,rgba(37,132,255,.18) 39% 41%,transparent 42%),
+    linear-gradient(184deg,transparent 0 55%,rgba(83,183,255,.22) 56% 58%,transparent 59%);
+  filter:blur(.2px)
 }
 .top:after{
-  content:"";position:absolute;left:0;right:0;bottom:0;height:2px;
+  content:"";position:absolute;left:0;right:0;bottom:0;height:2px;pointer-events:none;
   background:linear-gradient(90deg,transparent,#2e91ff 15%,#6ac7ff 48%,#2c86ef 82%,transparent);
   box-shadow:0 0 20px rgba(44,143,255,.72)
 }
-.brandBanner,.searchRow,.nav{position:relative;z-index:2}
+.headerPhone{
+  position:absolute;z-index:1;right:3%;top:5px;width:180px;max-height:150px;object-fit:cover;object-position:50% 18%;
+  border-radius:22px;transform:rotate(5deg);
+  opacity:.66;filter:saturate(1.15) contrast(1.05) brightness(.86);
+  box-shadow:0 14px 34px rgba(0,17,42,.32),0 0 22px rgba(28,128,255,.12);
+  border:1px solid rgba(118,190,255,.25)
+}
+.brandBanner,.searchRow,.nav{position:relative;z-index:3}
 .brandBanner{
-  max-width:1180px;margin:auto;padding:18px 20px 10px;
-  display:grid;grid-template-columns:minmax(360px,1fr) auto;gap:24px;align-items:center
+  max-width:1180px;margin:auto;min-height:104px;padding:17px 20px 11px;
+  display:flex;align-items:center
 }
-.brand{
-  display:flex;align-items:center;gap:16px;min-width:0;color:#fff
-}
+.brand{display:flex;align-items:center;gap:14px;min-width:0;color:#fff}
 .rnWord{
-  display:flex;align-items:center;gap:2px;flex:0 0 auto;
-  height:66px;
+  display:flex;align-items:center;flex:0 0 auto;height:68px;
   filter:drop-shadow(0 10px 18px rgba(0,20,58,.35))
 }
-.rnWord svg{width:98px;height:66px;display:block}
+.rnWord svg{width:100px;height:68px;display:block}
 .brandText strong{
-  display:block;font-size:32px;line-height:1;letter-spacing:-1.4px;color:#f7fbff;
-  text-shadow:0 2px 8px rgba(0,20,52,.42)
+  display:block;font-size:34px;line-height:1;letter-spacing:-1.5px;color:#f7fbff;
+  text-shadow:0 2px 9px rgba(0,20,52,.48)
 }
-.brandText strong em{font-style:normal;color:#52a7ff}
+.brandText strong em{font-style:normal;color:#55a8ff}
 .brandText small{
   display:block;margin-top:7px;font-size:12px;color:#c4d7ec;font-weight:850;
   text-shadow:0 1px 5px rgba(0,20,52,.4)
 }
-.join{
-  min-height:48px;padding:0 18px;border-radius:14px;border:1px solid rgba(125,194,255,.60);
-  background:linear-gradient(145deg,#35a0ff,#1767d7);color:#fff;font-size:14px;font-weight:1000;
-  box-shadow:0 10px 26px rgba(0,42,112,.30),inset 0 1px 0 rgba(255,255,255,.22)
-}
 .searchRow{
-  max-width:1180px;margin:auto;padding:0 20px 13px;
-  display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center
+  max-width:1180px;margin:auto;padding:0 20px 14px;
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center
 }
 .search{
-  min-height:50px;display:flex;align-items:center;
-  background:rgba(3,23,51,.58);border:1px solid rgba(116,185,255,.38);
+  min-height:54px;display:flex;align-items:center;
+  background:rgba(3,23,51,.57);border:1.5px solid rgba(88,171,255,.54);
   border-radius:999px;overflow:hidden;backdrop-filter:blur(12px);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 8px 24px rgba(1,15,38,.20)
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 8px 24px rgba(1,15,38,.20),0 0 18px rgba(26,127,245,.08)
 }
-.search:focus-within{border-color:rgba(119,192,255,.78);box-shadow:0 0 0 3px rgba(52,130,230,.12)}
+.search:focus-within{border-color:rgba(119,192,255,.85);box-shadow:0 0 0 3px rgba(52,130,230,.12)}
 .search input{
-  width:100%;border:0;outline:0;background:transparent;color:#fff;padding:0 18px;font-size:14px
+  width:100%;border:0;outline:0;background:transparent;color:#fff;padding:0 19px;font-size:15px
 }
-.search input::placeholder{color:#bfd0e3}
+.search input::placeholder{color:#c4d4e6}
 .search button{
-  width:58px;border:0;background:transparent;color:#fff;font-size:21px;font-weight:1000
+  width:62px;border:0;background:transparent;color:#fff;font-size:22px;font-weight:1000
 }
-.headerMini{
-  display:flex;align-items:center;gap:8px;color:#d5e5f6;font-size:11px;font-weight:800;
-  white-space:nowrap
+.join{
+  min-height:54px;padding:0 19px;border-radius:15px;border:1px solid rgba(125,194,255,.66);
+  background:linear-gradient(145deg,#37a2ff,#1768d7);color:#fff;font-size:14px;font-weight:1000;
+  box-shadow:0 10px 26px rgba(0,42,112,.31),inset 0 1px 0 rgba(255,255,255,.24)
 }
 .nav{
-  border-top:1px solid rgba(255,255,255,.08);
-  background:linear-gradient(180deg,rgba(2,22,49,.18),rgba(2,20,47,.42));
+  border-top:1px solid rgba(255,255,255,.09);
+  background:linear-gradient(180deg,rgba(3,25,55,.28),rgba(2,21,49,.58));
   backdrop-filter:blur(8px)
 }
 .navin{max-width:1180px;margin:auto;padding:0 20px;display:flex;gap:8px}
@@ -128,21 +129,23 @@ button{cursor:pointer}
   background:rgba(255,248,228,.96);border:1px solid #efd8a9;color:#8e5d15;
   font-size:10.5px;font-weight:950
 }
-
 @media(max-width:800px){
-  .top{
-    background:
-      linear-gradient(90deg,rgba(4,27,59,.98) 0%,rgba(6,40,83,.91) 47%,rgba(5,33,72,.47) 72%,rgba(2,20,47,.28) 100%),
-      url("../main-draft2/rider-safety-promo-main.jpg?v=13") 76% 43%/cover no-repeat
-  }
-  .brandBanner{grid-template-columns:1fr auto;padding:16px 14px 10px;gap:10px}
-  .rnWord{height:52px}.rnWord svg{width:78px;height:52px}
-  .brand{gap:10px}.brandText strong{font-size:22px}.brandText small{font-size:10px;margin-top:5px}
-  .join{min-height:44px;padding:0 14px;font-size:13px}
-  .searchRow{grid-template-columns:1fr;padding:0 14px 12px}
-  .search{min-height:50px}.headerMini{display:none}
+  .headerPhone{right:-18px;top:3px;width:172px;max-height:139px;opacity:.62;border-radius:20px}
+  .brandBanner{min-height:108px;padding:17px 14px 11px}
+  .rnWord{height:54px}.rnWord svg{width:82px;height:54px}
+  .brand{gap:9px}.brandText strong{font-size:23px}.brandText small{font-size:10px;margin-top:5px;max-width:190px}
+  .searchRow{padding:0 14px 13px;gap:10px}
+  .search{min-height:54px}.search input{font-size:14px;padding-left:17px}.search button{width:56px}
+  .join{min-height:54px;padding:0 15px;font-size:13px}
   .navin{padding:0 12px;gap:2px}.nav a{padding:11px 10px;font-size:12px}
   .wrap{padding:14px 12px 34px}
+}
+@media(max-width:420px){
+  .headerPhone{width:155px;right:-25px;opacity:.56}
+  .brandText strong{font-size:21px}.brandText small{font-size:9.5px}
+  .rnWord{height:50px}.rnWord svg{width:76px;height:50px}
+  .searchRow{grid-template-columns:minmax(0,1fr) 104px}
+  .join{padding:0 10px}
 }
 /* hero */
 .hero{
@@ -299,19 +302,21 @@ footer{margin-top:22px;padding:19px 0 7px;border-top:1px solid var(--line);color
 </head>
 <body>
 <header class="top">
+  <img class="headerPhone" src="../assets/app-screens/delivery-navi-route.webp" alt="" aria-hidden="true">
+
   <div class="brandBanner">
     <a class="brand" href="#">
       <span class="rnWord" aria-label="RN RiderNex">
         <svg viewBox="0 0 150 100" role="img" aria-hidden="true">
           <defs>
             <linearGradient id="rBlue" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#81d1ff"/>
-              <stop offset=".35" stop-color="#2190ff"/>
+              <stop offset="0" stop-color="#8ad6ff"/>
+              <stop offset=".34" stop-color="#2998ff"/>
               <stop offset="1" stop-color="#0750b9"/>
             </linearGradient>
             <linearGradient id="nSilver" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0" stop-color="#ffffff"/>
-              <stop offset=".50" stop-color="#d8e7f6"/>
+              <stop offset=".50" stop-color="#d9e8f7"/>
               <stop offset="1" stop-color="#7896ba"/>
             </linearGradient>
           </defs>
@@ -321,12 +326,11 @@ footer{margin-top:22px;padding:19px 0 7px;border-top:1px solid var(--line);color
       </span>
       <span class="brandText"><strong>Rider<em>Nex</em></strong><small>라이더를 위한 모든 것, 라이더넥스</small></span>
     </a>
-    <button class="join">회원가입</button>
   </div>
 
   <div class="searchRow">
     <form class="search" id="search"><input id="q" placeholder="지역, 키워드로 검색하세요"><button aria-label="검색">⌕</button></form>
-    <div class="headerMini">RiderNex = Rider + Nexus</div>
+    <button class="join">회원가입</button>
   </div>
 
   <nav class="nav"><div class="navin">
