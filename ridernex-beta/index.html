@@ -255,22 +255,43 @@ footer{margin-top:22px;padding:19px 0 7px;border-top:1px solid var(--line);color
       <span class="mark" aria-label="RiderNex RN 로고">
         <svg viewBox="0 0 120 96" role="img" aria-label="RN RiderNex">
           <defs>
-            <linearGradient id="rnBlue" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#79c4ff"/>
-              <stop offset=".45" stop-color="#2b83eb"/>
-              <stop offset="1" stop-color="#0f4dad"/>
+            <linearGradient id="rnMetalR" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#f8fdff"/>
+              <stop offset=".16" stop-color="#9fd8ff"/>
+              <stop offset=".34" stop-color="#edf7ff"/>
+              <stop offset=".53" stop-color="#4c9bea"/>
+              <stop offset=".72" stop-color="#d8e9f8"/>
+              <stop offset="1" stop-color="#3a628e"/>
             </linearGradient>
-            <linearGradient id="rnSilver" x1="0" y1="0" x2="1" y2="1">
+            <linearGradient id="rnMetalN" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0" stop-color="#ffffff"/>
-              <stop offset=".55" stop-color="#dce8f5"/>
-              <stop offset="1" stop-color="#91a9c5"/>
+              <stop offset=".18" stop-color="#b7ddf7"/>
+              <stop offset=".40" stop-color="#5b9bd8"/>
+              <stop offset=".58" stop-color="#eef8ff"/>
+              <stop offset=".78" stop-color="#7294b7"/>
+              <stop offset="1" stop-color="#2d527d"/>
             </linearGradient>
+            <linearGradient id="rnEdge" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#ffffff"/>
+              <stop offset=".5" stop-color="#7fc3ff"/>
+              <stop offset="1" stop-color="#163f72"/>
+            </linearGradient>
+            <filter id="rnShadow" x="-30%" y="-30%" width="160%" height="170%">
+              <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#00172f" flood-opacity=".58"/>
+              <feDropShadow dx="0" dy="0" stdDeviation="2.2" flood-color="#5cb4ff" flood-opacity=".34"/>
+            </filter>
           </defs>
-          <rect x="6" y="8" width="108" height="80" rx="22" fill="#0b2d58" opacity=".92"/>
-          <rect x="8" y="10" width="104" height="76" rx="20" fill="none" stroke="rgba(255,255,255,.16)"/>
-          <path d="M22 69V27h26c16 0 25 7 25 19 0 8-5 14-14 17l15 19H55L43 65h-6v17H22Zm15-30v13h11c7 0 10-2 10-7s-3-6-10-6H37Z" fill="url(#rnBlue)"/>
-          <path d="M69 27h15l18 28V27h16v55h-15L85 54v28H69V27Z" fill="url(#rnSilver)"/>
-          <path d="M16 20h88" stroke="rgba(255,255,255,.24)" stroke-width="2" stroke-linecap="round"/>
+          <g filter="url(#rnShadow)">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M10 82V14H42C58 14 68 22 68 36C68 46 62 53 53 57L69 82H50L38 61H28V82H10ZM28 28V47H41C48 47 52 43 52 37.5C52 31.5 48 28 41 28H28Z"
+              fill="url(#rnMetalR)" stroke="url(#rnEdge)" stroke-width="1.5" stroke-linejoin="round"/>
+            <path
+              d="M62 14H79L99 52V14H114V82H97L77 44V82H62V14Z"
+              fill="url(#rnMetalN)" stroke="url(#rnEdge)" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M15 19H42C54 19 61 24 63 31" fill="none" stroke="rgba(255,255,255,.72)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M67 19H76L100 64" fill="none" stroke="rgba(255,255,255,.58)" stroke-width="1.7" stroke-linecap="round"/>
+            <path d="M104 18V72" fill="none" stroke="rgba(132,194,255,.5)" stroke-width="1.2" stroke-linecap="round"/>
+          </g>
         </svg>
       </span>
       <span class="brandText"><strong>Rider<em>Nex</em></strong><small>라이더를 위한 모든 것, 라이더넥스</small></span>
