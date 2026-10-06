@@ -255,62 +255,73 @@ footer{margin-top:22px;padding:19px 0 7px;border-top:1px solid var(--line);color
       <span class="mark" aria-label="RiderNex RN 로고">
         <svg viewBox="0 0 120 96" role="img" aria-label="RN RiderNex">
           <defs>
-            <linearGradient id="rnBlueFace" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#9be7ff"/>
-              <stop offset=".18" stop-color="#2bbcff"/>
-              <stop offset=".45" stop-color="#0b7df0"/>
-              <stop offset=".72" stop-color="#0a5bd2"/>
-              <stop offset="1" stop-color="#053b91"/>
+            <linearGradient id="rnBlueMain" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#8fe3ff"/>
+              <stop offset=".18" stop-color="#37c4ff"/>
+              <stop offset=".45" stop-color="#147ef4"/>
+              <stop offset=".75" stop-color="#0c58cf"/>
+              <stop offset="1" stop-color="#0a3b91"/>
             </linearGradient>
-            <linearGradient id="rnSilverFace" x1="0" y1="0" x2="1" y2="1">
+            <linearGradient id="rnSilverMain" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0" stop-color="#ffffff"/>
-              <stop offset=".17" stop-color="#dff1ff"/>
-              <stop offset=".36" stop-color="#8ba9c8"/>
-              <stop offset=".56" stop-color="#f6fbff"/>
-              <stop offset=".76" stop-color="#7d9ab8"/>
-              <stop offset="1" stop-color="#365778"/>
+              <stop offset=".2" stop-color="#edf7ff"/>
+              <stop offset=".42" stop-color="#9bb4cc"/>
+              <stop offset=".62" stop-color="#f7fbff"/>
+              <stop offset=".82" stop-color="#7b93ad"/>
+              <stop offset="1" stop-color="#4b647f"/>
             </linearGradient>
-            <linearGradient id="rnBlueEdge" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#d8f7ff"/>
-              <stop offset=".22" stop-color="#43d6ff"/>
-              <stop offset=".6" stop-color="#168dff"/>
-              <stop offset="1" stop-color="#0a3e94"/>
+            <linearGradient id="rnEdgeBlue" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#dff9ff"/>
+              <stop offset=".3" stop-color="#68d7ff"/>
+              <stop offset=".68" stop-color="#1b92ff"/>
+              <stop offset="1" stop-color="#143f86"/>
             </linearGradient>
-            <linearGradient id="rnSide" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#123f88"/>
-              <stop offset=".5" stop-color="#0a2551"/>
-              <stop offset="1" stop-color="#020d1f"/>
-            </linearGradient>
-            <filter id="rnGlow" x="-45%" y="-45%" width="190%" height="210%">
-              <feDropShadow dx="0" dy="4" stdDeviation="3.2" flood-color="#00152f" flood-opacity=".72"/>
-              <feDropShadow dx="0" dy="0" stdDeviation="2.6" flood-color="#1ea7ff" flood-opacity=".72"/>
-              <feDropShadow dx="0" dy="0" stdDeviation="5.5" flood-color="#0a6dff" flood-opacity=".24"/>
+            <filter id="rnSoftGlow" x="-40%" y="-40%" width="180%" height="200%">
+              <feDropShadow dx="0" dy="3" stdDeviation="2.8" flood-color="#02142e" flood-opacity=".75"/>
+              <feDropShadow dx="0" dy="0" stdDeviation="1.9" flood-color="#49b9ff" flood-opacity=".48"/>
             </filter>
           </defs>
 
-          <g filter="url(#rnGlow)" stroke-linejoin="round" stroke-linecap="round">
-            <!-- R: angular blue metallic face -->
-            <path d="M8 81L25 14H49C63 14 72 21 72 33C72 44 65 51 54 54L67 81H49L38 58H30L24 81H8Z"
-              fill="url(#rnBlueFace)" stroke="url(#rnBlueEdge)" stroke-width="1.55"/>
-            <path d="M34 28L30 45H46C53 45 57 41 57 35.5C57 30.5 53 28 46 28H34Z"
-              fill="#06254b" stroke="#69d5ff" stroke-width="1.15"/>
-            <!-- R beveled side / diagonal leg -->
-            <path d="M38 58L49 81H62L50 57Z" fill="url(#rnSide)" opacity=".9"/>
-            <path d="M14 74L26 18H48" fill="none" stroke="rgba(255,255,255,.78)" stroke-width="1.7"/>
-            <path d="M18 67L28 54H39" fill="none" stroke="rgba(67,203,255,.62)" stroke-width="1.25"/>
+          <g filter="url(#rnSoftGlow)" stroke-linejoin="round" stroke-linecap="round">
+            <path
+              d="M10 79L24 17H50C64 17 72 24 72 35C72 45 65 52 55 55L67 79H50L40 58H30L25 79H10Z"
+              fill="url(#rnBlueMain)"
+              stroke="url(#rnEdgeBlue)"
+              stroke-width="1.5"/>
+            <path
+              d="M34 29L30 44H46C53 44 57 40 57 35.5C57 31 53 29 46 29H34Z"
+              fill="#0a2750"
+              stroke="rgba(130,225,255,.9)"
+              stroke-width="1"/>
+            <path
+              d="M14 73L25 20H49"
+              fill="none"
+              stroke="rgba(255,255,255,.78)"
+              stroke-width="1.6"/>
+            <path
+              d="M39 58L50 79H61L49 56Z"
+              fill="rgba(8,22,44,.55)"/>
 
-            <!-- N: strong silver diagonal with blue lower edge, clearly N -->
-            <path d="M60 81L73 14H87L101 55L109 14H119L106 81H92L78 42L70 81H60Z"
-              fill="url(#rnSilverFace)" stroke="url(#rnBlueEdge)" stroke-width="1.55"/>
-            <!-- N central diagonal emphasis -->
-            <path d="M75 18L98 72" fill="none" stroke="rgba(255,255,255,.78)" stroke-width="2.25"/>
-            <path d="M101 55L109 14H119" fill="none" stroke="rgba(92,204,255,.62)" stroke-width="1.3"/>
-            <path d="M92 81H106L109 65" fill="url(#rnSide)" opacity=".72"/>
-
-            <!-- shared chrome highlight and subtle base glow -->
-            <path d="M24 14H48C60 14 67 19 69 28" fill="none" stroke="rgba(255,255,255,.86)" stroke-width="1.8"/>
-            <path d="M73 14H87" fill="none" stroke="rgba(255,255,255,.9)" stroke-width="1.8"/>
-            <path d="M7 84H109" fill="none" stroke="rgba(26,132,255,.32)" stroke-width="2.2"/>
+            <path
+              d="M63 79L74 17H86L100 54L107 17H118L107 79H95L80 41L73 79H63Z"
+              fill="url(#rnSilverMain)"
+              stroke="url(#rnEdgeBlue)"
+              stroke-width="1.5"/>
+            <path
+              d="M76 20L99 73"
+              fill="none"
+              stroke="rgba(255,255,255,.82)"
+              stroke-width="2"/>
+            <path
+              d="M74 19H86"
+              fill="none"
+              stroke="rgba(255,255,255,.88)"
+              stroke-width="1.5"/>
+            <path
+              d="M11 82H108"
+              fill="none"
+              stroke="rgba(34,140,255,.22)"
+              stroke-width="2"/>
           </g>
         </svg>
       </span>
