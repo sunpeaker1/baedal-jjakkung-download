@@ -38,89 +38,90 @@ button{cursor:pointer}
 
 /* top */
 .top{
-  position:sticky;top:0;z-index:80;
-  overflow:hidden;
+  position:sticky;top:0;z-index:80;overflow:hidden;
   background:
-    linear-gradient(90deg,rgba(5,29,63,.97) 0%,rgba(7,44,88,.92) 45%,rgba(5,32,73,.72) 72%,rgba(3,22,54,.78) 100%),
-    linear-gradient(180deg,rgba(10,47,95,.18),rgba(2,21,49,.40)),
-    url("../main-draft2/rider-safety-promo-main.jpg?v=13") center 38%/cover no-repeat;
-  border-bottom:1px solid rgba(93,169,255,.20);
-  box-shadow:0 12px 34px rgba(4,23,47,.24);
-  backdrop-filter:blur(10px)
+    linear-gradient(90deg,rgba(4,27,59,.98) 0%,rgba(6,40,83,.93) 43%,rgba(6,35,76,.55) 68%,rgba(3,20,47,.35) 100%),
+    url("../main-draft2/rider-safety-promo-main.jpg?v=13") 78% 44%/cover no-repeat;
+  border-bottom:1px solid rgba(88,170,255,.22);
+  box-shadow:0 12px 34px rgba(4,23,47,.24)
 }
 .top:before{
   content:"";position:absolute;inset:0;pointer-events:none;
   background:
-    radial-gradient(circle at 23% 17%,rgba(64,156,255,.16),transparent 24%),
-    linear-gradient(110deg,transparent 0 44%,rgba(33,125,236,.10) 56%,transparent 74%);
-  mix-blend-mode:screen
+    radial-gradient(circle at 20% 10%,rgba(66,157,255,.18),transparent 23%),
+    linear-gradient(115deg,transparent 0 48%,rgba(42,143,255,.10) 57%,transparent 73%)
 }
 .top:after{
-  content:"";position:absolute;left:0;right:0;bottom:0;height:2px;pointer-events:none;
-  background:linear-gradient(90deg,transparent,#2994ff 18%,#66c3ff 48%,#2481ed 78%,transparent);
-  box-shadow:0 0 18px rgba(45,139,255,.65)
+  content:"";position:absolute;left:0;right:0;bottom:0;height:2px;
+  background:linear-gradient(90deg,transparent,#2e91ff 15%,#6ac7ff 48%,#2c86ef 82%,transparent);
+  box-shadow:0 0 20px rgba(44,143,255,.72)
 }
-.toprow,.nav{position:relative;z-index:2}
-.toprow{
-  max-width:1180px;margin:auto;padding:16px 20px 13px;
-  display:grid;grid-template-columns:auto minmax(300px,1fr) auto;gap:22px;align-items:center
+.brandBanner,.searchRow,.nav{position:relative;z-index:2}
+.brandBanner{
+  max-width:1180px;margin:auto;padding:18px 20px 10px;
+  display:grid;grid-template-columns:minmax(360px,1fr) auto;gap:24px;align-items:center
 }
-.brand{display:flex;align-items:center;gap:11px;min-width:215px;color:#fff}
-.mark{
-  width:58px;height:46px;display:grid;place-items:center;
-  filter:drop-shadow(0 7px 13px rgba(0,0,0,.24))
+.brand{
+  display:flex;align-items:center;gap:16px;min-width:0;color:#fff
 }
-.mark svg{width:58px;height:46px;display:block}
-.brandText strong{display:block;font-size:24px;letter-spacing:-1px;line-height:1}
-.brandText strong em{font-style:normal;color:#54a4ff}
-.brandText small{display:block;margin-top:5px;color:#b8cae1;font-size:10.5px;font-weight:750}
-.search{
-  height:46px;display:flex;align-items:center;
-  background:rgba(5,27,58,.58);
-  border:1px solid rgba(125,186,255,.34);
-  border-radius:999px;overflow:hidden;
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.07),
-    0 7px 22px rgba(2,18,43,.18);
-  backdrop-filter:blur(12px)
+.rnWord{
+  display:flex;align-items:center;gap:2px;flex:0 0 auto;
+  height:66px;
+  filter:drop-shadow(0 10px 18px rgba(0,20,58,.35))
 }
-.search:focus-within{border-color:rgba(97,167,255,.72);box-shadow:0 0 0 3px rgba(52,130,230,.12)}
-.search input{
-  width:100%;border:0;outline:0;background:transparent;color:#fff;
-  padding:0 15px;font-size:13px
+.rnWord svg{width:98px;height:66px;display:block}
+.brandText strong{
+  display:block;font-size:32px;line-height:1;letter-spacing:-1.4px;color:#f7fbff;
+  text-shadow:0 2px 8px rgba(0,20,52,.42)
 }
-.search input::placeholder{color:#adc0d6}
-.search button{
-  width:52px;border:0;background:transparent;color:#fff;font-size:18px;font-weight:1000
-}
-.actions{display:flex;align-items:center;gap:9px}
-.iconBtn{
-  width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
-  border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#fff;font-size:18px
+.brandText strong em{font-style:normal;color:#52a7ff}
+.brandText small{
+  display:block;margin-top:7px;font-size:12px;color:#c4d7ec;font-weight:850;
+  text-shadow:0 1px 5px rgba(0,20,52,.4)
 }
 .join{
-  min-height:43px;padding:0 16px;border-radius:13px;border:1px solid rgba(123,190,255,.54);
-  background:linear-gradient(145deg,#3193ff,#1768d6);color:#fff;font-size:13px;font-weight:950;
-  box-shadow:
-    0 9px 22px rgba(0,42,112,.26),
-    inset 0 1px 0 rgba(255,255,255,.20)
+  min-height:48px;padding:0 18px;border-radius:14px;border:1px solid rgba(125,194,255,.60);
+  background:linear-gradient(145deg,#35a0ff,#1767d7);color:#fff;font-size:14px;font-weight:1000;
+  box-shadow:0 10px 26px rgba(0,42,112,.30),inset 0 1px 0 rgba(255,255,255,.22)
+}
+.searchRow{
+  max-width:1180px;margin:auto;padding:0 20px 13px;
+  display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center
+}
+.search{
+  min-height:50px;display:flex;align-items:center;
+  background:rgba(3,23,51,.58);border:1px solid rgba(116,185,255,.38);
+  border-radius:999px;overflow:hidden;backdrop-filter:blur(12px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 8px 24px rgba(1,15,38,.20)
+}
+.search:focus-within{border-color:rgba(119,192,255,.78);box-shadow:0 0 0 3px rgba(52,130,230,.12)}
+.search input{
+  width:100%;border:0;outline:0;background:transparent;color:#fff;padding:0 18px;font-size:14px
+}
+.search input::placeholder{color:#bfd0e3}
+.search button{
+  width:58px;border:0;background:transparent;color:#fff;font-size:21px;font-weight:1000
+}
+.headerMini{
+  display:flex;align-items:center;gap:8px;color:#d5e5f6;font-size:11px;font-weight:800;
+  white-space:nowrap
 }
 .nav{
   border-top:1px solid rgba(255,255,255,.08);
-  background:linear-gradient(180deg,rgba(4,28,61,.18),rgba(4,27,59,.42));
+  background:linear-gradient(180deg,rgba(2,22,49,.18),rgba(2,20,47,.42));
   backdrop-filter:blur(8px)
 }
-.navin{max-width:1180px;margin:auto;padding:0 20px;display:flex;gap:10px}
+.navin{max-width:1180px;margin:auto;padding:0 20px;display:flex;gap:8px}
 .nav a{
-  position:relative;padding:13px 13px;color:#eef5ff;font-size:13px;font-weight:900;white-space:nowrap;
-  text-shadow:0 1px 5px rgba(0,18,45,.38)
+  position:relative;padding:13px 13px;color:#f0f6ff;font-size:13px;font-weight:900;white-space:nowrap;
+  text-shadow:0 1px 5px rgba(0,18,45,.42)
 }
-.nav a:first-child{color:#5da9ff}
+.nav a:first-child{color:#64afff}
 .nav a:first-child:after{
-  content:"";position:absolute;left:10px;right:10px;bottom:0;height:2px;border-radius:2px;background:#2d87f5
+  content:"";position:absolute;left:10px;right:10px;bottom:0;height:2px;border-radius:2px;background:#3b95ff;
+  box-shadow:0 0 12px rgba(59,149,255,.65)
 }
 .nav a:hover{background:rgba(255,255,255,.055)}
-
 .wrap{max-width:1180px;margin:auto;padding:16px 20px 42px}
 .preview{
   display:inline-flex;margin:0 0 10px;padding:6px 10px;border-radius:999px;
@@ -128,6 +129,21 @@ button{cursor:pointer}
   font-size:10.5px;font-weight:950
 }
 
+@media(max-width:800px){
+  .top{
+    background:
+      linear-gradient(90deg,rgba(4,27,59,.98) 0%,rgba(6,40,83,.91) 47%,rgba(5,33,72,.47) 72%,rgba(2,20,47,.28) 100%),
+      url("../main-draft2/rider-safety-promo-main.jpg?v=13") 76% 43%/cover no-repeat
+  }
+  .brandBanner{grid-template-columns:1fr auto;padding:16px 14px 10px;gap:10px}
+  .rnWord{height:52px}.rnWord svg{width:78px;height:52px}
+  .brand{gap:10px}.brandText strong{font-size:22px}.brandText small{font-size:10px;margin-top:5px}
+  .join{min-height:44px;padding:0 14px;font-size:13px}
+  .searchRow{grid-template-columns:1fr;padding:0 14px 12px}
+  .search{min-height:50px}.headerMini{display:none}
+  .navin{padding:0 12px;gap:2px}.nav a{padding:11px 10px;font-size:12px}
+  .wrap{padding:14px 12px 34px}
+}
 /* hero */
 .hero{
   position:relative;min-height:355px;border-radius:24px;overflow:hidden;
@@ -283,34 +299,36 @@ footer{margin-top:22px;padding:19px 0 7px;border-top:1px solid var(--line);color
 </head>
 <body>
 <header class="top">
-  <div class="toprow">
+  <div class="brandBanner">
     <a class="brand" href="#">
-      <span class="mark" aria-label="RiderNex RN 로고">
-        <svg viewBox="0 0 120 96" role="img" aria-label="RN RiderNex">
+      <span class="rnWord" aria-label="RN RiderNex">
+        <svg viewBox="0 0 150 100" role="img" aria-hidden="true">
           <defs>
-            <linearGradient id="rnBlue" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#79c4ff"/>
-              <stop offset=".45" stop-color="#2b83eb"/>
-              <stop offset="1" stop-color="#0f4dad"/>
+            <linearGradient id="rBlue" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#81d1ff"/>
+              <stop offset=".35" stop-color="#2190ff"/>
+              <stop offset="1" stop-color="#0750b9"/>
             </linearGradient>
-            <linearGradient id="rnSilver" x1="0" y1="0" x2="1" y2="1">
+            <linearGradient id="nSilver" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0" stop-color="#ffffff"/>
-              <stop offset=".55" stop-color="#dce8f5"/>
-              <stop offset="1" stop-color="#91a9c5"/>
+              <stop offset=".50" stop-color="#d8e7f6"/>
+              <stop offset="1" stop-color="#7896ba"/>
             </linearGradient>
           </defs>
-          <rect x="6" y="8" width="108" height="80" rx="22" fill="#0b2d58" opacity=".92"/>
-          <rect x="8" y="10" width="104" height="76" rx="20" fill="none" stroke="rgba(255,255,255,.16)"/>
-          <path d="M22 69V27h26c16 0 25 7 25 19 0 8-5 14-14 17l15 19H55L43 65h-6v17H22Zm15-30v13h11c7 0 10-2 10-7s-3-6-10-6H37Z" fill="url(#rnBlue)"/>
-          <path d="M69 27h15l18 28V27h16v55h-15L85 54v28H69V27Z" fill="url(#rnSilver)"/>
-          <path d="M16 20h88" stroke="rgba(255,255,255,.24)" stroke-width="2" stroke-linecap="round"/>
+          <path d="M8 86 30 15h43c25 0 36 11 30 30-4 13-13 21-27 25l18 27H65L51 74H36l-7 23H8Zm35-52-7 23h29c10 0 15-4 18-12 2-7-2-11-13-11H43Z" fill="url(#rBlue)"/>
+          <path d="M80 15h23l27 43V15h20v82h-21L101 54v43H80V15Z" fill="url(#nSilver)"/>
         </svg>
       </span>
       <span class="brandText"><strong>Rider<em>Nex</em></strong><small>라이더를 위한 모든 것, 라이더넥스</small></span>
     </a>
-    <form class="search" id="search"><input id="q" placeholder="지역, 키워드로 검색하세요"><button aria-label="검색">⌕</button></form>
-    <div class="actions"><button class="iconBtn" aria-label="알림">♧</button><button class="join">회원가입</button></div>
+    <button class="join">회원가입</button>
   </div>
+
+  <div class="searchRow">
+    <form class="search" id="search"><input id="q" placeholder="지역, 키워드로 검색하세요"><button aria-label="검색">⌕</button></form>
+    <div class="headerMini">RiderNex = Rider + Nexus</div>
+  </div>
+
   <nav class="nav"><div class="navin">
     <a href="#">🏠 홈</a><a href="#field">◉ 현장정보</a><a href="#region">◫ 지역방</a><a href="#market">🛒 장터</a><a href="#life">▣ 생활정보</a><a href="#tools">🔧 라이더도구</a><a href="../contact.html">◉ 고객지원</a>
   </div></nav>
@@ -406,7 +424,7 @@ document.getElementById('search').addEventListener('submit',e=>{
   const q=document.getElementById('q').value.trim();
   if(q)alert('베타 통합검색 예시: '+q+'\n정식 버전에서는 지역글·장터·업체·구인을 한 번에 검색합니다.');
 });
-document.querySelectorAll('.join,.iconBtn').forEach(b=>b.addEventListener('click',()=>alert('베타 미리보기입니다. 회원·알림 기능은 정식 DB 연결 단계에서 활성화합니다.')));
+document.querySelectorAll('.join').forEach(b=>b.addEventListener('click',()=>alert('베타 미리보기입니다. 회원·알림 기능은 정식 DB 연결 단계에서 활성화합니다.')));
 </script>
 </body>
 </html>
