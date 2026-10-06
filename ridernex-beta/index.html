@@ -50,10 +50,10 @@ button{cursor:pointer}
 }
 .brand{display:flex;align-items:center;gap:11px;min-width:215px;color:#fff}
 .mark{
-  width:52px;height:42px;display:grid;place-items:center;
+  width:58px;height:46px;display:grid;place-items:center;
   filter:drop-shadow(0 7px 13px rgba(0,0,0,.24))
 }
-.mark svg{width:52px;height:42px;display:block}
+.mark svg{width:58px;height:46px;display:block}
 .brandText strong{display:block;font-size:24px;letter-spacing:-1px;line-height:1}
 .brandText strong em{font-style:normal;color:#54a4ff}
 .brandText small{display:block;margin-top:5px;color:#b8cae1;font-size:10.5px;font-weight:750}
@@ -228,7 +228,7 @@ footer{margin-top:22px;padding:19px 0 7px;border-top:1px solid var(--line);color
 
 @media(max-width:800px){
   .toprow{grid-template-columns:1fr auto;gap:10px;padding:11px 14px}
-  .brand{min-width:0}.mark{width:46px;height:38px}.mark svg{width:46px;height:38px}.brandText strong{font-size:20px}.brandText small{font-size:9px}
+  .brand{min-width:0}.mark{width:52px;height:42px}.mark svg{width:52px;height:42px}.brandText strong{font-size:20px}.brandText small{font-size:9px}
   .actions .iconBtn{display:none}.join{padding:0 13px}.search{grid-column:1/-1;grid-row:2;height:46px}.search button{width:58px}
   .navin{padding:0 12px;gap:2px}.nav a{padding:11px 10px;font-size:12px}
   .wrap{padding:14px 12px 34px}
@@ -253,14 +253,24 @@ footer{margin-top:22px;padding:19px 0 7px;border-top:1px solid var(--line);color
   <div class="toprow">
     <a class="brand" href="#">
       <span class="mark" aria-label="RiderNex RN 로고">
-        <svg viewBox="0 0 120 96" role="img" aria-hidden="true">
+        <svg viewBox="0 0 120 96" role="img" aria-label="RN RiderNex">
           <defs>
-            <linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#62b9ff"/><stop offset=".48" stop-color="#1d75de"/><stop offset="1" stop-color="#dce8f5"/></linearGradient>
-            <linearGradient id="g2" x1="0" x2="1"><stop offset="0" stop-color="#d7e7f7"/><stop offset="1" stop-color="#ffffff"/></linearGradient>
+            <linearGradient id="rnBlue" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#79c4ff"/>
+              <stop offset=".45" stop-color="#2b83eb"/>
+              <stop offset="1" stop-color="#0f4dad"/>
+            </linearGradient>
+            <linearGradient id="rnSilver" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#ffffff"/>
+              <stop offset=".55" stop-color="#dce8f5"/>
+              <stop offset="1" stop-color="#91a9c5"/>
+            </linearGradient>
           </defs>
-          <path d="M7 70 25 21h36c18 0 27 9 22 24-3 9-10 15-21 18l16 24H54L42 66H29l-7 21H7Zm28-34-6 17h24c7 0 11-3 13-9 2-5-1-8-9-8H35Z" fill="url(#g1)"/>
-          <path d="M73 21h18l9 26 15-26h19L104 73h-17L73 21Z" transform="translate(-8 0)" fill="url(#g2)" opacity=".98"/>
-          <path d="M80 21h16l-12 18-8-18Z" fill="#4aa7ff" opacity=".95"/>
+          <rect x="6" y="8" width="108" height="80" rx="22" fill="#0b2d58" opacity=".92"/>
+          <rect x="8" y="10" width="104" height="76" rx="20" fill="none" stroke="rgba(255,255,255,.16)"/>
+          <path d="M22 69V27h26c16 0 25 7 25 19 0 8-5 14-14 17l15 19H55L43 65h-6v17H22Zm15-30v13h11c7 0 10-2 10-7s-3-6-10-6H37Z" fill="url(#rnBlue)"/>
+          <path d="M69 27h15l18 28V27h16v55h-15L85 54v28H69V27Z" fill="url(#rnSilver)"/>
+          <path d="M16 20h88" stroke="rgba(255,255,255,.24)" stroke-width="2" stroke-linecap="round"/>
         </svg>
       </span>
       <span class="brandText"><strong>Rider<em>Nex</em></strong><small>라이더를 위한 모든 것, 라이더넥스</small></span>
