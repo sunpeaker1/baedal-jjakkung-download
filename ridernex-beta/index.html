@@ -38,115 +38,69 @@ button{cursor:pointer}
 
 /* top */
 .top{
-  position:sticky;top:0;z-index:80;overflow:hidden;
-  background:
-    radial-gradient(circle at 82% 15%,rgba(44,132,255,.22),transparent 25%),
-    linear-gradient(180deg,#0d3768 0%,#0b315e 58%,#0a2b53 100%);
-  border-bottom:1px solid rgba(80,166,255,.22);
-  box-shadow:0 12px 34px rgba(4,23,47,.25)
+  position:sticky;top:0;z-index:80;
+  background:linear-gradient(180deg,rgba(11,43,82,.985),rgba(14,51,95,.97));
+  border-bottom:1px solid rgba(255,255,255,.09);
+  box-shadow:0 10px 30px rgba(4,23,47,.18);
+  backdrop-filter:blur(14px)
 }
-.top:before{
-  content:"";position:absolute;inset:auto -8% 20px -8%;height:92px;pointer-events:none;
-  background:
-    linear-gradient(178deg,transparent 0 38%,rgba(37,132,255,.18) 39% 41%,transparent 42%),
-    linear-gradient(184deg,transparent 0 55%,rgba(83,183,255,.22) 56% 58%,transparent 59%);
-  filter:blur(.2px)
+.toprow{
+  max-width:1180px;margin:auto;padding:13px 20px 11px;
+  display:grid;grid-template-columns:auto minmax(300px,1fr) auto;gap:20px;align-items:center
 }
-.top:after{
-  content:"";position:absolute;left:0;right:0;bottom:0;height:2px;pointer-events:none;
-  background:linear-gradient(90deg,transparent,#2e91ff 15%,#6ac7ff 48%,#2c86ef 82%,transparent);
-  box-shadow:0 0 20px rgba(44,143,255,.72)
+.brand{display:flex;align-items:center;gap:11px;min-width:215px;color:#fff}
+.mark{
+  width:58px;height:46px;display:grid;place-items:center;
+  filter:drop-shadow(0 7px 13px rgba(0,0,0,.24))
 }
-.headerPhone{
-  position:absolute;z-index:1;right:3%;top:5px;width:180px;max-height:150px;object-fit:cover;object-position:50% 18%;
-  border-radius:22px;transform:rotate(5deg);
-  opacity:.66;filter:saturate(1.15) contrast(1.05) brightness(.86);
-  box-shadow:0 14px 34px rgba(0,17,42,.32),0 0 22px rgba(28,128,255,.12);
-  border:1px solid rgba(118,190,255,.25)
-}
-.brandBanner,.searchRow,.nav{position:relative;z-index:3}
-.brandBanner{
-  max-width:1180px;margin:auto;min-height:104px;padding:17px 20px 11px;
-  display:flex;align-items:center
-}
-.brand{display:flex;align-items:center;gap:14px;min-width:0;color:#fff}
-.rnWord{
-  display:flex;align-items:center;flex:0 0 auto;height:68px;
-  filter:drop-shadow(0 10px 18px rgba(0,20,58,.35))
-}
-.rnWord svg{width:100px;height:68px;display:block}
-.brandText strong{
-  display:block;font-size:34px;line-height:1;letter-spacing:-1.5px;color:#f7fbff;
-  text-shadow:0 2px 9px rgba(0,20,52,.48)
-}
-.brandText strong em{font-style:normal;color:#55a8ff}
-.brandText small{
-  display:block;margin-top:7px;font-size:12px;color:#c4d7ec;font-weight:850;
-  text-shadow:0 1px 5px rgba(0,20,52,.4)
-}
-.searchRow{
-  max-width:1180px;margin:auto;padding:0 20px 14px;
-  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center
-}
+.mark svg{width:58px;height:46px;display:block}
+.brandText strong{display:block;font-size:24px;letter-spacing:-1px;line-height:1}
+.brandText strong em{font-style:normal;color:#54a4ff}
+.brandText small{display:block;margin-top:5px;color:#b8cae1;font-size:10.5px;font-weight:750}
 .search{
-  min-height:54px;display:flex;align-items:center;
-  background:rgba(3,23,51,.57);border:1.5px solid rgba(88,171,255,.54);
-  border-radius:999px;overflow:hidden;backdrop-filter:blur(12px);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 8px 24px rgba(1,15,38,.20),0 0 18px rgba(26,127,245,.08)
+  height:43px;display:flex;align-items:center;
+  background:rgba(7,30,60,.32);
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:999px;overflow:hidden;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.03)
 }
-.search:focus-within{border-color:rgba(119,192,255,.85);box-shadow:0 0 0 3px rgba(52,130,230,.12)}
+.search:focus-within{border-color:rgba(97,167,255,.72);box-shadow:0 0 0 3px rgba(52,130,230,.12)}
 .search input{
-  width:100%;border:0;outline:0;background:transparent;color:#fff;padding:0 19px;font-size:15px
+  width:100%;border:0;outline:0;background:transparent;color:#fff;
+  padding:0 15px;font-size:13px
 }
-.search input::placeholder{color:#c4d4e6}
+.search input::placeholder{color:#adc0d6}
 .search button{
-  width:62px;border:0;background:transparent;color:#fff;font-size:22px;font-weight:1000
+  width:52px;border:0;background:transparent;color:#fff;font-size:18px;font-weight:1000
+}
+.actions{display:flex;align-items:center;gap:9px}
+.iconBtn{
+  width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
+  border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#fff;font-size:18px
 }
 .join{
-  min-height:54px;padding:0 19px;border-radius:15px;border:1px solid rgba(125,194,255,.66);
-  background:linear-gradient(145deg,#37a2ff,#1768d7);color:#fff;font-size:14px;font-weight:1000;
-  box-shadow:0 10px 26px rgba(0,42,112,.31),inset 0 1px 0 rgba(255,255,255,.24)
+  min-height:40px;padding:0 14px;border-radius:11px;border:1px solid rgba(92,165,255,.45);
+  background:linear-gradient(145deg,#2d82ee,#155cc7);color:#fff;font-size:13px;font-weight:950;
+  box-shadow:0 7px 18px rgba(0,0,0,.14)
 }
-.nav{
-  border-top:1px solid rgba(255,255,255,.09);
-  background:linear-gradient(180deg,rgba(3,25,55,.28),rgba(2,21,49,.58));
-  backdrop-filter:blur(8px)
-}
-.navin{max-width:1180px;margin:auto;padding:0 20px;display:flex;gap:8px}
+.nav{border-top:1px solid rgba(255,255,255,.045)}
+.navin{max-width:1180px;margin:auto;padding:0 20px;display:flex;gap:10px}
 .nav a{
-  position:relative;padding:13px 13px;color:#f0f6ff;font-size:13px;font-weight:900;white-space:nowrap;
-  text-shadow:0 1px 5px rgba(0,18,45,.42)
+  position:relative;padding:12px 13px;color:#e7eef8;font-size:13px;font-weight:850;white-space:nowrap
 }
-.nav a:first-child{color:#64afff}
+.nav a:first-child{color:#5da9ff}
 .nav a:first-child:after{
-  content:"";position:absolute;left:10px;right:10px;bottom:0;height:2px;border-radius:2px;background:#3b95ff;
-  box-shadow:0 0 12px rgba(59,149,255,.65)
+  content:"";position:absolute;left:10px;right:10px;bottom:0;height:2px;border-radius:2px;background:#2d87f5
 }
 .nav a:hover{background:rgba(255,255,255,.055)}
+
 .wrap{max-width:1180px;margin:auto;padding:16px 20px 42px}
 .preview{
   display:inline-flex;margin:0 0 10px;padding:6px 10px;border-radius:999px;
   background:rgba(255,248,228,.96);border:1px solid #efd8a9;color:#8e5d15;
   font-size:10.5px;font-weight:950
 }
-@media(max-width:800px){
-  .headerPhone{right:-18px;top:3px;width:172px;max-height:139px;opacity:.62;border-radius:20px}
-  .brandBanner{min-height:108px;padding:17px 14px 11px}
-  .rnWord{height:54px}.rnWord svg{width:82px;height:54px}
-  .brand{gap:9px}.brandText strong{font-size:23px}.brandText small{font-size:10px;margin-top:5px;max-width:190px}
-  .searchRow{padding:0 14px 13px;gap:10px}
-  .search{min-height:54px}.search input{font-size:14px;padding-left:17px}.search button{width:56px}
-  .join{min-height:54px;padding:0 15px;font-size:13px}
-  .navin{padding:0 12px;gap:2px}.nav a{padding:11px 10px;font-size:12px}
-  .wrap{padding:14px 12px 34px}
-}
-@media(max-width:420px){
-  .headerPhone{width:155px;right:-25px;opacity:.56}
-  .brandText strong{font-size:21px}.brandText small{font-size:9.5px}
-  .rnWord{height:50px}.rnWord svg{width:76px;height:50px}
-  .searchRow{grid-template-columns:minmax(0,1fr) 104px}
-  .join{padding:0 10px}
-}
+
 /* hero */
 .hero{
   position:relative;min-height:355px;border-radius:24px;overflow:hidden;
@@ -273,15 +227,9 @@ footer{margin-top:22px;padding:19px 0 7px;border-top:1px solid var(--line);color
 .footerBrand{font-size:14px;color:#192941;font-weight:1000}
 
 @media(max-width:800px){
-  .top{
-    background:
-      linear-gradient(90deg,rgba(5,29,63,.96),rgba(7,44,88,.90) 54%,rgba(4,27,62,.68)),
-      linear-gradient(180deg,rgba(9,48,97,.12),rgba(2,20,48,.46)),
-      url("../main-draft2/rider-safety-promo-main.jpg?v=13") 72% 38%/cover no-repeat;
-  }
-  .toprow{grid-template-columns:1fr auto;gap:10px;padding:14px 14px 12px}
+  .toprow{grid-template-columns:1fr auto;gap:10px;padding:11px 14px}
   .brand{min-width:0}.mark{width:52px;height:42px}.mark svg{width:52px;height:42px}.brandText strong{font-size:20px}.brandText small{font-size:9px}
-  .actions .iconBtn{display:none}.join{padding:0 13px}.search{grid-column:1/-1;grid-row:2;height:48px}.search button{width:58px}
+  .actions .iconBtn{display:none}.join{padding:0 13px}.search{grid-column:1/-1;grid-row:2;height:46px}.search button{width:58px}
   .navin{padding:0 12px;gap:2px}.nav a{padding:11px 10px;font-size:12px}
   .wrap{padding:14px 12px 34px}
   .hero{min-height:430px;background-position:64% center}
@@ -302,37 +250,34 @@ footer{margin-top:22px;padding:19px 0 7px;border-top:1px solid var(--line);color
 </head>
 <body>
 <header class="top">
-  <img class="headerPhone" src="../assets/app-screens/delivery-navi-route.webp" alt="" aria-hidden="true">
-
-  <div class="brandBanner">
+  <div class="toprow">
     <a class="brand" href="#">
-      <span class="rnWord" aria-label="RN RiderNex">
-        <svg viewBox="0 0 150 100" role="img" aria-hidden="true">
+      <span class="mark" aria-label="RiderNex RN 로고">
+        <svg viewBox="0 0 120 96" role="img" aria-label="RN RiderNex">
           <defs>
-            <linearGradient id="rBlue" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#8ad6ff"/>
-              <stop offset=".34" stop-color="#2998ff"/>
-              <stop offset="1" stop-color="#0750b9"/>
+            <linearGradient id="rnBlue" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#79c4ff"/>
+              <stop offset=".45" stop-color="#2b83eb"/>
+              <stop offset="1" stop-color="#0f4dad"/>
             </linearGradient>
-            <linearGradient id="nSilver" x1="0" y1="0" x2="1" y2="1">
+            <linearGradient id="rnSilver" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0" stop-color="#ffffff"/>
-              <stop offset=".50" stop-color="#d9e8f7"/>
-              <stop offset="1" stop-color="#7896ba"/>
+              <stop offset=".55" stop-color="#dce8f5"/>
+              <stop offset="1" stop-color="#91a9c5"/>
             </linearGradient>
           </defs>
-          <path d="M8 86 30 15h43c25 0 36 11 30 30-4 13-13 21-27 25l18 27H65L51 74H36l-7 23H8Zm35-52-7 23h29c10 0 15-4 18-12 2-7-2-11-13-11H43Z" fill="url(#rBlue)"/>
-          <path d="M80 15h23l27 43V15h20v82h-21L101 54v43H80V15Z" fill="url(#nSilver)"/>
+          <rect x="6" y="8" width="108" height="80" rx="22" fill="#0b2d58" opacity=".92"/>
+          <rect x="8" y="10" width="104" height="76" rx="20" fill="none" stroke="rgba(255,255,255,.16)"/>
+          <path d="M22 69V27h26c16 0 25 7 25 19 0 8-5 14-14 17l15 19H55L43 65h-6v17H22Zm15-30v13h11c7 0 10-2 10-7s-3-6-10-6H37Z" fill="url(#rnBlue)"/>
+          <path d="M69 27h15l18 28V27h16v55h-15L85 54v28H69V27Z" fill="url(#rnSilver)"/>
+          <path d="M16 20h88" stroke="rgba(255,255,255,.24)" stroke-width="2" stroke-linecap="round"/>
         </svg>
       </span>
       <span class="brandText"><strong>Rider<em>Nex</em></strong><small>라이더를 위한 모든 것, 라이더넥스</small></span>
     </a>
-  </div>
-
-  <div class="searchRow">
     <form class="search" id="search"><input id="q" placeholder="지역, 키워드로 검색하세요"><button aria-label="검색">⌕</button></form>
-    <button class="join">회원가입</button>
+    <div class="actions"><button class="iconBtn" aria-label="알림">♧</button><button class="join">회원가입</button></div>
   </div>
-
   <nav class="nav"><div class="navin">
     <a href="#">🏠 홈</a><a href="#field">◉ 현장정보</a><a href="#region">◫ 지역방</a><a href="#market">🛒 장터</a><a href="#life">▣ 생활정보</a><a href="#tools">🔧 라이더도구</a><a href="../contact.html">◉ 고객지원</a>
   </div></nav>
@@ -428,7 +373,7 @@ document.getElementById('search').addEventListener('submit',e=>{
   const q=document.getElementById('q').value.trim();
   if(q)alert('베타 통합검색 예시: '+q+'\n정식 버전에서는 지역글·장터·업체·구인을 한 번에 검색합니다.');
 });
-document.querySelectorAll('.join').forEach(b=>b.addEventListener('click',()=>alert('베타 미리보기입니다. 회원·알림 기능은 정식 DB 연결 단계에서 활성화합니다.')));
+document.querySelectorAll('.join,.iconBtn').forEach(b=>b.addEventListener('click',()=>alert('베타 미리보기입니다. 회원·알림 기능은 정식 DB 연결 단계에서 활성화합니다.')));
 </script>
 </body>
 </html>
