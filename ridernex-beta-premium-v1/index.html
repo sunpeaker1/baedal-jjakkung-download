@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#f5f8fd">
+<title>RiderNex 라이더넥스 프리미엄 베타</title>
+<meta name="description" content="RiderNex 라이더넥스 프리미엄 베타. 지역 커뮤니티, 라이더장터, 정비·업체정보, 구인·구직, 라이더 도구를 한곳에서 연결합니다.">
+<style>
+:root{
+  --navy:#102b55;
+  --navy2:#0a3d89;
+  --blue:#1769e0;
+  --blue2:#2f82ee;
+  --sky:#eaf4ff;
+  --ink:#18243a;
+  --muted:#6d7c92;
+  --line:#e4eaf2;
+  --panel:#ffffff;
+  --bg:#f4f7fb;
+  --shadow:0 16px 40px rgba(35,64,101,.09);
+  --soft:0 8px 22px rgba(35,64,101,.06);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-size:16px;
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Apple SD Gothic Neo","Segoe UI",sans-serif;
+  background:
+    radial-gradient(circle at 15% -10%,rgba(62,139,239,.08),transparent 25%),
+    radial-gradient(circle at 90% 8%,rgba(65,163,223,.06),transparent 23%),
+    var(--bg);
+}
+a{text-decoration:none;color:inherit}
+button,input{font:inherit}
+button{cursor:pointer}
+
+.top{
+  position:sticky;top:0;z-index:60;
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(25,74,139,.08);
+  box-shadow:0 5px 18px rgba(29,54,91,.035)
+}
+.toprow{
+  max-width:1180px;margin:auto;padding:12px 20px;
+  display:grid;grid-template-columns:auto minmax(280px,1fr) auto;gap:20px;align-items:center
+}
+.brand{display:flex;align-items:center;gap:11px;min-width:190px}
+.rnLogo{
+  position:relative;width:47px;height:47px;border-radius:15px;
+  display:grid;place-items:center;color:#fff;font-weight:800;font-size:18px;letter-spacing:.4px;
+  background:
+    radial-gradient(circle at 30% 20%,rgba(255,255,255,.72),transparent 15%),
+    linear-gradient(145deg,#2f8bff 0%,#1559cf 47%,#0a2f79 100%);
+  border:1px solid rgba(17,74,164,.48);
+  box-shadow:
+    0 9px 20px rgba(21,88,201,.28),
+    inset 0 1px 0 rgba(255,255,255,.7),
+    inset 0 -8px 18px rgba(0,28,91,.18);
+  overflow:hidden
+}
+.rnLogo:before{
+  content:"";position:absolute;inset:4px;border-radius:12px;
+  border:1px solid rgba(255,255,255,.28);
+  box-shadow:inset 0 0 14px rgba(113,210,255,.16)
+}
+.rnLogo:after{
+  content:"";position:absolute;width:46px;height:18px;left:-7px;top:-4px;
+  transform:rotate(-18deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent);
+  filter:blur(.2px)
+}
+.rnLogo span{position:relative;z-index:1;text-shadow:0 1px 2px rgba(0,24,84,.45)}
+.brandText strong{display:block;font-size:22px;letter-spacing:-.9px;color:#14233e}
+.brandText small{display:block;margin-top:1px;font-size:11px;color:#6b7b92;font-weight:800}
+.search{
+  display:flex;height:43px;border:1.5px solid #b8ccec;border-radius:13px;overflow:hidden;
+  background:#fff;box-shadow:inset 0 1px 2px rgba(24,58,108,.03)
+}
+.search:focus-within{border-color:#6da2eb;box-shadow:0 0 0 3px rgba(23,105,224,.08)}
+.search input{width:100%;border:0;outline:0;padding:0 14px;color:#24344c}
+.search button{width:52px;border:0;background:#fff;color:#0d57c7;font-size:18px;font-weight:1000}
+.auth{display:flex;gap:8px}
+.auth button{
+  min-height:40px;border:1px solid var(--line);background:#fff;color:#25354d;
+  padding:0 14px;border-radius:11px;font-size:13px;font-weight:950
+}
+.auth .join{
+  color:#fff;border-color:#1769e0;
+  background:linear-gradient(145deg,#2d7fe8,#1159c9);
+  box-shadow:0 7px 16px rgba(23,105,224,.2)
+}
+
+.nav{background:#fff;border-bottom:1px solid var(--line);overflow:auto;white-space:nowrap}
+.navin{max-width:1180px;margin:auto;padding:0 20px;display:flex;gap:2px}
+.nav a{
+  position:relative;padding:12px 13px 11px;color:#43526b;font-size:13px;font-weight:900
+}
+.nav a:first-child{color:#125dcc}
+.nav a:first-child:after{
+  content:"";position:absolute;left:11px;right:11px;bottom:0;height:2px;border-radius:2px;background:#2a78e4
+}
+.nav a:hover{color:#125dcc;background:#f7faff}
+
+.wrap{max-width:1180px;margin:auto;padding:18px 20px 46px}
+.previewTag{
+  display:inline-flex;align-items:center;gap:6px;
+  margin:0 0 10px;padding:6px 10px;border-radius:999px;
+  background:#fff4df;border:1px solid #f0d7a9;color:#9b6414;
+  font-size:11px;font-weight:950
+}
+
+.hero{display:grid;grid-template-columns:1.58fr .76fr;gap:14px}
+.heroVisual{
+  position:relative;min-height:300px;border-radius:23px;overflow:hidden;
+  background-image:
+    linear-gradient(90deg,rgba(10,62,145,.96) 0%,rgba(17,94,198,.90) 39%,rgba(11,65,144,.30) 67%,rgba(4,29,72,.04) 100%),
+    url("../main-draft2/rider-safety-promo-main.jpg?v=13");
+  background-size:cover;background-position:center;
+  box-shadow:0 18px 40px rgba(19,72,147,.14);
+  border:1px solid rgba(22,86,178,.12)
+}
+.heroVisual:after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(255,255,255,.05),transparent 34%,rgba(0,24,65,.18));
+  pointer-events:none
+}
+.heroCopy{position:relative;z-index:2;padding:30px 31px;color:#fff;max-width:69%}
+.heroCopy h1{margin:0;font-size:37px;line-height:1.12;letter-spacing:-2.1px;text-shadow:0 2px 10px rgba(4,31,79,.15)}
+.heroCopy p{margin:14px 0 0;color:#edf5ff;font-size:14px;line-height:1.7;font-weight:700}
+.heroBridge{
+  margin-top:20px;padding:12px 14px;border-radius:15px;
+  background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.15);
+  backdrop-filter:blur(7px)
+}
+.heroBridge b{display:block;font-size:13px}
+.heroBridge span{display:block;margin-top:4px;font-size:10px;color:#d6e8ff}
+
+.heroSide{display:grid;grid-template-rows:1fr 1fr;gap:11px}
+.sideCard{
+  background:rgba(255,255,255,.98);border:1px solid var(--line);border-radius:19px;
+  padding:17px;box-shadow:var(--soft)
+}
+.sideTitle{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.sideTitle h3{margin:0;font-size:15px;letter-spacing:-.3px}
+.sideTitle a{font-size:11px;color:var(--blue);font-weight:900}
+.sideCard p{margin:8px 0 12px;color:var(--muted);font-size:12px;line-height:1.55}
+.regionBtns{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.regionBtns a{padding:10px;border-radius:10px;text-align:center;background:#f3f7fc;color:#34445b;font-size:11px;font-weight:900}
+.regionBtns .primary{background:linear-gradient(145deg,#2d7fe8,#135bca);color:#fff;box-shadow:0 7px 14px rgba(23,105,224,.17)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:12px}
+.stat{text-align:center;border-right:1px solid #edf1f5}.stat:last-child{border-right:0}.stat b{display:block;font-size:17px;color:#1f3553}.stat span{display:block;margin-top:2px;color:#8290a3;font-size:9.5px;line-height:1.2}
+
+.section{margin-top:22px}
+.sectionHead{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:10px}
+.sectionHead h2{margin:0;font-size:22px;letter-spacing:-.8px;color:#192841}
+.sectionHead p{margin:4px 0 0;color:#7a879a;font-size:12px}
+.sectionHead a{color:#1769e0;font-size:11px;font-weight:950}
+
+.community{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+.communityCard{
+  position:relative;overflow:hidden;min-height:132px;
+  background:linear-gradient(145deg,#fff,#fbfdff);border:1px solid var(--line);border-radius:18px;
+  padding:17px;box-shadow:var(--soft)
+}
+.communityCard:after{
+  content:"";position:absolute;width:120px;height:120px;border-radius:50%;right:-50px;bottom:-62px;background:rgba(36,119,225,.045)
+}
+.communityCard .icon{font-size:24px}
+.communityCard h3{margin:8px 0 5px;font-size:17px}
+.communityCard p{margin:0;color:#738197;font-size:11px;line-height:1.5}
+.communityCard a{display:inline-block;margin-top:10px;color:#1769e0;font-size:11px;font-weight:950}
+
+.regionGrid{display:grid;grid-template-columns:1.15fr 1fr;gap:11px}
+.card{
+  background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;
+  box-shadow:var(--soft)
+}
+.cardHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}
+.cardHead h3{margin:0;font-size:16px}
+.pill{padding:5px 8px;border-radius:999px;background:#edf5ff;color:#1769e0;font-size:10px;font-weight:950}
+.feed{display:grid;gap:7px}
+.feedRow{
+  display:grid;grid-template-columns:auto 1fr auto;gap:9px;align-items:start;
+  padding:10px 11px;border:1px solid #edf1f5;border-radius:12px;background:#fff
+}
+.signal{width:8px;height:8px;border-radius:50%;margin-top:4px;background:#1eb277;box-shadow:0 0 0 3px rgba(30,178,119,.08)}
+.signal.red{background:#ef4b4b;box-shadow:0 0 0 3px rgba(239,75,75,.08)}
+.signal.orange{background:#f2a21d;box-shadow:0 0 0 3px rgba(242,162,29,.08)}
+.feedRow b{font-size:12px}
+.feedRow p{margin:2px 0 0;color:#6f7d91;font-size:10.5px}
+.feedRow time{color:#9aa6b6;font-size:9.5px}
+.menuList{display:grid;gap:7px}
+.menuList a{
+  display:grid;grid-template-columns:auto 1fr auto;gap:9px;align-items:center;
+  padding:11px;border:1px solid #edf1f5;border-radius:12px;background:#fff
+}
+.menuList .micon{width:29px;height:29px;border-radius:10px;display:grid;place-items:center;background:#f0f5fc}
+.menuList b{display:block;font-size:12px}
+.menuList small{display:block;margin-top:2px;color:#7c899b;font-size:11px}
+
+.market{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.marketItem{
+  background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;
+  box-shadow:0 7px 18px rgba(35,64,101,.045)
+}
+.marketPic{
+  height:105px;display:grid;place-items:center;font-size:42px;
+  background:linear-gradient(145deg,#e9f1fb,#f9fbfd)
+}
+.marketBody{padding:11px}
+.marketBody b{font-size:12px}
+.price{margin-top:5px;color:#103f93;font-size:15px;font-weight:1000}
+.meta{margin-top:4px;color:#8a96a8;font-size:9.5px}
+
+.infoGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+.infoCard{
+  background:#fff;border:1px solid var(--line);border-radius:17px;padding:16px;box-shadow:var(--soft)
+}
+.infoCard .icon{font-size:22px}.infoCard h3{margin:8px 0 4px;font-size:15px}.infoCard p{margin:0;color:#738197;font-size:11px;line-height:1.5}
+
+.tools{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}
+.tool{
+  background:#fff;border:1px solid var(--line);border-radius:15px;padding:13px;text-align:center;
+  box-shadow:0 6px 16px rgba(35,64,101,.035)
+}
+.tool.main{border:1.5px solid #79aff5;background:linear-gradient(150deg,#fff,#f0f6ff)}
+.tool b{display:block;margin-top:6px;font-size:12px}.tool small{display:block;margin-top:3px;color:#7f8da0;font-size:9.5px}.tool em{display:inline-block;margin-top:5px;color:#1769e0;font-size:9px;font-style:normal;font-weight:950}
+
+.note{
+  margin-top:22px;padding:12px 15px;border-radius:14px;background:#eef6ff;border:1px solid #d8e8fb;
+  color:#4d627d;font-size:11px;line-height:1.55
+}
+.note b{color:#183b68}
+footer{margin-top:28px;padding:22px 0 8px;border-top:1px solid var(--line);color:#7d899c;font-size:12px}
+.footerBrand{font-size:15px;font-weight:1000;color:#1c2c45}
+
+@media(max-width:800px){
+  .toprow{grid-template-columns:1fr auto;gap:10px;padding:11px 14px}
+  .brand{min-width:0}.rnLogo{width:45px;height:45px;border-radius:14px}.brandText strong{font-size:20px}
+  .auth .login{display:none}.auth button{padding:0 13px}
+  .search{grid-column:1/-1;grid-row:2;height:46px}.search button{width:58px}
+  .navin{padding:0 12px}.nav a{padding:11px 10px;font-size:12px}
+  .wrap{padding:14px 12px 36px}
+  .hero{grid-template-columns:1fr}
+  .heroVisual{min-height:420px;background-position:62% center}
+  .heroCopy{max-width:100%;padding:27px 24px 21px;background:linear-gradient(180deg,rgba(10,67,154,.92),rgba(13,80,173,.76) 60%,rgba(13,80,173,.10));min-height:420px;display:flex;flex-direction:column;justify-content:flex-start}
+  .heroCopy h1{font-size:31px;max-width:330px}.heroCopy p{font-size:13px;max-width:330px}.heroBridge{margin-top:auto;max-width:330px}
+  .heroSide{grid-template-rows:auto auto}
+  .community{grid-template-columns:1fr}.communityCard{min-height:0}
+  .regionGrid{grid-template-columns:1fr}
+  .market{grid-template-columns:1fr 1fr}
+  .infoGrid{grid-template-columns:1fr}
+  .tools{display:flex;overflow:auto;padding-bottom:4px}.tool{min-width:125px}.tool.main{min-width:140px}
+  .sectionHead h2{font-size:20px}
+}
+@media(max-width:390px){
+  .heroVisual,.heroCopy{min-height:390px}.heroCopy h1{font-size:28px}
+  .market{grid-template-columns:1fr}.marketItem:nth-child(n+3){display:none}
+  .stats{gap:1px}.stat b{font-size:15px}
+}
+
+/* V1 Premium readability pass */
+@media(min-width:801px){
+  .sideCard p,.communityCard p,.infoCard p{font-size:11.5px}
+  .feedRow b,.menuList b,.marketBody b,.tool b{font-size:12px}
+  .feedRow p,.menuList small,.meta,.tool small{font-size:10px}
+}
+@media(max-width:800px){
+  .sideCard p,.communityCard p,.infoCard p{font-size:12px}
+  .feedRow b,.menuList b,.marketBody b,.tool b{font-size:12.5px}
+  .feedRow p,.menuList small,.meta,.tool small{font-size:10.5px}
+  .sectionHead p{font-size:12px}
+  .sectionHead a{font-size:11px}
+  .previewTag{font-size:10px}
+}
+
+/* Readability pass 2: keep major headings/layout, enlarge only small text */
+.sideCard p{font-size:13px}
+.communityCard p{font-size:12.5px}
+.infoCard p{font-size:12px}
+.feedRow b{font-size:13px}
+.feedRow p{font-size:11.5px}
+.feedRow time{font-size:10px}
+.menuList b{font-size:12.5px}
+.menuList small{font-size:11px}
+.marketBody b{font-size:13px}
+.price{font-size:16px}
+.meta{font-size:10.5px}
+.tool b{font-size:13px}
+.tool small{font-size:10.5px}
+.tool em{font-size:9.5px}
+.sectionHead p{font-size:12.5px}
+.sectionHead a{font-size:11.5px}
+.previewTag{font-size:10.5px}
+.stat span{font-size:10px}
+.heroBridge b{font-size:13px}
+.heroBridge span{font-size:11px}
+@media(max-width:800px){
+  .sideCard p{font-size:13px}
+  .communityCard p{font-size:13px}
+  .infoCard p{font-size:12.5px}
+  .feedRow b{font-size:13.5px}
+  .feedRow p{font-size:12px}
+  .feedRow time{font-size:10.5px}
+  .menuList b{font-size:13px}
+  .menuList small{font-size:11.5px}
+  .marketBody b{font-size:13.5px}
+  .price{font-size:16px}
+  .meta{font-size:11px}
+  .tool b{font-size:13px}
+  .tool small{font-size:11px}
+  .sectionHead p{font-size:12.5px}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="toprow">
+    <a class="brand" href="#">
+      <span class="rnLogo" aria-label="RiderNex RN 로고"><span>RN</span></span>
+      <span class="brandText"><strong>RiderNex</strong><small>Rider Nexus · 라이더넥스</small></span>
+    </a>
+    <form class="search" id="search">
+      <input id="q" placeholder="지역, 게시글, 업체, 장터를 검색하세요">
+      <button aria-label="검색">⌕</button>
+    </form>
+    <div class="auth"><button class="login">로그인</button><button class="join">회원가입</button></div>
+  </div>
+  <nav class="nav">
+    <div class="navin">
+      <a href="#region">📍 지역정보</a>
+      <a href="#community">💬 커뮤니티</a>
+      <a href="#market">🛵 라이더장터</a>
+      <a href="#care">🔧 정비·장비</a>
+      <a href="#map">🗺️ 지도</a>
+      <a href="#business">🏪 업체정보</a>
+      <a href="#jobs">💼 구인·구직</a>
+      <a href="#tools">🧰 라이더도구</a>
+      <a href="#my">👤 내 방</a>
+    </div>
+  </nav>
+</header>
+
+<main class="wrap">
+  <span class="previewTag">BETA PREMIUM · 메인 홈페이지와 분리된 테스트 화면</span>
+
+  <section class="hero">
+    <article class="heroVisual">
+      <div class="heroCopy">
+        <h1>전국 라이더가<br>지역과 정보를 연결하는 곳.</h1>
+        <p>라이더넥스는 배달·퀵 라이더가 지역정보를 나누고, 사람을 만나고, 장비를 사고팔고, 정비·업체·일자리와 라이더 도구까지 한곳에서 찾는 플랫폼을 목표로 합니다.</p>
+        <div class="heroBridge">
+          <b>라이더짝꿍에서 시작해, 모든 라이더를 연결합니다.</b>
+          <span>RiderNex = Rider + Nexus</span>
+        </div>
+      </div>
+    </article>
+
+    <aside class="heroSide">
+      <div class="sideCard">
+        <div class="sideTitle"><h3>📍 내 지역 빠른 진입</h3><a href="#region">내 위치로 설정 ›</a></div>
+        <p>주 활동지역을 설정하면 필요한 지역방과 현장정보를 먼저 보여드립니다.</p>
+        <div class="regionBtns"><a class="primary" href="#region">관악구 라이더방</a><a href="#region">지역 변경</a></div>
+      </div>
+      <div class="sideCard">
+        <div class="sideTitle"><h3>📊 오늘의 라이더넥스</h3><a href="#community">더보기 ›</a></div>
+        <div class="stats">
+          <div class="stat"><b>8</b><span>현장정보</span></div>
+          <div class="stat"><b>23</b><span>새 게시글</span></div>
+          <div class="stat"><b>12</b><span>구인·구직</span></div>
+          <div class="stat"><b>1.2만</b><span>인기 지역방</span></div>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="section" id="community">
+    <div class="sectionHead"><div><h2>라이더 커뮤니티</h2><p>지역방을 중심으로 내 방과 관심방을 연결합니다.</p></div><a href="#">전체 보기 ›</a></div>
+    <div class="community">
+      <article class="communityCard"><div class="icon">📍</div><h3>지역방</h3><p>오늘 콜정보, 배달·퀵 상황, 사고·공사, 정비, 휴식장소, 지역 Q&A를 빠르게 공유합니다.</p><a href="#region">내 지역방 바로가기 →</a></article>
+      <article class="communityCard" id="my"><div class="icon">👥</div><h3>내 방</h3><p>프로필, 활동지역, 바이크, 작성글, 사진, 장비리뷰와 정비 이야기를 한곳에 모읍니다.</p><a href="#">개인 라이더홈 →</a></article>
+      <article class="communityCard"><div class="icon">⭐</div><h3>관심방</h3><p>PCX·NMAX·전기바이크·쿠팡이츠·배민·카카오퀵·장비·초보라이더 등 관심사로 모입니다.</p><a href="#">관심방 둘러보기 →</a></article>
+    </div>
+  </section>
+
+  <section class="section" id="region">
+    <div class="sectionHead"><div><h2>관악구 라이더방</h2><p>지역정보는 시간이 중요합니다. 최신 제보를 우선 보여드립니다.</p></div><a href="#">지역 전체보기 ›</a></div>
+    <div class="regionGrid">
+      <article class="card">
+        <div class="cardHead"><h3>📡 실시간 현장정보</h3><span class="pill">서울 관악구</span></div>
+        <div class="feed">
+          <div class="feedRow"><span class="signal"></span><div><b>봉천동 배민 콜 잘 나옵니다</b><p>저녁 피크 시작, 서울대입구 방향 괜찮아요.</p></div><time>7분 전</time></div>
+          <div class="feedRow"><span class="signal red"></span><div><b>신림역 앞 사고로 2차선 정체</b><p>남부순환로 진입 전 우회 추천.</p></div><time>12분 전</time></div>
+          <div class="feedRow"><span class="signal orange"></span><div><b>낙성대 공사구간 주의</b><p>골목 진입 한쪽 차선 통제 중.</p></div><time>31분 전</time></div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="cardHead"><h3>지역방 메뉴</h3><span class="pill">빠른 이동 ›</span></div>
+        <div class="menuList">
+          <a href="#"><span class="micon">💬</span><span><b>자유수다 · 오늘 콜정보</b><small>지역 라이더끼리 빠르게 소통</small></span><span>›</span></a>
+          <a href="#"><span class="micon">🚨</span><span><b>도로·교통 · 사고·공사</b><small>현장에서 바로 도움이 되는 정보</small></span><span>›</span></a>
+          <a href="#"><span class="micon">🔧</span><span><b>정비·센터 · 장비추천 · Q&A</b><small>지역 경험을 정보로 축적</small></span><span>›</span></a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="market">
+    <div class="sectionHead"><div><h2>라이더장터</h2><p>전국 매물이 기본이며, 내 지역과 가까운 매물을 먼저 추천합니다.</p></div><a href="#">전체 장터 ›</a></div>
+    <div class="market">
+      <article class="marketItem"><div class="marketPic">🛵</div><div class="marketBody"><b>PCX 125 중고</b><div class="price">2,350,000원</div><div class="meta">서울 관악구 · 개인매물</div></div></article>
+      <article class="marketItem"><div class="marketPic">⚡</div><div class="marketBody"><b>배달용 전기자전거</b><div class="price">980,000원</div><div class="meta">서울 동작구 · 배터리 포함</div></div></article>
+      <article class="marketItem"><div class="marketPic">🪖</div><div class="marketBody"><b>풀페이스 헬멧</b><div class="price">85,000원</div><div class="meta">전국택배 · 중고장비</div></div></article>
+      <article class="marketItem"><div class="marketPic">🧤</div><div class="marketBody"><b>겨울 방한 장비 세트</b><div class="price">59,000원</div><div class="meta">업체 새상품 · 시즌추천</div></div></article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sectionHead"><div><h2>라이더 생활정보</h2><p>정비·장비·업체·구인을 지역과 연결합니다.</p></div></div>
+    <div class="infoGrid">
+      <article class="infoCard" id="care"><div class="icon">🔧</div><h3>정비·장비</h3><p>정비소 후기, 소모품, 헬멧·우천·여름·겨울장비 정보를 모읍니다.</p></article>
+      <article class="infoCard" id="business"><div class="icon">🏪</div><h3>업체정보</h3><p>정비소·렌탈·장비점·배달대행·퀵업체를 지역별로 찾습니다.</p></article>
+      <article class="infoCard" id="jobs"><div class="icon">💼</div><h3>구인·구직</h3><p>지역별 기사 모집과 라이더 구직정보를 한곳에서 연결합니다.</p></article>
+    </div>
+  </section>
+
+  <section class="section" id="tools">
+    <div class="sectionHead"><div><h2>라이더넥스 라이더도구</h2><p>기존 브랜드와 다운로드 자산은 그대로 유지하며 RiderNex 안에서 연결합니다.</p></div><a href="../">전체 보기 ›</a></div>
+    <div class="tools">
+      <a class="tool main" href="../rider.html"><span>🟩</span><b>라이더짝꿍</b><small>수입·운행·내비</small><em>대표 앱</em></a>
+      <a class="tool" href="../delivery-navi.html"><span>🗺️</span><b>배달내비</b><small>주행안내</small></a>
+      <a class="tool" href="../quick.html"><span>⚡</span><b>퀵짝꿍</b><small>퀵 업무</small></a>
+      <a class="tool" href="../bikecheck.html"><span>🔧</span><b>바이크체크</b><small>정비관리</small></a>
+      <a class="tool" href="../oneul-eolma.html"><span>💰</span><b>오늘얼마</b><small>수입관리</small></a>
+    </div>
+  </section>
+
+  <div class="note"><b>프리미엄 베타 운영 원칙</b> · 이 화면은 메인 홈페이지와 분리된 디자인 테스트입니다. 라이더짝꿍·배달내비·퀵짝꿍의 기존 페이지 URL과 APK 다운로드 시스템은 변경하지 않습니다.</div>
+
+  <footer><div class="footerBrand">RiderNex 라이더넥스</div><div style="margin-top:4px">라이더짝꿍을 품은 전국 배달·퀵 라이더 플랫폼 · Premium Beta</div></footer>
+</main>
+
+<script>
+document.getElementById('search').addEventListener('submit',e=>{
+  e.preventDefault();
+  const q=document.getElementById('q').value.trim();
+  if(q)alert('베타 통합검색 예시: '+q+'\n정식 버전에서는 지역글·장터·업체·구인을 한 번에 검색합니다.');
+});
+document.querySelectorAll('.auth button').forEach(b=>b.addEventListener('click',()=>alert('베타 미리보기입니다. 회원 기능은 정식 DB 연결 단계에서 활성화합니다.')));
+</script>
+</body>
+</html>
