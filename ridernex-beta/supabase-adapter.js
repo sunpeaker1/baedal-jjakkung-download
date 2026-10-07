@@ -54,6 +54,36 @@
     return data||[];
   }
 
+  async function getComments(postId){
+    if(!state.client)return[];
+    const {data,error}=await state.client
+      .from("comments")
+      .select("*,profiles!comments_author_id_fkey(nickname)")
+      .eq("post_id",postId)
+      .order("created_at",{ascending:true});
+    if(error)throw error;
+    return data||[];
+  }
+
+  async function getMyPosts(){
+    if(!state.client||!state.user)return[];
+    const {data,error}=await state.client
+      .from("posts")
+      .select("*")
+      .eq("author_id",state.user.id)
+      .order("created_at",{ascending:false});
+    if(error)throw error;
+    return data||[];
+  }
+
+  async function refreshProfile(){
+    if(!state.client||!state.user)return null;
+    const {data,error}=await state.client.from("profiles").select("*").eq("id",state.user.id).maybeSingle();
+    if(error)throw error;
+    state.profile=data||null;
+    return state.profile;
+  }
+
   async function addPost({region,category,title,body}){
     if(!state.user)throw new Error("로그인이 필요합니다.");
     const {data,error}=await state.client.from("posts").insert({author_id:state.user.id,region,category,title,body}).select().single();
@@ -116,5 +146,5 @@
     if(error)throw error;return data;
   }
 
-  window.RNXRemote={state,init,signUp,signIn,signOut,getRegionPosts,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,report};
+  window.RNXRemote={state,init,signUp,signIn,signOut,getRegionPosts,getComments,getMyPosts,refreshProfile,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,report};
 })();
