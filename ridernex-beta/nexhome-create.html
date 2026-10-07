@@ -1,0 +1,78 @@
+<!doctype html><html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#071d35">
+<title>NexHome 만들기 · RiderNex</title>
+<style>
+:root{--navy:#071d35;--blue:#0d7cff;--ink:#172033;--muted:#6e7b8e;--line:#e3e9f1;--bg:#f5f8fc;--ok:#159b62;--bad:#d64a4a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Segoe UI",sans-serif;color:var(--ink)}button,input{font:inherit}a{text-decoration:none;color:inherit}
+.top{background:linear-gradient(135deg,#061a31,#0c3763);color:#fff}.topin{max-width:760px;margin:auto;padding:16px;display:flex;align-items:center;justify-content:space-between}.brand{font-size:20px;font-weight:1000}.brand span{color:#4ca1ff}.back{font-size:13px;font-weight:900;color:#dcecff}
+.wrap{max-width:760px;margin:auto;padding:18px 14px 42px}.intro{padding:22px 4px 14px}.intro small{font-weight:1000;color:var(--blue)}.intro h1{margin:7px 0 8px;font-size:28px;letter-spacing:-1px}.intro p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
+.progress{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:8px 0 16px}.progress span{height:7px;border-radius:999px;background:#dce4ee}.progress span.on{background:var(--blue)}
+.card{display:none;background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 12px 30px rgba(23,46,75,.06)}.card.on{display:block}.step{font-size:12px;color:var(--blue);font-weight:1000}.card h2{margin:6px 0 7px;font-size:22px;letter-spacing:-.7px}.card p{margin:0 0 18px;color:var(--muted);font-size:13px;line-height:1.55}
+.field{display:grid;gap:7px}.field label{font-size:12px;font-weight:900;color:#405169}.field input{width:100%;border:1px solid #cfd9e6;border-radius:14px;padding:14px;background:#fff;outline:none}.field input:focus{border-color:#76adf5;box-shadow:0 0 0 3px rgba(13,124,255,.09)}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.chip{border:1px solid #d9e2ee;background:#f7f9fc;border-radius:999px;padding:8px 11px;font-size:12px;font-weight:900;color:#46617e}.chip.active{background:#eaf4ff;border-color:#83b7f5;color:#0b69cd}
+.status{min-height:22px;margin-top:8px;font-size:12px;font-weight:900;color:var(--muted)}.status.ok{color:var(--ok)}.status.bad{color:var(--bad)}
+.addressRow{display:grid;grid-template-columns:1fr auto 1fr;gap:9px;align-items:center}.addressRow b{color:#52677f}.preview{margin:16px 0;padding:17px;border-radius:17px;background:linear-gradient(135deg,#071d35,#0c467e);color:white}.preview small{color:#cbdff2}.preview strong{display:block;margin-top:6px;font-size:21px}
+.actions{display:flex;gap:8px;margin-top:19px}.actions button,.actions a{flex:1;border:0;border-radius:13px;padding:13px;font-weight:1000;text-align:center}.primary{background:var(--blue);color:#fff}.secondary{background:#edf2f8;color:#425873}.primary:disabled{opacity:.42}
+.loginbox,.errorbox{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px;text-align:center}.loginbox h2,.errorbox h2{margin:0 0 8px}.loginbox p,.errorbox p{color:var(--muted);font-size:14px;line-height:1.55}.loginbox a{display:inline-block;margin-top:8px;padding:11px 15px;border-radius:12px;background:var(--blue);color:#fff;font-weight:900}
+.modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(4,16,30,.64);padding:18px;z-index:50}.modal.on{display:grid}.modalbox{max-width:430px;width:100%;background:#fff;border-radius:24px;padding:24px;text-align:center}.modalbox .homeico{font-size:42px}.modalbox h2{margin:10px 0 8px}.modalbox p{color:var(--muted);font-size:14px;line-height:1.6}.modalbox strong{display:block;margin:14px 0;font-size:19px;color:#0d5fb6}
+@media(max-width:520px){.intro h1{font-size:25px}.card{padding:17px}.addressRow{grid-template-columns:1fr auto 1fr}.actions{flex-direction:column-reverse}}
+</style></head><body>
+<header class="top"><div class="topin"><a class="brand" href="./">Rider<span>Nex</span></a><a class="back" href="./">← RiderNex 홈</a></div></header>
+<main class="wrap" id="app">
+<section class="intro"><small>NexHome 입주</small><h1>내 공간을 4단계로 만듭니다.</h1><p>가입은 그대로 유지하고, NexHome은 원할 때 따로 만듭니다. 상세 집주소가 아니라 내가 선택한 생활권을 사용합니다.</p></section>
+<div class="progress" id="progress"><span class="on"></span><span></span><span></span><span></span></div>
+
+<section class="card on" data-step="1"><div class="step">1 / 4</div><h2>생활권 선택</h2><p>내가 생활 기반으로 생각하는 동네를 입력하세요. 실제 거주 상세주소는 받지 않습니다.</p>
+<div class="field"><label>생활권</label><input id="lifeRegion" placeholder="예: 봉천동"></div>
+<div class="chips"><button class="chip" data-region="봉천동">봉천동</button><button class="chip" data-region="신림동">신림동</button><button class="chip" data-region="남현동">남현동</button></div>
+<div class="status" id="regionState"></div><div class="actions"><button class="primary" id="regionNext">다음</button></div></section>
+
+<section class="card" data-step="2"><div class="step">2 / 4</div><h2>방이름 만들기</h2><p>닉네임은 사람의 이름, 방이름은 NexHome 공간의 이름입니다. 방이름은 RiderNex 전체에서 중복되지 않게 합니다.</p>
+<div class="field"><label>방이름</label><input id="roomName" maxlength="30" placeholder="예: 라이더짝꿍"></div>
+<div class="status" id="roomState">2자 이상 입력하면 사용 가능 여부를 확인합니다.</div>
+<div class="actions"><button class="secondary backBtn">이전</button><button class="primary" id="roomNext" disabled>다음</button></div></section>
+
+<section class="card" data-step="3"><div class="step">3 / 4</div><h2>NexHome 주소 만들기</h2><p>길 번호와 집 번호를 직접 선택합니다. 같은 생활권 안에서는 같은 주소를 다시 사용할 수 없습니다.</p>
+<div class="addressRow"><div class="field"><label>길 번호</label><input id="roadNo" inputmode="numeric" placeholder="100"></div><b>길</b><div class="field"><label>집 번호</label><input id="houseNo" inputmode="numeric" placeholder="43"></div></div>
+<div class="status" id="addressState">번호를 입력하면 바로 확인합니다.</div>
+<div class="preview"><small>현재 NexHome 주소</small><strong id="addressPreview">-</strong></div>
+<div class="actions"><button class="secondary backBtn">이전</button><button class="primary" id="addressNext" disabled>다음</button></div></section>
+
+<section class="card" data-step="4"><div class="step">4 / 4</div><h2>최종 확인</h2><p>이 주소로 내 NexHome을 만듭니다. 입주 후 커버사진, 프로필사진, 한 줄 소개와 테마는 천천히 꾸밀 수 있습니다.</p>
+<div class="preview"><small>내 NexHome</small><strong id="finalAddress">-</strong></div>
+<div class="actions"><button class="secondary backBtn">이전</button><button class="primary" id="createBtn">내 NexHome 만들기</button></div><div class="status" id="createState"></div></section>
+</main>
+
+<div class="modal" id="welcome"><div class="modalbox"><div class="homeico">🏠</div><h2>입주가 완료됐습니다.</h2><p>이제 이 NexHome의 주인은 나입니다.</p><strong id="welcomeAddress"></strong><div class="actions"><a class="secondary" href="./">나중에</a><a class="primary" id="enterHome">내 NexHome 들어가기</a></div></div></div>
+
+<script src="beta-store.js"></script><script src="supabase-adapter.js"></script>
+<script>
+const state={step:1,lifeRegion:"",roomName:"",roadNo:null,houseNo:null,roomOK:false,addressOK:false};
+const app=document.getElementById("app");
+function showStep(n){state.step=n;document.querySelectorAll(".card").forEach(x=>x.classList.toggle("on",Number(x.dataset.step)===n));document.querySelectorAll("#progress span").forEach((x,i)=>x.classList.toggle("on",i<n));scrollTo({top:0,behavior:"smooth"})}
+function fullAddress(){return state.lifeRegion+" "+state.roomName+" "+state.roadNo+"길"+state.houseNo}
+function setStatus(id,text,type=""){const el=document.getElementById(id);el.textContent=text;el.className="status"+(type?" "+type:"")}
+function num(v){const n=Number(String(v).replace(/[^0-9]/g,""));return Number.isInteger(n)&&n>0&&n<=9999?n:null}
+let roomTimer,addressTimer,roomSeq=0,addressSeq=0;
+(async()=>{
+ const s=await RNXRemote.init();
+ if(!s.enabled){app.innerHTML='<div class="errorbox"><h2>서버 연결을 확인할 수 없습니다.</h2><p>RiderNex DB 연결 상태를 확인한 뒤 다시 시도하세요.</p></div>';return}
+ if(!s.user){app.innerHTML='<div class="loginbox"><h2>로그인이 필요합니다.</h2><p>NexHome은 RiderNex 회원이 원하는 경우 따로 만들 수 있습니다.</p><a href="auth.html">로그인 · 회원가입</a></div>';return}
+ try{const home=await RNXRemote.getMyNexHome();if(home){location.replace("nexhome.html?id="+encodeURIComponent(home.id));return}}catch{}
+})();
+
+document.querySelectorAll(".chip").forEach(btn=>btn.onclick=()=>{document.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));btn.classList.add("active");lifeRegion.value=btn.dataset.region;setStatus("regionState","내 생활권: "+btn.dataset.region,"ok")});
+lifeRegion.addEventListener("input",()=>{document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("active",x.dataset.region===lifeRegion.value.trim()));setStatus("regionState",lifeRegion.value.trim()?"내 생활권: "+lifeRegion.value.trim():"")});
+regionNext.onclick=()=>{const v=lifeRegion.value.trim();if(v.length<2){setStatus("regionState","생활권을 2자 이상 입력하세요.","bad");return}state.lifeRegion=v;showStep(2)};
+
+roomName.addEventListener("input",()=>{state.roomOK=false;roomNext.disabled=true;clearTimeout(roomTimer);const v=roomName.value.trim();if(v.length<2){setStatus("roomState","2자 이상 입력하세요.");return}const seq=++roomSeq;setStatus("roomState","사용 가능 여부 확인 중…");roomTimer=setTimeout(async()=>{try{const r=await RNXRemote.checkNexHomeAvailability({lifeRegion:state.lifeRegion,roomName:v});if(seq!==roomSeq)return;state.roomOK=!!r?.room_name_available;setStatus("roomState",state.roomOK?"사용 가능한 방이름입니다.":"이미 사용 중인 방이름입니다.",state.roomOK?"ok":"bad");roomNext.disabled=!state.roomOK}catch(e){setStatus("roomState","확인 중 오류가 발생했습니다.","bad")}},350)});
+roomNext.onclick=()=>{if(!state.roomOK)return;state.roomName=roomName.value.trim();showStep(3);updateAddress()};
+
+function updateAddress(){state.roadNo=num(roadNo.value);state.houseNo=num(houseNo.value);state.addressOK=false;addressNext.disabled=true;addressPreview.textContent=(state.lifeRegion&&state.roomName&&state.roadNo&&state.houseNo)?fullAddress():"-";clearTimeout(addressTimer);if(!state.roadNo||!state.houseNo){setStatus("addressState","1~9999 사이 번호를 입력하세요.");return}const seq=++addressSeq;setStatus("addressState","주소 사용 가능 여부 확인 중…");addressTimer=setTimeout(async()=>{try{const r=await RNXRemote.checkNexHomeAvailability({lifeRegion:state.lifeRegion,roomName:state.roomName,roadNo:state.roadNo,houseNo:state.houseNo});if(seq!==addressSeq)return;state.addressOK=!!r?.address_available;setStatus("addressState",state.addressOK?fullAddress()+"은 사용 가능한 주소입니다.":"이미 사용 중인 주소입니다.",state.addressOK?"ok":"bad");addressNext.disabled=!state.addressOK}catch{setStatus("addressState","확인 중 오류가 발생했습니다.","bad")}},350)}
+roadNo.addEventListener("input",updateAddress);houseNo.addEventListener("input",updateAddress);
+addressNext.onclick=()=>{if(!state.addressOK)return;finalAddress.textContent=fullAddress();showStep(4)};
+document.querySelectorAll(".backBtn").forEach(btn=>btn.onclick=()=>showStep(Math.max(1,state.step-1)));
+
+createBtn.onclick=async()=>{createBtn.disabled=true;setStatus("createState","NexHome을 만들고 있습니다…");try{const home=await RNXRemote.createNexHome(state);welcomeAddress.textContent=fullAddress();enterHome.href="nexhome.html?id="+encodeURIComponent(home.id);document.getElementById("welcome").classList.add("on")}catch(e){setStatus("createState",e.message||"생성하지 못했습니다.","bad");createBtn.disabled=false}};
+</script></body></html>
