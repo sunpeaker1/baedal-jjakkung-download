@@ -41,5 +41,6 @@ function mode(m){const l=m==="login";loginForm.style.display=l?"grid":"none";joi
 tabLogin.onclick=()=>mode("login");tabJoin.onclick=()=>mode("join");
 loginForm.onsubmit=async e=>{e.preventDefault();try{await RNX.login(loginEmail.value,loginPw.value);msg.textContent="로그인되었습니다. 내 방으로 이동합니다.";msg.className="msg good";setTimeout(()=>location.href="my.html",350)}catch(err){msg.textContent=err.message;msg.className="msg bad"}};
 joinForm.onsubmit=async e=>{e.preventDefault();try{await RNX.register({email:joinEmail.value,password:joinPw.value,nickname:joinNick.value,region:joinRegion.value});msg.textContent="회원가입이 완료되었습니다. 내 방으로 이동합니다.";msg.className="msg good";setTimeout(()=>location.href="my.html",350)}catch(err){msg.textContent=err.message;msg.className="msg bad"}};
+if(new URLSearchParams(location.search).get("mode")==="join") mode("join");
 if(RNX.currentUser()){msg.textContent="현재 로그인 상태입니다. 내 방으로 이동할 수 있습니다.";msg.className="msg good"}
 </script></body></html>
