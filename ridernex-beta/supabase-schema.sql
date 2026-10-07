@@ -294,3 +294,87 @@ drop trigger if exists on_comment_created_notify on public.comments;
 create trigger on_comment_created_notify
 after insert on public.comments
 for each row execute function public.notify_post_comment();
+
+
+-- Admin/moderation hardening
+revoke update on public.profiles from authenticated;
+grant update (nickname, primary_region, secondary_region, bio, bike, updated_at)
+on public.profiles to authenticated;
+
+drop policy if exists "business readable" on public.businesses;
+create policy "business readable" on public.businesses for select
+using (
+  approval_status = 'approved'
+  or author_id = (select auth.uid())
+  or exists (
+    select 1 from public.profiles p
+    where p.id = (select auth.uid())
+      and p.role in ('moderator','admin')
+  )
+);
+
+drop policy if exists "business own insert" on public.businesses;
+create policy "business own insert" on public.businesses for insert
+with check (
+  (select auth.uid()) = author_id
+  and (
+    approval_status = 'pending'
+    or exists (
+      select 1 from public.profiles p
+      where p.id = (select auth.uid())
+        and p.role in ('moderator','admin')
+    )
+  )
+);
+
+create or replace function public.protect_business_approval_status()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare caller_role text;
+begin
+  if new.approval_status is distinct from old.approval_status then
+    select role into caller_role from public.profiles where id = auth.uid();
+    if caller_role not in ('moderator','admin') then
+      raise exception 'Only moderators or admins can change business approval status';
+    end if;
+  end if;
+  return new;
+end;
+$$;
+
+revoke all on function public.protect_business_approval_status() from public, anon, authenticated;
+
+drop trigger if exists protect_business_approval_status_trigger on public.businesses;
+create trigger protect_business_approval_status_trigger
+before update on public.businesses
+for each row execute function public.protect_business_approval_status();
+
+drop policy if exists "market moderator update" on public.marketplace_items;
+create policy "market moderator update" on public.marketplace_items for update
+using (
+  exists (select 1 from public.profiles p where p.id=(select auth.uid()) and p.role in ('moderator','admin'))
+)
+with check (
+  exists (select 1 from public.profiles p where p.id=(select auth.uid()) and p.role in ('moderator','admin'))
+);
+
+drop policy if exists "business moderator update" on public.businesses;
+create policy "business moderator update" on public.businesses for update
+using (
+  exists (select 1 from public.profiles p where p.id=(select auth.uid()) and p.role in ('moderator','admin'))
+)
+with check (
+  exists (select 1 from public.profiles p where p.id=(select auth.uid()) and p.role in ('moderator','admin'))
+);
+
+drop policy if exists "jobs moderator update" on public.jobs;
+create policy "jobs moderator update" on public.jobs for update
+using (
+  exists (select 1 from public.profiles p where p.id=(select auth.uid()) and p.role in ('moderator','admin'))
+)
+with check (
+  exists (select 1 from public.profiles p where p.id=(select auth.uid()) and p.role in ('moderator','admin'))
+);
