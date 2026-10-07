@@ -1,148 +1,17 @@
-<!doctype html>
-<html lang="ko">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="robots" content="noindex,nofollow">
-<meta name="theme-color" content="#f7f9fc">
-<title>지역정보 · 라이더넥스 베타</title>
+<!doctype html><html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><title>지역정보 · RiderNex 베타</title>
 <style>
-:root{--blue:#0d73e6;--ink:#172033;--muted:#6f7c90;--line:#e3e8ef;--bg:#f6f8fc;--shadow:0 10px 28px rgba(31,60,99,.08)}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif}
-a{text-decoration:none;color:inherit}.top{background:#fff;border-bottom:1px solid var(--line)}.topin{max-width:1180px;margin:auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.brand{display:flex;align-items:center;gap:10px}.logoMetal{width:58px;height:44px;display:block;filter:drop-shadow(0 4px 6px rgba(12,74,160,.20))}
-.brandWord{display:block;font-size:20px;line-height:1;font-weight:1000;letter-spacing:-.8px}.brandWord .rider{color:#162943}.brandWord .nex{color:#0874e8}.brand small{display:block;margin-top:5px;color:var(--muted);font-size:10px;font-weight:800}
-.homeBtn{border:1px solid #cfe0f7;background:#eef5ff;color:#165fae;padding:10px 13px;border-radius:12px;font-weight:900;font-size:12px}
-.wrap{max-width:980px;margin:auto;padding:20px 20px 42px}.crumb{display:flex;gap:6px;align-items:center;color:#718096;font-size:11px;margin-bottom:12px}.crumb a{color:#276fbe;font-weight:900}
-.hero{padding:24px;border-radius:24px;background:linear-gradient(135deg,#1658bb,#1978e7 60%,#2ba6d7);color:#fff;box-shadow:var(--shadow)}.hero h1{margin:0;font-size:30px;letter-spacing:-1.5px}.hero p{margin:10px 0 0;color:#eaf4ff;line-height:1.6;font-size:13px}
-.section{margin-top:20px}.title{display:flex;justify-content:space-between;gap:10px;align-items:end;margin-bottom:10px}.title h2{margin:0;font-size:21px}.title p{margin:5px 0 0;color:var(--muted);font-size:12px}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.regionCard{background:#fff;border:1px solid var(--line);border-radius:17px;padding:16px;min-height:92px;box-shadow:0 6px 18px rgba(31,60,99,.045)}.regionCard b{display:block;font-size:15px}.regionCard small{display:block;margin-top:6px;color:var(--muted);font-size:10px}.regionCard.active{border-color:#9fc5fb;background:linear-gradient(160deg,#fff,#eef5ff)}.regionCard.active b{color:var(--blue)}
-.room{display:none}.room.on{display:block}.panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow)}.roomHead{display:flex;justify-content:space-between;gap:12px;align-items:start}.roomHead h2{margin:0;font-size:23px}.roomHead p{margin:6px 0 0;color:var(--muted);font-size:12px;line-height:1.55}.badge{padding:6px 9px;border-radius:999px;background:#edf5ff;color:#176bc5;font-size:10px;font-weight:1000;white-space:nowrap}
-.catGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:15px}.cat{border:1px solid #e7ebf1;border-radius:14px;padding:13px;background:#fff}.cat b{font-size:12px}.cat small{display:block;margin-top:4px;color:var(--muted);font-size:10px}
-.empty{margin-top:14px;padding:22px;border-radius:16px;background:#f7f9fc;border:1px dashed #cad5e3;text-align:center}.empty b{font-size:13px}.empty p{margin:7px auto 0;max-width:520px;color:var(--muted);font-size:11px;line-height:1.55}
-.notice{margin-top:14px;padding:14px 16px;border-radius:15px;background:#eef7ff;border:1px solid #d5e8ff;color:#38536f;font-size:11px;line-height:1.55}.notice b{color:#183e6c}
-.memberBar{margin-top:15px;padding:12px 13px;border-radius:14px;background:#f7f9fc;border:1px solid #e4eaf1;display:flex;justify-content:space-between;gap:10px;align-items:center}.memberBar span{font-size:11px;color:#56677d}.memberBar a{padding:8px 10px;border-radius:10px;background:#0d73e6;color:#fff;font-size:10px;font-weight:900}
-.compose{margin-top:12px;padding:14px;border-radius:16px;background:#fbfcfe;border:1px solid #e3e9f0;display:grid;gap:9px}.compose select,.compose input,.compose textarea{width:100%;border:1px solid #dce3ec;border-radius:11px;padding:10px 11px;background:#fff;font:inherit;font-size:12px;outline:0}.compose textarea{min-height:90px;resize:vertical}.compose button{justify-self:end;border:0;border-radius:11px;background:#0d73e6;color:#fff;padding:10px 14px;font-size:11px;font-weight:1000}
-.postList{display:grid;gap:10px;margin-top:15px}.postCard{background:#fff;border:1px solid #e1e7ee;border-radius:16px;padding:14px}.postTop{display:flex;justify-content:space-between;gap:10px;align-items:start}.postCard h3{margin:0;font-size:14px}.postMeta{margin-top:4px;color:#8792a3;font-size:9px}.postBody{margin:10px 0 0;color:#4e5d70;font-size:11px;line-height:1.6;white-space:pre-wrap}.postTools{margin-top:11px;display:flex;gap:7px;flex-wrap:wrap}.postTools button{border:1px solid #dce4ed;background:#fff;border-radius:9px;padding:7px 9px;font-size:9px;font-weight:900;color:#496079}.postTools .report{color:#a23d35}.comments{margin-top:10px;border-top:1px solid #edf1f5;padding-top:9px;display:grid;gap:7px}.comment{padding:8px 9px;border-radius:10px;background:#f7f9fc;font-size:10px;color:#4e5d70}.comment b{color:#263d55}.commentForm{display:flex;gap:7px}.commentForm input{flex:1;border:1px solid #dce3ec;border-radius:9px;padding:8px 9px;font-size:10px}.commentForm button{border:0;border-radius:9px;background:#edf5ff;color:#176bc5;padding:8px 10px;font-size:9px;font-weight:900}
-@media(max-width:760px){.topin{padding:12px 14px}.wrap{padding:16px 12px 34px}.grid{grid-template-columns:repeat(2,1fr)}.catGrid{grid-template-columns:repeat(2,1fr)}.hero{padding:21px}.hero h1{font-size:26px}.brandWord{font-size:18px}.logoMetal{width:52px;height:40px}}
-</style>
-</head>
-<body>
-<header class="top"><div class="topin">
-<a class="brand" href="./">
-<svg class="logoMetal" viewBox="0 0 132 92" role="img" aria-label="RN"><defs><linearGradient id="rnR" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#55d7ff"/><stop offset=".32" stop-color="#1494ff"/><stop offset=".68" stop-color="#0865dc"/><stop offset="1" stop-color="#05398f"/></linearGradient><linearGradient id="rnN" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f7fbff"/><stop offset=".28" stop-color="#dbe5ef"/><stop offset=".56" stop-color="#7f8fa3"/><stop offset=".76" stop-color="#eef4fa"/><stop offset="1" stop-color="#5c6c80"/></linearGradient><linearGradient id="rnShine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".88"/><stop offset=".30" stop-color="#fff" stop-opacity=".10"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs><path d="M7 80 24 12h43c23 0 34 9 34 24 0 12-7 20-22 24l17 20H67L53 63H34l-4 17H7Zm31-49-5 17h30c9 0 14-3 14-9 0-5-4-8-13-8H38Z" fill="url(#rnR)" stroke="#0b3f8f" stroke-width="2.2"/><path d="M24 12h43c11 0 20 2 26 7L80 31H38l-5 17H15Z" fill="url(#rnShine)" opacity=".62"/><path d="M73 12h22l20 33V12h17v68h-20L91 47v33H73Z" fill="url(#rnN)" stroke="#44576e" stroke-width="2.1"/><path d="M88 14h5l20 33v10L93 26v54h-5Z" fill="#fff" opacity=".22"/></svg>
-<span><span class="brandWord"><span class="rider">Rider</span><span class="nex">Nex</span></span><small>지역정보 · 라이더넥스</small></span>
-</a>
-<a class="homeBtn" href="./">홈으로</a>
-</div></header>
-
-<main class="wrap">
-<div class="crumb" id="crumb"><a href="./">홈</a><span>›</span><span>지역정보</span></div>
-<section class="hero"><h1 id="heroTitle">전국 지역정보</h1><p id="heroText">시·도를 선택하고, 시·군·구를 거쳐 지역 라이더방으로 들어갑니다.</p></section>
-
-<section class="section" id="cities">
-<div class="title"><div><h2>시·도 선택</h2><p>전국 지역방 구조의 첫 단계입니다.</p></div></div>
-<div class="grid" id="cityGrid"></div>
-</section>
-
-<section class="section room" id="districts">
-<div class="title"><div><h2 id="districtTitle">서울특별시</h2><p>활동 지역의 구를 선택하세요.</p></div></div>
-<div class="grid" id="districtGrid"></div>
-</section>
-
-<section class="section room" id="room">
-<div class="panel">
-<div class="roomHead"><div><h2 id="roomTitle">관악구 라이더방</h2><p>지역 라이더가 필요한 현장정보와 이야기를 한곳에서 보는 공간입니다.</p></div><span class="badge">서울 관악구</span></div>
-<div class="catGrid">
-<div class="cat"><b>💬 자유수다</b><small>지역 라이더 이야기</small></div>
-<div class="cat"><b>📣 오늘 콜정보</b><small>배달·퀵 현장 상황</small></div>
-<div class="cat"><b>🛵 배달·퀵 상황</b><small>픽업·대기·운행 정보</small></div>
-<div class="cat"><b>🚦 도로·교통</b><small>정체·통제·우회</small></div>
-<div class="cat"><b>🚨 사고·공사</b><small>현장 주의정보</small></div>
-<div class="cat"><b>🔧 정비·센터</b><small>지역 정비 경험</small></div>
-<div class="cat"><b>🪖 장비추천</b><small>라이더 장비 정보</small></div>
-<div class="cat"><b>☕ 맛집·휴식</b><small>휴식·픽업 편의</small></div>
-<div class="cat"><b>❓ 지역 Q&A</b><small>지역 질문과 답변</small></div>
-</div>
-<div class="memberBar" id="memberBar"></div>
-<div class="compose" id="compose" style="display:none">
-<select id="postCategory"><option>자유수다</option><option>오늘 콜정보</option><option>배달·퀵 상황</option><option>도로·교통</option><option>사고·공사</option><option>정비·센터</option><option>장비추천</option><option>맛집·휴식</option><option>지역 Q&A</option></select>
-<input id="postTitle" maxlength="60" placeholder="제목">
-<textarea id="postBody" maxlength="1000" placeholder="관악구 라이더들에게 공유할 내용을 입력하세요."></textarea>
-<button id="postSubmit" type="button">글 등록</button>
-</div>
-<div class="postList" id="postList"></div>
-<div class="notice"><b>베타 운영</b> · 이 단계의 회원·글·댓글·신고 데이터는 현재 브라우저에만 저장됩니다. 공개 운영 전 서버 DB 인증과 운영자 신고함으로 교체합니다.</div>
-</div>
-</section>
-
-<section class="section room" id="coming">
-<div class="panel"><div class="roomHead"><div><h2 id="comingTitle">지역 구조 준비 중</h2><p>전국 시·도 구조는 열어두고, 시·군·구 상세 목록은 서울부터 검증한 뒤 순차 확장합니다.</p></div><span class="badge">베타</span></div><div class="empty"><b>이 지역의 시·군·구 목록은 다음 확장 단계에서 연결합니다.</b><p>현재는 서울 → 관악구 흐름을 먼저 실제 동작하게 만들어 전체 지역 구조를 검증합니다.</p></div></div>
-</section>
-</main>
-
-<script src="beta-store.js"></script>
-<script>
-const cities=[
-["seoul","서울특별시"],["busan","부산광역시"],["daegu","대구광역시"],["incheon","인천광역시"],
-["gwangju","광주광역시"],["daejeon","대전광역시"],["ulsan","울산광역시"],["sejong","세종특별자치시"],
-["gyeonggi","경기도"],["gangwon","강원특별자치도"],["chungbuk","충청북도"],["chungnam","충청남도"],
-["jeonbuk","전북특별자치도"],["jeonnam","전라남도"],["gyeongbuk","경상북도"],["gyeongnam","경상남도"],["jeju","제주특별자치도"]
-];
-const seoulDistricts=["강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
-const params=new URLSearchParams(location.search),city=params.get("city"),district=params.get("district");
-const cityGrid=document.getElementById("cityGrid");
-cities.forEach(([slug,name])=>{const a=document.createElement("a");a.className="regionCard"+(slug===city?" active":"");a.href="?city="+slug;a.innerHTML="<b>"+name+"</b><small>지역방 보기</small>";cityGrid.appendChild(a)});
-if(city){
-  document.getElementById("cities").style.display="none";
-  const name=(cities.find(x=>x[0]===city)||[city,city])[1];
-  document.getElementById("heroTitle").textContent=name+" 지역정보";
-  document.getElementById("heroText").textContent="시·군·구를 선택해 지역 라이더방으로 들어갑니다.";
-  document.getElementById("crumb").innerHTML='<a href="./">홈</a><span>›</span><a href="region.html">지역정보</a><span>›</span><span>'+name+'</span>';
-  if(city==="seoul"){
-    document.getElementById("districts").classList.add("on");
-    const dg=document.getElementById("districtGrid");
-    seoulDistricts.forEach(name=>{const slug=name==="관악구"?"gwanak":encodeURIComponent(name);const a=document.createElement("a");a.className="regionCard"+(district==="gwanak"&&name==="관악구"?" active":"");a.href="?city=seoul&district="+slug;a.innerHTML="<b>"+name+"</b><small>"+(name==="관악구"?"라이더방 열기":"지역방 준비")+"</small>";dg.appendChild(a)});
-    if(district){
-      document.getElementById("districts").style.display="none";
-      if(district==="gwanak"){
-        document.getElementById("room").classList.add("on");
-        document.getElementById("heroTitle").textContent="관악구 라이더방";
-        document.getElementById("heroText").textContent="관악구의 콜정보, 도로·교통, 정비와 지역 이야기를 연결합니다.";
-        document.getElementById("crumb").innerHTML='<a href="./">홈</a><span>›</span><a href="region.html">지역정보</a><span>›</span><a href="?city=seoul">서울특별시</a><span>›</span><span>관악구</span>';
-      }else{
-        document.getElementById("coming").classList.add("on");
-        document.getElementById("comingTitle").textContent="서울 지역방 준비 중";
-      }
-    }
-  }else{
-    document.getElementById("coming").classList.add("on");
-    document.getElementById("comingTitle").textContent=name+" 지역방 준비 중";
-  }
-
-if(city==="seoul"&&district==="gwanak"){
-  const user=RNX.currentUser(),mb=document.getElementById("memberBar"),compose=document.getElementById("compose");
-  if(user){mb.innerHTML='<span><b>'+esc(user.nickname)+'</b>님으로 참여 중 · '+esc(user.region||"")+'</span><a href="my.html">내 방</a>';compose.style.display="grid"}
-  else mb.innerHTML='<span>글쓰기·댓글·신고는 로그인 후 사용할 수 있습니다.</span><a href="auth.html">로그인</a>';
-  const postCategory=document.getElementById("postCategory"),postTitle=document.getElementById("postTitle"),postBody=document.getElementById("postBody"),postSubmit=document.getElementById("postSubmit");
-  postSubmit.onclick=()=>{try{RNX.addPost({region:"서울 관악구",category:postCategory.value,title:postTitle.value,body:postBody.value});postTitle.value="";postBody.value="";renderPosts()}catch(e){alert(e.message)}};
-  renderPosts();
-}
-function renderPosts(){
-  const list=document.getElementById("postList"); if(!list)return;
-  const arr=RNX.posts("서울 관악구"); list.innerHTML="";
-  if(!arr.length){list.innerHTML='<div class="empty"><b>아직 등록된 글이 없습니다.</b><p>로그인 후 관악구 라이더방의 첫 글을 작성할 수 있습니다.</p></div>';return}
-  arr.forEach(p=>{
-    const au=RNX.userById(p.authorId),card=document.createElement("article");card.className="postCard";
-    const comments=(p.comments||[]).map(c=>{const cu=RNX.userById(c.authorId);return '<div class="comment"><b>'+esc(cu?cu.nickname:"회원")+'</b> · '+esc(c.body)+'</div>'}).join("");
-    card.innerHTML='<div class="postTop"><div><h3>'+esc(p.title)+'</h3><div class="postMeta">'+esc(p.category)+' · '+esc(au?au.nickname:"회원")+' · '+RNX.fmt(p.createdAt)+'</div></div></div><div class="postBody">'+esc(p.body)+'</div><div class="postTools"><button class="commentToggle" type="button">💬 댓글 '+(p.comments||[]).length+'</button><button class="report" type="button">신고</button></div><div class="comments" style="display:none">'+comments+'<div class="commentForm"><input placeholder="댓글 입력"><button type="button">등록</button></div></div>';
-    card.querySelector(".commentToggle").onclick=()=>{const box=card.querySelector(".comments");box.style.display=box.style.display==="none"?"grid":"none"};
-    const cf=card.querySelector(".commentForm"),inp=cf.querySelector("input");cf.querySelector("button").onclick=()=>{try{RNX.addComment(p.id,inp.value);renderPosts()}catch(e){if(!RNX.currentUser())location.href="auth.html";else alert(e.message)}};
-    card.querySelector(".report").onclick=()=>{if(!RNX.currentUser()){location.href="auth.html";return}const reason=prompt("신고 사유를 입력하세요.\n예: 광고, 욕설, 허위정보, 사기 의심, 개인정보 노출, 불법, 기타","기타");if(reason!==null){try{RNX.report(p.id,reason);alert("신고가 접수되었습니다. 베타에서는 이 브라우저에 기록됩니다.")}catch(e){alert(e.message)}}};
-    list.appendChild(card)
-  })
-}
+:root{--blue:#0d73e6;--ink:#172033;--muted:#6f7c90;--line:#e3e8ef;--bg:#f6f8fc;--shadow:0 10px 28px rgba(31,60,99,.08)}*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;color:var(--ink)}a{text-decoration:none;color:inherit}.top{background:#fff;border-bottom:1px solid var(--line)}.topin{max-width:1000px;margin:auto;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}.brand{font-size:20px;font-weight:1000}.brand span{color:var(--blue)}.home{font-size:11px;font-weight:900;color:#276fbe}.wrap{max-width:1000px;margin:auto;padding:18px 14px 40px}.crumb{display:flex;gap:6px;font-size:10px;color:#7a8798;margin-bottom:10px}.crumb a{color:#276fbe;font-weight:900}.hero{padding:22px;border-radius:22px;background:linear-gradient(135deg,#1658bb,#1978e7 60%,#2ba6d7);color:#fff}.hero h1{margin:0;font-size:28px}.hero p{margin:8px 0 0;font-size:12px;color:#eaf4ff;line-height:1.5}.section{margin-top:18px}.title h2{margin:0;font-size:20px}.title p{margin:5px 0 0;color:var(--muted);font-size:11px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:10px}.card{background:#fff;border:1px solid var(--line);border-radius:15px;padding:14px}.card b{font-size:13px}.card small{display:block;margin-top:5px;color:var(--muted);font-size:9px}.panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;margin-top:12px}.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.cat{border:1px solid #e8edf3;border-radius:12px;padding:11px;font-size:10px}.member{margin-top:12px;padding:11px;border-radius:12px;background:#f7f9fc;border:1px solid #e7ebf1;display:flex;justify-content:space-between;gap:10px;font-size:10px}.member a{color:#fff;background:#0d73e6;padding:7px 9px;border-radius:9px;font-weight:900}.compose{display:none;margin-top:10px;padding:12px;border:1px solid #e5eaf1;border-radius:13px;gap:8px}.compose.on{display:grid}.compose select,.compose input,.compose textarea{padding:9px;border:1px solid #dbe3ec;border-radius:9px;font:inherit;font-size:10px}.compose textarea{min-height:80px}.compose button{justify-self:end;border:0;background:#0d73e6;color:#fff;padding:8px 11px;border-radius:9px;font-size:9px;font-weight:900}.posts{display:grid;gap:8px;margin-top:12px}.post{border:1px solid #e5eaf1;border-radius:13px;padding:12px}.post h3{margin:0;font-size:12px}.meta{margin-top:4px;color:#8b95a5;font-size:8px}.body{margin-top:7px;color:#526174;font-size:10px;line-height:1.5}.tools{margin-top:8px}.tools button{border:1px solid #dfe6ee;background:#fff;padding:6px 8px;border-radius:8px;font-size:8px}.comments{display:none;margin-top:8px;padding-top:8px;border-top:1px solid #edf1f5}.comments.on{display:grid;gap:6px}.comment{background:#f7f9fc;padding:7px;border-radius:8px;font-size:9px}.commentForm{display:flex;gap:6px}.commentForm input{flex:1;padding:7px;border:1px solid #dce3ec;border-radius:8px;font-size:9px}.empty{padding:20px;border:1px dashed #cbd5e1;border-radius:13px;text-align:center;color:var(--muted);font-size:10px}@media(max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}.cats{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:24px}}
+</style></head><body>
+<header class="top"><div class="topin"><a class="brand" href="./">Rider<span>Nex</span> 지역정보</a><a class="home" href="./">홈으로</a></div></header>
+<main class="wrap"><div class="crumb" id="crumb"><a href="./">홈</a><span>›</span><span>지역정보</span></div><section class="hero"><h1 id="heroTitle">전국 지역정보</h1><p id="heroText">시·도를 선택하고 시·군·구 지역방으로 들어갑니다.</p></section><section class="section" id="content"></section></main>
+<script src="beta-store.js"></script><script src="region-data.js"></script><script>
+const params=new URLSearchParams(location.search),city=params.get("city"),rawDistrict=params.get("district");const content=document.getElementById("content"),crumb=document.getElementById("crumb");let cityObj=RNX_REGION_DATA.find(x=>x.slug===city)||null;let district=rawDistrict;
+if(city==="seoul"&&rawDistrict==="gwanak")district="관악구";
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
-}
-</script>
-</body></html>
+if(!cityObj){renderCities()}else if(!district){renderDistricts()}else{renderRoom()}
+function renderCities(){heroTitle.textContent="전국 지역정보";heroText.textContent="전국 17개 시·도에서 활동지역을 선택하세요.";content.innerHTML='<div class="title"><h2>시·도 선택</h2><p>원하는 지역을 선택하면 시·군·구 목록으로 이동합니다.</p></div><div class="grid">'+RNX_REGION_DATA.map(x=>'<a class="card" href="?city='+x.slug+'"><b>'+esc(x.name)+'</b><small>'+x.districts.length+'개 지역 보기</small></a>').join("")+'</div>'}
+function renderDistricts(){heroTitle.textContent=cityObj.name+" 지역정보";heroText.textContent="활동 중인 시·군·구를 선택하세요.";crumb.innerHTML='<a href="./">홈</a><span>›</span><a href="region.html">지역정보</a><span>›</span><span>'+esc(cityObj.name)+'</span>';content.innerHTML='<div class="title"><h2>시·군·구 선택</h2><p>'+esc(cityObj.name)+'의 지역 라이더방입니다.</p></div><div class="grid">'+cityObj.districts.map(d=>'<a class="card" href="?city='+cityObj.slug+'&district='+encodeURIComponent(d)+'"><b>'+esc(d)+'</b><small>라이더방 열기</small></a>').join("")+'</div>'}
+function renderRoom(){const regionName=(cityObj?cityObj.name:"")+" "+district;heroTitle.textContent=district+" 라이더방";heroText.textContent="콜정보, 도로·교통, 사고·공사, 정비와 지역 이야기를 공유합니다.";crumb.innerHTML='<a href="./">홈</a><span>›</span><a href="region.html">지역정보</a><span>›</span><a href="?city='+cityObj.slug+'">'+esc(cityObj.name)+'</a><span>›</span><span>'+esc(district)+'</span>';content.innerHTML='<div class="panel"><div class="title"><h2>'+esc(district)+' 라이더방</h2><p>'+esc(regionName)+' 현장 중심 커뮤니티</p></div><div class="cats">'+["💬 자유수다","📣 오늘 콜정보","🛵 배달·퀵 상황","🚦 도로·교통","🚨 사고·공사","🔧 정비·센터","🪖 장비추천","☕ 맛집·휴식","❓ 지역 Q&A"].map(x=>'<div class="cat">'+x+'</div>').join("")+'</div><div class="member" id="member"></div><div class="compose" id="compose"><select id="category"><option>자유수다</option><option>오늘 콜정보</option><option>배달·퀵 상황</option><option>도로·교통</option><option>사고·공사</option><option>정비·센터</option><option>장비추천</option><option>맛집·휴식</option><option>지역 Q&A</option></select><input id="title" placeholder="제목"><textarea id="body" placeholder="지역 라이더들에게 공유할 내용"></textarea><button id="submit">등록</button></div><div class="posts" id="posts"></div></div>';const u=RNX.currentUser(),member=document.getElementById("member"),compose=document.getElementById("compose");if(u){member.innerHTML='<span><b>'+esc(u.nickname)+'</b>님으로 참여 중</span><a href="my.html">내 방</a>';compose.classList.add("on")}else member.innerHTML='<span>글쓰기·댓글은 로그인 후 사용할 수 있습니다.</span><a href="auth.html">로그인</a>';document.getElementById("submit").onclick=()=>{try{RNX.addPost({region:regionName,category:category.value,title:title.value,body:body.value});title.value="";body.value="";renderPosts(regionName)}catch(e){alert(e.message)}};renderPosts(regionName)}
+function renderPosts(regionName){const list=document.getElementById("posts");if(!list)return;const arr=RNX.posts(regionName);if(!arr.length){list.innerHTML='<div class="empty">아직 등록된 글이 없습니다.</div>';return}list.innerHTML="";arr.forEach(p=>{const a=RNX.userById(p.authorId),el=document.createElement("article");el.className="post";const comments=(p.comments||[]).map(c=>{const cu=RNX.userById(c.authorId);return '<div class="comment"><b>'+esc(cu?cu.nickname:"회원")+'</b> · '+esc(c.body)+'</div>'}).join("");el.innerHTML='<h3>'+esc(p.title)+'</h3><div class="meta">'+esc(p.category)+' · '+esc(a?a.nickname:"회원")+' · '+RNX.fmt(p.createdAt)+'</div><div class="body">'+esc(p.body)+'</div><div class="tools"><button class="toggle">댓글 '+(p.comments||[]).length+'</button> <button class="report">신고</button></div><div class="comments">'+comments+'<div class="commentForm"><input placeholder="댓글"><button>등록</button></div></div>';el.querySelector(".toggle").onclick=()=>el.querySelector(".comments").classList.toggle("on");const inp=el.querySelector(".commentForm input");el.querySelector(".commentForm button").onclick=()=>{try{RNX.addComment(p.id,inp.value);renderPosts(regionName)}catch(e){location.href="auth.html"}};el.querySelector(".report").onclick=()=>{if(!RNX.currentUser()){location.href="auth.html";return}const r=prompt("신고 사유","기타");if(r!==null){try{RNX.report(p.id,r);alert("신고가 접수되었습니다.")}catch(e){alert(e.message)}}};list.appendChild(el)})}
+</script></body></html>
