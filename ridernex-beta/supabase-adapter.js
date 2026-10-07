@@ -25,7 +25,7 @@
     const {data,error}=await state.client.auth.signUp({
       email,password,
       options:{
-        data:{nickname,primary_region:primaryRegion},
+        data:{nickname,primary_region:primaryRegion,terms_accepted:true,privacy_accepted:true,terms_version:"2026-10-07",privacy_version:"2026-10-07"},
         emailRedirectTo:"https://baedal-jjakkung-download.vercel.app/ridernex-beta/auth.html?confirmed=1"
       }
     });
