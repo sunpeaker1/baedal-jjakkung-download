@@ -117,7 +117,9 @@
       {type:"라이더도구",title:"바이크체크",meta:"정비·주행관리",body:"바이크체크",href:"../bikecheck.html"},
       {type:"라이더도구",title:"오늘얼마",meta:"수입 관리",body:"오늘얼마",href:"../oneul-eolma.html"},
       {type:"서비스",title:"지역정보",meta:"전국 지역방",body:"지역 현장정보와 지역 라이더방",href:"region.html"},
-      {type:"서비스",title:"라이더 지도",meta:"지역·업체·현장 지도",body:"관악구 중심 베타 지도",href:"map.html"}
+      {type:"서비스",title:"라이더 지도",meta:"지역·업체·현장 지도",body:"관악구 중심 베타 지도",href:"map.html"},
+      {type:"서비스",title:"정비·장비",meta:"정비 경험·소모품·라이더 장비",body:"정비와 장비 정보를 한곳에서",href:"care.html"},
+      {type:"서비스",title:"관심방",meta:"바이크·플랫폼·장비 관심사",body:"PCX NMAX 배민 쿠팡이츠 카카오퀵 장비 초보 라이더",href:"interests.html"}
     ];
     staticItems.forEach(x=>{if(hit(x.title,x.meta,x.body))out.push(x)});
     return out.sort((a,b)=>new Date(b.createdAt||0)-new Date(a.createdAt||0));
