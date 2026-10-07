@@ -272,11 +272,94 @@
     return out.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
   }
 
+  function isAdmin(){
+    return !!(state.profile&&["admin","moderator"].includes(state.profile.role));
+  }
+
+  async function getPendingBusinesses(){
+    if(!isAdmin())throw new Error("관리자 권한이 필요합니다.");
+    const {data,error}=await state.client
+      .from("businesses")
+      .select("*")
+      .eq("approval_status","pending")
+      .order("created_at",{ascending:false});
+    if(error)throw error;
+    return data||[];
+  }
+
+  async function setBusinessApproval(id,status){
+    if(!isAdmin())throw new Error("관리자 권한이 필요합니다.");
+    if(!["approved","rejected","hidden"].includes(status))throw new Error("잘못된 상태입니다.");
+    const {data,error}=await state.client
+      .from("businesses")
+      .update({approval_status:status,updated_at:new Date().toISOString()})
+      .eq("id",id)
+      .select()
+      .single();
+    if(error)throw error;
+    return data;
+  }
+
+  async function getAdminReports(){
+    if(!isAdmin())throw new Error("관리자 권한이 필요합니다.");
+    const {data,error}=await state.client.from("reports").select("*").order("created_at",{ascending:false});
+    if(error)throw error;
+    const reports=data||[];
+    const specs={
+      post:{table:"posts",field:"title"},
+      comment:{table:"comments",field:"body"},
+      market:{table:"marketplace_items",field:"title"},
+      business:{table:"businesses",field:"name"},
+      job:{table:"jobs",field:"title"},
+      interest_post:{table:"interest_posts",field:"title"},
+      care_post:{table:"care_posts",field:"title"}
+    };
+    const maps={};
+    for(const [type,spec] of Object.entries(specs)){
+      const ids=[...new Set(reports.filter(r=>r.target_type===type).map(r=>r.target_id))];
+      if(!ids.length)continue;
+      const {data:rows,error:e}=await state.client.from(spec.table).select("id,"+spec.field).in("id",ids);
+      if(e)throw e;
+      maps[type]=Object.fromEntries((rows||[]).map(x=>[x.id,x[spec.field]]));
+    }
+    return reports.map(r=>({
+      ...r,
+      target_title:(maps[r.target_type]&&maps[r.target_type][r.target_id])||r.target_id
+    }));
+  }
+
+  async function setReportStatus(id,status){
+    if(!isAdmin())throw new Error("관리자 권한이 필요합니다.");
+    if(!["open","reviewed","resolved","dismissed"].includes(status))throw new Error("잘못된 상태입니다.");
+    const payload={status};
+    if(status!=="open"){payload.reviewed_at=new Date().toISOString();payload.reviewed_by=state.user.id}
+    const {data,error}=await state.client.from("reports").update(payload).eq("id",id).select().single();
+    if(error)throw error;
+    return data;
+  }
+
+  async function hideModeratedTarget(targetType,targetId){
+    if(!isAdmin())throw new Error("관리자 권한이 필요합니다.");
+    if(targetType==="market"){
+      const {error}=await state.client.from("marketplace_items").update({status:"hidden",updated_at:new Date().toISOString()}).eq("id",targetId);
+      if(error)throw error;return;
+    }
+    if(targetType==="business"){
+      const {error}=await state.client.from("businesses").update({approval_status:"hidden",updated_at:new Date().toISOString()}).eq("id",targetId);
+      if(error)throw error;return;
+    }
+    if(targetType==="job"){
+      const {error}=await state.client.from("jobs").update({status:"hidden",updated_at:new Date().toISOString()}).eq("id",targetId);
+      if(error)throw error;return;
+    }
+    throw new Error("이 항목은 자동 숨김 대상이 아닙니다.");
+  }
+
   async function report({targetType,targetId,reason}){
     if(!state.user)throw new Error("로그인이 필요합니다.");
     const {data,error}=await state.client.from("reports").insert({reporter_id:state.user.id,target_type:targetType,target_id:targetId,reason}).select().single();
     if(error)throw error;return data;
   }
 
-  window.RNXRemote={state,init,signUp,signIn,signOut,resendConfirmation,getRegionPosts,getComments,getMyPosts,refreshProfile,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,joinInterest,leaveInterest,isInterestMember,interestMemberCount,getInterestPosts,addInterestPost,getCarePosts,addCarePost,getNotifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,report};
+  window.RNXRemote={state,init,signUp,signIn,signOut,resendConfirmation,getRegionPosts,getComments,getMyPosts,refreshProfile,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,joinInterest,leaveInterest,isInterestMember,interestMemberCount,getInterestPosts,addInterestPost,getCarePosts,addCarePost,getNotifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,isAdmin,getPendingBusinesses,setBusinessApproval,getAdminReports,setReportStatus,hideModeratedTarget,report};
 })();
