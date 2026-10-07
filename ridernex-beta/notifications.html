@@ -9,12 +9,12 @@
 </style></head><body>
 <header class="top"><div class="topin"><a class="brand" href="./">Rider<span>Nex</span> 알림</a><a href="./">홈으로</a></div></header>
 <main class="wrap"><div class="head"><div><h1>알림센터</h1><p>내 글의 댓글과 내가 등록한 활동을 확인합니다.</p></div><div class="actions"><button id="readAll" type="button">모두 읽음</button><button id="clear" class="clear" type="button">알림 비우기</button></div></div><div id="app"></div></main>
-<script src="beta-store.js"></script><script>
-const app=document.getElementById("app"),u=RNX.currentUser();
-if(!u){document.querySelector(".actions").style.display="none";app.innerHTML='<div class="lock">알림은 로그인 후 사용할 수 있습니다.<br><a class="login" href="auth.html">로그인</a></div>'}
-else render();
-readAll.onclick=()=>{RNX.markAllNotices();render()};clear.onclick=()=>{if(confirm("알림을 모두 비울까요?")){RNX.clearNotices();render()}};
+<script src="beta-store.js"></script><script src="supabase-adapter.js"></script><script>
+const app=document.getElementById("app"),readAll=document.getElementById("readAll"),clear=document.getElementById("clear");let remote=false;
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
-function label(t){return ({system:"시스템",post:"지역방",comment:"댓글",report:"신고",market:"장터",business:"업체",job:"구인·구직"})[t]||"알림"}
-function render(){const arr=RNX.notifications();if(!arr.length){app.innerHTML='<div class="empty">새 알림이 없습니다.</div>';return}app.innerHTML='<div class="list">'+arr.map(n=>'<a class="item '+(!n.read?'unread':'')+'" data-id="'+esc(n.id)+'" href="'+esc(n.href||"#")+'">'+(!n.read?'<span class="dot"></span>':'')+'<span class="badge">'+label(n.type)+'</span><h3>'+esc(n.title)+'</h3><p>'+esc(n.body||"")+'</p><div class="time">'+RNX.fmt(n.createdAt)+'</div></a>').join("")+'</div>';app.querySelectorAll("[data-id]").forEach(a=>a.addEventListener("click",()=>RNX.markNotice(a.dataset.id)))}
+function label(t){return ({system:"시스템",post:"지역방",comment:"댓글",report:"신고",market:"장터",business:"업체",job:"구인·구직",interest:"관심방"})[t]||"알림"}
+(async()=>{const state=await RNXRemote.init();remote=state.enabled;const u=remote?state.user:RNX.currentUser();if(!u){document.querySelector(".actions").style.display="none";app.innerHTML='<div class="lock">알림은 로그인 후 사용할 수 있습니다.<br><a class="login" href="auth.html">로그인</a></div>';return}await render()})();
+readAll.onclick=async()=>{if(remote)await RNXRemote.markAllNotices();else RNX.markAllNotices();await render()};
+clear.onclick=async()=>{if(confirm("알림을 모두 비울까요?")){if(remote)await RNXRemote.clearNotices();else RNX.clearNotices();await render()}};
+async function render(){const arr=remote?await RNXRemote.getNotifications():RNX.notifications();if(!arr.length){app.innerHTML='<div class="empty">새 알림이 없습니다.</div>';return}app.innerHTML='<div class="list">'+arr.map(n=>{const read=remote?n.is_read:n.read;return '<a class="item '+(!read?'unread':'')+'" data-id="'+esc(n.id)+'" href="'+esc(n.href||"#")+'">'+(!read?'<span class="dot"></span>':'')+'<span class="badge">'+label(n.type)+'</span><h3>'+esc(n.title)+'</h3><p>'+esc(n.body||"")+'</p><div class="time">'+RNX.fmt(n.created_at||n.createdAt)+'</div></a>'}).join("")+'</div>';app.querySelectorAll("[data-id]").forEach(a=>a.addEventListener("click",async()=>{if(remote)await RNXRemote.markNotice(a.dataset.id);else RNX.markNotice(a.dataset.id)}))}
 </script></body></html>
