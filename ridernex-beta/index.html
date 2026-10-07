@@ -65,7 +65,7 @@ footer{margin-top:30px;padding:25px 0 10px;border-top:1px solid var(--line);colo
 <form class="search" id="search"><input id="q" placeholder="지역, 게시글, 업체, 장터를 검색하세요"><button>검색</button></form>
 <div class="auth"><button class="login">로그인</button><button class="join">회원가입</button></div>
 </div></header>
-<nav class="nav"><div class="navin"><a href="region.html">📍 지역정보</a><a href="#community">💬 커뮤니티</a><a href="market.html">🛵 라이더장터</a><a href="#care">🔧 정비·장비</a><a href="#map">🗺️ 지도</a><a href="business.html">🏪 업체정보</a><a href="jobs.html">💼 구인·구직</a><a href="#tools">🧰 라이더도구</a><a href="my.html">👤 내 방</a></div></nav>
+<nav class="nav"><div class="navin"><a href="region.html">📍 지역정보</a><a href="#community">💬 커뮤니티</a><a href="market.html">🛵 라이더장터</a><a href="#care">🔧 정비·장비</a><a href="map.html">🗺️ 지도</a><a href="business.html">🏪 업체정보</a><a href="jobs.html">💼 구인·구직</a><a href="#tools">🧰 라이더도구</a><a href="my.html">👤 내 방</a></div></nav>
 
 <main class="wrap">
 <span class="beta">BETA PREVIEW · 메인 홈페이지와 분리된 테스트 화면</span>
@@ -88,7 +88,7 @@ footer{margin-top:30px;padding:25px 0 10px;border-top:1px solid var(--line);colo
 <a class="quickLink" href="#community"><span>💬</span><b>커뮤니티</b><small>지역방·내 방·관심방</small></a>
 <a class="quickLink" href="market.html"><span>🛵</span><b>라이더장터</b><small>바이크·장비·용품</small></a>
 <a class="quickLink" href="#care"><span>🔧</span><b>정비·장비</b><small>정비정보·소모품</small></a>
-<a class="quickLink" href="#map"><span>🗺️</span><b>지도</b><small>지역·업체·현장</small></a>
+<a class="quickLink" href="map.html"><span>🗺️</span><b>지도</b><small>지역·업체·현장</small></a>
 <a class="quickLink" href="business.html"><span>🏪</span><b>업체정보</b><small>센터·렌탈·대행</small></a>
 <a class="quickLink" href="jobs.html"><span>💼</span><b>구인·구직</b><small>지역별 라이더 일자리</small></a>
 <a class="quickLink" href="#tools"><span>🧰</span><b>라이더도구</b><small>라이더짝꿍 외 도구</small></a>
@@ -127,7 +127,7 @@ footer{margin-top:30px;padding:25px 0 10px;border-top:1px solid var(--line);colo
 <a class="hub" id="jobs" href="jobs.html"><div class="ico">💼</div><h3>구인·구직</h3><p>지역별 기사 모집과 라이더 구직정보를 한곳에서 연결합니다.</p><span class="go">구인·구직 보기 →</span></a>
 </div></section>
 
-<section class="section" id="map"><div class="title"><div><h2>라이더 지도</h2><p>지역 현장정보와 라이더에게 필요한 장소를 지도에서 연결하는 영역입니다.</p></div><a href="#map">지도 준비중 ›</a></div>
+<section class="section" id="map"><div class="title"><div><h2>라이더 지도</h2><p>지역 현장정보와 라이더에게 필요한 장소를 지도에서 연결하는 영역입니다.</p></div><a href="map.html">실제 지도 열기 ›</a></div>
 <div class="mapGrid">
 <article class="mapCard"><div class="mapVisual"><div><h3>내 지역을 지도에서 한눈에</h3><p>사고·공사·통제 같은 현장정보와 지역 라이더방, 정비센터와 업체를 위치 중심으로 찾는 구조로 확장합니다.</p></div><div class="mapPins"><span>📍 현장정보</span><span>🔧 정비센터</span><span>🏪 라이더업체</span><span>💼 일자리</span></div></div></article>
 <article class="mapCard"><div class="mapMenu">
@@ -153,10 +153,11 @@ footer{margin-top:30px;padding:25px 0 10px;border-top:1px solid var(--line);colo
 </main>
 <script src="beta-store.js"></script>
 <script>
-document.getElementById('search').addEventListener('submit',e=>{e.preventDefault();const q=document.getElementById('q').value.trim();if(!q)return;alert('베타 통합검색 예시: '+q+'\n정식 버전에서는 지역글·장터·업체·구인을 한 번에 검색합니다.');});
+document.getElementById('search').addEventListener('submit',e=>{e.preventDefault();const q=document.getElementById('q').value.trim();if(!q)return;location.href='search.html?q='+encodeURIComponent(q);});
 const user=RNX.currentUser(),auth=document.querySelector('.auth');
 if(user){
-  auth.innerHTML='<a class="login" href="my.html">'+String(user.nickname).replace(/[&<>"]/g,"")+'님</a><a class="join" href="my.html">내 방</a>';
+  const unread=RNX.unreadCount();
+  auth.innerHTML='<a class="login" href="notifications.html">🔔 '+unread+'</a><a class="login" href="my.html">'+String(user.nickname).replace(/[&<>"]/g,"")+'님</a><a class="join" href="my.html">내 방</a>';
 }else{
   const login=document.querySelector('.auth .login'),join=document.querySelector('.auth .join');
   if(login)login.onclick=()=>location.href='auth.html';
