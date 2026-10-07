@@ -44,6 +44,14 @@
     if(error)throw error;
     state.user=null;state.profile=null;
   }
+  async function resendConfirmation(email){
+    if(!state.client)throw new Error("서버 DB가 아직 연결되지 않았습니다.");
+    email=String(email||"").trim().toLowerCase();
+    if(!email)throw new Error("이메일을 입력하세요.");
+    const {error}=await state.client.auth.resend({type:"signup",email});
+    if(error)throw error;
+  }
+
 
   async function getRegionPosts(region,category=""){
     if(!state.client)return[];
@@ -263,5 +271,5 @@
     if(error)throw error;return data;
   }
 
-  window.RNXRemote={state,init,signUp,signIn,signOut,getRegionPosts,getComments,getMyPosts,refreshProfile,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,joinInterest,leaveInterest,isInterestMember,interestMemberCount,getInterestPosts,addInterestPost,getCarePosts,addCarePost,getNotifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,report};
+  window.RNXRemote={state,init,signUp,signIn,signOut,resendConfirmation,getRegionPosts,getComments,getMyPosts,refreshProfile,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,joinInterest,leaveInterest,isInterestMember,interestMemberCount,getInterestPosts,addInterestPost,getCarePosts,addCarePost,getNotifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,report};
 })();
