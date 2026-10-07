@@ -142,8 +142,8 @@
 
   async function joinInterest(room){
     if(!state.user)throw new Error("로그인이 필요합니다.");
-    const {error}=await state.client.from("interest_memberships").upsert({user_id:state.user.id,room},{onConflict:"user_id,room"});
-    if(error)throw error;
+    const {error}=await state.client.from("interest_memberships").insert({user_id:state.user.id,room});
+    if(error&&error.code!=="23505")throw error;
   }
 
   async function leaveInterest(room){
