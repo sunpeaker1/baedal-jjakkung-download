@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#f5f8fc">
+<title>RiderNex 라이더넥스 베타 미리보기</title>
+<meta name="description" content="RiderNex 라이더넥스 베타 미리보기. 지역 커뮤니티, 라이더장터, 정비·업체정보, 구인·구직, 라이더 도구를 한곳에서 확인합니다.">
+<style>
+:root{--blue:#1769e0;--blue2:#0e56c7;--ink:#172033;--muted:#667085;--line:#e5eaf1;--bg:#f5f8fc;--panel:#fff;--green:#16a36a;--orange:#e78616;--red:#d74343;--shadow:0 14px 34px rgba(27,47,77,.09)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Apple SD Gothic Neo","Segoe UI",sans-serif}a{text-decoration:none;color:inherit}button,input{font:inherit}
+.top{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}.topin{max-width:1180px;margin:auto;padding:12px 20px;display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center}.brand{display:flex;align-items:center;gap:10px}.logoMetal{width:58px;height:44px;display:block;filter:drop-shadow(0 4px 6px rgba(12,74,160,.20))}.brandWord{display:block;font-size:20px;line-height:1;font-weight:1000;letter-spacing:-.8px;white-space:nowrap}.brandWord .rider{color:#162943}.brandWord .nex{color:#0874e8}.brand small{display:block;margin-top:5px;color:var(--muted);font-size:12px;font-weight:800}.search{display:flex;border:2px solid var(--blue);border-radius:14px;overflow:hidden;background:white}.search input{width:100%;border:0;outline:0;padding:12px 14px}.search button{border:0;background:var(--blue);color:#fff;font-weight:900;padding:0 18px;min-width:84px;white-space:nowrap;flex:0 0 auto}.auth{display:flex;gap:7px}.auth button,.auth a{border:1px solid var(--line);background:#fff;padding:9px 12px;border-radius:11px;font-weight:900;white-space:nowrap;flex:0 0 auto;font-size:14px}.auth .join{background:var(--blue);border-color:var(--blue);color:#fff}.auth .adminBtn{background:#172033;border-color:#172033;color:#fff}
+.nav{background:#fff;border-bottom:1px solid var(--line);overflow:auto;white-space:nowrap}.navin{max-width:1180px;margin:auto;padding:0 20px;display:flex;gap:3px}.nav a{padding:13px 12px;font-size:14px;font-weight:900;color:#46536a}.nav a:hover{color:var(--blue);background:#f2f7ff}
+.wrap{max-width:1180px;margin:auto;padding:22px 20px 46px}.beta{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;background:#fff0d8;color:#9a5b00;border:1px solid #f5d8a4;font-size:13px;font-weight:1000}
+.hero{margin-top:12px;display:grid;grid-template-columns:1.55fr .75fr;gap:16px}.heroMain{min-height:280px;padding:34px;border-radius:26px;background:linear-gradient(135deg,#174fa8,#1769e0 55%,#25a8d7);color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow)}.heroMain:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.11);right:-70px;bottom:-110px}.heroMain h1{margin:0;font-size:38px;line-height:1.13;letter-spacing:-2px}.heroMain p{margin:15px 0 0;max-width:620px;color:#eaf3ff;font-weight:700;line-height:1.65}.bridge{margin-top:22px;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.12);display:inline-flex;flex-direction:column;gap:2px}.bridge b{font-size:14px}.bridge span{font-size:13px;color:#dfeeff}.heroSide{display:grid;gap:12px}.sidecard{padding:18px;border-radius:22px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow)}.sidecard h3{margin:0;font-size:16px}.sidecard p{margin:8px 0 0;color:var(--muted);font-size:14px;line-height:1.55}.sideBtns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}.sideBtns a{padding:11px;border-radius:11px;text-align:center;background:#f3f7fd;font-size:14px;font-weight:900;color:#345}
+.portalQuick{margin-top:16px;display:grid;grid-template-columns:repeat(5,1fr);gap:9px}.quickLink{min-height:88px;padding:13px 10px;border:1px solid var(--line);border-radius:17px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 7px 20px rgba(27,47,77,.045)}.quickLink span{font-size:24px;line-height:1}.quickLink b{margin-top:8px;font-size:14px}.quickLink small{margin-top:3px;color:var(--muted);font-size:11px;line-height:1.35}.quickLink.primary{border-color:#a9cafa;background:linear-gradient(160deg,#fff,#eef5ff)}.quickLink.primary b{color:var(--blue)}
+.mapGrid{display:grid;grid-template-columns:1.2fr .8fr;gap:12px}.mapCard{min-height:190px;border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:0 8px 22px rgba(27,47,77,.05);overflow:hidden}.mapVisual{height:100%;min-height:190px;padding:22px;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(135deg,#e9f3ff,#f8fbff 58%,#e4f7f8);position:relative}.mapVisual:before{content:"";position:absolute;inset:18px;border-radius:18px;background:linear-gradient(145deg,transparent 0 32%,rgba(26,111,221,.09) 33% 35%,transparent 36% 54%,rgba(39,156,218,.12) 55% 57%,transparent 58%);border:1px dashed rgba(32,116,210,.18)}.mapVisual>*{position:relative;z-index:1}.mapVisual h3{margin:0;font-size:18px}.mapVisual p{margin:7px 0 0;color:#50627a;font-size:13px;line-height:1.55;max-width:430px}.mapPins{display:flex;gap:8px;flex-wrap:wrap}.mapPins span{padding:7px 9px;border-radius:999px;background:#fff;border:1px solid #dce8f7;color:#34536f;font-size:12px;font-weight:900}.mapMenu{padding:17px;display:grid;gap:9px}.mapMenu a{padding:13px;border:1px solid #edf0f4;border-radius:13px;display:flex;align-items:center;justify-content:space-between;font-size:14px;font-weight:900;color:#31465f}.mapMenu a small{font-size:12px;color:var(--muted);font-weight:700}
+.section{margin-top:22px}.title{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:10px}.title h2{margin:0;font-size:22px;letter-spacing:-.8px}.title p{margin:5px 0 0;font-size:14px;color:var(--muted)}.title a{color:var(--blue);font-weight:900;font-size:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.hub{display:block;background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 8px 22px rgba(27,47,77,.05);transition:.15s}.hub:active{transform:scale(.985)}.hub .ico{font-size:26px}.hub h3{margin:8px 0 5px;font-size:17px}.hub p{margin:0;color:var(--muted);font-size:14px;line-height:1.5}.hub.primary{border-color:#bcd5fb;background:linear-gradient(160deg,#fff,#f2f7ff)}.hub .go{display:inline-block;margin-top:12px;color:var(--blue);font-size:14px;font-weight:1000}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:17px;box-shadow:0 8px 22px rgba(27,47,77,.05)}.cardHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.cardHead h3{margin:0;font-size:16px}.tag{font-size:12px;font-weight:1000;padding:5px 7px;border-radius:999px;background:#edf4ff;color:var(--blue)}
+.feed{display:grid;gap:8px}.feedItem{padding:11px 12px;border:1px solid #edf0f4;border-radius:13px;display:grid;grid-template-columns:auto 1fr auto;gap:9px;align-items:start;background:#fff;transition:.15s}.feedItem:active{transform:scale(.99);background:#f5f9ff}.feedItem b{font-size:14px}.feedItem p{margin:2px 0 0;color:#58667d;font-size:13px}.feedItem time{font-size:12px;color:#98a2b3}.dot{width:9px;height:9px;border-radius:50%;margin-top:4px;background:var(--green)}.dot.orange{background:var(--orange)}.dot.red{background:var(--red)}
+.market{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.item{border:1px solid var(--line);background:#fff;border-radius:17px;overflow:hidden}.pic{height:105px;background:linear-gradient(135deg,#dde8f6,#f7f9fc);display:grid;place-items:center;font-size:42px}.itemBody{padding:12px}.itemBody b{font-size:14px}.price{margin-top:6px;font-size:15px;font-weight:1000}.meta{margin-top:5px;color:var(--muted);font-size:12px}
+.tools{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.tool{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;text-align:center}.tool b{display:block;margin-top:7px;font-size:14px}.tool small{display:block;margin-top:3px;color:var(--muted);font-size:11px}.tool.main{border:2px solid #7ab1fa;background:#f2f7ff}.tool em{display:inline-block;margin-top:7px;font-style:normal;font-size:11px;font-weight:1000;color:var(--blue)}
+.statusbar{margin-top:22px;padding:14px 16px;border-radius:16px;background:#eef7ff;border:1px solid #d6e9ff;color:#36506c;font-size:13px;line-height:1.55}.statusbar b{color:#18385d}
+footer{margin-top:30px;padding:25px 0 10px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}.footbrand{color:var(--ink);font-weight:1000;font-size:14px}
+@media(max-width:800px){.portalQuick{grid-template-columns:repeat(3,1fr)}.mapGrid{grid-template-columns:1fr}.topin{grid-template-columns:1fr auto}.search{grid-column:1/-1;grid-row:2}.auth .login{display:none}.hero{grid-template-columns:1fr}.heroMain{min-height:235px;padding:25px}.heroMain h1{font-size:30px}.grid3,.two{grid-template-columns:1fr}.market{grid-template-columns:1fr 1fr}.tools{grid-template-columns:1fr 1fr}.tool.main{grid-column:1/-1}.navin{padding:0 12px}.wrap{padding:16px 12px 36px}.brandWord{font-size:18px}}
+@media(max-width:390px){.portalQuick{grid-template-columns:repeat(2,1fr)}.market{grid-template-columns:1fr}.sideBtns{grid-template-columns:1fr}.heroMain h1{font-size:27px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="topin">
+<a class="brand" href="#">
+  <svg class="logoMetal" viewBox="0 0 132 92" role="img" aria-label="RN">
+    <defs>
+      <linearGradient id="rnR" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#55d7ff"/>
+        <stop offset=".32" stop-color="#1494ff"/>
+        <stop offset=".68" stop-color="#0865dc"/>
+        <stop offset="1" stop-color="#05398f"/>
+      </linearGradient>
+      <linearGradient id="rnN" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#f7fbff"/>
+        <stop offset=".28" stop-color="#dbe5ef"/>
+        <stop offset=".56" stop-color="#7f8fa3"/>
+        <stop offset=".76" stop-color="#eef4fa"/>
+        <stop offset="1" stop-color="#5c6c80"/>
+      </linearGradient>
+      <linearGradient id="rnShine" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffffff" stop-opacity=".88"/>
+        <stop offset=".30" stop-color="#ffffff" stop-opacity=".10"/>
+        <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <path d="M7 80 24 12h43c23 0 34 9 34 24 0 12-7 20-22 24l17 20H67L53 63H34l-4 17H7Zm31-49-5 17h30c9 0 14-3 14-9 0-5-4-8-13-8H38Z"
+          fill="url(#rnR)" stroke="#0b3f8f" stroke-width="2.2" stroke-linejoin="round"/>
+    <path d="M24 12h43c11 0 20 2 26 7L80 31H38l-5 17H15Z" fill="url(#rnShine)" opacity=".62"/>
+    <path d="M73 12h22l20 33V12h17v68h-20L91 47v33H73Z"
+          fill="url(#rnN)" stroke="#44576e" stroke-width="2.1" stroke-linejoin="round"/>
+    <path d="M88 14h5l20 33v10L93 26v54h-5Z" fill="#ffffff" opacity=".22"/>
+    <path d="M9 82h111" stroke="#0d6fe0" stroke-width="1.8" opacity=".38"/>
+  </svg>
+  <span><span class="brandWord"><span class="rider">Rider</span><span class="nex">Nex</span></span><small>Rider Nexus · 라이더넥스</small></span>
+</a>
+<form class="search" id="search"><input id="q" placeholder="지역, 게시글, 업체, 장터를 검색하세요"><button>검색</button></form>
+<div class="auth"><button class="login">로그인</button><button class="join">회원가입</button></div>
+</div></header>
+<nav class="nav"><div class="navin"><a href="region.html">📍 지역정보</a><a href="#community">💬 커뮤니티</a><a href="market.html">🛵 라이더장터</a><a href="care.html">🔧 정비·장비</a><a href="map.html">🗺️ 지도</a><a href="business.html">🏪 업체정보</a><a href="jobs.html">💼 구인·구직</a><a href="#tools">🧰 라이더도구</a><a href="my.html">👤 내 방</a></div></nav>
+
+<main class="wrap">
+<span class="beta">BETA PREVIEW · 메인 홈페이지와 분리된 테스트 화면</span>
+<section class="hero">
+<div class="heroMain">
+<h1>전국 라이더가<br>지역과 정보를 연결하는 곳.</h1>
+<p>라이더넥스는 배달·퀵 라이더가 지역정보를 나누고, 사람을 만나고, 장비를 사고팔고, 정비·업체·일자리와 라이더 도구까지 한곳에서 찾는 플랫폼을 목표로 합니다.</p>
+<div class="bridge"><b>라이더짝꿍에서 시작해, 모든 라이더를 연결합니다.</b><span>RiderNex = Rider + Nexus</span></div>
+</div>
+<div class="heroSide">
+<div class="sidecard"><h3>내 지역 빠른 진입</h3><p>주 활동지역을 설정하면 매일 필요한 지역방과 현장정보를 먼저 보여줍니다.</p><div class="sideBtns"><a href="region.html?city=seoul&district=gwanak">관악구 라이더방</a><a href="region.html">지역 변경</a></div></div>
+<div class="sidecard"><h3>오늘 라이더넥스</h3><p>지역 현장정보, 새 장터글, 구인정보와 라이더 도구를 한곳에서 빠르게 확인합니다.</p><div class="sideBtns"><a href="region.html?city=seoul&district=gwanak">현장정보 보기</a><a href="market.html">장터 보기</a></div></div>
+</div>
+</section>
+
+<section class="section" aria-label="라이더넥스 주요 서비스">
+<div class="title"><div><h2>라이더넥스 바로가기</h2><p>라이더에게 필요한 핵심 서비스를 홈에서 바로 찾습니다.</p></div></div>
+<div class="portalQuick">
+<a class="quickLink primary" href="region.html"><span>📍</span><b>지역정보</b><small>현장·도로·지역방</small></a>
+<a class="quickLink" href="#community"><span>💬</span><b>커뮤니티</b><small>지역방·내 방·관심방</small></a>
+<a class="quickLink" href="market.html"><span>🛵</span><b>라이더장터</b><small>바이크·장비·용품</small></a>
+<a class="quickLink" href="care.html"><span>🔧</span><b>정비·장비</b><small>정비정보·소모품</small></a>
+<a class="quickLink" href="map.html"><span>🗺️</span><b>지도</b><small>지역·업체·현장</small></a>
+<a class="quickLink" href="business.html"><span>🏪</span><b>업체정보</b><small>센터·렌탈·대행</small></a>
+<a class="quickLink" href="jobs.html"><span>💼</span><b>구인·구직</b><small>지역별 라이더 일자리</small></a>
+<a class="quickLink" href="#tools"><span>🧰</span><b>라이더도구</b><small>라이더짝꿍 외 도구</small></a>
+<a class="quickLink" href="my.html"><span>👤</span><b>내 방</b><small>나의 라이더홈</small></a>
+</div>
+</section>
+
+<section class="section" id="community"><div class="title"><div><h2>라이더 커뮤니티</h2><p>지역방을 중심으로 내 방과 관심방을 연결합니다.</p></div></div>
+<div class="grid3">
+<a class="hub primary" href="region.html?city=seoul&district=gwanak"><div class="ico">📍</div><h3>지역방</h3><p>오늘 콜정보, 배달·퀵 상황, 사고·공사, 정비, 휴식장소, 지역 Q&A를 빠르게 공유합니다.</p><span class="go">내 지역방 바로가기 →</span></a>
+<a class="hub" id="my" href="my.html"><div class="ico">👤</div><h3>내 방</h3><p>프로필, 활동지역, 바이크, 작성글, 사진, 장비리뷰, 정비이야기와 거래후기를 모읍니다.</p><span class="go">개인 라이더홈 →</span></a>
+<a class="hub" href="interests.html"><div class="ico">⭐</div><h3>관심방</h3><p>PCX·NMAX·전기바이크·쿠팡이츠·배민·카카오퀵·장비·초보라이더 등 관심사로 모입니다.</p><span class="go">관심방 둘러보기 →</span></a>
+</div></section>
+
+<section class="section" id="region"><div class="title"><div><h2>관악구 라이더방</h2><p>지역정보는 시간이 중요합니다. 실제 등록된 최신 글을 우선 보여줍니다.</p></div><a href="region.html">지역 전체보기 ›</a></div>
+<div class="two">
+<article class="card"><div class="cardHead"><h3>실시간 현장정보</h3><span class="tag">서울 관악구</span></div><div class="feed" id="homeRegionFeed"></div></article>
+<article class="card"><div class="cardHead"><h3>지역방 메뉴</h3><span class="tag">매일 확인</span></div><div class="feed">
+<a class="feedItem" href="region.html?city=seoul&district=gwanak&category=%EC%98%A4%EB%8A%98%20%EC%BD%9C%EC%A0%95%EB%B3%B4"><span>📣</span><div><b>오늘 콜정보</b><p>배달·퀵 현장 상황</p></div><span>›</span></a>
+<a class="feedItem" href="region.html?city=seoul&district=gwanak&category=%EB%8F%84%EB%A1%9C%C2%B7%EA%B5%90%ED%86%B5"><span>🚦</span><div><b>도로·교통</b><p>정체·통제·우회 정보</p></div><span>›</span></a>
+<a class="feedItem" href="region.html?city=seoul&district=gwanak&category=%EC%A0%95%EB%B9%84%C2%B7%EC%84%BC%ED%84%B0"><span>🔧</span><div><b>정비·센터</b><p>지역 정비 경험과 센터 정보</p></div><span>›</span></a>
+</div></article>
+</div></section>
+
+<section class="section" id="market"><div class="title"><div><h2>라이더장터</h2><p>전국 매물이 기본입니다. 내 지역과 가까운 매물을 먼저 추천하되 선택권은 제한하지 않습니다.</p></div><a href="market.html">전체 장터 ›</a></div>
+<div class="market" id="marketPreview"></div></section>
+
+<section class="section"><div class="title"><div><h2>라이더 생활정보</h2><p>정비·장비·업체·구인을 지역과 연결합니다.</p></div></div>
+<div class="grid3">
+<a class="hub" id="care" href="care.html"><div class="ico">🔧</div><h3>정비·장비</h3><p>정비소 후기, 소모품, 헬멧·우천·여름·겨울장비 정보를 모읍니다.</p><span class="go">정비·장비 보기 →</span></a>
+<a class="hub" id="business" href="business.html"><div class="ico">🏪</div><h3>업체정보</h3><p>정비소·렌탈·장비점·배달대행·퀵업체를 지역별로 찾습니다.</p><span class="go">업체정보 보기 →</span></a>
+<a class="hub" id="jobs" href="jobs.html"><div class="ico">💼</div><h3>구인·구직</h3><p>지역별 기사 모집과 라이더 구직정보를 한곳에서 연결합니다.</p><span class="go">구인·구직 보기 →</span></a>
+</div></section>
+
+<section class="section" id="map"><div class="title"><div><h2>라이더 지도</h2><p>지역 현장정보와 라이더에게 필요한 장소를 지도에서 연결하는 영역입니다.</p></div><a href="map.html">실제 지도 열기 ›</a></div>
+<div class="mapGrid">
+<a class="mapCard" href="map.html"><div class="mapVisual"><div><h3>내 지역을 지도에서 한눈에</h3><p>사고·공사·통제 같은 현장정보와 지역 라이더방, 정비센터와 업체를 위치 중심으로 찾는 구조로 확장합니다.</p></div><div class="mapPins"><span>📍 현장정보</span><span>🔧 정비센터</span><span>🏪 라이더업체</span><span>💼 일자리</span></div></div></a>
+<article class="mapCard"><div class="mapMenu">
+<a href="region.html?city=seoul&district=gwanak"><span>지역 현장정보</span><small>지역방 열기 ›</small></a>
+<a href="care.html"><span>정비·장비 찾기</span><small>정보 보기 ›</small></a>
+<a href="business.html"><span>업체정보 찾기</span><small>지역별 ›</small></a>
+<a href="jobs.html"><span>구인·구직 보기</span><small>지역별 ›</small></a>
+</div></article>
+</div></section>
+
+<section class="section" id="tools"><div class="title"><div><h2>라이더넥스 라이더도구</h2><p>기존 브랜드와 다운로드 자산은 그대로 유지하면서 RiderNex 안에서 연결합니다.</p></div></div>
+<div class="tools">
+<a class="tool main" href="../rider-jjakkung-home.html"><span>🟩</span><b>라이더짝꿍</b><small>수입·운행·내비 대표 앱</small><em>기존 홈으로 이동</em></a>
+<a class="tool" href="../delivery-navi.html"><span>🗺️</span><b>배달내비</b><small>라이더 전용 주행안내</small><em>기존 페이지 유지</em></a>
+<a class="tool" href="../quick.html"><span>⚡</span><b>퀵짝꿍</b><small>퀵 업무 지원</small><em>기존 페이지 유지</em></a>
+<a class="tool" href="../bikecheck.html"><span>🔧</span><b>바이크체크</b><small>정비·주행관리</small><em>기존 페이지 유지</em></a>
+<a class="tool" href="../oneul-eolma.html"><span>💰</span><b>오늘얼마</b><small>수입 관리</small><em>기존 페이지 유지</em></a>
+</div></section>
+
+<div class="statusbar"><b>현재 베타 운영 원칙</b> · 이 화면은 디자인·정보구조 비교용이며 정식 메인 홈페이지와 분리되어 있습니다. 라이더짝꿍·배달내비·퀵짝꿍의 기존 URL과 APK 다운로드 시스템은 변경하지 않습니다.</div>
+
+<footer><div class="footbrand">RiderNex 라이더넥스</div><div style="margin-top:5px">라이더짝꿍을 품은 전국 배달·퀵 라이더 플랫폼 · Beta Preview</div><div style="margin-top:10px;display:flex;gap:12px;flex-wrap:wrap"><a href="terms.html">이용약관</a><a href="privacy.html">개인정보처리방침</a></div></footer>
+</main>
+<script src="beta-store.js"></script>
+<script src="supabase-adapter.js"></script>
+<script>
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+document.getElementById('search').addEventListener('submit',e=>{e.preventDefault();const q=document.getElementById('q').value.trim();if(!q)return;location.href='search.html?q='+encodeURIComponent(q);});
+
+(async()=>{
+  const state=await RNXRemote.init(),remote=state.enabled,auth=document.querySelector('.auth');
+  const user=remote?state.user:RNX.currentUser();
+  if(user){
+    const unread=remote?await RNXRemote.unreadCount():RNX.unreadCount();
+    const nickname=remote?(state.profile?.nickname||user.email||"회원"):user.nickname;
+    auth.innerHTML=(remote&&RNXRemote.isAdmin()?'<a class="adminBtn" href="admin.html">관리자</a>':'')+'<a class="login" href="notifications.html">🔔 '+unread+'</a><a class="login" href="my.html">'+esc(nickname)+'님</a><a class="join" href="my.html">내 방</a>';
+  }else{
+    const login=document.querySelector('.auth .login'),join=document.querySelector('.auth .join');
+    if(login)login.onclick=()=>location.href='auth.html';
+    if(join)join.onclick=()=>location.href='auth.html?mode=join';
+  }
+
+  const homeRegionFeed=document.getElementById('homeRegionFeed');
+  if(homeRegionFeed){
+    let regionPosts=[];
+    try{
+      regionPosts=remote?await RNXRemote.getRegionPosts('서울특별시 관악구'):RNX.posts().filter(p=>p.region==='서울특별시 관악구'||p.region==='서울 관악구');
+    }catch{}
+    regionPosts=regionPosts.slice(0,3);
+    if(!regionPosts.length){
+      homeRegionFeed.innerHTML='<a class="feedItem" href="region.html?city=seoul&district=gwanak"><span>📍</span><div><b>아직 등록된 현장정보가 없습니다.</b><p>관악구 라이더방에서 첫 정보를 등록해보세요.</p></div><span>›</span></a>';
+    }else{
+      homeRegionFeed.innerHTML=regionPosts.map(p=>'<a class="feedItem" href="region.html?city=seoul&district=gwanak&category='+encodeURIComponent(p.category||'')+'"><span>📌</span><div><b>'+esc(p.title)+'</b><p>'+esc((p.body||'').slice(0,55))+'</p></div><time>'+RNX.fmt(p.created_at||p.createdAt)+'</time></a>').join('');
+    }
+  }
+
+  const marketPreview=document.getElementById('marketPreview');
+  if(marketPreview){
+    let items=[];
+    try{items=remote?await RNXRemote.getMarket():RNX.marketItems()}catch{}
+    items=items.slice(0,4);
+    if(!items.length){
+      marketPreview.innerHTML='<a class="item" href="market.html" style="grid-column:1/-1"><div class="itemBody"><b>등록된 매물이 없습니다.</b><div class="meta" style="margin-top:7px">라이더장터에서 첫 매물을 등록해보세요.</div><span class="go" style="display:inline-block;margin-top:10px;color:var(--blue);font-size:13px;font-weight:900">장터 열기 →</span></div></a>';
+    }else{
+      marketPreview.innerHTML=items.map(x=>'<a class="item" href="market.html"><div class="pic">'+(x.category==='오토바이'?'🛵':x.category==='전기이동수단'?'⚡':x.category==='장비'?'🪖':'🔧')+'</div><div class="itemBody"><b>'+esc(x.title)+'</b><div class="price">'+Number(x.price).toLocaleString('ko-KR')+'원</div><div class="meta">'+esc(x.region)+' · '+esc(x.item_condition||x.condition||'중고')+'</div></div></a>').join('');
+    }
+  }
+})();
+</script></body></html>
