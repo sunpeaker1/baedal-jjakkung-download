@@ -13,7 +13,7 @@ form{display:grid;gap:11px}.field label{display:block;font-size:13px;font-weight
 </style></head><body>
 <header class="top"><div class="topin"><a class="brand" href="./">Rider<span>Nex</span></a><a class="back" href="./">홈으로</a></div></header>
 <main class="wrap">
-<div class="notice"><b>베타 회원 기능</b> · 현재는 이 기기/브라우저 안에서만 저장되는 테스트 계정입니다. 실서비스 공개 전에는 서버 DB 인증으로 교체됩니다.</div>
+<div class="notice" id="authNotice"><b>회원 기능</b> · RiderNex 공용 계정으로 가입하고 로그인합니다.</div>
 <section class="card">
 <h1>회원가입 · 로그인</h1><p class="sub">지역방, 내 방, 글쓰기와 댓글 기능을 실제 흐름으로 테스트합니다.</p>
 <div class="tabs"><button id="tabLogin" class="on" type="button">로그인</button><button id="tabJoin" type="button">회원가입</button></div>
@@ -27,7 +27,7 @@ form{display:grid;gap:11px}.field label{display:block;font-size:13px;font-weight
 <form id="joinForm" style="display:none">
 <div class="field"><label>닉네임</label><input id="joinNick" maxlength="20" placeholder="라이더 닉네임"></div>
 <div class="field"><label>이메일</label><input id="joinEmail" type="email" autocomplete="email" placeholder="example@email.com"></div>
-<div class="field"><label>비밀번호</label><input id="joinPw" type="password" autocomplete="new-password" placeholder="4자 이상"></div>
+<div class="field"><label>비밀번호</label><input id="joinPw" type="password" autocomplete="new-password" placeholder="6자 이상"></div>
 <div class="field"><label>주 활동지역</label><select id="joinRegion"><option>서울 관악구</option><option>서울 동작구</option><option>서울 강남구</option><option>서울 서초구</option></select></div>
 <button class="submit">회원가입하고 시작하기</button>
 </form>
@@ -35,12 +35,55 @@ form{display:grid;gap:11px}.field label{display:block;font-size:13px;font-weight
 </section>
 </main>
 <script src="beta-store.js"></script>
+<script src="supabase-adapter.js"></script>
 <script>
-const loginForm=document.getElementById("loginForm"),joinForm=document.getElementById("joinForm"),msg=document.getElementById("msg"),tabLogin=document.getElementById("tabLogin"),tabJoin=document.getElementById("tabJoin");
+const loginForm=document.getElementById("loginForm"),joinForm=document.getElementById("joinForm"),msg=document.getElementById("msg"),tabLogin=document.getElementById("tabLogin"),tabJoin=document.getElementById("tabJoin"),authNotice=document.getElementById("authNotice");
+let remote=false;
 function mode(m){const l=m==="login";loginForm.style.display=l?"grid":"none";joinForm.style.display=l?"none":"grid";tabLogin.classList.toggle("on",l);tabJoin.classList.toggle("on",!l);msg.textContent="";msg.className="msg"}
 tabLogin.onclick=()=>mode("login");tabJoin.onclick=()=>mode("join");
-loginForm.onsubmit=async e=>{e.preventDefault();try{await RNX.login(loginEmail.value,loginPw.value);msg.textContent="로그인되었습니다. 내 방으로 이동합니다.";msg.className="msg good";setTimeout(()=>location.href="my.html",350)}catch(err){msg.textContent=err.message;msg.className="msg bad"}};
-joinForm.onsubmit=async e=>{e.preventDefault();try{await RNX.register({email:joinEmail.value,password:joinPw.value,nickname:joinNick.value,region:joinRegion.value});msg.textContent="회원가입이 완료되었습니다. 내 방으로 이동합니다.";msg.className="msg good";setTimeout(()=>location.href="my.html",350)}catch(err){msg.textContent=err.message;msg.className="msg bad"}};
+
+(async()=>{
+  const state=await RNXRemote.init();
+  remote=state.enabled;
+  if(remote){
+    authNotice.innerHTML='<b>실서비스 회원 기능</b> · Supabase 공용 계정으로 가입·로그인합니다.';
+    if(state.user){msg.textContent="현재 로그인 상태입니다. 내 방으로 이동할 수 있습니다.";msg.className="msg good"}
+  }else{
+    authNotice.innerHTML='<b>베타 fallback</b> · 서버 연결이 안 될 때만 이 브라우저의 테스트 계정을 사용합니다.';
+    if(RNX.currentUser()){msg.textContent="현재 테스트 로그인 상태입니다.";msg.className="msg good"}
+  }
+})();
+
+loginForm.onsubmit=async e=>{
+  e.preventDefault();msg.textContent="로그인 중입니다...";msg.className="msg";
+  try{
+    if(remote) await RNXRemote.signIn(loginEmail.value,loginPw.value);
+    else await RNX.login(loginEmail.value,loginPw.value);
+    msg.textContent="로그인되었습니다. 내 방으로 이동합니다.";msg.className="msg good";
+    setTimeout(()=>location.href="my.html",350);
+  }catch(err){msg.textContent=err.message||"로그인에 실패했습니다.";msg.className="msg bad"}
+};
+
+joinForm.onsubmit=async e=>{
+  e.preventDefault();msg.textContent="회원가입 중입니다...";msg.className="msg";
+  try{
+    if(joinPw.value.length<6) throw new Error("비밀번호는 6자 이상 입력하세요.");
+    if(remote){
+      const data=await RNXRemote.signUp({email:joinEmail.value,password:joinPw.value,nickname:joinNick.value,primaryRegion:joinRegion.value});
+      if(data.session){
+        msg.textContent="회원가입이 완료되었습니다. 내 방으로 이동합니다.";msg.className="msg good";
+        setTimeout(()=>location.href="my.html",500);
+      }else{
+        msg.textContent="회원가입이 접수되었습니다. 이메일 확인 메일이 왔다면 인증 후 로그인하세요.";msg.className="msg good";
+        mode("login");loginEmail.value=joinEmail.value;
+      }
+    }else{
+      await RNX.register({email:joinEmail.value,password:joinPw.value,nickname:joinNick.value,region:joinRegion.value});
+      msg.textContent="테스트 회원가입이 완료되었습니다.";msg.className="msg good";
+      setTimeout(()=>location.href="my.html",350);
+    }
+  }catch(err){msg.textContent=err.message||"회원가입에 실패했습니다.";msg.className="msg bad"}
+};
+
 if(new URLSearchParams(location.search).get("mode")==="join") mode("join");
-if(RNX.currentUser()){msg.textContent="현재 로그인 상태입니다. 내 방으로 이동할 수 있습니다.";msg.className="msg good"}
 </script></body></html>
