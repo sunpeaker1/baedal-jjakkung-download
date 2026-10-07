@@ -9,7 +9,7 @@ a{text-decoration:none;color:inherit}.top{background:#fff;border-bottom:1px soli
 .card{margin-top:14px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 10px 28px rgba(31,60,99,.06)}h1{margin:0;font-size:27px}.sub{margin:8px 0 18px;color:var(--muted);font-size:14px;line-height:1.55}
 .tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}.tabs button{padding:11px;border-radius:12px;border:1px solid var(--line);background:#f8fafc;font-weight:900;white-space:nowrap}.tabs button.on{background:#eaf3ff;border-color:#9fc5fb;color:var(--blue)}
 form{display:grid;gap:11px}.field label{display:block;font-size:13px;font-weight:900;margin-bottom:5px}.field input,.field select{width:100%;padding:12px 13px;border:1px solid #dce3ec;border-radius:12px;background:#fff;font-size:14px;outline:0}.field input:focus,.field select:focus{border-color:#73aef2;box-shadow:0 0 0 3px rgba(13,115,230,.08)}
-.submit{margin-top:4px;padding:13px;border:0;border-radius:13px;background:linear-gradient(145deg,#2589f4,#0d68d3);color:#fff;font-size:14px;font-weight:1000;white-space:nowrap}.msg{min-height:20px;margin-top:10px;font-size:13px}.good{color:#087b42}.bad{color:#c0392b}.back{font-size:14px;color:#276fbe;font-weight:900}
+.submit{margin-top:4px;padding:13px;border:0;border-radius:13px;background:linear-gradient(145deg,#2589f4,#0d68d3);color:#fff;font-size:14px;font-weight:1000;white-space:nowrap}.msg{min-height:20px;margin-top:10px;font-size:13px}.good{color:#087b42}.bad{color:#c0392b}.back{font-size:14px;color:#276fbe;font-weight:900}.linkBtn{border:0;background:transparent;color:#276fbe;font-size:13px;font-weight:900;padding:8px 0;text-align:left}.agree{display:flex;align-items:flex-start;gap:8px;padding:10px 11px;border:1px solid #e2e8f0;border-radius:11px;background:#f8fafc;font-size:12px;line-height:1.5}.agree input{margin-top:3px}.agree a{color:#176bc5;font-weight:900}.legalLinks{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;font-size:12px;color:#4b6f99;font-weight:800}
 </style></head><body>
 <header class="top"><div class="topin"><a class="brand" href="./">Rider<span>Nex</span></a><a class="back" href="./">홈으로</a></div></header>
 <main class="wrap">
@@ -22,22 +22,24 @@ form{display:grid;gap:11px}.field label{display:block;font-size:13px;font-weight
 <div class="field"><label>이메일</label><input id="loginEmail" type="email" autocomplete="email" placeholder="example@email.com"></div>
 <div class="field"><label>비밀번호</label><input id="loginPw" type="password" autocomplete="current-password" placeholder="비밀번호"></div>
 <button class="submit">로그인</button>
+<button class="linkBtn" id="forgotPw" type="button">비밀번호를 잊으셨나요?</button>
 </form>
 
 <form id="joinForm" style="display:none">
 <div class="field"><label>닉네임</label><input id="joinNick" maxlength="20" placeholder="라이더 닉네임"></div>
 <div class="field"><label>이메일</label><input id="joinEmail" type="email" autocomplete="email" placeholder="example@email.com"></div>
-<div class="field"><label>비밀번호</label><input id="joinPw" type="password" autocomplete="new-password" placeholder="6자 이상"></div>
+<div class="field"><label>비밀번호</label><input id="joinPw" type="password" autocomplete="new-password" placeholder="8자 이상"></div>
 <div class="field"><label>주 활동지역</label><select id="joinRegion"><option>서울 관악구</option><option>서울 동작구</option><option>서울 강남구</option><option>서울 서초구</option></select></div>
+<label class="agree"><input id="joinAgree" type="checkbox"><span><a href="terms.html" target="_blank">이용약관</a> 및 <a href="privacy.html" target="_blank">개인정보처리방침</a>을 확인했고 동의합니다.</span></label>
 <button class="submit">회원가입하고 시작하기</button>
 </form>
-<div class="msg" id="msg"></div><button class="resend" id="resendBtn" type="button">인증메일 다시 보내기</button>
+<div class="msg" id="msg"></div><button class="resend" id="resendBtn" type="button">인증메일 다시 보내기</button><div class="legalLinks"><a href="terms.html">이용약관</a><a href="privacy.html">개인정보처리방침</a></div>
 </section>
 </main>
 <script src="beta-store.js"></script>
 <script src="supabase-adapter.js"></script>
 <script>
-const loginForm=document.getElementById("loginForm"),joinForm=document.getElementById("joinForm"),msg=document.getElementById("msg"),tabLogin=document.getElementById("tabLogin"),tabJoin=document.getElementById("tabJoin"),authNotice=document.getElementById("authNotice"),resendBtn=document.getElementById("resendBtn");
+const loginForm=document.getElementById("loginForm"),joinForm=document.getElementById("joinForm"),msg=document.getElementById("msg"),tabLogin=document.getElementById("tabLogin"),tabJoin=document.getElementById("tabJoin"),authNotice=document.getElementById("authNotice"),resendBtn=document.getElementById("resendBtn"),forgotPw=document.getElementById("forgotPw");
 let remote=false;
 function mode(m){const l=m==="login";loginForm.style.display=l?"grid":"none";joinForm.style.display=l?"none":"grid";tabLogin.classList.toggle("on",l);tabJoin.classList.toggle("on",!l);msg.textContent="";msg.className="msg";resendBtn.classList.remove("on")}
 tabLogin.onclick=()=>mode("login");tabJoin.onclick=()=>mode("join");
@@ -75,6 +77,18 @@ loginForm.onsubmit=async e=>{
   }
 };
 
+
+forgotPw.onclick=async()=>{
+  try{
+    const email=loginEmail.value.trim();
+    if(!email)throw new Error("이메일을 먼저 입력하세요.");
+    if(!remote)throw new Error("서버 연결 상태에서만 사용할 수 있습니다.");
+    msg.textContent="비밀번호 재설정 메일을 요청하고 있습니다...";msg.className="msg";
+    await RNXRemote.sendPasswordReset(email);
+    msg.textContent="비밀번호 재설정 메일을 요청했습니다. 메일함과 스팸함을 확인하세요.";msg.className="msg good";
+  }catch(err){msg.textContent=err.message||"재설정 메일을 보내지 못했습니다.";msg.className="msg bad"}
+};
+
 resendBtn.onclick=async()=>{
   try{
     const email=(loginEmail.value||joinEmail.value||"").trim();
@@ -94,7 +108,8 @@ resendBtn.onclick=async()=>{
 joinForm.onsubmit=async e=>{
   e.preventDefault();msg.textContent="회원가입 중입니다...";msg.className="msg";
   try{
-    if(joinPw.value.length<6) throw new Error("비밀번호는 6자 이상 입력하세요.");
+    if(!joinAgree.checked) throw new Error("이용약관과 개인정보처리방침에 동의해 주세요.");
+    if(joinPw.value.length<8) throw new Error("비밀번호는 8자 이상 입력하세요.");
     if(remote){
       const data=await RNXRemote.signUp({email:joinEmail.value,password:joinPw.value,nickname:joinNick.value,primaryRegion:joinRegion.value});
       if(data.session){
