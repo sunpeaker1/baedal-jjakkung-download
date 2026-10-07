@@ -389,3 +389,61 @@ using (
 with check (
   exists (select 1 from public.profiles p where p.id=(select auth.uid()) and p.role in ('moderator','admin'))
 );
+
+
+-- NexHome V1 foundation
+create table if not exists public.nexhomes (
+  id uuid primary key default gen_random_uuid(),
+  owner_id uuid not null unique references public.profiles(id) on delete cascade,
+  life_region text not null check (char_length(btrim(life_region)) between 2 and 80),
+  room_name text not null check (char_length(btrim(room_name)) between 2 and 30),
+  road_no integer not null check (road_no between 1 and 9999),
+  house_no integer not null check (house_no between 1 and 9999),
+  intro text not null default '오늘도 안전하게 달립니다.' check (char_length(intro) <= 80),
+  cover_url text,
+  profile_url text,
+  theme text not null default 'light' check (theme in ('light','blue','dark')),
+  entry_scope text not null default 'public' check (entry_scope in ('public','friends','private')),
+  guestbook_scope text not null default 'friends' check (guestbook_scope in ('all','friends','off')),
+  menu_order jsonb not null default '["home","records","photos","guestbook","friends"]'::jsonb,
+  menu_hidden jsonb not null default '[]'::jsonb,
+  first_visit boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+create unique index if not exists nexhomes_room_name_unique_idx on public.nexhomes (lower(btrim(room_name)));
+create unique index if not exists nexhomes_address_unique_idx on public.nexhomes (lower(btrim(life_region)), road_no, house_no);
+create index if not exists nexhomes_owner_id_idx on public.nexhomes(owner_id);
+alter table public.nexhomes enable row level security;
+grant select on public.nexhomes to anon, authenticated;
+grant insert, update, delete on public.nexhomes to authenticated;
+
+drop policy if exists "nexhomes public or owner read" on public.nexhomes;
+create policy "nexhomes public or owner read" on public.nexhomes for select to anon, authenticated
+using (entry_scope = 'public' or (select auth.uid()) = owner_id);
+drop policy if exists "nexhomes owner insert" on public.nexhomes;
+create policy "nexhomes owner insert" on public.nexhomes for insert to authenticated
+with check ((select auth.uid()) = owner_id);
+drop policy if exists "nexhomes owner update" on public.nexhomes;
+create policy "nexhomes owner update" on public.nexhomes for update to authenticated
+using ((select auth.uid()) = owner_id) with check ((select auth.uid()) = owner_id);
+drop policy if exists "nexhomes owner delete" on public.nexhomes;
+create policy "nexhomes owner delete" on public.nexhomes for delete to authenticated
+using ((select auth.uid()) = owner_id);
+
+create or replace function public.check_nexhome_availability(
+  p_life_region text, p_room_name text, p_road_no integer, p_house_no integer
+)
+returns table(room_name_available boolean, address_available boolean)
+language sql stable security definer set search_path = public
+as $$
+  select
+    not exists (select 1 from public.nexhomes where lower(btrim(room_name)) = lower(btrim(p_room_name))),
+    not exists (
+      select 1 from public.nexhomes
+      where lower(btrim(life_region)) = lower(btrim(p_life_region))
+        and road_no = p_road_no and house_no = p_house_no
+    );
+$$;
+revoke all on function public.check_nexhome_availability(text,text,integer,integer) from public, anon;
+grant execute on function public.check_nexhome_availability(text,text,integer,integer) to authenticated;
