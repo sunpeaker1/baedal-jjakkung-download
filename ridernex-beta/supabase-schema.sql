@@ -3,7 +3,6 @@ create extension if not exists pgcrypto;
 
 create table if not exists public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
-  email text,
   nickname text not null,
   primary_region text,
   secondary_region text,
@@ -139,14 +138,22 @@ language plpgsql
 security definer set search_path = public
 as $$
 begin
-  insert into public.profiles (id,email,nickname,primary_region)
+  insert into public.profiles (id,nickname,primary_region)
   values (
     new.id,
-    new.email,
     coalesce(new.raw_user_meta_data->>'nickname','라이더'),
     new.raw_user_meta_data->>'primary_region'
   )
   on conflict (id) do nothing;
+
+  insert into public.notifications (user_id,type,title,body,href)
+  values (
+    new.id,
+    'system',
+    'RiderNex 가입을 환영합니다.',
+    '지역방, 장터, 관심방과 라이더 정보를 함께 이용할 수 있습니다.',
+    'my.html'
+  );
   return new;
 end;
 $$;
@@ -247,3 +254,43 @@ drop policy if exists "reports moderator update" on public.reports;
 create policy "reports moderator update" on public.reports for update using (
   exists (select 1 from public.profiles p where p.id = auth.uid() and p.role in ('moderator','admin'))
 );
+
+
+-- Security/performance hardening and notification trigger
+revoke all on function public.handle_new_user() from public, anon, authenticated;
+
+create index if not exists businesses_author_id_idx on public.businesses(author_id);
+create index if not exists care_posts_author_id_idx on public.care_posts(author_id);
+create index if not exists comments_author_id_idx on public.comments(author_id);
+create index if not exists interest_posts_author_id_idx on public.interest_posts(author_id);
+create index if not exists jobs_author_id_idx on public.jobs(author_id);
+create index if not exists marketplace_items_author_id_idx on public.marketplace_items(author_id);
+create index if not exists posts_author_id_idx on public.posts(author_id);
+create index if not exists reports_reporter_id_idx on public.reports(reporter_id);
+create index if not exists reports_reviewed_by_idx on public.reports(reviewed_by);
+
+create or replace function public.notify_post_comment()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  owner_id uuid;
+  commenter_name text;
+begin
+  select author_id into owner_id from public.posts where id = new.post_id;
+  if owner_id is null or owner_id = new.author_id then return new; end if;
+  select nickname into commenter_name from public.profiles where id = new.author_id;
+  insert into public.notifications(user_id,type,title,body,href)
+  values(owner_id,'comment',coalesce(commenter_name,'회원') || '님이 내 글에 댓글을 남겼습니다.',left(new.body,160),'region.html');
+  return new;
+end;
+$$;
+
+revoke all on function public.notify_post_comment() from public, anon, authenticated;
+
+drop trigger if exists on_comment_created_notify on public.comments;
+create trigger on_comment_created_notify
+after insert on public.comments
+for each row execute function public.notify_post_comment();
