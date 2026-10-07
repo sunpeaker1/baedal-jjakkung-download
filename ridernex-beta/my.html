@@ -17,23 +17,13 @@ body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,"Noto San
 </style></head><body>
 <header class="top"><div class="topin"><a class="brand" href="./">Rider<span>Nex</span></a><div class="actions"><a href="region.html?city=seoul&district=gwanak">지역방</a><button id="logoutBtn" type="button">로그아웃</button></div></div></header>
 <main class="wrap" id="app"></main>
-<script src="beta-store.js"></script><script src="region-data.js"></script>
+<script src="beta-store.js"></script>
+<script src="region-data.js"></script>
+<script src="supabase-adapter.js"></script>
 <script>
-const app=document.getElementById("app"),logoutBtn=document.getElementById("logoutBtn"),u=RNX.currentUser();
-if(!u){
-  logoutBtn.style.display="none";
-  app.innerHTML='<section class="lock"><h1>내 방은 로그인 후 사용할 수 있습니다.</h1><p>회원가입 후 프로필, 활동지역과 작성글을 한곳에서 확인합니다.</p><a class="loginBtn" href="auth.html">로그인 · 회원가입</a></section>';
-}else{
-  const mine=RNX.myPosts(),activityHref=regionHref(u.region);
-  app.innerHTML=`
-  <section class="profile"><div class="avatar">👤</div><h1>${u.nickname}님의 방</h1><p>라이더넥스 베타 개인 라이더홈입니다.</p><div class="profileMeta"><span>📍 ${u.region||"활동지역 미설정"}</span><span>✍️ 작성글 ${mine.length}개</span></div></section>
-  <section class="section"><div class="title"><div><h2>내 라이더홈</h2><p>카드를 누르면 해당 공간으로 바로 이동합니다.</p></div></div><div class="cards"><a class="card" href="${activityHref}"><b>📍 활동지역</b><small>${u.region||"지역정보 보기"}</small></a><a class="card" href="care.html?category=${encodeURIComponent("바이크별 팁")}"><b>🛵 바이크</b><small>기종별 관리 팁과 정비정보 보기</small></a><a class="card" href="interests.html"><b>⭐ 관심방</b><small>참여 중인 관심사를 둘러보기</small></a></div></section>
-  <section class="section"><div class="title"><div><h2>내가 쓴 글</h2><p>지역방에서 작성한 글을 확인합니다.</p></div><a href="region.html?city=seoul&district=gwanak">글쓰러 가기 ›</a></div><div class="posts" id="postList"></div></section>`;
-  const list=document.getElementById("postList");
-  if(!mine.length) list.innerHTML='<div class="empty">아직 작성한 글이 없습니다.<br>관악구 라이더방에서 첫 글을 작성해보세요.</div>';
-  else mine.forEach(p=>{const el=document.createElement("a");el.className="post";el.href=regionHref(p.region)+(regionHref(p.region).includes("?")?"&":"?")+"category="+encodeURIComponent(p.category||"");el.innerHTML='<div class="postHead"><h3>'+esc(p.title)+'</h3><time>'+RNX.fmt(p.createdAt)+'</time></div><p>'+esc(p.body)+'</p><span class="tag">'+esc(p.category)+'</span>';list.appendChild(el)});
-}
-logoutBtn.onclick=()=>{RNX.logout();location.href="./"};
+const app=document.getElementById("app"),logoutBtn=document.getElementById("logoutBtn");
+let remote=false,current=null,mine=[];
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
 function regionHref(region){
   const value=String(region||"");
   if(value.includes("관악구"))return "region.html?city=seoul&district=gwanak";
@@ -47,5 +37,57 @@ function regionHref(region){
   }
   return "region.html";
 }
-function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+function fmt(v){return RNX.fmt(v)}
+
+(async()=>{
+  const state=await RNXRemote.init();
+  remote=state.enabled;
+  if(remote){
+    if(!state.user){renderLocked();return}
+    const profile=state.profile||await RNXRemote.refreshProfile();
+    current={
+      nickname:profile?.nickname||state.user.email||"회원",
+      region:profile?.primary_region||"",
+      email:state.user.email||""
+    };
+    try{mine=await RNXRemote.getMyPosts()}catch{mine=[]}
+  }else{
+    const u=RNX.currentUser();
+    if(!u){renderLocked();return}
+    current={nickname:u.nickname,region:u.region||"",email:u.email||""};
+    mine=RNX.myPosts();
+  }
+  renderProfile();
+})();
+
+function renderLocked(){
+  logoutBtn.style.display="none";
+  app.innerHTML='<section class="lock"><h1>내 방은 로그인 후 사용할 수 있습니다.</h1><p>회원가입 후 프로필, 활동지역과 작성글을 한곳에서 확인합니다.</p><a class="loginBtn" href="auth.html">로그인 · 회원가입</a></section>';
+}
+function renderProfile(){
+  const activityHref=regionHref(current.region);
+  app.innerHTML=`
+  <section class="profile"><div class="avatar">👤</div><h1>${esc(current.nickname)}님의 방</h1><p>라이더넥스 개인 라이더홈입니다.</p><div class="profileMeta"><span>📍 ${esc(current.region||"활동지역 미설정")}</span><span>✍️ 작성글 ${mine.length}개</span><span>${remote?"☁️ 공용 DB":"📱 테스트 저장"}</span></div></section>
+  <section class="section"><div class="title"><div><h2>내 라이더홈</h2><p>카드를 누르면 해당 공간으로 바로 이동합니다.</p></div></div><div class="cards"><a class="card" href="${activityHref}"><b>📍 활동지역</b><small>${esc(current.region||"지역정보 보기")}</small></a><a class="card" href="care.html?category=${encodeURIComponent("바이크별 팁")}"><b>🛵 바이크</b><small>기종별 관리 팁과 정비정보 보기</small></a><a class="card" href="interests.html"><b>⭐ 관심방</b><small>참여 중인 관심사를 둘러보기</small></a></div></section>
+  <section class="section"><div class="title"><div><h2>내가 쓴 글</h2><p>지역방에서 작성한 글을 확인합니다.</p></div><a href="${activityHref}">글쓰러 가기 ›</a></div><div class="posts" id="postList"></div></section>`;
+  const list=document.getElementById("postList");
+  if(!mine.length){
+    list.innerHTML='<div class="empty">아직 작성한 글이 없습니다.<br>활동지역 라이더방에서 첫 글을 작성해보세요.</div>';
+  }else{
+    mine.forEach(p=>{
+      const el=document.createElement("a");el.className="post";
+      const region=p.region||current.region,category=p.category||"";
+      el.href=regionHref(region)+(regionHref(region).includes("?")?"&":"?")+"category="+encodeURIComponent(category);
+      el.innerHTML='<div class="postHead"><h3>'+esc(p.title)+'</h3><time>'+fmt(p.created_at||p.createdAt)+'</time></div><p>'+esc(p.body)+'</p><span class="tag">'+esc(category)+'</span>';
+      list.appendChild(el);
+    });
+  }
+}
+logoutBtn.onclick=async()=>{
+  try{
+    if(remote)await RNXRemote.signOut();
+    else RNX.logout();
+  }catch{}
+  location.href="./";
+};
 </script></body></html>
