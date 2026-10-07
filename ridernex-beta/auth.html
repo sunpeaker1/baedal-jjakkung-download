@@ -36,7 +36,7 @@ form{display:grid;gap:11px}.field label{display:block;font-size:11px;font-weight
 </main>
 <script src="beta-store.js"></script>
 <script>
-const loginForm=document.getElementById("loginForm"),joinForm=document.getElementById("joinForm"),msg=document.getElementById("msg");
+const loginForm=document.getElementById("loginForm"),joinForm=document.getElementById("joinForm"),msg=document.getElementById("msg"),tabLogin=document.getElementById("tabLogin"),tabJoin=document.getElementById("tabJoin");
 function mode(m){const l=m==="login";loginForm.style.display=l?"grid":"none";joinForm.style.display=l?"none":"grid";tabLogin.classList.toggle("on",l);tabJoin.classList.toggle("on",!l);msg.textContent="";msg.className="msg"}
 tabLogin.onclick=()=>mode("login");tabJoin.onclick=()=>mode("join");
 loginForm.onsubmit=async e=>{e.preventDefault();try{await RNX.login(loginEmail.value,loginPw.value);msg.textContent="로그인되었습니다. 내 방으로 이동합니다.";msg.className="msg good";setTimeout(()=>location.href="my.html",350)}catch(err){msg.textContent=err.message;msg.className="msg bad"}};
