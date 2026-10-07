@@ -48,13 +48,14 @@ function fmt(v){return RNX.fmt(v)}
     current={
       nickname:profile?.nickname||state.user.email||"회원",
       region:profile?.primary_region||"",
-      email:state.user.email||""
+      email:state.user.email||"",
+      role:profile?.role||"member"
     };
     try{mine=await RNXRemote.getMyPosts()}catch{mine=[]}
   }else{
     const u=RNX.currentUser();
     if(!u){renderLocked();return}
-    current={nickname:u.nickname,region:u.region||"",email:u.email||""};
+    current={nickname:u.nickname,region:u.region||"",email:u.email||"",role:"member"};
     mine=RNX.myPosts();
   }
   renderProfile();
@@ -68,7 +69,7 @@ function renderProfile(){
   const activityHref=regionHref(current.region);
   app.innerHTML=`
   <section class="profile"><div class="avatar">👤</div><h1>${esc(current.nickname)}님의 방</h1><p>라이더넥스 개인 라이더홈입니다.</p><div class="profileMeta"><span>📍 ${esc(current.region||"활동지역 미설정")}</span><span>✍️ 작성글 ${mine.length}개</span><span>${remote?"☁️ 공용 DB":"📱 테스트 저장"}</span></div></section>
-  <section class="section"><div class="title"><div><h2>내 라이더홈</h2><p>카드를 누르면 해당 공간으로 바로 이동합니다.</p></div></div><div class="cards"><a class="card" href="${activityHref}"><b>📍 활동지역</b><small>${esc(current.region||"지역정보 보기")}</small></a><a class="card" href="care.html?category=${encodeURIComponent("바이크별 팁")}"><b>🛵 바이크</b><small>기종별 관리 팁과 정비정보 보기</small></a><a class="card" href="interests.html"><b>⭐ 관심방</b><small>참여 중인 관심사를 둘러보기</small></a></div></section>
+  <section class="section"><div class="title"><div><h2>내 라이더홈</h2><p>카드를 누르면 해당 공간으로 바로 이동합니다.</p></div></div><div class="cards"><a class="card" href="${activityHref}"><b>📍 활동지역</b><small>${esc(current.region||"지역정보 보기")}</small></a><a class="card" href="care.html?category=${encodeURIComponent("바이크별 팁")}"><b>🛵 바이크</b><small>기종별 관리 팁과 정비정보 보기</small></a><a class="card" href="interests.html"><b>⭐ 관심방</b><small>참여 중인 관심사를 둘러보기</small></a>${["admin","moderator"].includes(current.role)?'<a class="card" href="admin.html"><b>🛡 관리자</b><small>신고 관리 · 업체 승인</small></a>':""}</div></section>
   <section class="section"><div class="title"><div><h2>내가 쓴 글</h2><p>지역방에서 작성한 글을 확인합니다.</p></div><a href="${activityHref}">글쓰러 가기 ›</a></div><div class="posts" id="postList"></div></section>`;
   const list=document.getElementById("postList");
   if(!mine.length){
