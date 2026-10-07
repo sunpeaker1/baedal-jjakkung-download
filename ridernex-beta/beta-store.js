@@ -3,7 +3,7 @@
   const enc=new TextEncoder();
   const now=()=>new Date().toISOString();
   const id=(p)=>p+"_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,8);
-  const blank=()=>({users:[],session:null,posts:[],market:[],businesses:[],jobs:[],notifications:[]});
+  const blank=()=>({users:[],session:null,posts:[],market:[],businesses:[],jobs:[],notifications:[],interestPosts:[],interestMembers:{},carePosts:[]});
   const normalize=(d)=>Object.assign(blank(),d||{});
   const load=()=>{try{return normalize(JSON.parse(localStorage.getItem(KEY)))}catch{return blank()}};
   const save=(d)=>localStorage.setItem(KEY,JSON.stringify(normalize(d)));
@@ -122,6 +122,43 @@
     staticItems.forEach(x=>{if(hit(x.title,x.meta,x.body))out.push(x)});
     return out.sort((a,b)=>new Date(b.createdAt||0)-new Date(a.createdAt||0));
   }
+  function joinInterest(room){
+    const d=load(),u=currentUser(); if(!u) throw new Error("로그인이 필요합니다.");
+    d.interestMembers[room]=Array.isArray(d.interestMembers[room])?d.interestMembers[room]:[];
+    if(!d.interestMembers[room].includes(u.id))d.interestMembers[room].push(u.id);
+    pushNotice(d,u.id,"interest",room+" 관심방에 참여했습니다.","관심방 새 글을 확인할 수 있습니다.","interests.html?room="+encodeURIComponent(room));save(d)
+  }
+  function leaveInterest(room){
+    const d=load(),u=currentUser(); if(!u)return;
+    d.interestMembers[room]=(d.interestMembers[room]||[]).filter(x=>x!==u.id);save(d)
+  }
+  function isInterestMember(room){const u=currentUser();return !!(u&&(load().interestMembers[room]||[]).includes(u.id))}
+  function interestMemberCount(room){return (load().interestMembers[room]||[]).length}
+  function addInterestPost({room,title,body}){
+    const d=load(),u=currentUser(); if(!u) throw new Error("로그인이 필요합니다.");
+    if(!(d.interestMembers[room]||[]).includes(u.id)) throw new Error("먼저 관심방에 참여하세요.");
+    title=(title||"").trim();body=(body||"").trim();if(!title||!body)throw new Error("제목과 내용을 입력하세요.");
+    d.interestPosts.unshift({id:id("ip"),room,title,body,authorId:u.id,createdAt:now()});save(d)
+  }
+  function interestPosts(room){return load().interestPosts.filter(x=>!room||x.room===room)}
+  function addCarePost({category,title,body}){
+    const d=load(),u=currentUser();if(!u)throw new Error("로그인이 필요합니다.");
+    title=(title||"").trim();body=(body||"").trim();if(!title||!body)throw new Error("제목과 내용을 입력하세요.");
+    d.carePosts.unshift({id:id("cp"),category,title,body,authorId:u.id,createdAt:now()});save(d)
+  }
+  function carePosts(category){return load().carePosts.filter(x=>!category||x.category===category)}
+  function adminReports(){
+    const d=load(),out=[];
+    d.posts.forEach(x=>(x.reports||[]).forEach((r,i)=>out.push({kind:"지역글",itemId:x.id,title:x.title,reason:r.reason,userId:r.userId,createdAt:r.createdAt,resolved:!!r.resolved,index:i})));
+    d.market.forEach(x=>(x.reports||[]).forEach((r,i)=>out.push({kind:"장터",itemId:x.id,title:x.title,reason:r.reason,userId:r.userId,createdAt:r.createdAt,resolved:!!r.resolved,index:i})));
+    d.businesses.forEach(x=>(x.reports||[]).forEach((r,i)=>out.push({kind:"업체",itemId:x.id,title:x.name,reason:r.reason,userId:r.userId,createdAt:r.createdAt,resolved:!!r.resolved,index:i})));
+    d.jobs.forEach(x=>(x.reports||[]).forEach((r,i)=>out.push({kind:"구인·구직",itemId:x.id,title:x.title,reason:r.reason,userId:r.userId,createdAt:r.createdAt,resolved:!!r.resolved,index:i})));
+    return out.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt))
+  }
+  function resolveAdminReport(kind,itemId,index){
+    const d=load();const key=kind==="지역글"?"posts":kind==="장터"?"market":kind==="업체"?"businesses":"jobs";
+    const x=d[key].find(v=>v.id===itemId);if(x&&x.reports&&x.reports[index])x.reports[index].resolved=true;save(d)
+  }
   function fmt(iso){const ms=Date.now()-new Date(iso).getTime(),m=Math.floor(ms/60000);if(m<1)return"방금 전";if(m<60)return m+"분 전";const h=Math.floor(m/60);if(h<24)return h+"시간 전";return new Date(iso).toLocaleDateString("ko-KR")}
-  window.RNX={load,currentUser,register,login,logout,addPost,posts,userById,addComment,report,myPosts,addMarket,marketItems,addBusiness,businesses,addJob,jobs,reportEntry,notifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,fmt};
+  window.RNX={load,currentUser,register,login,logout,addPost,posts,userById,addComment,report,myPosts,addMarket,marketItems,addBusiness,businesses,addJob,jobs,reportEntry,notifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,joinInterest,leaveInterest,isInterestMember,interestMemberCount,addInterestPost,interestPosts,addCarePost,carePosts,adminReports,resolveAdminReport,fmt};
 })();
