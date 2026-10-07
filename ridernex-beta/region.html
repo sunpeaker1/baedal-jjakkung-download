@@ -5,15 +5,39 @@
 </style></head><body>
 <header class="top"><div class="topin"><a class="brand" href="./">Rider<span>Nex</span> 지역정보</a><a class="home" href="./">홈으로</a></div></header>
 <main class="wrap"><div class="crumb" id="crumb"><a href="./">홈</a><span>›</span><span>지역정보</span></div><section class="hero"><h1 id="heroTitle">전국 지역정보</h1><p id="heroText">시·도를 선택하고 시·군·구 지역방으로 들어갑니다.</p></section><section class="section" id="content"></section></main>
-<script src="beta-store.js"></script><script src="region-data.js"></script><script>
-const params=new URLSearchParams(location.search),city=params.get("city"),rawDistrict=params.get("district"),filterCategory=params.get("category")||"";const content=document.getElementById("content"),crumb=document.getElementById("crumb");let cityObj=RNX_REGION_DATA.find(x=>x.slug===city)||null;let district=rawDistrict;
+<script src="beta-store.js"></script>
+<script src="region-data.js"></script>
+<script src="supabase-adapter.js"></script>
+<script>
+const params=new URLSearchParams(location.search),city=params.get("city"),rawDistrict=params.get("district"),filterCategory=params.get("category")||"";
+const content=document.getElementById("content"),crumb=document.getElementById("crumb");
+let cityObj=RNX_REGION_DATA.find(x=>x.slug===city)||null,district=rawDistrict,remote=false;
 if(city==="seoul"&&rawDistrict==="gwanak")district="관악구";
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
-if(!cityObj){renderCities()}else if(!district){renderDistricts()}else{renderRoom()}
-function renderCities(){heroTitle.textContent="전국 지역정보";heroText.textContent="전국 17개 시·도에서 활동지역을 선택하세요.";content.innerHTML='<div class="title"><h2>시·도 선택</h2><p>원하는 지역을 선택하면 시·군·구 목록으로 이동합니다.</p></div><div class="grid">'+RNX_REGION_DATA.map(x=>'<a class="card" href="?city='+x.slug+'"><b>'+esc(x.name)+'</b><small>'+x.districts.length+'개 지역 보기</small></a>').join("")+'</div>'}
-function renderDistricts(){heroTitle.textContent=cityObj.name+" 지역정보";heroText.textContent="활동 중인 시·군·구를 선택하세요.";crumb.innerHTML='<a href="./">홈</a><span>›</span><a href="region.html">지역정보</a><span>›</span><span>'+esc(cityObj.name)+'</span>';content.innerHTML='<div class="title"><h2>시·군·구 선택</h2><p>'+esc(cityObj.name)+'의 지역 라이더방입니다.</p></div><div class="grid">'+cityObj.districts.map(d=>'<a class="card" href="?city='+cityObj.slug+'&district='+encodeURIComponent(d)+'"><b>'+esc(d)+'</b><small>라이더방 열기</small></a>').join("")+'</div>'}
-function renderRoom(){
-  const regionName=(cityObj?cityObj.name:"")+" "+district;
+function fmt(v){return RNX.fmt(v)}
+function regionName(){return (cityObj?cityObj.name:"")+" "+district}
+
+(async()=>{
+  const state=await RNXRemote.init();
+  remote=state.enabled;
+  if(!cityObj)renderCities();
+  else if(!district)renderDistricts();
+  else await renderRoom();
+})();
+
+function renderCities(){
+  heroTitle.textContent="전국 지역정보";
+  heroText.textContent="전국 17개 시·도에서 활동지역을 선택하세요.";
+  content.innerHTML='<div class="title"><h2>시·도 선택</h2><p>원하는 지역을 선택하면 시·군·구 목록으로 이동합니다.</p></div><div class="grid">'+RNX_REGION_DATA.map(x=>'<a class="card" href="?city='+x.slug+'"><b>'+esc(x.name)+'</b><small>'+x.districts.length+'개 지역 보기</small></a>').join("")+'</div>';
+}
+function renderDistricts(){
+  heroTitle.textContent=cityObj.name+" 지역정보";
+  heroText.textContent="활동 중인 시·군·구를 선택하세요.";
+  crumb.innerHTML='<a href="./">홈</a><span>›</span><a href="region.html">지역정보</a><span>›</span><span>'+esc(cityObj.name)+'</span>';
+  content.innerHTML='<div class="title"><h2>시·군·구 선택</h2><p>'+esc(cityObj.name)+'의 지역 라이더방입니다.</p></div><div class="grid">'+cityObj.districts.map(d=>'<a class="card" href="?city='+cityObj.slug+'&district='+encodeURIComponent(d)+'"><b>'+esc(d)+'</b><small>라이더방 열기</small></a>').join("")+'</div>';
+}
+async function renderRoom(){
+  const rName=regionName();
   const categories=["자유수다","오늘 콜정보","배달·퀵 상황","도로·교통","사고·공사","정비·센터","장비추천","맛집·휴식","지역 Q&A"];
   const icons={"자유수다":"💬","오늘 콜정보":"📣","배달·퀵 상황":"🛵","도로·교통":"🚦","사고·공사":"🚨","정비·센터":"🔧","장비추천":"🪖","맛집·휴식":"☕","지역 Q&A":"❓"};
   heroTitle.textContent=district+" 라이더방";
@@ -21,13 +45,65 @@ function renderRoom(){
   crumb.innerHTML='<a href="./">홈</a><span>›</span><a href="region.html">지역정보</a><span>›</span><a href="?city='+cityObj.slug+'">'+esc(cityObj.name)+'</a><span>›</span><span>'+esc(district)+'</span>';
   const base='?city='+encodeURIComponent(cityObj.slug)+'&district='+encodeURIComponent(district);
   const categoryCards='<a class="cat '+(!filterCategory?'on':'')+'" href="'+base+'">📚 전체</a>'+categories.map(x=>'<a class="cat '+(filterCategory===x?'on':'')+'" href="'+base+'&category='+encodeURIComponent(x)+'">'+icons[x]+' '+esc(x)+'</a>').join("");
-  content.innerHTML='<div class="panel"><div class="title"><h2>'+esc(district)+' 라이더방</h2><p>'+esc(regionName)+' 현장 중심 커뮤니티'+(filterCategory?' · '+esc(filterCategory):'')+'</p></div><div class="cats">'+categoryCards+'</div><div class="member" id="member"></div><div class="compose" id="compose"><select id="category">'+categories.map(x=>'<option '+(filterCategory===x?'selected':'')+'>'+x+'</option>').join("")+'</select><input id="title" placeholder="제목"><textarea id="body" placeholder="지역 라이더들에게 공유할 내용"></textarea><button id="submit">등록</button></div><div class="posts" id="posts"></div></div>';
-  const u=RNX.currentUser(),member=document.getElementById("member"),compose=document.getElementById("compose");
-  if(u){member.innerHTML='<span><b>'+esc(u.nickname)+'</b>님으로 참여 중</span><a href="my.html">내 방</a>';compose.classList.add("on")}
+  content.innerHTML='<div class="panel"><div class="title"><h2>'+esc(district)+' 라이더방</h2><p>'+esc(rName)+' 현장 중심 커뮤니티'+(filterCategory?' · '+esc(filterCategory):'')+'</p></div><div class="cats">'+categoryCards+'</div><div class="member" id="member"></div><div class="compose" id="compose"><select id="category">'+categories.map(x=>'<option '+(filterCategory===x?'selected':'')+'>'+x+'</option>').join("")+'</select><input id="title" placeholder="제목"><textarea id="body" placeholder="지역 라이더들에게 공유할 내용"></textarea><button id="submit">등록</button></div><div class="posts" id="posts"></div></div>';
+  const member=document.getElementById("member"),compose=document.getElementById("compose");
+  const remoteUser=remote?RNXRemote.state.user:null,remoteProfile=remote?RNXRemote.state.profile:null,localUser=!remote?RNX.currentUser():null;
+  const signed=remote?!!remoteUser:!!localUser;
+  const nickname=remote?(remoteProfile?.nickname||remoteUser?.email||"회원"):(localUser?.nickname||"회원");
+  if(signed){member.innerHTML='<span><b>'+esc(nickname)+'</b>님으로 참여 중'+(remote?' · 공용 DB':' · 테스트 저장')+'</span><a href="my.html">내 방</a>';compose.classList.add("on")}
   else member.innerHTML='<span>글쓰기·댓글은 로그인 후 사용할 수 있습니다.</span><a href="auth.html">로그인</a>';
   const category=document.getElementById("category"),title=document.getElementById("title"),body=document.getElementById("body"),submit=document.getElementById("submit");
-  submit.onclick=()=>{try{RNX.addPost({region:regionName,category:category.value,title:title.value,body:body.value});title.value="";body.value="";renderPosts(regionName,filterCategory)}catch(e){alert(e.message)}};
-  renderPosts(regionName,filterCategory)
+  submit.onclick=async()=>{
+    try{
+      if(remote)await RNXRemote.addPost({region:rName,category:category.value,title:title.value,body:body.value});
+      else RNX.addPost({region:rName,category:category.value,title:title.value,body:body.value});
+      title.value="";body.value="";await renderPosts(rName,filterCategory);
+    }catch(e){if(String(e.message||"").includes("로그인"))location.href="auth.html";else alert(e.message||"등록 실패")}
+  };
+  await renderPosts(rName,filterCategory);
 }
-function renderPosts(regionName,categoryFilter=""){const list=document.getElementById("posts");if(!list)return;const arr=RNX.posts(regionName).filter(p=>!categoryFilter||p.category===categoryFilter);if(!arr.length){list.innerHTML='<div class="empty">'+(categoryFilter?'이 카테고리에 등록된 글이 없습니다.':'아직 등록된 글이 없습니다.')+'</div>';return}list.innerHTML="";arr.forEach(p=>{const a=RNX.userById(p.authorId),el=document.createElement("article");el.className="post";const comments=(p.comments||[]).map(c=>{const cu=RNX.userById(c.authorId);return '<div class="comment"><b>'+esc(cu?cu.nickname:"회원")+'</b> · '+esc(c.body)+'</div>'}).join("");el.innerHTML='<h3>'+esc(p.title)+'</h3><div class="meta">'+esc(p.category)+' · '+esc(a?a.nickname:"회원")+' · '+RNX.fmt(p.createdAt)+'</div><div class="body">'+esc(p.body)+'</div><div class="tools"><button class="toggle">댓글 '+(p.comments||[]).length+'</button> <button class="report">신고</button></div><div class="comments">'+comments+'<div class="commentForm"><input placeholder="댓글"><button>등록</button></div></div>';el.querySelector(".toggle").onclick=()=>el.querySelector(".comments").classList.toggle("on");const inp=el.querySelector(".commentForm input");el.querySelector(".commentForm button").onclick=()=>{try{RNX.addComment(p.id,inp.value);renderPosts(regionName,categoryFilter)}catch(e){location.href="auth.html"}};el.querySelector(".report").onclick=()=>{if(!RNX.currentUser()){location.href="auth.html";return}const r=prompt("신고 사유","기타");if(r!==null){try{RNX.report(p.id,r);alert("신고가 접수되었습니다.")}catch(e){alert(e.message)}}};list.appendChild(el)})}
+async function renderPosts(rName,categoryFilter=""){
+  const list=document.getElementById("posts");if(!list)return;
+  let arr=[];
+  try{
+    arr=remote?await RNXRemote.getRegionPosts(rName,categoryFilter):RNX.posts(rName).filter(p=>!categoryFilter||p.category===categoryFilter);
+  }catch(e){list.innerHTML='<div class="empty">게시글을 불러오지 못했습니다.<br>'+esc(e.message||"")+'</div>';return}
+  if(!arr.length){list.innerHTML='<div class="empty">'+(categoryFilter?'이 카테고리에 등록된 글이 없습니다.':'아직 등록된 글이 없습니다.')+'</div>';return}
+  list.innerHTML="";
+  for(const p of arr){
+    const el=document.createElement("article");el.className="post";
+    let comments=[],authorName="회원",created=p.created_at||p.createdAt;
+    if(remote){
+      authorName=p.profiles?.nickname||"회원";
+      try{comments=await RNXRemote.getComments(p.id)}catch{}
+    }else{
+      const a=RNX.userById(p.authorId);authorName=a?.nickname||"회원";comments=p.comments||[];
+    }
+    const commentsHtml=comments.map(c=>{
+      const name=remote?(c.profiles?.nickname||"회원"):(RNX.userById(c.authorId)?.nickname||"회원");
+      return '<div class="comment"><b>'+esc(name)+'</b> · '+esc(c.body)+'</div>';
+    }).join("");
+    el.innerHTML='<h3>'+esc(p.title)+'</h3><div class="meta">'+esc(p.category)+' · '+esc(authorName)+' · '+fmt(created)+'</div><div class="body">'+esc(p.body)+'</div><div class="tools"><button class="toggle">댓글 '+comments.length+'</button> <button class="report">신고</button></div><div class="comments">'+commentsHtml+'<div class="commentForm"><input placeholder="댓글"><button>등록</button></div></div>';
+    el.querySelector(".toggle").onclick=()=>el.querySelector(".comments").classList.toggle("on");
+    const inp=el.querySelector(".commentForm input");
+    el.querySelector(".commentForm button").onclick=async()=>{
+      try{
+        if(remote)await RNXRemote.addComment(p.id,inp.value);
+        else RNX.addComment(p.id,inp.value);
+        await renderPosts(rName,categoryFilter);
+      }catch(e){location.href="auth.html"}
+    };
+    el.querySelector(".report").onclick=async()=>{
+      const signed=remote?!!RNXRemote.state.user:!!RNX.currentUser();
+      if(!signed){location.href="auth.html";return}
+      const reason=prompt("신고 사유","기타");if(reason===null)return;
+      try{
+        if(remote)await RNXRemote.report({targetType:"post",targetId:p.id,reason});
+        else RNX.report(p.id,reason);
+        alert("신고가 접수되었습니다.");
+      }catch(e){alert(e.message||"신고 실패")}
+    };
+    list.appendChild(el);
+  }
+}
 </script></body></html>
