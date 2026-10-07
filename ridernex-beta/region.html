@@ -124,7 +124,8 @@ if(city==="seoul"&&district==="gwanak"){
   const user=RNX.currentUser(),mb=document.getElementById("memberBar"),compose=document.getElementById("compose");
   if(user){mb.innerHTML='<span><b>'+esc(user.nickname)+'</b>님으로 참여 중 · '+esc(user.region||"")+'</span><a href="my.html">내 방</a>';compose.style.display="grid"}
   else mb.innerHTML='<span>글쓰기·댓글·신고는 로그인 후 사용할 수 있습니다.</span><a href="auth.html">로그인</a>';
-  document.getElementById("postSubmit").onclick=()=>{try{RNX.addPost({region:"서울 관악구",category:postCategory.value,title:postTitle.value,body:postBody.value});postTitle.value="";postBody.value="";renderPosts()}catch(e){alert(e.message)}};
+  const postCategory=document.getElementById("postCategory"),postTitle=document.getElementById("postTitle"),postBody=document.getElementById("postBody"),postSubmit=document.getElementById("postSubmit");
+  postSubmit.onclick=()=>{try{RNX.addPost({region:"서울 관악구",category:postCategory.value,title:postTitle.value,body:postBody.value});postTitle.value="";postBody.value="";renderPosts()}catch(e){alert(e.message)}};
   renderPosts();
 }
 function renderPosts(){
