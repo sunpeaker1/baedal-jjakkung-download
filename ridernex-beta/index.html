@@ -65,7 +65,7 @@ footer{margin-top:30px;padding:25px 0 10px;border-top:1px solid var(--line);colo
 <form class="search" id="search"><input id="q" placeholder="지역, 게시글, 업체, 장터를 검색하세요"><button>검색</button></form>
 <div class="auth"><button class="login">로그인</button><button class="join">회원가입</button></div>
 </div></header>
-<nav class="nav"><div class="navin"><a href="region.html">📍 지역정보</a><a href="#community">💬 커뮤니티</a><a href="#market">🛵 라이더장터</a><a href="#care">🔧 정비·장비</a><a href="#map">🗺️ 지도</a><a href="#business">🏪 업체정보</a><a href="#jobs">💼 구인·구직</a><a href="#tools">🧰 라이더도구</a><a href="#my">👤 내 방</a></div></nav>
+<nav class="nav"><div class="navin"><a href="region.html">📍 지역정보</a><a href="#community">💬 커뮤니티</a><a href="#market">🛵 라이더장터</a><a href="#care">🔧 정비·장비</a><a href="#map">🗺️ 지도</a><a href="#business">🏪 업체정보</a><a href="#jobs">💼 구인·구직</a><a href="#tools">🧰 라이더도구</a><a href="my.html">👤 내 방</a></div></nav>
 
 <main class="wrap">
 <span class="beta">BETA PREVIEW · 메인 홈페이지와 분리된 테스트 화면</span>
@@ -92,14 +92,14 @@ footer{margin-top:30px;padding:25px 0 10px;border-top:1px solid var(--line);colo
 <a class="quickLink" href="#business"><span>🏪</span><b>업체정보</b><small>센터·렌탈·대행</small></a>
 <a class="quickLink" href="#jobs"><span>💼</span><b>구인·구직</b><small>지역별 라이더 일자리</small></a>
 <a class="quickLink" href="#tools"><span>🧰</span><b>라이더도구</b><small>라이더짝꿍 외 도구</small></a>
-<a class="quickLink" href="#my"><span>👤</span><b>내 방</b><small>나의 라이더홈</small></a>
+<a class="quickLink" href="my.html"><span>👤</span><b>내 방</b><small>나의 라이더홈</small></a>
 </div>
 </section>
 
 <section class="section" id="community"><div class="title"><div><h2>라이더 커뮤니티</h2><p>지역방을 중심으로 내 방과 관심방을 연결합니다.</p></div></div>
 <div class="grid3">
 <article class="hub primary"><div class="ico">📍</div><h3>지역방</h3><p>오늘 콜정보, 배달·퀵 상황, 사고·공사, 정비, 휴식장소, 지역 Q&A를 빠르게 공유합니다.</p><a class="go" href="region.html?city=seoul&district=gwanak">내 지역방 바로가기 →</a></article>
-<article class="hub" id="my"><div class="ico">👤</div><h3>내 방</h3><p>프로필, 활동지역, 바이크, 작성글, 사진, 장비리뷰, 정비이야기와 거래후기를 모읍니다.</p><span class="go">개인 라이더홈 →</span></article>
+<a class="hub" id="my" href="my.html"><div class="ico">👤</div><h3>내 방</h3><p>프로필, 활동지역, 바이크, 작성글, 사진, 장비리뷰, 정비이야기와 거래후기를 모읍니다.</p><span class="go">개인 라이더홈 →</span></a>
 <article class="hub"><div class="ico">⭐</div><h3>관심방</h3><p>PCX·NMAX·전기바이크·쿠팡이츠·배민·카카오퀵·장비·초보라이더 등 관심사로 모입니다.</p><span class="go">관심방 둘러보기 →</span></article>
 </div></section>
 
@@ -156,8 +156,16 @@ footer{margin-top:30px;padding:25px 0 10px;border-top:1px solid var(--line);colo
 
 <footer><div class="footbrand">RiderNex 라이더넥스</div><div style="margin-top:5px">라이더짝꿍을 품은 전국 배달·퀵 라이더 플랫폼 · Beta Preview</div></footer>
 </main>
+<script src="beta-store.js"></script>
 <script>
 document.getElementById('search').addEventListener('submit',e=>{e.preventDefault();const q=document.getElementById('q').value.trim();if(!q)return;alert('베타 통합검색 예시: '+q+'\n정식 버전에서는 지역글·장터·업체·구인을 한 번에 검색합니다.');});
-document.querySelectorAll('.auth button').forEach(b=>b.addEventListener('click',()=>alert('베타 미리보기입니다. 회원 기능은 정식 DB 연결 단계에서 활성화합니다.')));
+const user=RNX.currentUser(),auth=document.querySelector('.auth');
+if(user){
+  auth.innerHTML='<a class="login" href="my.html">'+String(user.nickname).replace(/[&<>"]/g,"")+'님</a><a class="join" href="my.html">내 방</a>';
+}else{
+  const login=document.querySelector('.auth .login'),join=document.querySelector('.auth .join');
+  if(login)login.onclick=()=>location.href='auth.html';
+  if(join)join.onclick=()=>location.href='auth.html?mode=join';
+}
 </script>
 </body></html>
