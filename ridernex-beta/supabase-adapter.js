@@ -317,6 +317,64 @@
     return out.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
   }
 
+
+  async function getMyNexHome(){
+    if(!state.client||!state.user)return null;
+    const {data,error}=await state.client.from("nexhomes").select("*").eq("owner_id",state.user.id).maybeSingle();
+    if(error)throw error;
+    return data||null;
+  }
+
+  async function checkNexHomeAvailability({lifeRegion,roomName,roadNo=null,houseNo=null}){
+    if(!state.client||!state.user)throw new Error("로그인이 필요합니다.");
+    const {data,error}=await state.client.rpc("check_nexhome_availability",{
+      p_life_region:String(lifeRegion||"").trim(),
+      p_room_name:String(roomName||"").trim(),
+      p_road_no:roadNo===null?null:Number(roadNo),
+      p_house_no:houseNo===null?null:Number(houseNo)
+    });
+    if(error)throw error;
+    return Array.isArray(data)?(data[0]||null):data;
+  }
+
+  async function createNexHome({lifeRegion,roomName,roadNo,houseNo}){
+    if(!state.client||!state.user)throw new Error("로그인이 필요합니다.");
+    const payload={
+      owner_id:state.user.id,
+      life_region:String(lifeRegion||"").trim(),
+      room_name:String(roomName||"").trim(),
+      road_no:Number(roadNo),
+      house_no:Number(houseNo)
+    };
+    if(payload.life_region.length<2)throw new Error("생활권을 선택하세요.");
+    if(payload.room_name.length<2)throw new Error("방이름은 2자 이상 입력하세요.");
+    if(!Number.isInteger(payload.road_no)||payload.road_no<1||payload.road_no>9999)throw new Error("길 번호를 확인하세요.");
+    if(!Number.isInteger(payload.house_no)||payload.house_no<1||payload.house_no>9999)throw new Error("집 번호를 확인하세요.");
+    const {data,error}=await state.client.from("nexhomes").insert(payload).select().single();
+    if(error){
+      if(error.code==="23505")throw new Error("이미 사용 중인 방이름 또는 NexHome 주소입니다.");
+      throw error;
+    }
+    return data;
+  }
+
+  async function getNexHomeById(id){
+    if(!state.client)return null;
+    const {data,error}=await state.client
+      .from("nexhomes")
+      .select("*,profiles!nexhomes_owner_id_fkey(nickname,primary_region,bio,bike)")
+      .eq("id",id)
+      .maybeSingle();
+    if(error)throw error;
+    return data||null;
+  }
+
+  async function finishNexHomeFirstVisit(id){
+    if(!state.client||!state.user)return;
+    const {error}=await state.client.from("nexhomes").update({first_visit:false,updated_at:new Date().toISOString()}).eq("id",id).eq("owner_id",state.user.id);
+    if(error)throw error;
+  }
+
   function isAdmin(){
     return !!(state.profile&&["admin","moderator"].includes(state.profile.role));
   }
@@ -406,5 +464,5 @@
     if(error)throw error;return data;
   }
 
-  window.RNXRemote={state,init,signUp,signIn,signOut,resendConfirmation,updateProfile,sendPasswordReset,updatePassword,deleteAccount,getRegionPosts,getComments,getMyPosts,refreshProfile,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,joinInterest,leaveInterest,isInterestMember,interestMemberCount,getInterestPosts,addInterestPost,getCarePosts,addCarePost,getNotifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,isAdmin,getPendingBusinesses,setBusinessApproval,getAdminReports,setReportStatus,hideModeratedTarget,report};
+  window.RNXRemote={state,init,signUp,signIn,signOut,resendConfirmation,updateProfile,sendPasswordReset,updatePassword,deleteAccount,getRegionPosts,getComments,getMyPosts,refreshProfile,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,joinInterest,leaveInterest,isInterestMember,interestMemberCount,getInterestPosts,addInterestPost,getCarePosts,addCarePost,getNotifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,getMyNexHome,checkNexHomeAvailability,createNexHome,getNexHomeById,finishNexHomeFirstVisit,isAdmin,getPendingBusinesses,setBusinessApproval,getAdminReports,setReportStatus,hideModeratedTarget,report};
 })();
