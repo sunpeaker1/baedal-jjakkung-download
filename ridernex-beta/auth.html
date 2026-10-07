@@ -31,15 +31,15 @@ form{display:grid;gap:11px}.field label{display:block;font-size:13px;font-weight
 <div class="field"><label>주 활동지역</label><select id="joinRegion"><option>서울 관악구</option><option>서울 동작구</option><option>서울 강남구</option><option>서울 서초구</option></select></div>
 <button class="submit">회원가입하고 시작하기</button>
 </form>
-<div class="msg" id="msg"></div>
+<div class="msg" id="msg"></div><button class="resend" id="resendBtn" type="button">인증메일 다시 보내기</button>
 </section>
 </main>
 <script src="beta-store.js"></script>
 <script src="supabase-adapter.js"></script>
 <script>
-const loginForm=document.getElementById("loginForm"),joinForm=document.getElementById("joinForm"),msg=document.getElementById("msg"),tabLogin=document.getElementById("tabLogin"),tabJoin=document.getElementById("tabJoin"),authNotice=document.getElementById("authNotice");
+const loginForm=document.getElementById("loginForm"),joinForm=document.getElementById("joinForm"),msg=document.getElementById("msg"),tabLogin=document.getElementById("tabLogin"),tabJoin=document.getElementById("tabJoin"),authNotice=document.getElementById("authNotice"),resendBtn=document.getElementById("resendBtn");
 let remote=false;
-function mode(m){const l=m==="login";loginForm.style.display=l?"grid":"none";joinForm.style.display=l?"none":"grid";tabLogin.classList.toggle("on",l);tabJoin.classList.toggle("on",!l);msg.textContent="";msg.className="msg"}
+function mode(m){const l=m==="login";loginForm.style.display=l?"grid":"none";joinForm.style.display=l?"none":"grid";tabLogin.classList.toggle("on",l);tabJoin.classList.toggle("on",!l);msg.textContent="";msg.className="msg";resendBtn.classList.remove("on")}
 tabLogin.onclick=()=>mode("login");tabJoin.onclick=()=>mode("join");
 
 (async()=>{
@@ -61,7 +61,34 @@ loginForm.onsubmit=async e=>{
     else await RNX.login(loginEmail.value,loginPw.value);
     msg.textContent="로그인되었습니다. 내 방으로 이동합니다.";msg.className="msg good";
     setTimeout(()=>location.href="my.html",350);
-  }catch(err){msg.textContent=err.message||"로그인에 실패했습니다.";msg.className="msg bad"}
+  }catch(err){
+    const raw=String(err?.message||"");
+    if(/email not confirmed/i.test(raw)){
+      msg.textContent="이메일 인증이 필요합니다. 가입한 이메일의 인증 링크를 먼저 눌러주세요.";
+      msg.className="msg bad";
+      resendBtn.classList.add("on");
+    }else{
+      msg.textContent=raw||"로그인에 실패했습니다.";
+      msg.className="msg bad";
+      resendBtn.classList.remove("on");
+    }
+  }
+};
+
+resendBtn.onclick=async()=>{
+  try{
+    const email=(loginEmail.value||joinEmail.value||"").trim();
+    if(!email)throw new Error("이메일을 입력하세요.");
+    resendBtn.disabled=true;
+    await RNXRemote.resendConfirmation(email);
+    msg.textContent="인증메일을 다시 보냈습니다. 메일함과 스팸함을 확인하세요.";
+    msg.className="msg good";
+  }catch(err){
+    msg.textContent=err.message||"인증메일을 다시 보내지 못했습니다.";
+    msg.className="msg bad";
+  }finally{
+    resendBtn.disabled=false;
+  }
 };
 
 joinForm.onsubmit=async e=>{
@@ -85,5 +112,5 @@ joinForm.onsubmit=async e=>{
   }catch(err){msg.textContent=err.message||"회원가입에 실패했습니다.";msg.className="msg bad"}
 };
 
-if(new URLSearchParams(location.search).get("mode")==="join") mode("join");
+const qs=new URLSearchParams(location.search);if(qs.get("mode")==="join") mode("join");if(qs.get("confirmed")==="1"){msg.textContent="이메일 인증이 완료됐다면 로그인해 주세요.";msg.className="msg good"}
 </script></body></html>
