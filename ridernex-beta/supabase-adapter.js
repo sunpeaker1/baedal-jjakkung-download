@@ -24,7 +24,10 @@
     if(!state.client)throw new Error("서버 DB가 아직 연결되지 않았습니다.");
     const {data,error}=await state.client.auth.signUp({
       email,password,
-      options:{data:{nickname,primary_region:primaryRegion}}
+      options:{
+        data:{nickname,primary_region:primaryRegion},
+        emailRedirectTo:"https://baedal-jjakkung-download.vercel.app/ridernex-beta/auth.html?confirmed=1"
+      }
     });
     if(error)throw error;
     return data;
@@ -48,7 +51,11 @@
     if(!state.client)throw new Error("서버 DB가 아직 연결되지 않았습니다.");
     email=String(email||"").trim().toLowerCase();
     if(!email)throw new Error("이메일을 입력하세요.");
-    const {error}=await state.client.auth.resend({type:"signup",email});
+    const {error}=await state.client.auth.resend({
+      type:"signup",
+      email,
+      options:{emailRedirectTo:"https://baedal-jjakkung-download.vercel.app/ridernex-beta/auth.html?confirmed=1"}
+    });
     if(error)throw error;
   }
 
