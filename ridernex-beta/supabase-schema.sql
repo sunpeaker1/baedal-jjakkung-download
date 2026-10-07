@@ -1,0 +1,249 @@
+-- RiderNex production database baseline (Supabase/PostgreSQL)
+create extension if not exists pgcrypto;
+
+create table if not exists public.profiles (
+  id uuid primary key references auth.users(id) on delete cascade,
+  email text,
+  nickname text not null,
+  primary_region text,
+  secondary_region text,
+  bio text,
+  bike text,
+  role text not null default 'member' check (role in ('member','moderator','admin')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.posts (
+  id uuid primary key default gen_random_uuid(),
+  author_id uuid not null references public.profiles(id) on delete cascade,
+  region text not null,
+  category text not null,
+  title text not null,
+  body text not null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+create index if not exists posts_region_created_idx on public.posts(region, created_at desc);
+create index if not exists posts_category_created_idx on public.posts(category, created_at desc);
+
+create table if not exists public.comments (
+  id uuid primary key default gen_random_uuid(),
+  post_id uuid not null references public.posts(id) on delete cascade,
+  author_id uuid not null references public.profiles(id) on delete cascade,
+  body text not null,
+  created_at timestamptz not null default now()
+);
+create index if not exists comments_post_created_idx on public.comments(post_id, created_at);
+
+create table if not exists public.marketplace_items (
+  id uuid primary key default gen_random_uuid(),
+  author_id uuid not null references public.profiles(id) on delete cascade,
+  category text not null,
+  title text not null,
+  price integer not null check (price >= 0),
+  region text not null,
+  item_condition text not null default '중고',
+  body text not null,
+  status text not null default 'active' check (status in ('active','reserved','sold','hidden')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+create index if not exists marketplace_region_created_idx on public.marketplace_items(region, created_at desc);
+
+create table if not exists public.businesses (
+  id uuid primary key default gen_random_uuid(),
+  author_id uuid not null references public.profiles(id) on delete cascade,
+  business_type text not null,
+  name text not null,
+  region text not null,
+  phone text,
+  address text,
+  body text not null,
+  approval_status text not null default 'pending' check (approval_status in ('pending','approved','rejected','hidden')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+create index if not exists businesses_region_created_idx on public.businesses(region, created_at desc);
+
+create table if not exists public.jobs (
+  id uuid primary key default gen_random_uuid(),
+  author_id uuid not null references public.profiles(id) on delete cascade,
+  kind text not null check (kind in ('구인','구직')),
+  title text not null,
+  region text not null,
+  pay text,
+  schedule text,
+  body text not null,
+  status text not null default 'active' check (status in ('active','closed','hidden')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+create index if not exists jobs_region_created_idx on public.jobs(region, created_at desc);
+
+create table if not exists public.interest_memberships (
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  room text not null,
+  created_at timestamptz not null default now(),
+  primary key (user_id, room)
+);
+
+create table if not exists public.interest_posts (
+  id uuid primary key default gen_random_uuid(),
+  author_id uuid not null references public.profiles(id) on delete cascade,
+  room text not null,
+  title text not null,
+  body text not null,
+  created_at timestamptz not null default now()
+);
+create index if not exists interest_posts_room_created_idx on public.interest_posts(room, created_at desc);
+
+create table if not exists public.care_posts (
+  id uuid primary key default gen_random_uuid(),
+  author_id uuid not null references public.profiles(id) on delete cascade,
+  category text not null,
+  title text not null,
+  body text not null,
+  created_at timestamptz not null default now()
+);
+create index if not exists care_posts_category_created_idx on public.care_posts(category, created_at desc);
+
+create table if not exists public.notifications (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  type text not null,
+  title text not null,
+  body text,
+  href text,
+  is_read boolean not null default false,
+  created_at timestamptz not null default now()
+);
+create index if not exists notifications_user_created_idx on public.notifications(user_id, created_at desc);
+
+create table if not exists public.reports (
+  id uuid primary key default gen_random_uuid(),
+  reporter_id uuid not null references public.profiles(id) on delete cascade,
+  target_type text not null check (target_type in ('post','comment','market','business','job','interest_post','care_post')),
+  target_id uuid not null,
+  reason text not null,
+  status text not null default 'open' check (status in ('open','reviewed','resolved','dismissed')),
+  created_at timestamptz not null default now(),
+  reviewed_at timestamptz,
+  reviewed_by uuid references public.profiles(id)
+);
+create index if not exists reports_status_created_idx on public.reports(status, created_at desc);
+
+create or replace function public.handle_new_user()
+returns trigger
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  insert into public.profiles (id,email,nickname,primary_region)
+  values (
+    new.id,
+    new.email,
+    coalesce(new.raw_user_meta_data->>'nickname','라이더'),
+    new.raw_user_meta_data->>'primary_region'
+  )
+  on conflict (id) do nothing;
+  return new;
+end;
+$$;
+
+drop trigger if exists on_auth_user_created on auth.users;
+create trigger on_auth_user_created
+after insert on auth.users
+for each row execute function public.handle_new_user();
+
+alter table public.profiles enable row level security;
+alter table public.posts enable row level security;
+alter table public.comments enable row level security;
+alter table public.marketplace_items enable row level security;
+alter table public.businesses enable row level security;
+alter table public.jobs enable row level security;
+alter table public.interest_memberships enable row level security;
+alter table public.interest_posts enable row level security;
+alter table public.care_posts enable row level security;
+alter table public.notifications enable row level security;
+alter table public.reports enable row level security;
+
+drop policy if exists "profiles readable" on public.profiles;
+create policy "profiles readable" on public.profiles for select using (true);
+drop policy if exists "profile owner update" on public.profiles;
+create policy "profile owner update" on public.profiles for update using (auth.uid() = id) with check (auth.uid() = id);
+
+drop policy if exists "posts readable" on public.posts;
+create policy "posts readable" on public.posts for select using (true);
+drop policy if exists "posts own insert" on public.posts;
+create policy "posts own insert" on public.posts for insert with check (auth.uid() = author_id);
+drop policy if exists "posts own update" on public.posts;
+create policy "posts own update" on public.posts for update using (auth.uid() = author_id) with check (auth.uid() = author_id);
+drop policy if exists "posts own delete" on public.posts;
+create policy "posts own delete" on public.posts for delete using (auth.uid() = author_id);
+
+drop policy if exists "comments readable" on public.comments;
+create policy "comments readable" on public.comments for select using (true);
+drop policy if exists "comments own insert" on public.comments;
+create policy "comments own insert" on public.comments for insert with check (auth.uid() = author_id);
+drop policy if exists "comments own delete" on public.comments;
+create policy "comments own delete" on public.comments for delete using (auth.uid() = author_id);
+
+drop policy if exists "market readable" on public.marketplace_items;
+create policy "market readable" on public.marketplace_items for select using (status <> 'hidden');
+drop policy if exists "market own insert" on public.marketplace_items;
+create policy "market own insert" on public.marketplace_items for insert with check (auth.uid() = author_id);
+drop policy if exists "market own update" on public.marketplace_items;
+create policy "market own update" on public.marketplace_items for update using (auth.uid() = author_id) with check (auth.uid() = author_id);
+drop policy if exists "market own delete" on public.marketplace_items;
+create policy "market own delete" on public.marketplace_items for delete using (auth.uid() = author_id);
+
+drop policy if exists "business readable" on public.businesses;
+create policy "business readable" on public.businesses for select using (approval_status in ('approved','pending'));
+drop policy if exists "business own insert" on public.businesses;
+create policy "business own insert" on public.businesses for insert with check (auth.uid() = author_id);
+drop policy if exists "business own update" on public.businesses;
+create policy "business own update" on public.businesses for update using (auth.uid() = author_id) with check (auth.uid() = author_id);
+
+drop policy if exists "jobs readable" on public.jobs;
+create policy "jobs readable" on public.jobs for select using (status <> 'hidden');
+drop policy if exists "jobs own insert" on public.jobs;
+create policy "jobs own insert" on public.jobs for insert with check (auth.uid() = author_id);
+drop policy if exists "jobs own update" on public.jobs;
+create policy "jobs own update" on public.jobs for update using (auth.uid() = author_id) with check (auth.uid() = author_id);
+
+drop policy if exists "interest memberships readable" on public.interest_memberships;
+create policy "interest memberships readable" on public.interest_memberships for select using (true);
+drop policy if exists "interest memberships own insert" on public.interest_memberships;
+create policy "interest memberships own insert" on public.interest_memberships for insert with check (auth.uid() = user_id);
+drop policy if exists "interest memberships own delete" on public.interest_memberships;
+create policy "interest memberships own delete" on public.interest_memberships for delete using (auth.uid() = user_id);
+
+drop policy if exists "interest posts readable" on public.interest_posts;
+create policy "interest posts readable" on public.interest_posts for select using (true);
+drop policy if exists "interest posts own insert" on public.interest_posts;
+create policy "interest posts own insert" on public.interest_posts for insert with check (auth.uid() = author_id);
+
+drop policy if exists "care posts readable" on public.care_posts;
+create policy "care posts readable" on public.care_posts for select using (true);
+drop policy if exists "care posts own insert" on public.care_posts;
+create policy "care posts own insert" on public.care_posts for insert with check (auth.uid() = author_id);
+
+drop policy if exists "notifications own select" on public.notifications;
+create policy "notifications own select" on public.notifications for select using (auth.uid() = user_id);
+drop policy if exists "notifications own update" on public.notifications;
+create policy "notifications own update" on public.notifications for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
+drop policy if exists "notifications own delete" on public.notifications;
+create policy "notifications own delete" on public.notifications for delete using (auth.uid() = user_id);
+
+drop policy if exists "reports own insert" on public.reports;
+create policy "reports own insert" on public.reports for insert with check (auth.uid() = reporter_id);
+drop policy if exists "reports own select" on public.reports;
+create policy "reports own select" on public.reports for select using (
+  auth.uid() = reporter_id
+  or exists (select 1 from public.profiles p where p.id = auth.uid() and p.role in ('moderator','admin'))
+);
+drop policy if exists "reports moderator update" on public.reports;
+create policy "reports moderator update" on public.reports for update using (
+  exists (select 1 from public.profiles p where p.id = auth.uid() and p.role in ('moderator','admin'))
+);
