@@ -908,7 +908,8 @@ RiderNex 메인과 NexHome의 관계를 다음처럼 정의한다.
 RiderNex 메인 화면의 NexHome 카드 상단에는 복잡한 기능 설명 대신 NexHome의 정체성을 한 문장으로 명확하게 전달한다.
 
 공식 기본 문구:
-"RiderNex 안의 나만의 공간, NexHome"
+"RiderNex 속 나만의 공간, NexHome"
+"내 기록, 내 친구, 내 공간."
 
 적용 원칙:
 - 메인 화면에서 NexHome 카드의 첫 줄로 사용한다.
