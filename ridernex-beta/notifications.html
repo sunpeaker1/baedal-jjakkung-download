@@ -1,0 +1,20 @@
+<!doctype html><html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow">
+<title>알림 · RiderNex 베타</title>
+<style>
+:root{--blue:#0d73e6;--ink:#172033;--muted:#6f7c90;--line:#e3e8ef;--bg:#f6f8fc}*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;color:var(--ink)}a{text-decoration:none;color:inherit}
+.top{background:#fff;border-bottom:1px solid var(--line)}.topin{max-width:820px;margin:auto;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}.brand{font-size:20px;font-weight:1000}.brand span{color:var(--blue)}.topin a:last-child{font-size:11px;font-weight:900;color:#276fbe}
+.wrap{max-width:820px;margin:auto;padding:20px 14px 40px}.head{display:flex;justify-content:space-between;gap:10px;align-items:end}.head h1{margin:0;font-size:27px}.head p{margin:6px 0 0;color:var(--muted);font-size:11px}.actions{display:flex;gap:7px}.actions button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 10px;font-size:9px;font-weight:900}.actions .clear{color:#a23e36}
+.list{display:grid;gap:9px;margin-top:14px}.item{display:block;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;position:relative}.item.unread{border-color:#a9cafa;background:linear-gradient(160deg,#fff,#f2f7ff)}.dot{position:absolute;right:13px;top:13px;width:8px;height:8px;border-radius:50%;background:#1678ea}.badge{display:inline-block;padding:4px 7px;border-radius:999px;background:#edf5ff;color:#176bc5;font-size:8px;font-weight:900}.item h3{margin:8px 0 0;font-size:13px}.item p{margin:6px 0 0;color:#556276;font-size:10px;line-height:1.5}.time{margin-top:7px;color:#98a2b3;font-size:9px}.empty,.lock{margin-top:14px;padding:24px;border:1px dashed #cad5e3;border-radius:16px;background:#fff;text-align:center;color:var(--muted);font-size:11px;line-height:1.55}.login{display:inline-block;margin-top:10px;padding:10px 13px;border-radius:11px;background:#0d73e6;color:#fff;font-weight:900}
+</style></head><body>
+<header class="top"><div class="topin"><a class="brand" href="./">Rider<span>Nex</span> 알림</a><a href="./">홈으로</a></div></header>
+<main class="wrap"><div class="head"><div><h1>알림센터</h1><p>내 글의 댓글과 내가 등록한 활동을 확인합니다.</p></div><div class="actions"><button id="readAll" type="button">모두 읽음</button><button id="clear" class="clear" type="button">알림 비우기</button></div></div><div id="app"></div></main>
+<script src="beta-store.js"></script><script>
+const app=document.getElementById("app"),u=RNX.currentUser();
+if(!u){document.querySelector(".actions").style.display="none";app.innerHTML='<div class="lock">알림은 로그인 후 사용할 수 있습니다.<br><a class="login" href="auth.html">로그인</a></div>'}
+else render();
+readAll.onclick=()=>{RNX.markAllNotices();render()};clear.onclick=()=>{if(confirm("알림을 모두 비울까요?")){RNX.clearNotices();render()}};
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+function label(t){return ({system:"시스템",post:"지역방",comment:"댓글",report:"신고",market:"장터",business:"업체",job:"구인·구직"})[t]||"알림"}
+function render(){const arr=RNX.notifications();if(!arr.length){app.innerHTML='<div class="empty">새 알림이 없습니다.</div>';return}app.innerHTML='<div class="list">'+arr.map(n=>'<a class="item '+(!n.read?'unread':'')+'" data-id="'+esc(n.id)+'" href="'+esc(n.href||"#")+'">'+(!n.read?'<span class="dot"></span>':'')+'<span class="badge">'+label(n.type)+'</span><h3>'+esc(n.title)+'</h3><p>'+esc(n.body||"")+'</p><div class="time">'+RNX.fmt(n.createdAt)+'</div></a>').join("")+'</div>';app.querySelectorAll("[data-id]").forEach(a=>a.addEventListener("click",()=>RNX.markNotice(a.dataset.id)))}
+</script></body></html>
