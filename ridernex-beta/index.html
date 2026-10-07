@@ -95,7 +95,7 @@ footer{margin-top:26px;padding:22px 0 8px;border-top:1px solid var(--line);color
 <section class="nexCard" id="nexCard">
 <div class="nexIcon">🏠</div>
 <div class="nexCopy"><h2>RiderNex 속 나만의 공간, <b>NexHome</b></h2><p>내 기록, 내 친구, 내 공간.</p><div class="nexState" id="nexState">나만의 NexHome을 만들어보세요.</div></div>
-<div class="nexAction"><a id="nexAction" href="auth.html?mode=join">내 NexHome 만들기 ›</a></div>
+<div class="nexAction"><a id="nexAction" href="nexhome-create.html">내 NexHome 만들기 ›</a></div>
 </section>
 
 <section class="section" aria-label="RiderNex 주요 서비스">
@@ -153,10 +153,18 @@ document.getElementById('search').addEventListener('submit',e=>{e.preventDefault
    const unread=remote?await RNXRemote.unreadCount():RNX.unreadCount();
    const nickname=remote?(state.profile?.nickname||user.email||'회원'):user.nickname;
    auth.innerHTML=(remote&&RNXRemote.isAdmin()?'<a class="adminBtn" href="admin.html">관리자</a>':'')+'<a class="login" href="notifications.html">🔔 '+unread+'</a><a class="join" href="my.html">'+esc(nickname)+'님</a>';
-   document.getElementById('nexState').textContent='NexHome을 만들면 이곳에서 바로 들어갈 수 있습니다.';
    const btn=document.getElementById('nexAction');
-   btn.textContent='내 NexHome 만들기 ›';
-   btn.href='my.html#nexhome';
+   let home=null;
+   try{home=remote?await RNXRemote.getMyNexHome():null}catch{}
+   if(home){
+     document.getElementById('nexState').textContent=home.life_region+' · '+home.room_name+' · '+home.road_no+'길'+home.house_no;
+     btn.textContent='내 NexHome 들어가기 ›';
+     btn.href='nexhome.html?id='+encodeURIComponent(home.id);
+   }else{
+     document.getElementById('nexState').textContent='아직 NexHome이 없습니다. 4단계로 간단하게 입주할 수 있습니다.';
+     btn.textContent='내 NexHome 만들기 ›';
+     btn.href='nexhome-create.html';
+   }
  }else{
    const login=document.querySelector('.auth .login'),join=document.querySelector('.auth .join');
    if(login)login.onclick=()=>location.href='auth.html';
