@@ -3,8 +3,10 @@
   const enc=new TextEncoder();
   const now=()=>new Date().toISOString();
   const id=(p)=>p+"_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,8);
-  const load=()=>{try{return JSON.parse(localStorage.getItem(KEY))||{users:[],session:null,posts:[]}}catch{return {users:[],session:null,posts:[]}}};
-  const save=(d)=>localStorage.setItem(KEY,JSON.stringify(d));
+  const blank=()=>({users:[],session:null,posts:[],market:[],businesses:[],jobs:[]});
+  const normalize=(d)=>Object.assign(blank(),d||{});
+  const load=()=>{try{return normalize(JSON.parse(localStorage.getItem(KEY)))}catch{return blank()}};
+  const save=(d)=>localStorage.setItem(KEY,JSON.stringify(normalize(d)));
   const hash=async(s)=>{const b=await crypto.subtle.digest("SHA-256",enc.encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")};
   const currentUser=()=>{const d=load();return d.session?d.users.find(u=>u.id===d.session.userId)||null:null};
   async function register({email,password,nickname,region="서울 관악구"}){
@@ -42,6 +44,40 @@
     p.reports.push({userId:u.id,reason:reason||"기타",createdAt:now()});save(d)
   }
   function myPosts(){const u=currentUser();return u?posts().filter(p=>p.authorId===u.id):[]}
+
+  function addMarket({category,title,price,region,condition,body}){
+    const d=load(),u=currentUser(); if(!u) throw new Error("로그인이 필요합니다.");
+    title=(title||"").trim();body=(body||"").trim();region=(region||u.region||"").trim();
+    const n=Number(String(price||"").replace(/[^0-9]/g,""));
+    if(!title||!body||!region||!n) throw new Error("제목, 가격, 지역, 설명을 입력하세요.");
+    const x={id:id("m"),category:category||"기타",title,price:n,region,condition:condition||"중고",body,authorId:u.id,createdAt:now(),reports:[]};
+    d.market.unshift(x);save(d);return x;
+  }
+  function marketItems(){return load().market}
+  function addBusiness({type,name,region,phone,address,body}){
+    const d=load(),u=currentUser(); if(!u) throw new Error("로그인이 필요합니다.");
+    name=(name||"").trim();region=(region||"").trim();body=(body||"").trim();
+    if(!type||!name||!region||!body) throw new Error("업종, 업체명, 지역, 소개를 입력하세요.");
+    const x={id:id("b"),type,name,region,phone:(phone||"").trim(),address:(address||"").trim(),body,authorId:u.id,createdAt:now(),reports:[]};
+    d.businesses.unshift(x);save(d);return x;
+  }
+  function businesses(){return load().businesses}
+  function addJob({kind,title,region,pay,schedule,body}){
+    const d=load(),u=currentUser(); if(!u) throw new Error("로그인이 필요합니다.");
+    title=(title||"").trim();region=(region||"").trim();body=(body||"").trim();
+    if(!kind||!title||!region||!body) throw new Error("구분, 제목, 지역, 내용을 입력하세요.");
+    const x={id:id("j"),kind,title,region,pay:(pay||"").trim(),schedule:(schedule||"").trim(),body,authorId:u.id,createdAt:now(),reports:[]};
+    d.jobs.unshift(x);save(d);return x;
+  }
+  function jobs(){return load().jobs}
+  function reportEntry(kind,entryId,reason){
+    const d=load(),u=currentUser(); if(!u) throw new Error("로그인이 필요합니다.");
+    const key=kind==="market"?"market":kind==="business"?"businesses":"jobs";
+    const x=d[key].find(v=>v.id===entryId); if(!x) throw new Error("항목을 찾을 수 없습니다.");
+    x.reports=x.reports||[];
+    if(x.reports.some(r=>r.userId===u.id)) throw new Error("이미 신고했습니다.");
+    x.reports.push({userId:u.id,reason:reason||"기타",createdAt:now()});save(d)
+  }
   function fmt(iso){const ms=Date.now()-new Date(iso).getTime(),m=Math.floor(ms/60000);if(m<1)return"방금 전";if(m<60)return m+"분 전";const h=Math.floor(m/60);if(h<24)return h+"시간 전";return new Date(iso).toLocaleDateString("ko-KR")}
-  window.RNX={load,currentUser,register,login,logout,addPost,posts,userById,addComment,report,myPosts,fmt};
+  window.RNX={load,currentUser,register,login,logout,addPost,posts,userById,addComment,report,myPosts,addMarket,marketItems,addBusiness,businesses,addJob,jobs,reportEntry,fmt};
 })();
