@@ -5,13 +5,23 @@
 </style></head><body>
 <header class="top"><div class="topin"><a class="brand" href="./">Rider<span>Nex</span> 관심방</a><a class="home" href="./">홈으로</a></div></header>
 <main class="wrap"><section class="hero"><h1>관심방</h1><p>바이크, 플랫폼, 장비와 라이더 관심사별로 모이는 공간입니다.</p></section><div class="rooms" id="rooms"></div><section class="panel" id="panel"></section></main>
-<script src="beta-store.js"></script><script>
-const roomNames=["PCX","NMAX","ADV","전기바이크","쿠팡이츠","배민","카카오퀵","퀵 라이더","장비","정비","초보 라이더","수익관리"],params=new URLSearchParams(location.search);let current=params.get("room")||roomNames[0];
+<script src="beta-store.js"></script><script src="supabase-adapter.js"></script><script>
+const roomNames=["PCX","NMAX","ADV","전기바이크","쿠팡이츠","배민","카카오퀵","퀵 라이더","장비","정비","초보 라이더","수익관리"],params=new URLSearchParams(location.search);let current=params.get("room")||roomNames[0],remote=false;
+const rooms=document.getElementById("rooms"),panel=document.getElementById("panel");
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
-function renderRooms(){rooms.innerHTML=roomNames.map(r=>'<a class="room '+(r===current?'on':'')+'" href="?room='+encodeURIComponent(r)+'"><b>'+esc(r)+'</b><small>참여 '+RNX.interestMemberCount(r)+'명</small></a>').join("")}
-function renderPanel(){const member=RNX.isInterestMember(current),u=RNX.currentUser(),posts=RNX.interestPosts(current);panel.innerHTML='<h2>'+esc(current)+' 관심방</h2><div class="actions">'+(member?'<button id="leave">관심방 나가기</button>':'<button class="join" id="join">관심방 참여</button>')+'</div><div class="compose '+(member?'on':'')+'" id="compose"><input id="title" placeholder="제목"><textarea id="body" placeholder="관심방에 공유할 내용을 입력하세요."></textarea><button id="submit">글 등록</button></div><div class="posts" id="posts">'+(posts.length?posts.map(p=>{const au=RNX.userById(p.authorId);return '<article class="post"><h3>'+esc(p.title)+'</h3><div class="meta">'+esc(au?au.nickname:"회원")+' · '+RNX.fmt(p.createdAt)+'</div><div class="body">'+esc(p.body)+'</div></article>'}).join(""):'<div class="empty">아직 등록된 글이 없습니다.</div>')+'</div>';
-if(document.getElementById("join"))join.onclick=()=>{if(!u){location.href="auth.html";return}RNX.joinInterest(current);renderRooms();renderPanel()};
-if(document.getElementById("leave"))leave.onclick=()=>{RNX.leaveInterest(current);renderRooms();renderPanel()};
-if(document.getElementById("submit"))submit.onclick=()=>{try{RNX.addInterestPost({room:current,title:title.value,body:body.value});renderPanel()}catch(e){alert(e.message)}}}
-renderRooms();renderPanel();
+(async()=>{const state=await RNXRemote.init();remote=state.enabled;await renderRooms();await renderPanel()})();
+async function renderRooms(){
+  const counts=remote?await Promise.all(roomNames.map(r=>RNXRemote.interestMemberCount(r))):roomNames.map(r=>RNX.interestMemberCount(r));
+  rooms.innerHTML=roomNames.map((r,i)=>'<a class="room '+(r===current?'on':'')+'" href="?room='+encodeURIComponent(r)+'"><b>'+esc(r)+'</b><small>참여 '+counts[i]+'명</small></a>').join("");
+}
+async function renderPanel(){
+  const user=remote?RNXRemote.state.user:RNX.currentUser();
+  const member=remote?await RNXRemote.isInterestMember(current):RNX.isInterestMember(current);
+  const posts=remote?await RNXRemote.getInterestPosts(current):RNX.interestPosts(current);
+  panel.innerHTML='<h2>'+esc(current)+' 관심방</h2><div class="actions">'+(member?'<button id="leave">관심방 나가기</button>':'<button class="join" id="join">관심방 참여</button>')+'</div><div class="compose '+(member?'on':'')+'" id="compose"><input id="title" placeholder="제목"><textarea id="body" placeholder="관심방에 공유할 내용을 입력하세요."></textarea><button id="submit">글 등록</button></div><div class="posts" id="posts">'+(posts.length?posts.map(p=>{const n=remote?(p.profiles?.nickname||"회원"):(RNX.userById(p.authorId)?.nickname||"회원");return '<article class="post"><h3>'+esc(p.title)+'</h3><div class="meta">'+esc(n)+' · '+RNX.fmt(p.created_at||p.createdAt)+'</div><div class="body">'+esc(p.body)+'</div></article>'}).join(""):'<div class="empty">아직 등록된 글이 없습니다.</div>')+'</div>';
+  const join=document.getElementById("join"),leave=document.getElementById("leave"),submit=document.getElementById("submit");
+  if(join)join.onclick=async()=>{if(!user){location.href="auth.html";return}try{if(remote)await RNXRemote.joinInterest(current);else RNX.joinInterest(current);await renderRooms();await renderPanel()}catch(e){alert(e.message||"참여 실패")}};
+  if(leave)leave.onclick=async()=>{try{if(remote)await RNXRemote.leaveInterest(current);else RNX.leaveInterest(current);await renderRooms();await renderPanel()}catch(e){alert(e.message||"처리 실패")}};
+  if(submit)submit.onclick=async()=>{const title=document.getElementById("title"),body=document.getElementById("body");try{if(remote)await RNXRemote.addInterestPost({room:current,title:title.value,body:body.value});else RNX.addInterestPost({room:current,title:title.value,body:body.value});await renderPanel()}catch(e){if(!user)location.href="auth.html";else alert(e.message||"등록 실패")}};
+}
 </script></body></html>
