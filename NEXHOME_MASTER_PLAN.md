@@ -900,3 +900,19 @@ RiderNex 메인과 NexHome의 관계를 다음처럼 정의한다.
 
 핵심 사용자 인식:
 'RiderNex에서 세상을 보고, NexHome으로 내 집에 들어간다.'
+
+
+## 44. 확정 — RiderNex 메인 NexHome 카드 소개문구
+2026-10-08 합의.
+
+RiderNex 메인 화면의 NexHome 카드 상단에는 복잡한 기능 설명 대신 NexHome의 정체성을 한 문장으로 명확하게 전달한다.
+
+공식 기본 문구:
+"RiderNex 안의 나만의 공간, NexHome"
+
+적용 원칙:
+- 메인 화면에서 NexHome 카드의 첫 줄로 사용한다.
+- 글/사진/친구 등 기능을 나열하지 않는다.
+- 사용자가 NexHome의 의미를 즉시 이해할 수 있도록 짧고 명확하게 유지한다.
+- NexHome이 있는 회원은 문구 아래에 자신의 NexHome 정보와 [내 NexHome 들어가기]를 표시한다.
+- NexHome이 없는 회원은 문구 아래에 [내 NexHome 만들기]를 표시한다.
