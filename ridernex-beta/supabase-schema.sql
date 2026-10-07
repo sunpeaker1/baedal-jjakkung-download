@@ -9,6 +9,10 @@ create table if not exists public.profiles (
   bio text,
   bike text,
   role text not null default 'member' check (role in ('member','moderator','admin')),
+  terms_accepted_at timestamptz,
+  privacy_accepted_at timestamptz,
+  terms_version text,
+  privacy_version text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -138,11 +142,18 @@ language plpgsql
 security definer set search_path = public
 as $$
 begin
-  insert into public.profiles (id,nickname,primary_region)
+  insert into public.profiles (
+    id,nickname,primary_region,
+    terms_accepted_at,privacy_accepted_at,terms_version,privacy_version
+  )
   values (
     new.id,
     coalesce(new.raw_user_meta_data->>'nickname','라이더'),
-    new.raw_user_meta_data->>'primary_region'
+    new.raw_user_meta_data->>'primary_region',
+    case when new.raw_user_meta_data->>'terms_accepted' = 'true' then now() else null end,
+    case when new.raw_user_meta_data->>'privacy_accepted' = 'true' then now() else null end,
+    new.raw_user_meta_data->>'terms_version',
+    new.raw_user_meta_data->>'privacy_version'
   )
   on conflict (id) do nothing;
 
