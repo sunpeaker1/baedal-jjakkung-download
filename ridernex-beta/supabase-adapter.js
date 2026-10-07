@@ -60,6 +60,51 @@
   }
 
 
+  async function updateProfile({nickname,primaryRegion,secondaryRegion,bio,bike}){
+    if(!state.user)throw new Error("로그인이 필요합니다.");
+    const payload={
+      nickname:String(nickname||"").trim(),
+      primary_region:String(primaryRegion||"").trim()||null,
+      secondary_region:String(secondaryRegion||"").trim()||null,
+      bio:String(bio||"").trim()||null,
+      bike:String(bike||"").trim()||null,
+      updated_at:new Date().toISOString()
+    };
+    if(!payload.nickname)throw new Error("닉네임을 입력하세요.");
+    const {data,error}=await state.client.from("profiles").update(payload).eq("id",state.user.id).select().single();
+    if(error)throw error;
+    state.profile=data;
+    return data;
+  }
+
+  async function sendPasswordReset(email){
+    if(!state.client)throw new Error("서버 연결이 필요합니다.");
+    email=String(email||"").trim().toLowerCase();
+    if(!email)throw new Error("이메일을 입력하세요.");
+    const {error}=await state.client.auth.resetPasswordForEmail(email,{
+      redirectTo:"https://baedal-jjakkung-download.vercel.app/ridernex-beta/account.html?recovery=1"
+    });
+    if(error)throw error;
+  }
+
+  async function updatePassword(password){
+    if(!state.user)throw new Error("로그인이 필요합니다.");
+    password=String(password||"");
+    if(password.length<8)throw new Error("새 비밀번호는 8자 이상 입력하세요.");
+    const {error}=await state.client.auth.updateUser({password});
+    if(error)throw error;
+  }
+
+  async function deleteAccount(){
+    if(!state.user)throw new Error("로그인이 필요합니다.");
+    const {data,error}=await state.client.functions.invoke("delete-account",{body:{confirm:true}});
+    if(error)throw error;
+    if(data?.error)throw new Error(data.error);
+    state.user=null;state.profile=null;
+    try{await state.client.auth.signOut()}catch{}
+    return true;
+  }
+
   async function getRegionPosts(region,category=""){
     if(!state.client)return[];
     let q=state.client.from("posts").select("*,profiles!posts_author_id_fkey(nickname)").eq("region",region).order("created_at",{ascending:false});
@@ -361,5 +406,5 @@
     if(error)throw error;return data;
   }
 
-  window.RNXRemote={state,init,signUp,signIn,signOut,resendConfirmation,getRegionPosts,getComments,getMyPosts,refreshProfile,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,joinInterest,leaveInterest,isInterestMember,interestMemberCount,getInterestPosts,addInterestPost,getCarePosts,addCarePost,getNotifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,isAdmin,getPendingBusinesses,setBusinessApproval,getAdminReports,setReportStatus,hideModeratedTarget,report};
+  window.RNXRemote={state,init,signUp,signIn,signOut,resendConfirmation,updateProfile,sendPasswordReset,updatePassword,deleteAccount,getRegionPosts,getComments,getMyPosts,refreshProfile,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,joinInterest,leaveInterest,isInterestMember,interestMemberCount,getInterestPosts,addInterestPost,getCarePosts,addCarePost,getNotifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,isAdmin,getPendingBusinesses,setBusinessApproval,getAdminReports,setReportStatus,hideModeratedTarget,report};
 })();
