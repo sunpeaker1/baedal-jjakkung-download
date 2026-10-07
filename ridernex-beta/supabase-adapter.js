@@ -369,6 +369,19 @@
     return data||null;
   }
 
+
+  async function updateNexHome(id,changes={}){
+    if(!state.client||!state.user)throw new Error("로그인이 필요합니다.");
+    const payload={updated_at:new Date().toISOString()};
+    if(Object.prototype.hasOwnProperty.call(changes,"intro"))payload.intro=String(changes.intro||"").trim().slice(0,80);
+    if(["light","blue","dark"].includes(changes.theme))payload.theme=changes.theme;
+    if(["public","friends","private"].includes(changes.entryScope))payload.entry_scope=changes.entryScope;
+    if(["all","friends","off"].includes(changes.guestbookScope))payload.guestbook_scope=changes.guestbookScope;
+    const {data,error}=await state.client.from("nexhomes").update(payload).eq("id",id).eq("owner_id",state.user.id).select().single();
+    if(error)throw error;
+    return data;
+  }
+
   async function finishNexHomeFirstVisit(id){
     if(!state.client||!state.user)return;
     const {error}=await state.client.from("nexhomes").update({first_visit:false,updated_at:new Date().toISOString()}).eq("id",id).eq("owner_id",state.user.id);
@@ -464,5 +477,5 @@
     if(error)throw error;return data;
   }
 
-  window.RNXRemote={state,init,signUp,signIn,signOut,resendConfirmation,updateProfile,sendPasswordReset,updatePassword,deleteAccount,getRegionPosts,getComments,getMyPosts,refreshProfile,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,joinInterest,leaveInterest,isInterestMember,interestMemberCount,getInterestPosts,addInterestPost,getCarePosts,addCarePost,getNotifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,getMyNexHome,checkNexHomeAvailability,createNexHome,getNexHomeById,finishNexHomeFirstVisit,isAdmin,getPendingBusinesses,setBusinessApproval,getAdminReports,setReportStatus,hideModeratedTarget,report};
+  window.RNXRemote={state,init,signUp,signIn,signOut,resendConfirmation,updateProfile,sendPasswordReset,updatePassword,deleteAccount,getRegionPosts,getComments,getMyPosts,refreshProfile,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,joinInterest,leaveInterest,isInterestMember,interestMemberCount,getInterestPosts,addInterestPost,getCarePosts,addCarePost,getNotifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,getMyNexHome,checkNexHomeAvailability,createNexHome,getNexHomeById,updateNexHome,finishNexHomeFirstVisit,isAdmin,getPendingBusinesses,setBusinessApproval,getAdminReports,setReportStatus,hideModeratedTarget,report};
 })();
