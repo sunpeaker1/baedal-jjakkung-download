@@ -148,33 +148,48 @@ footer{margin-top:30px;padding:25px 0 10px;border-top:1px solid var(--line);colo
 <footer><div class="footbrand">RiderNex 라이더넥스</div><div style="margin-top:5px">라이더짝꿍을 품은 전국 배달·퀵 라이더 플랫폼 · Beta Preview</div></footer>
 </main>
 <script src="beta-store.js"></script>
+<script src="supabase-adapter.js"></script>
 <script>
-document.getElementById('search').addEventListener('submit',e=>{e.preventDefault();const q=document.getElementById('q').value.trim();if(!q)return;location.href='search.html?q='+encodeURIComponent(q);});
-const user=RNX.currentUser(),auth=document.querySelector('.auth');
-if(user){
-  const unread=RNX.unreadCount();
-  auth.innerHTML='<a class="login" href="notifications.html">🔔 '+unread+'</a><a class="login" href="my.html">'+String(user.nickname).replace(/[&<>"]/g,"")+'님</a><a class="join" href="my.html">내 방</a>';
-}else{
-  const login=document.querySelector('.auth .login'),join=document.querySelector('.auth .join');
-  if(login)login.onclick=()=>location.href='auth.html';
-  if(join)join.onclick=()=>location.href='auth.html?mode=join';
-}
-const homeRegionFeed=document.getElementById('homeRegionFeed');
-if(homeRegionFeed){
-  const regionPosts=RNX.posts().filter(p=>p.region==='서울특별시 관악구'||p.region==='서울 관악구').slice(0,3);
-  if(!regionPosts.length){
-    homeRegionFeed.innerHTML='<a class="feedItem" href="region.html?city=seoul&district=gwanak"><span>📍</span><div><b>아직 등록된 현장정보가 없습니다.</b><p>관악구 라이더방에서 첫 정보를 등록해보세요.</p></div><span>›</span></a>';
-  }else{
-    homeRegionFeed.innerHTML=regionPosts.map(p=>'<a class="feedItem" href="region.html?city=seoul&district=gwanak&category='+encodeURIComponent(p.category||'')+'"><span>📌</span><div><b>'+esc(p.title)+'</b><p>'+esc((p.body||'').slice(0,55))+'</p></div><time>'+RNX.fmt(p.createdAt)+'</time></a>').join('');
-  }
-}
-const marketPreview=document.getElementById('marketPreview');
-const marketItems=RNX.marketItems().slice(0,4);
-if(!marketItems.length){
-  marketPreview.innerHTML='<a class="item" href="market.html" style="grid-column:1/-1"><div class="itemBody"><b>등록된 매물이 없습니다.</b><div class="meta" style="margin-top:7px">라이더장터에서 첫 매물을 등록해보세요.</div><span class="go" style="display:inline-block;margin-top:10px;color:var(--blue);font-size:13px;font-weight:900">장터 열기 →</span></div></a>';
-}else{
-  marketPreview.innerHTML=marketItems.map(x=>'<a class="item" href="market.html"><div class="pic">'+(x.category==='오토바이'?'🛵':x.category==='전기이동수단'?'⚡':x.category==='장비'?'🪖':'🔧')+'</div><div class="itemBody"><b>'+esc(x.title)+'</b><div class="price">'+Number(x.price).toLocaleString('ko-KR')+'원</div><div class="meta">'+esc(x.region)+' · '+esc(x.condition)+'</div></div></a>').join('');
-}
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-</script>
-</body></html>
+document.getElementById('search').addEventListener('submit',e=>{e.preventDefault();const q=document.getElementById('q').value.trim();if(!q)return;location.href='search.html?q='+encodeURIComponent(q);});
+
+(async()=>{
+  const state=await RNXRemote.init(),remote=state.enabled,auth=document.querySelector('.auth');
+  const user=remote?state.user:RNX.currentUser();
+  if(user){
+    const unread=remote?await RNXRemote.unreadCount():RNX.unreadCount();
+    const nickname=remote?(state.profile?.nickname||user.email||"회원"):user.nickname;
+    auth.innerHTML='<a class="login" href="notifications.html">🔔 '+unread+'</a><a class="login" href="my.html">'+esc(nickname)+'님</a><a class="join" href="my.html">내 방</a>';
+  }else{
+    const login=document.querySelector('.auth .login'),join=document.querySelector('.auth .join');
+    if(login)login.onclick=()=>location.href='auth.html';
+    if(join)join.onclick=()=>location.href='auth.html?mode=join';
+  }
+
+  const homeRegionFeed=document.getElementById('homeRegionFeed');
+  if(homeRegionFeed){
+    let regionPosts=[];
+    try{
+      regionPosts=remote?await RNXRemote.getRegionPosts('서울특별시 관악구'):RNX.posts().filter(p=>p.region==='서울특별시 관악구'||p.region==='서울 관악구');
+    }catch{}
+    regionPosts=regionPosts.slice(0,3);
+    if(!regionPosts.length){
+      homeRegionFeed.innerHTML='<a class="feedItem" href="region.html?city=seoul&district=gwanak"><span>📍</span><div><b>아직 등록된 현장정보가 없습니다.</b><p>관악구 라이더방에서 첫 정보를 등록해보세요.</p></div><span>›</span></a>';
+    }else{
+      homeRegionFeed.innerHTML=regionPosts.map(p=>'<a class="feedItem" href="region.html?city=seoul&district=gwanak&category='+encodeURIComponent(p.category||'')+'"><span>📌</span><div><b>'+esc(p.title)+'</b><p>'+esc((p.body||'').slice(0,55))+'</p></div><time>'+RNX.fmt(p.created_at||p.createdAt)+'</time></a>').join('');
+    }
+  }
+
+  const marketPreview=document.getElementById('marketPreview');
+  if(marketPreview){
+    let items=[];
+    try{items=remote?await RNXRemote.getMarket():RNX.marketItems()}catch{}
+    items=items.slice(0,4);
+    if(!items.length){
+      marketPreview.innerHTML='<a class="item" href="market.html" style="grid-column:1/-1"><div class="itemBody"><b>등록된 매물이 없습니다.</b><div class="meta" style="margin-top:7px">라이더장터에서 첫 매물을 등록해보세요.</div><span class="go" style="display:inline-block;margin-top:10px;color:var(--blue);font-size:13px;font-weight:900">장터 열기 →</span></div></a>';
+    }else{
+      marketPreview.innerHTML=items.map(x=>'<a class="item" href="market.html"><div class="pic">'+(x.category==='오토바이'?'🛵':x.category==='전기이동수단'?'⚡':x.category==='장비'?'🪖':'🔧')+'</div><div class="itemBody"><b>'+esc(x.title)+'</b><div class="price">'+Number(x.price).toLocaleString('ko-KR')+'원</div><div class="meta">'+esc(x.region)+' · '+esc(x.item_condition||x.condition||'중고')+'</div></div></a>').join('');
+    }
+  }
+})();
+</script></body></html>
