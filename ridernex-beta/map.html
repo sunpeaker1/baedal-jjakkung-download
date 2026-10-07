@@ -16,16 +16,22 @@
 <section class="mapCard"><div class="mapToolbar"><button class="on" data-filter="all">전체</button><button data-filter="region">지역방</button><button data-filter="business">업체</button><button data-filter="job">일자리</button></div><div id="map"></div></section>
 <aside class="side"><h2>지도 연결 정보</h2><p>현재 베타에서는 관악구 지역방을 실제 지도에 표시하고, 등록한 업체·구인정보는 옆 목록에서 확인합니다.</p><div class="list" id="list"></div><div class="note"><b>다음 단계</b> · 업체 등록 시 지도에서 위치를 찍도록 하면 등록 업체도 실제 핀으로 표시할 수 있습니다.</div></aside>
 </div></main>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="beta-store.js"></script><script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="beta-store.js"></script><script src="supabase-adapter.js"></script><script>
 const map=L.map("map").setView([37.4784,126.9516],14);
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
 const markers={region:[],business:[],job:[]};
 const g=L.marker([37.4784,126.9516]).bindPopup('<b>관악구 라이더방</b><br><a href="region.html?city=seoul&district=gwanak">지역방 열기</a>').addTo(map);markers.region.push(g);
-let me=null;
-locate.onclick=()=>{if(!navigator.geolocation){alert("이 브라우저에서는 위치 기능을 사용할 수 없습니다.");return}navigator.geolocation.getCurrentPosition(pos=>{const p=[pos.coords.latitude,pos.coords.longitude];if(me)map.removeLayer(me);me=L.marker(p).addTo(map).bindPopup("현재 위치").openPopup();map.setView(p,16)},()=>alert("위치 권한을 허용하면 현재 위치를 지도에 표시할 수 있습니다."),{enableHighAccuracy:true,timeout:8000})};
-const businesses=RNX.businesses(),jobs=RNX.jobs(),list=document.getElementById("list");
+let me=null,businesses=[],jobs=[],remote=false,currentFilter="all";
+const locate=document.getElementById("locate"),list=document.getElementById("list");
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
-function renderList(filter="all"){let html="";if(filter==="all"||filter==="region")html+='<a class="entry" href="region.html?city=seoul&district=gwanak"><b>📍 관악구 라이더방</b><small>지역 현장정보 · 도로·교통 · 지역 Q&A</small></a>';if(filter==="all"||filter==="business")businesses.forEach(x=>html+='<a class="entry" href="business.html"><b>🏪 '+esc(x.name)+'</b><small>'+esc(x.region)+' · '+esc(x.type)+(x.address?' · '+esc(x.address):'')+'</small></a>');if(filter==="all"||filter==="job")jobs.forEach(x=>html+='<a class="entry" href="jobs.html"><b>💼 '+esc(x.title)+'</b><small>'+esc(x.region)+' · '+esc(x.kind)+'</small></a>');list.innerHTML=html||'<div class="empty">표시할 정보가 없습니다.</div>'}
+locate.onclick=()=>{if(!navigator.geolocation){alert("이 브라우저에서는 위치 기능을 사용할 수 없습니다.");return}navigator.geolocation.getCurrentPosition(pos=>{const p=[pos.coords.latitude,pos.coords.longitude];if(me)map.removeLayer(me);me=L.marker(p).addTo(map).bindPopup("현재 위치").openPopup();map.setView(p,16)},()=>alert("위치 권한을 허용하면 현재 위치를 지도에 표시할 수 있습니다."),{enableHighAccuracy:true,timeout:8000})};
+(async()=>{const state=await RNXRemote.init();remote=state.enabled;try{businesses=remote?await RNXRemote.getBusinesses():RNX.businesses();jobs=remote?await RNXRemote.getJobs():RNX.jobs()}catch{}renderList()})();
+function renderList(filter=currentFilter){
+  currentFilter=filter;let html="";
+  if(filter==="all"||filter==="region")html+='<a class="entry" href="region.html?city=seoul&district=gwanak"><b>📍 관악구 라이더방</b><small>지역 현장정보 · 도로·교통 · 지역 Q&A</small></a>';
+  if(filter==="all"||filter==="business")businesses.forEach(x=>html+='<a class="entry" href="business.html"><b>🏪 '+esc(x.name)+'</b><small>'+esc(x.region)+' · '+esc(x.business_type||x.type)+(x.address?' · '+esc(x.address):'')+'</small></a>');
+  if(filter==="all"||filter==="job")jobs.forEach(x=>html+='<a class="entry" href="jobs.html"><b>💼 '+esc(x.title)+'</b><small>'+esc(x.region)+' · '+esc(x.kind)+'</small></a>');
+  list.innerHTML=html||'<div class="empty">표시할 정보가 없습니다.</div>';
+}
 document.querySelectorAll("[data-filter]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-filter]").forEach(x=>x.classList.remove("on"));b.classList.add("on");renderList(b.dataset.filter);Object.entries(markers).forEach(([k,arr])=>arr.forEach(m=>{const show=b.dataset.filter==="all"||b.dataset.filter===k;if(show&&!map.hasLayer(m))m.addTo(map);if(!show&&map.hasLayer(m))map.removeLayer(m)}))});
-renderList();
 </script></body></html>
