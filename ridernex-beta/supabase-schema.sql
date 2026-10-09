@@ -992,6 +992,122 @@ using (
 
 
 -- ============================================================
+-- NexHome record friends visibility + comments
+-- ============================================================
+drop policy if exists "NexHome records readable" on public.nexhome_records;
+create policy "NexHome records readable"
+on public.nexhome_records
+for select
+to anon, authenticated
+using (
+  visibility = 'public'
+  or author_id = (select auth.uid())
+  or (
+    visibility = 'friends'
+    and (select auth.uid()) is not null
+    and exists (
+      select 1 from public.nexhome_friendships f
+      where f.status = 'accepted'
+        and (
+          (f.requester_id = author_id and f.addressee_id = (select auth.uid()))
+          or
+          (f.addressee_id = author_id and f.requester_id = (select auth.uid()))
+        )
+    )
+  )
+);
+
+create table if not exists public.nexhome_record_comments (
+  id uuid primary key default gen_random_uuid(),
+  record_id uuid not null references public.nexhome_records(id) on delete cascade,
+  author_id uuid not null references public.profiles(id) on delete cascade,
+  body text not null check (char_length(btrim(body)) between 1 and 500),
+  created_at timestamptz not null default now()
+);
+
+create index if not exists nexhome_record_comments_record_created_idx
+  on public.nexhome_record_comments(record_id, created_at asc);
+create index if not exists nexhome_record_comments_author_idx
+  on public.nexhome_record_comments(author_id);
+
+alter table public.nexhome_record_comments enable row level security;
+grant select on public.nexhome_record_comments to anon, authenticated;
+grant insert, delete on public.nexhome_record_comments to authenticated;
+
+drop policy if exists "Readable NexHome record comments" on public.nexhome_record_comments;
+create policy "Readable NexHome record comments"
+on public.nexhome_record_comments
+for select
+to anon, authenticated
+using (
+  exists (
+    select 1 from public.nexhome_records r
+    where r.id = record_id
+      and (
+        r.visibility = 'public'
+        or r.author_id = (select auth.uid())
+        or (
+          r.visibility = 'friends'
+          and (select auth.uid()) is not null
+          and exists (
+            select 1 from public.nexhome_friendships f
+            where f.status = 'accepted'
+              and (
+                (f.requester_id = r.author_id and f.addressee_id = (select auth.uid()))
+                or
+                (f.addressee_id = r.author_id and f.requester_id = (select auth.uid()))
+              )
+          )
+        )
+      )
+  )
+);
+
+drop policy if exists "Signed in users can comment on readable NexHome records" on public.nexhome_record_comments;
+create policy "Signed in users can comment on readable NexHome records"
+on public.nexhome_record_comments
+for insert
+to authenticated
+with check (
+  author_id = (select auth.uid())
+  and exists (
+    select 1 from public.nexhome_records r
+    where r.id = record_id
+      and (
+        r.visibility = 'public'
+        or r.author_id = (select auth.uid())
+        or (
+          r.visibility = 'friends'
+          and exists (
+            select 1 from public.nexhome_friendships f
+            where f.status = 'accepted'
+              and (
+                (f.requester_id = r.author_id and f.addressee_id = (select auth.uid()))
+                or
+                (f.addressee_id = r.author_id and f.requester_id = (select auth.uid()))
+              )
+          )
+        )
+      )
+  )
+);
+
+drop policy if exists "Record comment author or NexHome owner can delete" on public.nexhome_record_comments;
+create policy "Record comment author or NexHome owner can delete"
+on public.nexhome_record_comments
+for delete
+to authenticated
+using (
+  author_id = (select auth.uid())
+  or exists (
+    select 1 from public.nexhome_records r
+    where r.id = record_id
+      and r.author_id = (select auth.uid())
+  )
+);
+
+
+-- ============================================================
 -- NexHome visitor counter
 -- ============================================================
 create table if not exists public.nexhome_visits (
