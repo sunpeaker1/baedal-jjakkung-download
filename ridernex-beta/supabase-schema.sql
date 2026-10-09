@@ -563,6 +563,7 @@ create table if not exists public.nexhome_albums (
   nexhome_id uuid not null references public.nexhomes(id) on delete cascade,
   owner_id uuid not null references public.profiles(id) on delete cascade,
   title text not null check (char_length(btrim(title)) between 1 and 60),
+  description text not null default '',
   visibility text not null default 'public' check (visibility in ('public','friends','private')),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
