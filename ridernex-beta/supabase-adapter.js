@@ -807,6 +807,36 @@
     return true;
   }
 
+  async function getNexHomeReactionStats(recordIds=[],photoIds=[]){
+    if(!state.client)return {records:{},photos:{}};
+    const rec=[...new Set((recordIds||[]).filter(Boolean))];
+    const pho=[...new Set((photoIds||[]).filter(Boolean))];
+    const {data,error}=await state.client.rpc("get_nexhome_reaction_stats",{
+      p_record_ids:rec,
+      p_photo_ids:pho
+    });
+    if(error)throw error;
+    const out={records:{},photos:{}};
+    for(const row of data||[]){
+      const item={count:Number(row.reaction_count||0),mine:!!row.reacted_by_me};
+      if(row.target_type==="record")out.records[row.target_id]=item;
+      else if(row.target_type==="photo")out.photos[row.target_id]=item;
+    }
+    return out;
+  }
+
+  async function toggleNexHomeReaction(type,targetId){
+    if(!state.client||!state.user)throw new Error("로그인이 필요합니다.");
+    if(!["record","photo"].includes(type))throw new Error("공감 대상을 확인하세요.");
+    const {data,error}=await state.client.rpc("toggle_nexhome_reaction",{
+      p_target_type:type,
+      p_target_id:targetId
+    });
+    if(error)throw error;
+    const row=Array.isArray(data)?data[0]:data;
+    return row?{count:Number(row.reaction_count||0),mine:!!row.reacted_by_me}:{count:0,mine:false};
+  }
+
   async function getNexHomeRecordComments(recordId){
     if(!state.client||!recordId)return [];
     const {data,error}=await state.client
@@ -963,5 +993,5 @@
     if(error)throw error;return data;
   }
 
-  window.RNXRemote={state,init,signUp,signIn,signOut,resendConfirmation,updateProfile,sendPasswordReset,updatePassword,deleteAccount,getRegionPosts,getComments,getMyPosts,refreshProfile,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,joinInterest,leaveInterest,isInterestMember,interestMemberCount,getInterestPosts,addInterestPost,getCarePosts,addCarePost,getNotifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,getMyNexHome,checkNexHomeAvailability,createNexHome,getNexHomeById,updateNexHome,uploadNexHomeImage,removeNexHomeImage,getNexHomeAlbums,getNexHomePhotos,createNexHomeAlbum,updateNexHomeAlbum,uploadNexHomeAlbumPhotos,updateNexHomePhotoPost,updateNexHomePhotoCaption,getNexHomePhotoComments,addNexHomePhotoComment,deleteNexHomePhotoComment,deleteNexHomeAlbumPhoto,registerNexHomeVisit,getNexHomeFriendState,sendNexHomeFriendRequest,answerNexHomeFriendRequest,removeNexHomeFriendship,getMyNexHomeFriends,isNexHomeFriend,getNexHomeGuestbook,addNexHomeGuestbookEntry,replyNexHomeGuestbookEntry,deleteNexHomeGuestbookEntry,getNexHomeRecordComments,addNexHomeRecordComment,deleteNexHomeRecordComment,getNexHomeRecords,addNexHomeRecord,finishNexHomeFirstVisit,isAdmin,getPendingBusinesses,setBusinessApproval,getAdminReports,setReportStatus,hideModeratedTarget,report};
+  window.RNXRemote={state,init,signUp,signIn,signOut,resendConfirmation,updateProfile,sendPasswordReset,updatePassword,deleteAccount,getRegionPosts,getComments,getMyPosts,refreshProfile,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,joinInterest,leaveInterest,isInterestMember,interestMemberCount,getInterestPosts,addInterestPost,getCarePosts,addCarePost,getNotifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,getMyNexHome,checkNexHomeAvailability,createNexHome,getNexHomeById,updateNexHome,uploadNexHomeImage,removeNexHomeImage,getNexHomeAlbums,getNexHomePhotos,createNexHomeAlbum,updateNexHomeAlbum,uploadNexHomeAlbumPhotos,updateNexHomePhotoPost,updateNexHomePhotoCaption,getNexHomePhotoComments,addNexHomePhotoComment,deleteNexHomePhotoComment,deleteNexHomeAlbumPhoto,registerNexHomeVisit,getNexHomeFriendState,sendNexHomeFriendRequest,answerNexHomeFriendRequest,removeNexHomeFriendship,getMyNexHomeFriends,isNexHomeFriend,getNexHomeGuestbook,addNexHomeGuestbookEntry,replyNexHomeGuestbookEntry,deleteNexHomeGuestbookEntry,getNexHomeReactionStats,toggleNexHomeReaction,getNexHomeRecordComments,addNexHomeRecordComment,deleteNexHomeRecordComment,getNexHomeRecords,addNexHomeRecord,finishNexHomeFirstVisit,isAdmin,getPendingBusinesses,setBusinessApproval,getAdminReports,setReportStatus,hideModeratedTarget,report};
 })();
