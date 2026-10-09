@@ -379,9 +379,9 @@
     if(["all","friends","off"].includes(changes.guestbookScope))payload.guestbook_scope=changes.guestbookScope;
     if(Object.prototype.hasOwnProperty.call(changes,"profileUrl"))payload.profile_url=String(changes.profileUrl||"").trim()||null;
     if(Object.prototype.hasOwnProperty.call(changes,"coverUrl"))payload.cover_url=String(changes.coverUrl||"").trim()||null;
-    const {data,error}=await state.client.from("nexhomes").update(payload).eq("id",id).eq("owner_id",state.user.id).select().single();
+    const {error}=await state.client.from("nexhomes").update(payload).eq("id",id).eq("owner_id",state.user.id);
     if(error)throw error;
-    return data;
+    return await getNexHomeById(id);
   }
 
   async function uploadNexHomeImage(nexhomeId,kind,file){
