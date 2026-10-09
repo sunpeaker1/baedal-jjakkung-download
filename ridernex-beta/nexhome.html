@@ -62,6 +62,23 @@ function beginCrop(kind,file){
  frame.className="cropFrame "+(kind==="profile"?"profileMode":"coverMode");modal.classList.add("on");
  const img=new Image();img.onload=()=>{requestAnimationFrame(()=>{const fw=frame.clientWidth,fh=frame.clientHeight,coverScale=Math.max(fw/img.naturalWidth,fh/img.naturalHeight),containScale=Math.min(fw/img.naturalWidth,fh/img.naturalHeight),minZoom=kind==="cover"?Math.max(.08,(containScale/coverScale)*.45):1,baseScale=coverScale,scale=baseScale,dw=img.naturalWidth*scale,dh=img.naturalHeight*scale;cropState={kind,file,img,fw,fh,baseScale,minZoom,zoom:1,scale,dw,dh,x:(fw-dw)/2,y:(fh-dh)/2,drag:false};imgEl.src=cropObjectUrl;if(bgEl)bgEl.src=cropObjectUrl;if(zoomEl){zoomEl.min=String(minZoom);zoomEl.value="1"}positionCrop()})};img.src=cropObjectUrl;
 }
+async function autoCoverBlob(file){
+ const allowed=["image/jpeg","image/png","image/webp"];
+ if(!file||!allowed.includes(file.type))throw new Error("JPG, PNG, WEBP 이미지만 사용할 수 있습니다.");
+ if(file.size>20*1024*1024)throw new Error("원본 사진은 20MB 이하만 선택해주세요.");
+ const url=URL.createObjectURL(file);
+ try{
+  const img=await new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=()=>reject(new Error("사진을 불러오지 못했습니다."));im.src=url});
+  const canvas=document.createElement("canvas"),w=1600,h=420;canvas.width=w;canvas.height=h;
+  const ctx=canvas.getContext("2d",{alpha:false});ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality="high";
+  ctx.fillStyle="#101722";ctx.fillRect(0,0,w,h);
+  const bgScale=Math.max(w/img.naturalWidth,h/img.naturalHeight),bw=img.naturalWidth*bgScale,bh=img.naturalHeight*bgScale,bx=(w-bw)/2,by=(h-bh)/2;
+  ctx.save();ctx.filter="blur(26px) brightness(0.66)";ctx.drawImage(img,bx-24,by-24,bw+48,bh+48);ctx.restore();
+  const fgScale=Math.min(w/img.naturalWidth,h/img.naturalHeight),fw=img.naturalWidth*fgScale,fh=img.naturalHeight*fgScale,fx=(w-fw)/2,fy=(h-fh)/2;
+  ctx.drawImage(img,fx,fy,fw,fh);
+  return await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error("커버 사진을 처리하지 못했습니다.")),"image/webp",.86));
+ }finally{URL.revokeObjectURL(url)}
+}
 async function croppedBlob(){
  if(!cropState)throw new Error("사진을 다시 선택하세요.");
  const c=cropState,target=c.kind==="profile"?{w:720,h:720}:{w:1600,h:420};
@@ -98,7 +115,7 @@ function render(){
  <section class="panel" data-panel="photos"><div class="card"><h2>사진</h2><p>앨범형 사진 공간입니다.</p><div class="empty">아직 만든 앨범이 없습니다.</div></div></section>
  <section class="panel" data-panel="guestbook"><div class="card"><h2>방명록</h2><p>친구와 방문자가 남기는 카드형 방명록 공간입니다.</p><div class="empty">${home.guestbook_scope==="off"?"방명록을 사용하지 않는 NexHome입니다.":"아직 남겨진 방명록이 없습니다."}</div></div></section>
  <section class="panel" data-panel="friends"><div class="card"><h2>친구</h2><p>친구 신청·수락 후 서로의 NexHome을 방문하는 공간입니다.</p><div class="empty">아직 표시할 친구가 없습니다.</div></div></section>
- ${isOwner?`<section class="panel" data-panel="style"><div class="card"><h2>기본 꾸미기</h2><p>복잡한 편집 대신 핵심 요소만 간단하게 바꿉니다.</p><div class="form"><div class="mediaManage"><b>프로필 · 커버 사진</b><p>사진 영역을 눌러도 되고 아래 버튼으로도 추가·변경할 수 있습니다.</p><div class="mediaActions"><button class="secondary" id="profileManage" type="button">${home.profile_url?"프로필 사진 변경":"프로필 사진 추가"}</button><button class="secondary" id="coverManage" type="button">${home.cover_url?"커버 사진 변경":"커버 사진 추가"}</button>${home.profile_url?'<button class="secondary danger" id="deleteProfile" type="button">프로필 사진 삭제</button>':''}${home.cover_url?'<button class="secondary danger" id="deleteCover" type="button">커버 사진 삭제</button>':''}</div></div><div class="field"><label>한 줄 소개</label><input id="intro" maxlength="80" value="${esc(home.intro||"")}"></div><div class="field"><label>기본 테마</label><select id="theme"><option value="light">밝은형</option><option value="blue">블루형</option><option value="dark">어두운형</option></select></div><div class="field"><label>NexHome 입장범위</label><select id="entry"><option value="public">전체 입장</option><option value="friends">친구만 입장</option><option value="private">나만 입장</option></select></div><div class="field"><label>방명록 작성범위</label><select id="guestbook"><option value="all">누구나 작성 가능</option><option value="friends">친구만 작성 가능</option><option value="off">방명록 사용 안 함</option></select></div><button class="save" id="save">저장</button><div class="status" id="saveState"></div></div></div></section>`:""}`;
+ ${isOwner?`<section class="panel" data-panel="style"><div class="card"><h2>기본 꾸미기</h2><p>복잡한 편집 대신 핵심 요소만 간단하게 바꿉니다.</p><div class="form"><div class="mediaManage"><b>프로필 · 커버 사진</b><p>커버는 사진만 고르면 카드 크기에 자동으로 맞춰집니다. 프로필은 위치를 직접 조정할 수 있습니다.</p><div class="mediaActions"><button class="secondary" id="profileManage" type="button">${home.profile_url?"프로필 사진 변경":"프로필 사진 추가"}</button><button class="secondary" id="coverManage" type="button">${home.cover_url?"커버 사진 변경":"커버 사진 추가"}</button>${home.profile_url?'<button class="secondary danger" id="deleteProfile" type="button">프로필 사진 삭제</button>':''}${home.cover_url?'<button class="secondary danger" id="deleteCover" type="button">커버 사진 삭제</button>':''}</div></div><div class="field"><label>한 줄 소개</label><input id="intro" maxlength="80" value="${esc(home.intro||"")}"></div><div class="field"><label>기본 테마</label><select id="theme"><option value="light">밝은형</option><option value="blue">블루형</option><option value="dark">어두운형</option></select></div><div class="field"><label>NexHome 입장범위</label><select id="entry"><option value="public">전체 입장</option><option value="friends">친구만 입장</option><option value="private">나만 입장</option></select></div><div class="field"><label>방명록 작성범위</label><select id="guestbook"><option value="all">누구나 작성 가능</option><option value="friends">친구만 작성 가능</option><option value="off">방명록 사용 안 함</option></select></div><button class="save" id="save">저장</button><div class="status" id="saveState"></div></div></div></section>`:""}`;
  document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>panel(b.dataset.tab));
  document.querySelectorAll("[data-record-more]").forEach(btn=>btn.onclick=()=>{const body=document.getElementById("recordBody-"+btn.dataset.recordMore);if(!body)return;body.classList.toggle("open");btn.textContent=body.classList.contains("open")?"접기":"더보기"});
  if(isOwner){
@@ -116,13 +133,26 @@ function render(){
    };
  }
  if(isOwner){
-   app.insertAdjacentHTML("beforeend",'<input class="pickerHidden" id="profilePicker" type="file" accept="image/jpeg,image/png,image/webp"><input class="pickerHidden" id="coverPicker" type="file" accept="image/jpeg,image/png,image/webp"><div class="cropModal" id="cropModal"><div class="cropSheet"><div class="cropHead"><h3 id="cropTitle">사진 맞추기</h3></div><p class="cropHelp">사진 전체보다 더 작게 축소할 수 있습니다. 모바일은 드래그·두 손가락, PC는 드래그·마우스휠로 맞추세요.</p><div class="cropFrame coverMode" id="cropFrame"><img class="cropBackdrop" id="cropBackdrop" alt=""><img class="cropPreviewImg" id="cropPreviewImg" alt=""></div><div class="zoomRow"><span>－</span><input id="cropZoom" type="range" min="1" max="4" step="0.01" value="1" aria-label="사진 확대 축소"><span>＋</span></div><div class="cropActions"><button class="cropCancel" id="cropCancel" type="button">취소</button><button class="cropApply" id="cropApply" type="button">적용</button></div></div></div>');
+   app.insertAdjacentHTML("beforeend",'<input class="pickerHidden" id="profilePicker" type="file" accept="image/jpeg,image/png,image/webp"><input class="pickerHidden" id="coverPicker" type="file" accept="image/jpeg,image/png,image/webp"><div class="cropModal" id="cropModal"><div class="cropSheet"><div class="cropHead"><h3 id="cropTitle">사진 맞추기</h3></div><p class="cropHelp">프로필 사진을 드래그하거나 확대·축소해서 원하는 위치에 맞추세요.</p><div class="cropFrame coverMode" id="cropFrame"><img class="cropBackdrop" id="cropBackdrop" alt=""><img class="cropPreviewImg" id="cropPreviewImg" alt=""></div><div class="zoomRow"><span>－</span><input id="cropZoom" type="range" min="1" max="4" step="0.01" value="1" aria-label="사진 확대 축소"><span>＋</span></div><div class="cropActions"><button class="cropCancel" id="cropCancel" type="button">취소</button><button class="cropApply" id="cropApply" type="button">적용</button></div></div></div>');
    const introEl=document.getElementById("intro"),themeEl=document.getElementById("theme"),entryEl=document.getElementById("entry"),guestbookEl=document.getElementById("guestbook"),saveEl=document.getElementById("save"),saveStateEl=document.getElementById("saveState");
    const profilePicker=document.getElementById("profilePicker"),coverPicker=document.getElementById("coverPicker"),profileEdit=document.getElementById("profileEdit"),coverEdit=document.getElementById("coverEdit"),profileManage=document.getElementById("profileManage"),coverManage=document.getElementById("coverManage"),cropFrame=document.getElementById("cropFrame"),cropZoom=document.getElementById("cropZoom"),cropCancel=document.getElementById("cropCancel"),cropApply=document.getElementById("cropApply"),deleteProfile=document.getElementById("deleteProfile"),deleteCover=document.getElementById("deleteCover");
    themeEl.value=home.theme||"light";entryEl.value=home.entry_scope||"public";guestbookEl.value=home.guestbook_scope||"friends";
    const pickProfile=()=>{profilePicker.value="";profilePicker.click()},pickCover=()=>{coverPicker.value="";coverPicker.click()};profileEdit.onclick=pickProfile;coverEdit.onclick=pickCover;if(profileManage)profileManage.onclick=pickProfile;if(coverManage)coverManage.onclick=pickCover;
    profilePicker.onchange=()=>profilePicker.files&&profilePicker.files[0]&&beginCrop("profile",profilePicker.files[0]);
-   coverPicker.onchange=()=>coverPicker.files&&coverPicker.files[0]&&beginCrop("cover",coverPicker.files[0]);
+   coverPicker.onchange=async()=>{
+     const file=coverPicker.files&&coverPicker.files[0];if(!file)return;
+     const chip=coverEdit.querySelector(".editChip");if(chip)chip.textContent="자동 적용 중…";
+     if(saveStateEl)saveStateEl.textContent="커버 사진을 자동으로 맞추는 중…";
+     try{
+       const blob=await autoCoverBlob(file);
+       home=await RNXRemote.uploadNexHomeImage(home.id,"cover",blob);
+       render();panel("home");
+     }catch(e){
+       if(chip)chip.textContent="📷 커버 변경";
+       if(saveStateEl)saveStateEl.textContent=e.message||"커버 사진을 적용하지 못했습니다.";
+       else alert(e.message||"커버 사진을 적용하지 못했습니다.");
+     }
+   };
    const pointers=new Map();let dragPointer=null,startX=0,startY=0,originX=0,originY=0,pinchStartDist=0,pinchStartZoom=1;
    const localPoint=(a,b)=>{const r=cropFrame.getBoundingClientRect();return{x:(a.clientX+b.clientX)/2-r.left,y:(a.clientY+b.clientY)/2-r.top}};
    const distance=(a,b)=>Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);
