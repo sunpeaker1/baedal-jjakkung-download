@@ -402,15 +402,21 @@ create table if not exists public.nexhomes (
   intro text not null default '오늘도 안전하게 달립니다.' check (char_length(intro) <= 80),
   cover_url text,
   profile_url text,
+  background_url text,
   theme text not null default 'light' check (theme in ('light','blue','dark')),
   entry_scope text not null default 'public' check (entry_scope in ('public','friends','private')),
   guestbook_scope text not null default 'friends' check (guestbook_scope in ('all','friends','off')),
   menu_order jsonb not null default '["home","records","photos","guestbook","friends"]'::jsonb,
   menu_hidden jsonb not null default '[]'::jsonb,
+  home_sections jsonb not null default '["records","photos","guestbook","friends"]'::jsonb,
   first_visit boolean not null default true,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+alter table public.nexhomes
+  add column if not exists background_url text,
+  add column if not exists home_sections jsonb not null default '["records","photos","guestbook","friends"]'::jsonb;
+
 create unique index if not exists nexhomes_room_name_unique_idx on public.nexhomes (lower(btrim(room_name)));
 create unique index if not exists nexhomes_address_unique_idx on public.nexhomes (lower(btrim(life_region)), road_no, house_no);
 create index if not exists nexhomes_owner_id_idx on public.nexhomes(owner_id);
