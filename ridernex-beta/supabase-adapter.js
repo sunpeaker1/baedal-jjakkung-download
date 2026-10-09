@@ -374,6 +374,7 @@
     if(!state.client||!state.user)throw new Error("로그인이 필요합니다.");
     const payload={updated_at:new Date().toISOString()};
     if(Object.prototype.hasOwnProperty.call(changes,"intro"))payload.intro=String(changes.intro||"").trim().slice(0,80);
+    if(Object.prototype.hasOwnProperty.call(changes,"statusMessage"))payload.status_message=String(changes.statusMessage||"").trim().slice(0,60);
     if(["light","blue","dark"].includes(changes.theme))payload.theme=changes.theme;
     if(["public","friends","private"].includes(changes.entryScope))payload.entry_scope=changes.entryScope;
     if(["all","friends","off"].includes(changes.guestbookScope))payload.guestbook_scope=changes.guestbookScope;
