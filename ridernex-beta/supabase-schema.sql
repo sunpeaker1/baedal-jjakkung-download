@@ -516,3 +516,40 @@ on public.nexhome_records
 for delete
 to authenticated
 using (author_id = (select auth.uid()));
+
+
+-- ============================================================
+-- NexHome public media bucket
+-- ============================================================
+insert into storage.buckets (id,name,public,file_size_limit,allowed_mime_types)
+values (
+  'nexhome-media',
+  'nexhome-media',
+  true,
+  6291456,
+  array['image/jpeg','image/png','image/webp']::text[]
+)
+on conflict (id) do update
+set public = excluded.public,
+    file_size_limit = excluded.file_size_limit,
+    allowed_mime_types = excluded.allowed_mime_types;
+
+drop policy if exists "NexHome users upload own media" on storage.objects;
+create policy "NexHome users upload own media"
+on storage.objects
+for insert
+to authenticated
+with check (
+  bucket_id = 'nexhome-media'
+  and (storage.foldername(name))[1] = (select auth.uid()::text)
+);
+
+drop policy if exists "NexHome users delete own media" on storage.objects;
+create policy "NexHome users delete own media"
+on storage.objects
+for delete
+to authenticated
+using (
+  bucket_id = 'nexhome-media'
+  and (storage.foldername(name))[1] = (select auth.uid()::text)
+);
