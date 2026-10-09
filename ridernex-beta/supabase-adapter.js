@@ -513,6 +513,32 @@
     return inserted;
   }
 
+  async function deleteNexHomeAlbumPhoto(photoId){
+    if(!state.client||!state.user)throw new Error("로그인이 필요합니다.");
+    const {data:photo,error:readError}=await state.client
+      .from("nexhome_photos")
+      .select("id,owner_id,storage_path")
+      .eq("id",photoId)
+      .single();
+    if(readError)throw readError;
+    if(!photo||photo.owner_id!==state.user.id)throw new Error("내 사진만 삭제할 수 있습니다.");
+
+    const {error:deleteError}=await state.client
+      .from("nexhome_photos")
+      .delete()
+      .eq("id",photo.id)
+      .eq("owner_id",state.user.id);
+    if(deleteError)throw deleteError;
+
+    if(photo.storage_path){
+      const {error:storageError}=await state.client.storage
+        .from("nexhome-media")
+        .remove([photo.storage_path]);
+      if(storageError)throw new Error("사진 기록은 삭제됐지만 파일 정리에 실패했습니다.");
+    }
+    return true;
+  }
+
   async function getNexHomeRecords(nexhomeId){
     if(!state.client||!nexhomeId)return [];
     const {data,error}=await state.client
@@ -635,5 +661,5 @@
     if(error)throw error;return data;
   }
 
-  window.RNXRemote={state,init,signUp,signIn,signOut,resendConfirmation,updateProfile,sendPasswordReset,updatePassword,deleteAccount,getRegionPosts,getComments,getMyPosts,refreshProfile,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,joinInterest,leaveInterest,isInterestMember,interestMemberCount,getInterestPosts,addInterestPost,getCarePosts,addCarePost,getNotifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,getMyNexHome,checkNexHomeAvailability,createNexHome,getNexHomeById,updateNexHome,uploadNexHomeImage,removeNexHomeImage,getNexHomeAlbums,getNexHomePhotos,createNexHomeAlbum,uploadNexHomeAlbumPhotos,getNexHomeRecords,addNexHomeRecord,finishNexHomeFirstVisit,isAdmin,getPendingBusinesses,setBusinessApproval,getAdminReports,setReportStatus,hideModeratedTarget,report};
+  window.RNXRemote={state,init,signUp,signIn,signOut,resendConfirmation,updateProfile,sendPasswordReset,updatePassword,deleteAccount,getRegionPosts,getComments,getMyPosts,refreshProfile,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,joinInterest,leaveInterest,isInterestMember,interestMemberCount,getInterestPosts,addInterestPost,getCarePosts,addCarePost,getNotifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,getMyNexHome,checkNexHomeAvailability,createNexHome,getNexHomeById,updateNexHome,uploadNexHomeImage,removeNexHomeImage,getNexHomeAlbums,getNexHomePhotos,createNexHomeAlbum,uploadNexHomeAlbumPhotos,deleteNexHomeAlbumPhoto,getNexHomeRecords,addNexHomeRecord,finishNexHomeFirstVisit,isAdmin,getPendingBusinesses,setBusinessApproval,getAdminReports,setReportStatus,hideModeratedTarget,report};
 })();
