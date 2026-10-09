@@ -419,8 +419,25 @@ grant select on public.nexhomes to anon, authenticated;
 grant insert, update, delete on public.nexhomes to authenticated;
 
 drop policy if exists "nexhomes public or owner read" on public.nexhomes;
-create policy "nexhomes public or owner read" on public.nexhomes for select to anon, authenticated
-using (entry_scope = 'public' or (select auth.uid()) = owner_id);
+drop policy if exists "nexhomes public owner or friend read" on public.nexhomes;
+create policy "nexhomes public owner or friend read" on public.nexhomes for select to anon, authenticated
+using (
+  entry_scope = 'public'
+  or (select auth.uid()) = owner_id
+  or (
+    entry_scope = 'friends'
+    and (select auth.uid()) is not null
+    and exists (
+      select 1 from public.nexhome_friendships f
+      where f.status = 'accepted'
+        and (
+          (f.requester_id = owner_id and f.addressee_id = (select auth.uid()))
+          or
+          (f.addressee_id = owner_id and f.requester_id = (select auth.uid()))
+        )
+    )
+  )
+);
 drop policy if exists "nexhomes owner insert" on public.nexhomes;
 create policy "nexhomes owner insert" on public.nexhomes for insert to authenticated
 with check ((select auth.uid()) = owner_id);
