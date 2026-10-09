@@ -1394,3 +1394,58 @@ revoke all on function public.toggle_nexhome_reaction(text,uuid) from public;
 revoke execute on function public.toggle_nexhome_reaction(text,uuid) from anon;
 grant execute on function public.get_nexhome_reaction_stats(uuid[],uuid[]) to anon,authenticated;
 grant execute on function public.toggle_nexhome_reaction(text,uuid) to authenticated;
+
+
+-- Final friends-only album/photo visibility upgrade.
+drop policy if exists "NexHome albums readable" on public.nexhome_albums;
+create policy "NexHome albums readable"
+on public.nexhome_albums
+for select
+to anon, authenticated
+using (
+  visibility = 'public'
+  or owner_id = (select auth.uid())
+  or (
+    visibility = 'friends'
+    and (select auth.uid()) is not null
+    and exists (
+      select 1 from public.nexhome_friendships f
+      where f.status = 'accepted'
+        and (
+          (f.requester_id = owner_id and f.addressee_id = (select auth.uid()))
+          or
+          (f.addressee_id = owner_id and f.requester_id = (select auth.uid()))
+        )
+    )
+  )
+);
+
+drop policy if exists "NexHome photos readable" on public.nexhome_photos;
+create policy "NexHome photos readable"
+on public.nexhome_photos
+for select
+to anon, authenticated
+using (
+  owner_id = (select auth.uid())
+  or exists (
+    select 1
+    from public.nexhome_albums a
+    where a.id = album_id
+      and (
+        a.visibility = 'public'
+        or (
+          a.visibility = 'friends'
+          and (select auth.uid()) is not null
+          and exists (
+            select 1 from public.nexhome_friendships f
+            where f.status = 'accepted'
+              and (
+                (f.requester_id = a.owner_id and f.addressee_id = (select auth.uid()))
+                or
+                (f.addressee_id = a.owner_id and f.requester_id = (select auth.uid()))
+              )
+          )
+        )
+      )
+  )
+);
