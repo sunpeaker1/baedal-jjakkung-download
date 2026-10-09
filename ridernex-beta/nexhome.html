@@ -41,8 +41,9 @@ function positionCrop(){
 }
 function constrainCrop(){
  if(!cropState)return;const c=cropState;
- c.x=c.dw<c.fw?(c.fw-c.dw)/2:clamp(c.x,c.fw-c.dw,0);
- c.y=c.dh<c.fh?(c.fh-c.dh)/2:clamp(c.y,c.fh-c.dh,0);
+ const dx=c.fw-c.dw,dy=c.fh-c.dh;
+ c.x=clamp(c.x,Math.min(0,dx),Math.max(0,dx));
+ c.y=clamp(c.y,Math.min(0,dy),Math.max(0,dy));
 }
 function applyCropZoom(nextZoom,focusX,focusY){
  if(!cropState)return;
@@ -59,7 +60,7 @@ function beginCrop(kind,file){
  if(!modal||!frame||!imgEl)return;closeCrop();cropObjectUrl=URL.createObjectURL(file);
  title.textContent=kind==="profile"?"프로필 사진 맞추기":"커버 사진 맞추기";
  frame.className="cropFrame "+(kind==="profile"?"profileMode":"coverMode");modal.classList.add("on");
- const img=new Image();img.onload=()=>{requestAnimationFrame(()=>{const fw=frame.clientWidth,fh=frame.clientHeight,coverScale=Math.max(fw/img.naturalWidth,fh/img.naturalHeight),containScale=Math.min(fw/img.naturalWidth,fh/img.naturalHeight),minZoom=kind==="cover"?Math.max(.15,containScale/coverScale):1,baseScale=coverScale,scale=baseScale,dw=img.naturalWidth*scale,dh=img.naturalHeight*scale;cropState={kind,file,img,fw,fh,baseScale,minZoom,zoom:1,scale,dw,dh,x:(fw-dw)/2,y:(fh-dh)/2,drag:false};imgEl.src=cropObjectUrl;if(bgEl)bgEl.src=cropObjectUrl;if(zoomEl){zoomEl.min=String(minZoom);zoomEl.value="1"}positionCrop()})};img.src=cropObjectUrl;
+ const img=new Image();img.onload=()=>{requestAnimationFrame(()=>{const fw=frame.clientWidth,fh=frame.clientHeight,coverScale=Math.max(fw/img.naturalWidth,fh/img.naturalHeight),containScale=Math.min(fw/img.naturalWidth,fh/img.naturalHeight),minZoom=kind==="cover"?Math.max(.08,(containScale/coverScale)*.45):1,baseScale=coverScale,scale=baseScale,dw=img.naturalWidth*scale,dh=img.naturalHeight*scale;cropState={kind,file,img,fw,fh,baseScale,minZoom,zoom:1,scale,dw,dh,x:(fw-dw)/2,y:(fh-dh)/2,drag:false};imgEl.src=cropObjectUrl;if(bgEl)bgEl.src=cropObjectUrl;if(zoomEl){zoomEl.min=String(minZoom);zoomEl.value="1"}positionCrop()})};img.src=cropObjectUrl;
 }
 async function croppedBlob(){
  if(!cropState)throw new Error("사진을 다시 선택하세요.");
@@ -115,7 +116,7 @@ function render(){
    };
  }
  if(isOwner){
-   app.insertAdjacentHTML("beforeend",'<input class="pickerHidden" id="profilePicker" type="file" accept="image/jpeg,image/png,image/webp"><input class="pickerHidden" id="coverPicker" type="file" accept="image/jpeg,image/png,image/webp"><div class="cropModal" id="cropModal"><div class="cropSheet"><div class="cropHead"><h3 id="cropTitle">사진 맞추기</h3></div><p class="cropHelp">모바일은 드래그·두 손가락 확대축소, PC는 드래그·마우스휠로 맞출 수 있습니다.</p><div class="cropFrame coverMode" id="cropFrame"><img class="cropBackdrop" id="cropBackdrop" alt=""><img class="cropPreviewImg" id="cropPreviewImg" alt=""></div><div class="zoomRow"><span>－</span><input id="cropZoom" type="range" min="1" max="4" step="0.01" value="1" aria-label="사진 확대 축소"><span>＋</span></div><div class="cropActions"><button class="cropCancel" id="cropCancel" type="button">취소</button><button class="cropApply" id="cropApply" type="button">적용</button></div></div></div>');
+   app.insertAdjacentHTML("beforeend",'<input class="pickerHidden" id="profilePicker" type="file" accept="image/jpeg,image/png,image/webp"><input class="pickerHidden" id="coverPicker" type="file" accept="image/jpeg,image/png,image/webp"><div class="cropModal" id="cropModal"><div class="cropSheet"><div class="cropHead"><h3 id="cropTitle">사진 맞추기</h3></div><p class="cropHelp">사진 전체보다 더 작게 축소할 수 있습니다. 모바일은 드래그·두 손가락, PC는 드래그·마우스휠로 맞추세요.</p><div class="cropFrame coverMode" id="cropFrame"><img class="cropBackdrop" id="cropBackdrop" alt=""><img class="cropPreviewImg" id="cropPreviewImg" alt=""></div><div class="zoomRow"><span>－</span><input id="cropZoom" type="range" min="1" max="4" step="0.01" value="1" aria-label="사진 확대 축소"><span>＋</span></div><div class="cropActions"><button class="cropCancel" id="cropCancel" type="button">취소</button><button class="cropApply" id="cropApply" type="button">적용</button></div></div></div>');
    const introEl=document.getElementById("intro"),themeEl=document.getElementById("theme"),entryEl=document.getElementById("entry"),guestbookEl=document.getElementById("guestbook"),saveEl=document.getElementById("save"),saveStateEl=document.getElementById("saveState");
    const profilePicker=document.getElementById("profilePicker"),coverPicker=document.getElementById("coverPicker"),profileEdit=document.getElementById("profileEdit"),coverEdit=document.getElementById("coverEdit"),profileManage=document.getElementById("profileManage"),coverManage=document.getElementById("coverManage"),cropFrame=document.getElementById("cropFrame"),cropZoom=document.getElementById("cropZoom"),cropCancel=document.getElementById("cropCancel"),cropApply=document.getElementById("cropApply"),deleteProfile=document.getElementById("deleteProfile"),deleteCover=document.getElementById("deleteCover");
    themeEl.value=home.theme||"light";entryEl.value=home.entry_scope||"public";guestbookEl.value=home.guestbook_scope||"friends";
