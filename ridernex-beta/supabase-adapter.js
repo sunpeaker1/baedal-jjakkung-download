@@ -538,17 +538,58 @@
     return data;
   }
 
-  async function updateNexHomePhotoCaption(photoId,caption=""){
+  async function updateNexHomePhotoPost(photoId,{title,body}={}){
     if(!state.client||!state.user)throw new Error("로그인이 필요합니다.");
+    const changes={};
+    if(title!==undefined)changes.title=String(title||"").trim().slice(0,80);
+    if(body!==undefined)changes.caption=String(body||"").trim().slice(0,1200);
     const {data,error}=await state.client
       .from("nexhome_photos")
-      .update({caption:String(caption||"").trim().slice(0,300)})
+      .update(changes)
       .eq("id",photoId)
       .eq("owner_id",state.user.id)
       .select()
       .single();
     if(error)throw error;
     return data;
+  }
+
+  async function updateNexHomePhotoCaption(photoId,caption=""){
+    return updateNexHomePhotoPost(photoId,{body:caption});
+  }
+
+  async function getNexHomePhotoComments(photoId){
+    if(!state.client||!photoId)return [];
+    const {data,error}=await state.client
+      .from("nexhome_photo_comments")
+      .select("*,profiles!nexhome_photo_comments_author_id_fkey(nickname)")
+      .eq("photo_id",photoId)
+      .order("created_at",{ascending:true});
+    if(error)throw error;
+    return data||[];
+  }
+
+  async function addNexHomePhotoComment(photoId,body){
+    if(!state.client||!state.user)throw new Error("로그인이 필요합니다.");
+    const text=String(body||"").trim().slice(0,500);
+    if(!text)throw new Error("댓글 내용을 입력하세요.");
+    const {data,error}=await state.client
+      .from("nexhome_photo_comments")
+      .insert({photo_id:photoId,author_id:state.user.id,body:text})
+      .select("*,profiles!nexhome_photo_comments_author_id_fkey(nickname)")
+      .single();
+    if(error)throw error;
+    return data;
+  }
+
+  async function deleteNexHomePhotoComment(commentId){
+    if(!state.client||!state.user)throw new Error("로그인이 필요합니다.");
+    const {error}=await state.client
+      .from("nexhome_photo_comments")
+      .delete()
+      .eq("id",commentId);
+    if(error)throw error;
+    return true;
   }
 
   async function deleteNexHomeAlbumPhoto(photoId){
@@ -699,5 +740,5 @@
     if(error)throw error;return data;
   }
 
-  window.RNXRemote={state,init,signUp,signIn,signOut,resendConfirmation,updateProfile,sendPasswordReset,updatePassword,deleteAccount,getRegionPosts,getComments,getMyPosts,refreshProfile,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,joinInterest,leaveInterest,isInterestMember,interestMemberCount,getInterestPosts,addInterestPost,getCarePosts,addCarePost,getNotifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,getMyNexHome,checkNexHomeAvailability,createNexHome,getNexHomeById,updateNexHome,uploadNexHomeImage,removeNexHomeImage,getNexHomeAlbums,getNexHomePhotos,createNexHomeAlbum,updateNexHomeAlbum,uploadNexHomeAlbumPhotos,updateNexHomePhotoCaption,deleteNexHomeAlbumPhoto,getNexHomeRecords,addNexHomeRecord,finishNexHomeFirstVisit,isAdmin,getPendingBusinesses,setBusinessApproval,getAdminReports,setReportStatus,hideModeratedTarget,report};
+  window.RNXRemote={state,init,signUp,signIn,signOut,resendConfirmation,updateProfile,sendPasswordReset,updatePassword,deleteAccount,getRegionPosts,getComments,getMyPosts,refreshProfile,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,joinInterest,leaveInterest,isInterestMember,interestMemberCount,getInterestPosts,addInterestPost,getCarePosts,addCarePost,getNotifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,getMyNexHome,checkNexHomeAvailability,createNexHome,getNexHomeById,updateNexHome,uploadNexHomeImage,removeNexHomeImage,getNexHomeAlbums,getNexHomePhotos,createNexHomeAlbum,updateNexHomeAlbum,uploadNexHomeAlbumPhotos,updateNexHomePhotoPost,updateNexHomePhotoCaption,getNexHomePhotoComments,addNexHomePhotoComment,deleteNexHomePhotoComment,deleteNexHomeAlbumPhoto,getNexHomeRecords,addNexHomeRecord,finishNexHomeFirstVisit,isAdmin,getPendingBusinesses,setBusinessApproval,getAdminReports,setReportStatus,hideModeratedTarget,report};
 })();
