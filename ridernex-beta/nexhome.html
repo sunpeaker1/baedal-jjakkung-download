@@ -18,7 +18,7 @@
 <main class="wrap" id="app"><div class="empty">NexHome을 불러오는 중입니다.</div></main>
 <script src="beta-store.js"></script><script src="supabase-adapter.js"></script>
 <script>
-const app=document.getElementById("app");let home=null,isOwner=false,records=[];
+const app=document.getElementById("app");let home=null,isOwner=false,records=[],cropState=null,cropObjectUrl=null;
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
 function address(h){return h.life_region+" "+h.room_name+" "+h.road_no+"길"+h.house_no}
 function fmtRecordDate(v){try{return new Intl.DateTimeFormat("ko-KR",{year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"}).format(new Date(v))}catch{return ""}}
@@ -28,6 +28,34 @@ function recordsHtml(){
  return records.map(r=>'<article class="recordItem"><h3>'+esc(r.title)+'</h3><div class="recordMeta"><span>'+fmtRecordDate(r.created_at)+'</span><span class="privacy">'+visibilityText(r.visibility)+'</span></div><div class="recordBody" id="recordBody-'+r.id+'">'+esc(r.body)+'</div><button class="recordMore" data-record-more="'+r.id+'">더보기</button></article>').join("");
 }
 function panel(name){document.querySelectorAll(".tabs button").forEach(b=>b.classList.toggle("on",b.dataset.tab===name));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("on",p.dataset.panel===name))}
+function clamp(v,min,max){return Math.min(max,Math.max(min,v))}
+function closeCrop(){
+ const modal=document.getElementById("cropModal");if(modal)modal.classList.remove("on");
+ if(cropObjectUrl){URL.revokeObjectURL(cropObjectUrl);cropObjectUrl=null}
+ cropState=null;
+}
+function positionCrop(){
+ if(!cropState)return;const imgEl=document.getElementById("cropPreviewImg");if(!imgEl)return;
+ imgEl.style.width=cropState.dw+"px";imgEl.style.height=cropState.dh+"px";imgEl.style.left=cropState.x+"px";imgEl.style.top=cropState.y+"px";
+}
+function beginCrop(kind,file){
+ const allowed=["image/jpeg","image/png","image/webp"];
+ if(!file||!allowed.includes(file.type)){alert("JPG, PNG, WEBP 이미지만 사용할 수 있습니다.");return}
+ if(file.size>20*1024*1024){alert("원본 사진은 20MB 이하만 선택해주세요.");return}
+ const modal=document.getElementById("cropModal"),frame=document.getElementById("cropFrame"),title=document.getElementById("cropTitle"),imgEl=document.getElementById("cropPreviewImg");
+ if(!modal||!frame||!imgEl)return;closeCrop();cropObjectUrl=URL.createObjectURL(file);
+ title.textContent=kind==="profile"?"프로필 사진 맞추기":"커버 사진 맞추기";
+ frame.className="cropFrame "+(kind==="profile"?"profileMode":"coverMode");modal.classList.add("on");
+ const img=new Image();img.onload=()=>{requestAnimationFrame(()=>{const fw=frame.clientWidth,fh=frame.clientHeight,scale=Math.max(fw/img.naturalWidth,fh/img.naturalHeight),dw=img.naturalWidth*scale,dh=img.naturalHeight*scale;cropState={kind,file,img,fw,fh,scale,dw,dh,x:(fw-dw)/2,y:(fh-dh)/2,drag:false};imgEl.src=cropObjectUrl;positionCrop()})};img.src=cropObjectUrl;
+}
+async function croppedBlob(){
+ if(!cropState)throw new Error("사진을 다시 선택하세요.");
+ const c=cropState,target=c.kind==="profile"?{w:720,h:720}:{w:1600,h:420};
+ const sx=-c.x/c.scale,sy=-c.y/c.scale,sw=c.fw/c.scale,sh=c.fh/c.scale;
+ const canvas=document.createElement("canvas");canvas.width=target.w;canvas.height=target.h;
+ const ctx=canvas.getContext("2d",{alpha:false});ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality="high";ctx.drawImage(c.img,sx,sy,sw,sh,0,0,target.w,target.h);
+ return await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error("사진을 처리하지 못했습니다.")),"image/webp",.84));
+}
 (async()=>{
  const s=await RNXRemote.init();if(!s.enabled){app.innerHTML='<div class="locked"><h2>서버 연결을 확인할 수 없습니다.</h2><p>잠시 후 다시 시도하세요.</p></div>';return}
  const id=new URLSearchParams(location.search).get("id");
@@ -66,10 +94,23 @@ function render(){
      }catch(e){stateEl.textContent=e.message||"기록을 저장하지 못했습니다.";recordSaveEl.disabled=false}
    };
  }
- if(isOwner){const introEl=document.getElementById("intro"),themeEl=document.getElementById("theme"),entryEl=document.getElementById("entry"),guestbookEl=document.getElementById("guestbook"),saveEl=document.getElementById("save"),saveStateEl=document.getElementById("saveState"),profileFileEl=document.getElementById("profileFile"),coverFileEl=document.getElementById("coverFile"),profileUploadEl=document.getElementById("profileUpload"),coverUploadEl=document.getElementById("coverUpload");themeEl.value=home.theme||"light";entryEl.value=home.entry_scope||"public";guestbookEl.value=home.guestbook_scope||"friends";
-   const uploadImage=async(kind,fileEl,buttonEl)=>{if(!fileEl.files||!fileEl.files[0]){saveStateEl.textContent="사진을 먼저 선택하세요.";return}buttonEl.disabled=true;saveStateEl.textContent=kind==="profile"?"프로필 사진 업로드 중…":"커버 사진 업로드 중…";try{home=await RNXRemote.uploadNexHomeImage(home.id,kind,fileEl.files[0]);render();panel("style");const stateEl=document.getElementById("saveState");if(stateEl)stateEl.textContent="사진을 적용했습니다."}catch(e){saveStateEl.textContent=e.message||"사진을 적용하지 못했습니다.";buttonEl.disabled=false}};
-   profileUploadEl.onclick=()=>uploadImage("profile",profileFileEl,profileUploadEl);
-   coverUploadEl.onclick=()=>uploadImage("cover",coverFileEl,coverUploadEl);
-   saveEl.onclick=async()=>{saveEl.disabled=true;saveStateEl.textContent="저장 중…";try{home=await RNXRemote.updateNexHome(home.id,{intro:introEl.value,theme:themeEl.value,entryScope:entryEl.value,guestbookScope:guestbookEl.value});saveStateEl.textContent="저장했습니다.";setTimeout(render,450)}catch(e){saveStateEl.textContent=e.message||"저장하지 못했습니다.";saveEl.disabled=false}}}
+ if(isOwner){
+   app.insertAdjacentHTML("beforeend",'<input class="pickerHidden" id="profilePicker" type="file" accept="image/jpeg,image/png,image/webp"><input class="pickerHidden" id="coverPicker" type="file" accept="image/jpeg,image/png,image/webp"><div class="cropModal" id="cropModal"><div class="cropSheet"><div class="cropHead"><h3 id="cropTitle">사진 맞추기</h3></div><p class="cropHelp">사진을 손가락으로 움직여 보이는 위치를 맞춘 뒤 적용하세요.</p><div class="cropFrame coverMode" id="cropFrame"><img class="cropPreviewImg" id="cropPreviewImg" alt=""></div><div class="cropActions"><button class="cropCancel" id="cropCancel" type="button">취소</button><button class="cropApply" id="cropApply" type="button">적용</button></div></div></div>');
+   const introEl=document.getElementById("intro"),themeEl=document.getElementById("theme"),entryEl=document.getElementById("entry"),guestbookEl=document.getElementById("guestbook"),saveEl=document.getElementById("save"),saveStateEl=document.getElementById("saveState");
+   const profilePicker=document.getElementById("profilePicker"),coverPicker=document.getElementById("coverPicker"),profileEdit=document.getElementById("profileEdit"),coverEdit=document.getElementById("coverEdit"),cropFrame=document.getElementById("cropFrame"),cropCancel=document.getElementById("cropCancel"),cropApply=document.getElementById("cropApply"),deleteProfile=document.getElementById("deleteProfile"),deleteCover=document.getElementById("deleteCover");
+   themeEl.value=home.theme||"light";entryEl.value=home.entry_scope||"public";guestbookEl.value=home.guestbook_scope||"friends";
+   profileEdit.onclick=()=>{profilePicker.value="";profilePicker.click()};coverEdit.onclick=()=>{coverPicker.value="";coverPicker.click()};
+   profilePicker.onchange=()=>profilePicker.files&&profilePicker.files[0]&&beginCrop("profile",profilePicker.files[0]);
+   coverPicker.onchange=()=>coverPicker.files&&coverPicker.files[0]&&beginCrop("cover",coverPicker.files[0]);
+   let pointerId=null,startX=0,startY=0,originX=0,originY=0;
+   cropFrame.onpointerdown=e=>{if(!cropState)return;pointerId=e.pointerId;cropFrame.setPointerCapture(pointerId);startX=e.clientX;startY=e.clientY;originX=cropState.x;originY=cropState.y;cropState.drag=true};
+   cropFrame.onpointermove=e=>{if(!cropState||!cropState.drag||e.pointerId!==pointerId)return;const minX=Math.min(0,cropState.fw-cropState.dw),minY=Math.min(0,cropState.fh-cropState.dh);cropState.x=clamp(originX+(e.clientX-startX),minX,0);cropState.y=clamp(originY+(e.clientY-startY),minY,0);positionCrop()};
+   const stopDrag=()=>{if(cropState)cropState.drag=false;pointerId=null};cropFrame.onpointerup=stopDrag;cropFrame.onpointercancel=stopDrag;
+   cropCancel.onclick=closeCrop;
+   cropApply.onclick=async()=>{cropApply.disabled=true;cropApply.textContent="적용 중…";try{const kind=cropState&&cropState.kind,blob=await croppedBlob();home=await RNXRemote.uploadNexHomeImage(home.id,kind,blob);closeCrop();render();panel("home")}catch(e){alert(e.message||"사진을 적용하지 못했습니다.");cropApply.disabled=false;cropApply.textContent="적용"}};
+   const removePhoto=async kind=>{if(!confirm((kind==="profile"?"프로필":"커버")+" 사진을 삭제할까요?"))return;saveStateEl.textContent="삭제 중…";try{home=await RNXRemote.removeNexHomeImage(home.id,kind);render();panel("style")}catch(e){saveStateEl.textContent=e.message||"사진을 삭제하지 못했습니다."}};
+   if(deleteProfile)deleteProfile.onclick=()=>removePhoto("profile");if(deleteCover)deleteCover.onclick=()=>removePhoto("cover");
+   saveEl.onclick=async()=>{saveEl.disabled=true;saveStateEl.textContent="저장 중…";try{home=await RNXRemote.updateNexHome(home.id,{intro:introEl.value,theme:themeEl.value,entryScope:entryEl.value,guestbookScope:guestbookEl.value});saveStateEl.textContent="저장했습니다.";setTimeout(render,450)}catch(e){saveStateEl.textContent=e.message||"저장하지 못했습니다.";saveEl.disabled=false}};
+ }
 }
 </script></body></html>
