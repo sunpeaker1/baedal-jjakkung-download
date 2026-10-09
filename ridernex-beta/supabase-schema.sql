@@ -576,6 +576,7 @@ create table if not exists public.nexhome_photos (
   owner_id uuid not null references public.profiles(id) on delete cascade,
   image_url text not null,
   storage_path text not null,
+  title text not null default '',
   caption text not null default '',
   sort_order integer not null default 0,
   created_at timestamptz not null default now()
@@ -688,3 +689,76 @@ on public.nexhome_photos
 for delete
 to authenticated
 using (owner_id = (select auth.uid()));
+
+
+-- ============================================================
+-- NexHome Cyworld-style photo posts
+-- ============================================================
+create table if not exists public.nexhome_photo_comments (
+  id uuid primary key default gen_random_uuid(),
+  photo_id uuid not null references public.nexhome_photos(id) on delete cascade,
+  author_id uuid not null references public.profiles(id) on delete cascade,
+  body text not null check (char_length(btrim(body)) between 1 and 500),
+  created_at timestamptz not null default now()
+);
+
+create index if not exists nexhome_photo_comments_photo_created_idx
+  on public.nexhome_photo_comments(photo_id, created_at asc);
+create index if not exists nexhome_photo_comments_author_idx
+  on public.nexhome_photo_comments(author_id);
+
+alter table public.nexhome_photo_comments enable row level security;
+
+grant select on public.nexhome_photo_comments to anon, authenticated;
+grant insert, delete on public.nexhome_photo_comments to authenticated;
+
+drop policy if exists "NexHome photo comments readable" on public.nexhome_photo_comments;
+create policy "NexHome photo comments readable"
+on public.nexhome_photo_comments
+for select
+to anon, authenticated
+using (
+  exists (
+    select 1
+    from public.nexhome_photos p
+    join public.nexhome_albums a on a.id = p.album_id
+    where p.id = photo_id
+      and (
+        a.visibility = 'public'
+        or p.owner_id = (select auth.uid())
+      )
+  )
+);
+
+drop policy if exists "Signed in users can comment on readable NexHome photos" on public.nexhome_photo_comments;
+create policy "Signed in users can comment on readable NexHome photos"
+on public.nexhome_photo_comments
+for insert
+to authenticated
+with check (
+  author_id = (select auth.uid())
+  and exists (
+    select 1
+    from public.nexhome_photos p
+    join public.nexhome_albums a on a.id = p.album_id
+    where p.id = photo_id
+      and (
+        a.visibility = 'public'
+        or p.owner_id = (select auth.uid())
+      )
+  )
+);
+
+drop policy if exists "Comment author or photo owner can delete NexHome comments" on public.nexhome_photo_comments;
+create policy "Comment author or photo owner can delete NexHome comments"
+on public.nexhome_photo_comments
+for delete
+to authenticated
+using (
+  author_id = (select auth.uid())
+  or exists (
+    select 1 from public.nexhome_photos p
+    where p.id = photo_id
+      and p.owner_id = (select auth.uid())
+  )
+);
