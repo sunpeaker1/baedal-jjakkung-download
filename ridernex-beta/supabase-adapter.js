@@ -432,6 +432,87 @@
     return updated;
   }
 
+  async function getNexHomeAlbums(nexhomeId){
+    if(!state.client||!nexhomeId)return [];
+    const {data,error}=await state.client
+      .from("nexhome_albums")
+      .select("*")
+      .eq("nexhome_id",nexhomeId)
+      .order("created_at",{ascending:false});
+    if(error)throw error;
+    return data||[];
+  }
+
+  async function getNexHomePhotos(nexhomeId,albumId=null){
+    if(!state.client||!nexhomeId)return [];
+    let q=state.client
+      .from("nexhome_photos")
+      .select("*")
+      .eq("nexhome_id",nexhomeId)
+      .order("created_at",{ascending:false});
+    if(albumId)q=q.eq("album_id",albumId);
+    const {data,error}=await q;
+    if(error)throw error;
+    return data||[];
+  }
+
+  async function createNexHomeAlbum(nexhomeId,{title,visibility="public"}={}){
+    if(!state.client||!state.user)throw new Error("로그인이 필요합니다.");
+    const owned=await getMyNexHome();
+    if(!owned||owned.id!==nexhomeId)throw new Error("내 NexHome에서만 앨범을 만들 수 있습니다.");
+    const payload={
+      nexhome_id:nexhomeId,
+      owner_id:state.user.id,
+      title:String(title||"").trim().slice(0,60),
+      visibility:["public","friends","private"].includes(visibility)?visibility:"public"
+    };
+    if(!payload.title)throw new Error("앨범 이름을 입력하세요.");
+    const {data,error}=await state.client.from("nexhome_albums").insert(payload).select().single();
+    if(error)throw error;
+    return data;
+  }
+
+  async function uploadNexHomeAlbumPhotos(albumId,files=[]){
+    if(!state.client||!state.user)throw new Error("로그인이 필요합니다.");
+    const list=Array.from(files||[]).filter(Boolean).slice(0,20);
+    if(!list.length)throw new Error("사진을 선택하세요.");
+    const {data:album,error:albumError}=await state.client
+      .from("nexhome_albums")
+      .select("id,nexhome_id,owner_id")
+      .eq("id",albumId)
+      .single();
+    if(albumError)throw albumError;
+    if(!album||album.owner_id!==state.user.id)throw new Error("내 앨범에만 사진을 올릴 수 있습니다.");
+    const allowed={"image/jpeg":"jpg","image/png":"png","image/webp":"webp"};
+    const inserted=[];
+    for(let i=0;i<list.length;i++){
+      const file=list[i],ext=allowed[file.type];
+      if(!ext)throw new Error("JPG, PNG, WEBP 이미지만 올릴 수 있습니다.");
+      if(file.size>6291456)throw new Error("사진은 한 장당 6MB 이하만 올릴 수 있습니다.");
+      const token=(globalThis.crypto&&crypto.randomUUID)?crypto.randomUUID():Math.random().toString(36).slice(2);
+      const storagePath=state.user.id+"/albums/"+album.id+"/"+Date.now()+"-"+i+"-"+token+"."+ext;
+      const {data:uploaded,error:uploadError}=await state.client.storage.from("nexhome-media").upload(storagePath,file,{
+        cacheControl:"3600",contentType:file.type,upsert:false
+      });
+      if(uploadError)throw uploadError;
+      const {data:publicData}=state.client.storage.from("nexhome-media").getPublicUrl(uploaded.path);
+      const url=publicData&&publicData.publicUrl;
+      if(!url){try{await state.client.storage.from("nexhome-media").remove([uploaded.path])}catch{};throw new Error("사진 주소를 만들지 못했습니다.");}
+      const row={
+        album_id:album.id,
+        nexhome_id:album.nexhome_id,
+        owner_id:state.user.id,
+        image_url:url,
+        storage_path:uploaded.path,
+        sort_order:i
+      };
+      const {data,error}=await state.client.from("nexhome_photos").insert(row).select().single();
+      if(error){try{await state.client.storage.from("nexhome-media").remove([uploaded.path])}catch{};throw error;}
+      inserted.push(data);
+    }
+    return inserted;
+  }
+
   async function getNexHomeRecords(nexhomeId){
     if(!state.client||!nexhomeId)return [];
     const {data,error}=await state.client
@@ -554,5 +635,5 @@
     if(error)throw error;return data;
   }
 
-  window.RNXRemote={state,init,signUp,signIn,signOut,resendConfirmation,updateProfile,sendPasswordReset,updatePassword,deleteAccount,getRegionPosts,getComments,getMyPosts,refreshProfile,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,joinInterest,leaveInterest,isInterestMember,interestMemberCount,getInterestPosts,addInterestPost,getCarePosts,addCarePost,getNotifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,getMyNexHome,checkNexHomeAvailability,createNexHome,getNexHomeById,updateNexHome,uploadNexHomeImage,removeNexHomeImage,getNexHomeRecords,addNexHomeRecord,finishNexHomeFirstVisit,isAdmin,getPendingBusinesses,setBusinessApproval,getAdminReports,setReportStatus,hideModeratedTarget,report};
+  window.RNXRemote={state,init,signUp,signIn,signOut,resendConfirmation,updateProfile,sendPasswordReset,updatePassword,deleteAccount,getRegionPosts,getComments,getMyPosts,refreshProfile,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,joinInterest,leaveInterest,isInterestMember,interestMemberCount,getInterestPosts,addInterestPost,getCarePosts,addCarePost,getNotifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,getMyNexHome,checkNexHomeAvailability,createNexHome,getNexHomeById,updateNexHome,uploadNexHomeImage,removeNexHomeImage,getNexHomeAlbums,getNexHomePhotos,createNexHomeAlbum,uploadNexHomeAlbumPhotos,getNexHomeRecords,addNexHomeRecord,finishNexHomeFirstVisit,isAdmin,getPendingBusinesses,setBusinessApproval,getAdminReports,setReportStatus,hideModeratedTarget,report};
 })();
