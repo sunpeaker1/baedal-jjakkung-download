@@ -618,6 +618,96 @@
     return true;
   }
 
+  async function getNexHomeFriendState(otherUserId){
+    if(!state.client||!state.user||!otherUserId)return {status:"signed_out",row:null};
+    if(state.user.id===otherUserId)return {status:"self",row:null};
+    const uid=state.user.id;
+    const {data,error}=await state.client
+      .from("nexhome_friendships")
+      .select("*")
+      .or("and(requester_id.eq."+uid+",addressee_id.eq."+otherUserId+"),and(requester_id.eq."+otherUserId+",addressee_id.eq."+uid+")")
+      .maybeSingle();
+    if(error)throw error;
+    if(!data)return {status:"none",row:null};
+    if(data.status==="accepted")return {status:"accepted",row:data};
+    if(data.status==="pending"&&data.requester_id===uid)return {status:"outgoing_pending",row:data};
+    if(data.status==="pending"&&data.addressee_id===uid)return {status:"incoming_pending",row:data};
+    return {status:data.status||"none",row:data};
+  }
+
+  async function sendNexHomeFriendRequest(otherUserId){
+    if(!state.client||!state.user)throw new Error("로그인이 필요합니다.");
+    if(!otherUserId||otherUserId===state.user.id)throw new Error("내 자신에게는 친구 신청을 할 수 없습니다.");
+    const current=await getNexHomeFriendState(otherUserId);
+    if(current.status==="accepted")return current.row;
+    if(current.status==="outgoing_pending")return current.row;
+    if(current.status==="incoming_pending")throw new Error("상대가 먼저 친구 신청을 보냈습니다. 수락해주세요.");
+    if(current.row){
+      const {error:removeError}=await state.client.from("nexhome_friendships").delete().eq("id",current.row.id);
+      if(removeError)throw removeError;
+    }
+    const {data,error}=await state.client
+      .from("nexhome_friendships")
+      .insert({requester_id:state.user.id,addressee_id:otherUserId,status:"pending"})
+      .select()
+      .single();
+    if(error)throw error;
+    return data;
+  }
+
+  async function answerNexHomeFriendRequest(friendshipId,accept=true){
+    if(!state.client||!state.user)throw new Error("로그인이 필요합니다.");
+    const status=accept?"accepted":"rejected";
+    const {data,error}=await state.client
+      .from("nexhome_friendships")
+      .update({status,updated_at:new Date().toISOString()})
+      .eq("id",friendshipId)
+      .eq("addressee_id",state.user.id)
+      .eq("status","pending")
+      .select()
+      .single();
+    if(error)throw error;
+    return data;
+  }
+
+  async function removeNexHomeFriendship(friendshipId){
+    if(!state.client||!state.user)throw new Error("로그인이 필요합니다.");
+    const {error}=await state.client.from("nexhome_friendships").delete().eq("id",friendshipId);
+    if(error)throw error;
+    return true;
+  }
+
+  async function getMyNexHomeFriends(){
+    if(!state.client||!state.user)return {incoming:[],outgoing:[],friends:[]};
+    const uid=state.user.id;
+    const {data:rows,error}=await state.client
+      .from("nexhome_friendships")
+      .select("*")
+      .or("requester_id.eq."+uid+",addressee_id.eq."+uid)
+      .order("created_at",{ascending:false});
+    if(error)throw error;
+    const list=rows||[];
+    const ids=[...new Set(list.flatMap(r=>[r.requester_id,r.addressee_id]).filter(id=>id!==uid))];
+    let profiles=[],homes=[];
+    if(ids.length){
+      const pr=await state.client.from("profiles").select("id,nickname,primary_region,bike").in("id",ids);
+      if(pr.error)throw pr.error;profiles=pr.data||[];
+      const hr=await state.client.from("nexhomes").select("id,owner_id,room_name,life_region,profile_url,intro").in("owner_id",ids);
+      if(hr.error)throw hr.error;homes=hr.data||[];
+    }
+    const byProfile=Object.fromEntries(profiles.map(p=>[p.id,p]));
+    const byHome=Object.fromEntries(homes.map(h=>[h.owner_id,h]));
+    const enrich=r=>{
+      const otherId=r.requester_id===uid?r.addressee_id:r.requester_id;
+      return {...r,other_id:otherId,profile:byProfile[otherId]||null,nexhome:byHome[otherId]||null};
+    };
+    return {
+      incoming:list.filter(r=>r.status==="pending"&&r.addressee_id===uid).map(enrich),
+      outgoing:list.filter(r=>r.status==="pending"&&r.requester_id===uid).map(enrich),
+      friends:list.filter(r=>r.status==="accepted").map(enrich)
+    };
+  }
+
   async function isNexHomeFriend(ownerId){
     if(!state.client||!state.user||!ownerId)return false;
     if(state.user.id===ownerId)return true;
@@ -802,5 +892,5 @@
     if(error)throw error;return data;
   }
 
-  window.RNXRemote={state,init,signUp,signIn,signOut,resendConfirmation,updateProfile,sendPasswordReset,updatePassword,deleteAccount,getRegionPosts,getComments,getMyPosts,refreshProfile,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,joinInterest,leaveInterest,isInterestMember,interestMemberCount,getInterestPosts,addInterestPost,getCarePosts,addCarePost,getNotifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,getMyNexHome,checkNexHomeAvailability,createNexHome,getNexHomeById,updateNexHome,uploadNexHomeImage,removeNexHomeImage,getNexHomeAlbums,getNexHomePhotos,createNexHomeAlbum,updateNexHomeAlbum,uploadNexHomeAlbumPhotos,updateNexHomePhotoPost,updateNexHomePhotoCaption,getNexHomePhotoComments,addNexHomePhotoComment,deleteNexHomePhotoComment,deleteNexHomeAlbumPhoto,isNexHomeFriend,getNexHomeGuestbook,addNexHomeGuestbookEntry,replyNexHomeGuestbookEntry,deleteNexHomeGuestbookEntry,getNexHomeRecords,addNexHomeRecord,finishNexHomeFirstVisit,isAdmin,getPendingBusinesses,setBusinessApproval,getAdminReports,setReportStatus,hideModeratedTarget,report};
+  window.RNXRemote={state,init,signUp,signIn,signOut,resendConfirmation,updateProfile,sendPasswordReset,updatePassword,deleteAccount,getRegionPosts,getComments,getMyPosts,refreshProfile,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,joinInterest,leaveInterest,isInterestMember,interestMemberCount,getInterestPosts,addInterestPost,getCarePosts,addCarePost,getNotifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,getMyNexHome,checkNexHomeAvailability,createNexHome,getNexHomeById,updateNexHome,uploadNexHomeImage,removeNexHomeImage,getNexHomeAlbums,getNexHomePhotos,createNexHomeAlbum,updateNexHomeAlbum,uploadNexHomeAlbumPhotos,updateNexHomePhotoPost,updateNexHomePhotoCaption,getNexHomePhotoComments,addNexHomePhotoComment,deleteNexHomePhotoComment,deleteNexHomeAlbumPhoto,getNexHomeFriendState,sendNexHomeFriendRequest,answerNexHomeFriendRequest,removeNexHomeFriendship,getMyNexHomeFriends,isNexHomeFriend,getNexHomeGuestbook,addNexHomeGuestbookEntry,replyNexHomeGuestbookEntry,deleteNexHomeGuestbookEntry,getNexHomeRecords,addNexHomeRecord,finishNexHomeFirstVisit,isAdmin,getPendingBusinesses,setBusinessApproval,getAdminReports,setReportStatus,hideModeratedTarget,report};
 })();
