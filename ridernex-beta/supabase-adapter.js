@@ -377,8 +377,12 @@
     if(["light","blue","dark"].includes(changes.theme))payload.theme=changes.theme;
     if(["public","friends","private"].includes(changes.entryScope))payload.entry_scope=changes.entryScope;
     if(["all","friends","off"].includes(changes.guestbookScope))payload.guestbook_scope=changes.guestbookScope;
+    if(Array.isArray(changes.menuOrder))payload.menu_order=changes.menuOrder.filter(x=>["home","records","photos","guestbook","friends"].includes(x)).slice(0,5);
+    if(Array.isArray(changes.menuHidden))payload.menu_hidden=changes.menuHidden.filter(x=>["records","photos","guestbook","friends"].includes(x)).slice(0,4);
+    if(Array.isArray(changes.homeSections))payload.home_sections=changes.homeSections.filter(x=>["records","photos","guestbook","friends"].includes(x)).slice(0,4);
     if(Object.prototype.hasOwnProperty.call(changes,"profileUrl"))payload.profile_url=String(changes.profileUrl||"").trim()||null;
     if(Object.prototype.hasOwnProperty.call(changes,"coverUrl"))payload.cover_url=String(changes.coverUrl||"").trim()||null;
+    if(Object.prototype.hasOwnProperty.call(changes,"backgroundUrl"))payload.background_url=String(changes.backgroundUrl||"").trim()||null;
     const {error}=await state.client.from("nexhomes").update(payload).eq("id",id).eq("owner_id",state.user.id);
     if(error)throw error;
     return await getNexHomeById(id);
@@ -392,7 +396,7 @@
 
   async function uploadNexHomeImage(nexhomeId,kind,file){
     if(!state.client||!state.user)throw new Error("로그인이 필요합니다.");
-    if(!["profile","cover"].includes(kind))throw new Error("이미지 종류를 확인하세요.");
+    if(!["profile","cover","background"].includes(kind))throw new Error("이미지 종류를 확인하세요.");
     if(!file)throw new Error("사진을 선택하세요.");
     const allowed={"image/jpeg":"jpg","image/png":"png","image/webp":"webp"};
     const ext=allowed[file.type];
@@ -400,7 +404,7 @@
     if(file.size>6291456)throw new Error("사진은 6MB 이하만 사용할 수 있습니다.");
     const owned=await getMyNexHome();
     if(!owned||owned.id!==nexhomeId)throw new Error("내 NexHome에서만 사진을 바꿀 수 있습니다.");
-    const oldUrl=kind==="profile"?owned.profile_url:owned.cover_url;
+    const oldUrl=kind==="profile"?owned.profile_url:kind==="cover"?owned.cover_url:owned.background_url;
     const token=(globalThis.crypto&&crypto.randomUUID)?crypto.randomUUID():Math.random().toString(36).slice(2);
     const path=state.user.id+"/"+kind+"-"+Date.now()+"-"+token+"."+ext;
     const {data,error}=await state.client.storage.from("nexhome-media").upload(path,file,{
@@ -412,7 +416,7 @@
     const {data:publicData}=state.client.storage.from("nexhome-media").getPublicUrl(data.path);
     const url=publicData&&publicData.publicUrl;
     if(!url)throw new Error("업로드한 사진 주소를 만들지 못했습니다.");
-    const changes=kind==="profile"?{profileUrl:url}:{coverUrl:url};
+    const changes=kind==="profile"?{profileUrl:url}:kind==="cover"?{coverUrl:url}:{backgroundUrl:url};
     const updated=await updateNexHome(nexhomeId,changes);
     const oldPath=nexHomeMediaPathFromUrl(oldUrl);
     if(oldPath){try{await state.client.storage.from("nexhome-media").remove([oldPath])}catch{}}
@@ -421,11 +425,11 @@
 
   async function removeNexHomeImage(nexhomeId,kind){
     if(!state.client||!state.user)throw new Error("로그인이 필요합니다.");
-    if(!["profile","cover"].includes(kind))throw new Error("이미지 종류를 확인하세요.");
+    if(!["profile","cover","background"].includes(kind))throw new Error("이미지 종류를 확인하세요.");
     const owned=await getMyNexHome();
     if(!owned||owned.id!==nexhomeId)throw new Error("내 NexHome에서만 사진을 바꿀 수 있습니다.");
-    const oldUrl=kind==="profile"?owned.profile_url:owned.cover_url;
-    const changes=kind==="profile"?{profileUrl:""}:{coverUrl:""};
+    const oldUrl=kind==="profile"?owned.profile_url:kind==="cover"?owned.cover_url:owned.background_url;
+    const changes=kind==="profile"?{profileUrl:""}:kind==="cover"?{coverUrl:""}:{backgroundUrl:""};
     const updated=await updateNexHome(nexhomeId,changes);
     const oldPath=nexHomeMediaPathFromUrl(oldUrl);
     if(oldPath){try{await state.client.storage.from("nexhome-media").remove([oldPath])}catch{}}
