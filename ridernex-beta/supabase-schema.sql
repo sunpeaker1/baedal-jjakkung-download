@@ -447,3 +447,72 @@ as $$
 $$;
 revoke all on function public.check_nexhome_availability(text,text,integer,integer) from public, anon;
 grant execute on function public.check_nexhome_availability(text,text,integer,integer) to authenticated;
+
+
+-- ============================================================
+-- NexHome V1 records
+-- ============================================================
+create table if not exists public.nexhome_records (
+  id uuid primary key default gen_random_uuid(),
+  nexhome_id uuid not null references public.nexhomes(id) on delete cascade,
+  author_id uuid not null references public.profiles(id) on delete cascade,
+  title text not null check (char_length(btrim(title)) between 1 and 120),
+  body text not null check (char_length(btrim(body)) between 1 and 12000),
+  visibility text not null default 'public' check (visibility in ('public','friends','private')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists nexhome_records_home_created_idx
+  on public.nexhome_records(nexhome_id, created_at desc);
+create index if not exists nexhome_records_author_idx
+  on public.nexhome_records(author_id);
+
+alter table public.nexhome_records enable row level security;
+
+grant select on public.nexhome_records to anon, authenticated;
+grant insert, update, delete on public.nexhome_records to authenticated;
+
+drop policy if exists "NexHome records readable" on public.nexhome_records;
+create policy "NexHome records readable"
+on public.nexhome_records
+for select
+to anon, authenticated
+using (
+  visibility = 'public'
+  or author_id = (select auth.uid())
+);
+
+drop policy if exists "NexHome owner can create records" on public.nexhome_records;
+create policy "NexHome owner can create records"
+on public.nexhome_records
+for insert
+to authenticated
+with check (
+  author_id = (select auth.uid())
+  and nexhome_id in (
+    select id from public.nexhomes
+    where owner_id = (select auth.uid())
+  )
+);
+
+drop policy if exists "NexHome owner can update records" on public.nexhome_records;
+create policy "NexHome owner can update records"
+on public.nexhome_records
+for update
+to authenticated
+using (author_id = (select auth.uid()))
+with check (
+  author_id = (select auth.uid())
+  and nexhome_id in (
+    select id from public.nexhomes
+    where owner_id = (select auth.uid())
+  )
+);
+
+drop policy if exists "NexHome owner can delete records" on public.nexhome_records;
+create policy "NexHome owner can delete records"
+on public.nexhome_records
+for delete
+to authenticated
+using (author_id = (select auth.uid()));
