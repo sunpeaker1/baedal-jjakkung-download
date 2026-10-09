@@ -989,3 +989,66 @@ using (
     )
   )
 );
+
+
+-- ============================================================
+-- NexHome visitor counter
+-- ============================================================
+create table if not exists public.nexhome_visits (
+  id bigint generated always as identity primary key,
+  nexhome_id uuid not null references public.nexhomes(id) on delete cascade,
+  visitor_key text not null check (char_length(visitor_key) between 8 and 120),
+  visit_date date not null default (now() at time zone 'Asia/Seoul')::date,
+  created_at timestamptz not null default now(),
+  unique (nexhome_id, visitor_key, visit_date)
+);
+
+create index if not exists nexhome_visits_home_date_idx
+  on public.nexhome_visits(nexhome_id, visit_date);
+create index if not exists nexhome_visits_home_created_idx
+  on public.nexhome_visits(nexhome_id, created_at desc);
+
+alter table public.nexhome_visits enable row level security;
+revoke all on public.nexhome_visits from anon, authenticated;
+
+create or replace function public.register_nexhome_visit(
+  p_nexhome_id uuid,
+  p_visitor_key text default null
+)
+returns table(today_count bigint,total_count bigint)
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  v_owner uuid;
+  v_key text;
+  v_today date := (now() at time zone 'Asia/Seoul')::date;
+begin
+  select owner_id into v_owner from public.nexhomes where id = p_nexhome_id;
+  if v_owner is null then
+    raise exception 'NexHome not found';
+  end if;
+
+  if auth.uid() is not null and auth.uid() = v_owner then
+    null;
+  else
+    v_key := coalesce(auth.uid()::text, nullif(btrim(p_visitor_key),''));
+    if v_key is not null and char_length(v_key) between 8 and 120 then
+      insert into public.nexhome_visits(nexhome_id,visitor_key,visit_date)
+      values(p_nexhome_id,v_key,v_today)
+      on conflict (nexhome_id,visitor_key,visit_date) do nothing;
+    end if;
+  end if;
+
+  return query
+  select
+    count(*) filter (where visit_date = v_today)::bigint,
+    count(*)::bigint
+  from public.nexhome_visits
+  where nexhome_id = p_nexhome_id;
+end;
+$$;
+
+revoke all on function public.register_nexhome_visit(uuid,text) from public;
+grant execute on function public.register_nexhome_visit(uuid,text) to anon, authenticated;
