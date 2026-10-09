@@ -586,6 +586,10 @@ create index if not exists nexhome_photos_album_created_idx
   on public.nexhome_photos(album_id, created_at desc);
 create index if not exists nexhome_photos_home_idx
   on public.nexhome_photos(nexhome_id);
+create index if not exists nexhome_albums_owner_idx
+  on public.nexhome_albums(owner_id);
+create index if not exists nexhome_photos_owner_idx
+  on public.nexhome_photos(owner_id);
 
 alter table public.nexhome_albums enable row level security;
 alter table public.nexhome_photos enable row level security;
