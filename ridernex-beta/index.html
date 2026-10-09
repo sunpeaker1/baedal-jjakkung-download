@@ -159,7 +159,7 @@ document.getElementById('search').addEventListener('submit',e=>{e.preventDefault
    if(home){
      document.getElementById('nexState').textContent=home.life_region+' · '+home.room_name+' · '+home.road_no+'길'+home.house_no;
      btn.textContent='내 NexHome 들어가기 ›';
-     btn.href='nexhome.html?id='+encodeURIComponent(home.id);
+     btn.href='nexhome.html?id='+encodeURIComponent(home.id)+'&fresh='+Date.now();
    }else{
      document.getElementById('nexState').textContent='아직 NexHome이 없습니다. 4단계로 간단하게 입주할 수 있습니다.';
      btn.textContent='내 NexHome 만들기 ›';
