@@ -745,6 +745,56 @@
     };
   }
 
+  async function getNexHomeFriendActivity(limit=12){
+    if(!state.client||!state.user)return [];
+    const rel=await getMyNexHomeFriends();
+    const friends=rel.friends||[];
+    if(!friends.length)return [];
+    const ids=[...new Set(friends.map(x=>x.other_id).filter(Boolean))];
+    if(!ids.length)return [];
+
+    const [rr,pr,ar]=await Promise.all([
+      state.client.from("nexhome_records")
+        .select("id,nexhome_id,author_id,title,body,visibility,created_at")
+        .in("author_id",ids)
+        .order("created_at",{ascending:false})
+        .limit(Math.max(12,Math.min(40,limit*2))),
+      state.client.from("nexhome_photos")
+        .select("id,album_id,nexhome_id,owner_id,title,caption,image_url,created_at")
+        .in("owner_id",ids)
+        .order("created_at",{ascending:false})
+        .limit(Math.max(12,Math.min(40,limit*2))),
+      state.client.from("nexhome_albums")
+        .select("id,owner_id,title,visibility")
+        .in("owner_id",ids)
+    ]);
+    if(rr.error)throw rr.error;if(pr.error)throw pr.error;if(ar.error)throw ar.error;
+    const byFriend=Object.fromEntries(friends.map(x=>[x.other_id,x]));
+    const albums=Object.fromEntries((ar.data||[]).map(a=>[a.id,a]));
+    const out=[];
+    for(const r of rr.data||[]){
+      const f=byFriend[r.author_id]||{},p=f.profile||{},h=f.nexhome||{};
+      out.push({
+        type:"record",id:r.id,nexhome_id:r.nexhome_id,owner_id:r.author_id,
+        title:r.title||"새 기록",text:r.body||"",created_at:r.created_at,
+        friend_name:p.nickname||h.room_name||"친구",friend_profile:h.profile_url||"",
+        room_name:h.room_name||"",image_url:""
+      });
+    }
+    for(const p of pr.data||[]){
+      const f=byFriend[p.owner_id]||{},pf=f.profile||{},h=f.nexhome||{},a=albums[p.album_id]||{};
+      out.push({
+        type:"photo",id:p.id,nexhome_id:p.nexhome_id,owner_id:p.owner_id,
+        title:p.title||a.title||"새 사진",text:p.caption||a.title||"",
+        created_at:p.created_at,friend_name:pf.nickname||h.room_name||"친구",
+        friend_profile:h.profile_url||"",room_name:h.room_name||"",image_url:p.image_url||""
+      });
+    }
+    return out
+      .sort((a,b)=>new Date(b.created_at)-new Date(a.created_at))
+      .slice(0,Math.max(1,Math.min(30,Number(limit)||12)));
+  }
+
   async function isNexHomeFriend(ownerId){
     if(!state.client||!state.user||!ownerId)return false;
     if(state.user.id===ownerId)return true;
@@ -993,5 +1043,5 @@
     if(error)throw error;return data;
   }
 
-  window.RNXRemote={state,init,signUp,signIn,signOut,resendConfirmation,updateProfile,sendPasswordReset,updatePassword,deleteAccount,getRegionPosts,getComments,getMyPosts,refreshProfile,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,joinInterest,leaveInterest,isInterestMember,interestMemberCount,getInterestPosts,addInterestPost,getCarePosts,addCarePost,getNotifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,getMyNexHome,checkNexHomeAvailability,createNexHome,getNexHomeById,updateNexHome,uploadNexHomeImage,removeNexHomeImage,getNexHomeAlbums,getNexHomePhotos,createNexHomeAlbum,updateNexHomeAlbum,uploadNexHomeAlbumPhotos,updateNexHomePhotoPost,updateNexHomePhotoCaption,getNexHomePhotoComments,addNexHomePhotoComment,deleteNexHomePhotoComment,deleteNexHomeAlbumPhoto,registerNexHomeVisit,getNexHomeFriendState,sendNexHomeFriendRequest,answerNexHomeFriendRequest,removeNexHomeFriendship,getMyNexHomeFriends,isNexHomeFriend,getNexHomeGuestbook,addNexHomeGuestbookEntry,replyNexHomeGuestbookEntry,deleteNexHomeGuestbookEntry,getNexHomeReactionStats,toggleNexHomeReaction,getNexHomeRecordComments,addNexHomeRecordComment,deleteNexHomeRecordComment,getNexHomeRecords,addNexHomeRecord,finishNexHomeFirstVisit,isAdmin,getPendingBusinesses,setBusinessApproval,getAdminReports,setReportStatus,hideModeratedTarget,report};
+  window.RNXRemote={state,init,signUp,signIn,signOut,resendConfirmation,updateProfile,sendPasswordReset,updatePassword,deleteAccount,getRegionPosts,getComments,getMyPosts,refreshProfile,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,joinInterest,leaveInterest,isInterestMember,interestMemberCount,getInterestPosts,addInterestPost,getCarePosts,addCarePost,getNotifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,getMyNexHome,checkNexHomeAvailability,createNexHome,getNexHomeById,updateNexHome,uploadNexHomeImage,removeNexHomeImage,getNexHomeAlbums,getNexHomePhotos,createNexHomeAlbum,updateNexHomeAlbum,uploadNexHomeAlbumPhotos,updateNexHomePhotoPost,updateNexHomePhotoCaption,getNexHomePhotoComments,addNexHomePhotoComment,deleteNexHomePhotoComment,deleteNexHomeAlbumPhoto,registerNexHomeVisit,getNexHomeFriendState,sendNexHomeFriendRequest,answerNexHomeFriendRequest,removeNexHomeFriendship,getMyNexHomeFriends,getNexHomeFriendActivity,isNexHomeFriend,getNexHomeGuestbook,addNexHomeGuestbookEntry,replyNexHomeGuestbookEntry,deleteNexHomeGuestbookEntry,getNexHomeReactionStats,toggleNexHomeReaction,getNexHomeRecordComments,addNexHomeRecordComment,deleteNexHomeRecordComment,getNexHomeRecords,addNexHomeRecord,finishNexHomeFirstVisit,isAdmin,getPendingBusinesses,setBusinessApproval,getAdminReports,setReportStatus,hideModeratedTarget,report};
 })();
