@@ -456,7 +456,7 @@
     return data||[];
   }
 
-  async function createNexHomeAlbum(nexhomeId,{title,visibility="public"}={}){
+  async function createNexHomeAlbum(nexhomeId,{title,description="",visibility="public"}={}){
     if(!state.client||!state.user)throw new Error("로그인이 필요합니다.");
     const owned=await getMyNexHome();
     if(!owned||owned.id!==nexhomeId)throw new Error("내 NexHome에서만 앨범을 만들 수 있습니다.");
@@ -464,6 +464,7 @@
       nexhome_id:nexhomeId,
       owner_id:state.user.id,
       title:String(title||"").trim().slice(0,60),
+      description:String(description||"").trim().slice(0,500),
       visibility:["public","friends","private"].includes(visibility)?visibility:"public"
     };
     if(!payload.title)throw new Error("앨범 이름을 입력하세요.");
@@ -511,6 +512,43 @@
       inserted.push(data);
     }
     return inserted;
+  }
+
+  async function updateNexHomeAlbum(albumId,{title,description,visibility}={}){
+    if(!state.client||!state.user)throw new Error("로그인이 필요합니다.");
+    const changes={updated_at:new Date().toISOString()};
+    if(title!==undefined){
+      const v=String(title||"").trim().slice(0,60);
+      if(!v)throw new Error("앨범 이름을 입력하세요.");
+      changes.title=v;
+    }
+    if(description!==undefined)changes.description=String(description||"").trim().slice(0,500);
+    if(visibility!==undefined){
+      if(!["public","friends","private"].includes(visibility))throw new Error("공개범위를 확인하세요.");
+      changes.visibility=visibility;
+    }
+    const {data,error}=await state.client
+      .from("nexhome_albums")
+      .update(changes)
+      .eq("id",albumId)
+      .eq("owner_id",state.user.id)
+      .select()
+      .single();
+    if(error)throw error;
+    return data;
+  }
+
+  async function updateNexHomePhotoCaption(photoId,caption=""){
+    if(!state.client||!state.user)throw new Error("로그인이 필요합니다.");
+    const {data,error}=await state.client
+      .from("nexhome_photos")
+      .update({caption:String(caption||"").trim().slice(0,300)})
+      .eq("id",photoId)
+      .eq("owner_id",state.user.id)
+      .select()
+      .single();
+    if(error)throw error;
+    return data;
   }
 
   async function deleteNexHomeAlbumPhoto(photoId){
@@ -661,5 +699,5 @@
     if(error)throw error;return data;
   }
 
-  window.RNXRemote={state,init,signUp,signIn,signOut,resendConfirmation,updateProfile,sendPasswordReset,updatePassword,deleteAccount,getRegionPosts,getComments,getMyPosts,refreshProfile,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,joinInterest,leaveInterest,isInterestMember,interestMemberCount,getInterestPosts,addInterestPost,getCarePosts,addCarePost,getNotifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,getMyNexHome,checkNexHomeAvailability,createNexHome,getNexHomeById,updateNexHome,uploadNexHomeImage,removeNexHomeImage,getNexHomeAlbums,getNexHomePhotos,createNexHomeAlbum,uploadNexHomeAlbumPhotos,deleteNexHomeAlbumPhoto,getNexHomeRecords,addNexHomeRecord,finishNexHomeFirstVisit,isAdmin,getPendingBusinesses,setBusinessApproval,getAdminReports,setReportStatus,hideModeratedTarget,report};
+  window.RNXRemote={state,init,signUp,signIn,signOut,resendConfirmation,updateProfile,sendPasswordReset,updatePassword,deleteAccount,getRegionPosts,getComments,getMyPosts,refreshProfile,addPost,addComment,addMarket,getMarket,addBusiness,getBusinesses,addJob,getJobs,joinInterest,leaveInterest,isInterestMember,interestMemberCount,getInterestPosts,addInterestPost,getCarePosts,addCarePost,getNotifications,unreadCount,markNotice,markAllNotices,clearNotices,searchAll,getMyNexHome,checkNexHomeAvailability,createNexHome,getNexHomeById,updateNexHome,uploadNexHomeImage,removeNexHomeImage,getNexHomeAlbums,getNexHomePhotos,createNexHomeAlbum,updateNexHomeAlbum,uploadNexHomeAlbumPhotos,updateNexHomePhotoCaption,deleteNexHomeAlbumPhoto,getNexHomeRecords,addNexHomeRecord,finishNexHomeFirstVisit,isAdmin,getPendingBusinesses,setBusinessApproval,getAdminReports,setReportStatus,hideModeratedTarget,report};
 })();
