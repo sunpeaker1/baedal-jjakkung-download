@@ -762,3 +762,204 @@ using (
       and p.owner_id = (select auth.uid())
   )
 );
+
+
+-- ============================================================
+-- NexHome friendships + guestbook
+-- ============================================================
+create table if not exists public.nexhome_friendships (
+  id uuid primary key default gen_random_uuid(),
+  requester_id uuid not null references public.profiles(id) on delete cascade,
+  addressee_id uuid not null references public.profiles(id) on delete cascade,
+  status text not null default 'pending' check (status in ('pending','accepted','rejected','blocked')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  check (requester_id <> addressee_id)
+);
+
+create unique index if not exists nexhome_friendships_pair_unique
+on public.nexhome_friendships (
+  least(requester_id,addressee_id),
+  greatest(requester_id,addressee_id)
+);
+create index if not exists nexhome_friendships_requester_idx
+  on public.nexhome_friendships(requester_id,status);
+create index if not exists nexhome_friendships_addressee_idx
+  on public.nexhome_friendships(addressee_id,status);
+
+alter table public.nexhome_friendships enable row level security;
+grant select, insert, update, delete on public.nexhome_friendships to authenticated;
+
+drop policy if exists "Users can read own friendships" on public.nexhome_friendships;
+create policy "Users can read own friendships"
+on public.nexhome_friendships
+for select
+to authenticated
+using (
+  requester_id = (select auth.uid())
+  or addressee_id = (select auth.uid())
+);
+
+drop policy if exists "Users can request friendships" on public.nexhome_friendships;
+create policy "Users can request friendships"
+on public.nexhome_friendships
+for insert
+to authenticated
+with check (
+  requester_id = (select auth.uid())
+  and requester_id <> addressee_id
+  and status = 'pending'
+);
+
+create or replace function public.prevent_nexhome_friendship_participant_change()
+returns trigger
+language plpgsql
+set search_path = public
+as $$
+begin
+  if new.requester_id <> old.requester_id or new.addressee_id <> old.addressee_id then
+    raise exception 'friendship participants cannot be changed';
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists trg_nexhome_friendship_participants_immutable on public.nexhome_friendships;
+create trigger trg_nexhome_friendship_participants_immutable
+before update on public.nexhome_friendships
+for each row execute function public.prevent_nexhome_friendship_participant_change();
+
+drop policy if exists "Friendship addressee can answer pending request" on public.nexhome_friendships;
+create policy "Friendship addressee can answer pending request"
+on public.nexhome_friendships
+for update
+to authenticated
+using (
+  addressee_id = (select auth.uid())
+  and status = 'pending'
+)
+with check (
+  addressee_id = (select auth.uid())
+  and status in ('accepted','rejected')
+);
+
+drop policy if exists "Friendship participants can delete" on public.nexhome_friendships;
+create policy "Friendship participants can delete"
+on public.nexhome_friendships
+for delete
+to authenticated
+using (
+  requester_id = (select auth.uid())
+  or addressee_id = (select auth.uid())
+);
+
+create table if not exists public.nexhome_guestbook_entries (
+  id uuid primary key default gen_random_uuid(),
+  nexhome_id uuid not null references public.nexhomes(id) on delete cascade,
+  author_id uuid not null references public.profiles(id) on delete cascade,
+  body text not null check (char_length(btrim(body)) between 1 and 1000),
+  reply_body text not null default '',
+  reply_at timestamptz,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists nexhome_guestbook_home_created_idx
+  on public.nexhome_guestbook_entries(nexhome_id,created_at desc);
+create index if not exists nexhome_guestbook_author_idx
+  on public.nexhome_guestbook_entries(author_id);
+
+alter table public.nexhome_guestbook_entries enable row level security;
+grant select on public.nexhome_guestbook_entries to anon, authenticated;
+grant insert, update, delete on public.nexhome_guestbook_entries to authenticated;
+
+drop policy if exists "Readable NexHome guestbook" on public.nexhome_guestbook_entries;
+create policy "Readable NexHome guestbook"
+on public.nexhome_guestbook_entries
+for select
+to anon, authenticated
+using (
+  exists (
+    select 1 from public.nexhomes h
+    where h.id = nexhome_id
+      and (
+        h.entry_scope = 'public'
+        or h.owner_id = (select auth.uid())
+        or (
+          h.entry_scope = 'friends'
+          and exists (
+            select 1 from public.nexhome_friendships f
+            where f.status = 'accepted'
+              and (
+                (f.requester_id = h.owner_id and f.addressee_id = (select auth.uid()))
+                or
+                (f.addressee_id = h.owner_id and f.requester_id = (select auth.uid()))
+              )
+          )
+        )
+      )
+  )
+);
+
+drop policy if exists "Allowed visitors can write guestbook" on public.nexhome_guestbook_entries;
+create policy "Allowed visitors can write guestbook"
+on public.nexhome_guestbook_entries
+for insert
+to authenticated
+with check (
+  author_id = (select auth.uid())
+  and exists (
+    select 1 from public.nexhomes h
+    where h.id = nexhome_id
+      and h.guestbook_scope <> 'off'
+      and (
+        h.owner_id = (select auth.uid())
+        or h.guestbook_scope = 'all'
+        or (
+          h.guestbook_scope = 'friends'
+          and exists (
+            select 1 from public.nexhome_friendships f
+            where f.status = 'accepted'
+              and (
+                (f.requester_id = h.owner_id and f.addressee_id = (select auth.uid()))
+                or
+                (f.addressee_id = h.owner_id and f.requester_id = (select auth.uid()))
+              )
+          )
+        )
+      )
+  )
+);
+
+drop policy if exists "NexHome owner can reply to guestbook" on public.nexhome_guestbook_entries;
+create policy "NexHome owner can reply to guestbook"
+on public.nexhome_guestbook_entries
+for update
+to authenticated
+using (
+  exists (
+    select 1 from public.nexhomes h
+    where h.id = nexhome_id
+      and h.owner_id = (select auth.uid())
+  )
+)
+with check (
+  exists (
+    select 1 from public.nexhomes h
+    where h.id = nexhome_id
+      and h.owner_id = (select auth.uid())
+  )
+);
+
+drop policy if exists "Guestbook author or NexHome owner can delete" on public.nexhome_guestbook_entries;
+create policy "Guestbook author or NexHome owner can delete"
+on public.nexhome_guestbook_entries
+for delete
+to authenticated
+using (
+  author_id = (select auth.uid())
+  or exists (
+    select 1 from public.nexhomes h
+    where h.id = nexhome_id
+      and h.owner_id = (select auth.uid())
+  )
+);
