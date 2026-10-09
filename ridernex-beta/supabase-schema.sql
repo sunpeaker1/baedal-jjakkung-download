@@ -553,3 +553,133 @@ using (
   bucket_id = 'nexhome-media'
   and (storage.foldername(name))[1] = (select auth.uid()::text)
 );
+
+
+-- ============================================================
+-- NexHome V1 photo albums
+-- ============================================================
+create table if not exists public.nexhome_albums (
+  id uuid primary key default gen_random_uuid(),
+  nexhome_id uuid not null references public.nexhomes(id) on delete cascade,
+  owner_id uuid not null references public.profiles(id) on delete cascade,
+  title text not null check (char_length(btrim(title)) between 1 and 60),
+  visibility text not null default 'public' check (visibility in ('public','friends','private')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.nexhome_photos (
+  id uuid primary key default gen_random_uuid(),
+  album_id uuid not null references public.nexhome_albums(id) on delete cascade,
+  nexhome_id uuid not null references public.nexhomes(id) on delete cascade,
+  owner_id uuid not null references public.profiles(id) on delete cascade,
+  image_url text not null,
+  storage_path text not null,
+  caption text not null default '',
+  sort_order integer not null default 0,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists nexhome_albums_home_created_idx
+  on public.nexhome_albums(nexhome_id, created_at desc);
+create index if not exists nexhome_photos_album_created_idx
+  on public.nexhome_photos(album_id, created_at desc);
+create index if not exists nexhome_photos_home_idx
+  on public.nexhome_photos(nexhome_id);
+
+alter table public.nexhome_albums enable row level security;
+alter table public.nexhome_photos enable row level security;
+
+grant select on public.nexhome_albums, public.nexhome_photos to anon, authenticated;
+grant insert, update, delete on public.nexhome_albums, public.nexhome_photos to authenticated;
+
+drop policy if exists "NexHome albums readable" on public.nexhome_albums;
+create policy "NexHome albums readable"
+on public.nexhome_albums
+for select
+to anon, authenticated
+using (
+  visibility = 'public'
+  or owner_id = (select auth.uid())
+);
+
+drop policy if exists "NexHome owner can create albums" on public.nexhome_albums;
+create policy "NexHome owner can create albums"
+on public.nexhome_albums
+for insert
+to authenticated
+with check (
+  owner_id = (select auth.uid())
+  and nexhome_id in (
+    select id from public.nexhomes
+    where owner_id = (select auth.uid())
+  )
+);
+
+drop policy if exists "NexHome owner can update albums" on public.nexhome_albums;
+create policy "NexHome owner can update albums"
+on public.nexhome_albums
+for update
+to authenticated
+using (owner_id = (select auth.uid()))
+with check (
+  owner_id = (select auth.uid())
+  and nexhome_id in (
+    select id from public.nexhomes
+    where owner_id = (select auth.uid())
+  )
+);
+
+drop policy if exists "NexHome owner can delete albums" on public.nexhome_albums;
+create policy "NexHome owner can delete albums"
+on public.nexhome_albums
+for delete
+to authenticated
+using (owner_id = (select auth.uid()));
+
+drop policy if exists "NexHome photos readable" on public.nexhome_photos;
+create policy "NexHome photos readable"
+on public.nexhome_photos
+for select
+to anon, authenticated
+using (
+  owner_id = (select auth.uid())
+  or exists (
+    select 1
+    from public.nexhome_albums a
+    where a.id = album_id
+      and a.visibility = 'public'
+  )
+);
+
+drop policy if exists "NexHome owner can create photos" on public.nexhome_photos;
+create policy "NexHome owner can create photos"
+on public.nexhome_photos
+for insert
+to authenticated
+with check (
+  owner_id = (select auth.uid())
+  and nexhome_id in (
+    select id from public.nexhomes
+    where owner_id = (select auth.uid())
+  )
+  and album_id in (
+    select id from public.nexhome_albums
+    where owner_id = (select auth.uid())
+  )
+);
+
+drop policy if exists "NexHome owner can update photos" on public.nexhome_photos;
+create policy "NexHome owner can update photos"
+on public.nexhome_photos
+for update
+to authenticated
+using (owner_id = (select auth.uid()))
+with check (owner_id = (select auth.uid()));
+
+drop policy if exists "NexHome owner can delete photos" on public.nexhome_photos;
+create policy "NexHome owner can delete photos"
+on public.nexhome_photos
+for delete
+to authenticated
+using (owner_id = (select auth.uid()));
