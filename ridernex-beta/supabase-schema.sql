@@ -400,6 +400,7 @@ create table if not exists public.nexhomes (
   road_no integer not null check (road_no between 1 and 9999),
   house_no integer not null check (house_no between 1 and 9999),
   intro text not null default '오늘도 안전하게 달립니다.' check (char_length(intro) <= 80),
+  status_message text not null default '' check (char_length(status_message) <= 60),
   cover_url text,
   profile_url text,
   background_url text,
@@ -415,7 +416,8 @@ create table if not exists public.nexhomes (
 );
 alter table public.nexhomes
   add column if not exists background_url text,
-  add column if not exists home_sections jsonb not null default '["records","photos","guestbook","friends"]'::jsonb;
+  add column if not exists home_sections jsonb not null default '["records","photos","guestbook","friends"]'::jsonb,
+  add column if not exists status_message text not null default '';
 
 create unique index if not exists nexhomes_room_name_unique_idx on public.nexhomes (lower(btrim(room_name)));
 create unique index if not exists nexhomes_address_unique_idx on public.nexhomes (lower(btrim(life_region)), road_no, house_no);
