@@ -1176,3 +1176,221 @@ $$;
 
 revoke all on function public.register_nexhome_visit(uuid,text) from public;
 grant execute on function public.register_nexhome_visit(uuid,text) to anon, authenticated;
+
+
+-- ============================================================
+-- NexHome empathy reactions
+-- ============================================================
+create table if not exists public.nexhome_reactions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  record_id uuid references public.nexhome_records(id) on delete cascade,
+  photo_id uuid references public.nexhome_photos(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  check (num_nonnulls(record_id,photo_id)=1)
+);
+
+create unique index if not exists nexhome_reactions_user_record_unique
+  on public.nexhome_reactions(user_id,record_id)
+  where record_id is not null;
+create unique index if not exists nexhome_reactions_user_photo_unique
+  on public.nexhome_reactions(user_id,photo_id)
+  where photo_id is not null;
+create index if not exists nexhome_reactions_record_idx
+  on public.nexhome_reactions(record_id)
+  where record_id is not null;
+create index if not exists nexhome_reactions_photo_idx
+  on public.nexhome_reactions(photo_id)
+  where photo_id is not null;
+
+alter table public.nexhome_reactions enable row level security;
+revoke all on public.nexhome_reactions from anon, authenticated;
+
+drop policy if exists "Readable NexHome reactions" on public.nexhome_reactions;
+create policy "Readable NexHome reactions"
+on public.nexhome_reactions
+for select
+to anon, authenticated
+using (
+  (record_id is not null and exists (
+    select 1 from public.nexhome_records r where r.id=record_id
+  ))
+  or
+  (photo_id is not null and exists (
+    select 1 from public.nexhome_photos p where p.id=photo_id
+  ))
+);
+
+drop policy if exists "Users can add own NexHome reactions" on public.nexhome_reactions;
+create policy "Users can add own NexHome reactions"
+on public.nexhome_reactions
+for insert
+to authenticated
+with check (
+  user_id=(select auth.uid())
+  and (
+    (record_id is not null and exists (
+      select 1 from public.nexhome_records r where r.id=record_id
+    ))
+    or
+    (photo_id is not null and exists (
+      select 1 from public.nexhome_photos p where p.id=photo_id
+    ))
+  )
+);
+
+drop policy if exists "Users can delete own NexHome reactions" on public.nexhome_reactions;
+create policy "Users can delete own NexHome reactions"
+on public.nexhome_reactions
+for delete
+to authenticated
+using (user_id=(select auth.uid()));
+
+create or replace function public.get_nexhome_reaction_stats(
+  p_record_ids uuid[] default '{}'::uuid[],
+  p_photo_ids uuid[] default '{}'::uuid[]
+)
+returns table(target_type text,target_id uuid,reaction_count bigint,reacted_by_me boolean)
+language sql stable security definer
+set search_path = ''
+as $$
+  with me as (select auth.uid() as uid),
+  readable_records as (
+    select r.id
+    from public.nexhome_records r, me
+    where r.id = any(coalesce(p_record_ids,'{}'::uuid[]))
+      and (
+        r.visibility='public'
+        or r.author_id=me.uid
+        or (
+          r.visibility='friends'
+          and me.uid is not null
+          and exists (
+            select 1 from public.nexhome_friendships f
+            where f.status='accepted'
+              and (
+                (f.requester_id=r.author_id and f.addressee_id=me.uid)
+                or
+                (f.addressee_id=r.author_id and f.requester_id=me.uid)
+              )
+          )
+        )
+      )
+  ),
+  readable_photos as (
+    select p.id
+    from public.nexhome_photos p
+    join public.nexhome_albums a on a.id=p.album_id
+    cross join me
+    where p.id = any(coalesce(p_photo_ids,'{}'::uuid[]))
+      and (p.owner_id=me.uid or a.visibility='public')
+  )
+  select 'record'::text, rr.id,
+         count(rx.id)::bigint,
+         coalesce(bool_or(rx.user_id=(select uid from me)),false)
+  from readable_records rr
+  left join public.nexhome_reactions rx on rx.record_id=rr.id
+  group by rr.id
+  union all
+  select 'photo'::text, rp.id,
+         count(rx.id)::bigint,
+         coalesce(bool_or(rx.user_id=(select uid from me)),false)
+  from readable_photos rp
+  left join public.nexhome_reactions rx on rx.photo_id=rp.id
+  group by rp.id;
+$$;
+
+create or replace function public.toggle_nexhome_reaction(
+  p_target_type text,
+  p_target_id uuid
+)
+returns table(target_type text,target_id uuid,reaction_count bigint,reacted_by_me boolean)
+language plpgsql security definer
+set search_path = ''
+as $$
+declare
+  v_uid uuid := auth.uid();
+  v_readable boolean := false;
+  v_existing uuid;
+begin
+  if v_uid is null then
+    raise exception 'login required';
+  end if;
+
+  if p_target_type='record' then
+    select exists(
+      select 1 from public.nexhome_records r
+      where r.id=p_target_id
+        and (
+          r.visibility='public'
+          or r.author_id=v_uid
+          or (
+            r.visibility='friends'
+            and exists(
+              select 1 from public.nexhome_friendships f
+              where f.status='accepted'
+                and (
+                  (f.requester_id=r.author_id and f.addressee_id=v_uid)
+                  or
+                  (f.addressee_id=r.author_id and f.requester_id=v_uid)
+                )
+            )
+          )
+        )
+    ) into v_readable;
+    if not v_readable then raise exception 'target not readable'; end if;
+
+    select id into v_existing
+    from public.nexhome_reactions
+    where user_id=v_uid and record_id=p_target_id
+    limit 1;
+
+    if v_existing is null then
+      insert into public.nexhome_reactions(user_id,record_id)
+      values(v_uid,p_target_id)
+      on conflict do nothing;
+    else
+      delete from public.nexhome_reactions where id=v_existing;
+    end if;
+
+  elsif p_target_type='photo' then
+    select exists(
+      select 1
+      from public.nexhome_photos p
+      join public.nexhome_albums a on a.id=p.album_id
+      where p.id=p_target_id
+        and (p.owner_id=v_uid or a.visibility='public')
+    ) into v_readable;
+    if not v_readable then raise exception 'target not readable'; end if;
+
+    select id into v_existing
+    from public.nexhome_reactions
+    where user_id=v_uid and photo_id=p_target_id
+    limit 1;
+
+    if v_existing is null then
+      insert into public.nexhome_reactions(user_id,photo_id)
+      values(v_uid,p_target_id)
+      on conflict do nothing;
+    else
+      delete from public.nexhome_reactions where id=v_existing;
+    end if;
+
+  else
+    raise exception 'invalid target type';
+  end if;
+
+  return query
+  select s.target_type,s.target_id,s.reaction_count,s.reacted_by_me
+  from public.get_nexhome_reaction_stats(
+    case when p_target_type='record' then array[p_target_id] else '{}'::uuid[] end,
+    case when p_target_type='photo' then array[p_target_id] else '{}'::uuid[] end
+  ) s;
+end;
+$$;
+
+revoke all on function public.get_nexhome_reaction_stats(uuid[],uuid[]) from public;
+revoke all on function public.toggle_nexhome_reaction(text,uuid) from public;
+revoke execute on function public.toggle_nexhome_reaction(text,uuid) from anon;
+grant execute on function public.get_nexhome_reaction_stats(uuid[],uuid[]) to anon,authenticated;
+grant execute on function public.toggle_nexhome_reaction(text,uuid) to authenticated;
