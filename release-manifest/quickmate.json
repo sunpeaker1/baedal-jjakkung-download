@@ -1,10 +1,10 @@
 {
   "name": "퀵짝꿍",
-  "version": "Stage 5.15 Route Stability TEST",
+  "version": "V5.19.28 6건 연동 진단 TEST",
   "sourceRepo": "sunpeaker1/kakao-quickmate-clean",
   "sourceType": "file",
-  "sourceRef": "feature/stage5-15-route-stability",
-  "sourcePath": "builds/QuickMateClean_stage5_15_route_stability.apk",
+  "sourceRef": "feature/route-link-diagnostic-apk-v51928-test",
+  "sourcePath": "builds/QuickMateClean_v5_19_28_route_diag_test.apk",
   "publicReleaseTag": "quickmate-latest",
   "publicAssetName": "QuickMateClean-latest.apk"
 }
