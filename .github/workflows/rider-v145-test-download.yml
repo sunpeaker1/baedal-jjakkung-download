@@ -1,0 +1,65 @@
+name: Publish Rider V1.58.145 Isolated TEST APK
+on:
+  push:
+    branches:
+      - 'feature/rider-v145-test-download-20261022'
+    paths:
+      - '.github/workflows/rider-v145-test-download.yml'
+permissions:
+  contents: write
+jobs:
+  isolated-test-release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Fetch signed V145 APK from verified PRIVATE release (no rebuild)
+        shell: bash
+        env:
+          SOURCE_TOKEN: ${{ secrets.APP_SOURCE_READ_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "$SOURCE_TOKEN" ];then echo 'BLOCKED_SOURCE_TOKEN_MISSING';exit 41;fi
+          mkdir -p "$RUNNER_TEMP/v145"
+          curl --fail --silent --show-error --location --retry 2 \
+            -H "Authorization: Bearer $SOURCE_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/sunpeaker1/rider-jjakkung-app/releases/tags/test-v1.58.145" \
+            -o "$RUNNER_TEMP/v145/private-release.json"
+          ASSET_ID=$(jq -r '.assets[] | select(.name=="RiderJjakkung-V1.58.145-existing-signer-PRIVATE-TEST.apk") | .id' "$RUNNER_TEMP/v145/private-release.json" | head -1)
+          if test -z "$ASSET_ID" || test "$ASSET_ID" = null;then echo 'BLOCKED_NO_PRIVATE_V145_RELEASE_ASSET';exit 44;fi
+          curl --fail --silent --show-error --location --retry 2 \
+            -H "Authorization: Bearer $SOURCE_TOKEN" \
+            -H "Accept: application/octet-stream" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/sunpeaker1/rider-jjakkung-app/releases/assets/$ASSET_ID" \
+            -o "$RUNNER_TEMP/v145/RiderJjakkung-V1.58.145-TEST.apk"
+          test -s "$RUNNER_TEMP/v145/RiderJjakkung-V1.58.145-TEST.apk"
+          printf '%s  %s\n' \
+            '515208c76b1e0a26fe8cca2a1601ce1590efe2998765bfe7150d6c127b16cfc3' \
+            "$RUNNER_TEMP/v145/RiderJjakkung-V1.58.145-TEST.apk" | sha256sum -c -
+          unzip -t "$RUNNER_TEMP/v145/RiderJjakkung-V1.58.145-TEST.apk" >/dev/null
+          echo 'V145_PRIVATE_CI_APK_EXACT_SHA256_CONFIRMED'
+      - name: Publish as separate TEST pre-release; never touch rider-latest
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if gh release view rider-v145-nav-test --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1;then
+            echo 'BLOCKED_EXISTING_TEST_RELEASE_NO_OVERWRITE';exit 42
+          fi
+          gh release create rider-v145-nav-test \
+            "$RUNNER_TEMP/v145/RiderJjakkung-V1.58.145-TEST.apk" \
+            --repo "$GITHUB_REPOSITORY" \
+            --target main \
+            --prerelease \
+            --latest=false \
+            --title "라이더짝꿍 V1.58.145 쿠팡·배민 내비 TEST" \
+            --notes "V1.58.131 기반 서명 호환 테스트 APK. 주문·픽업·배송 주소 인식 보강. CI 서명·컴파일 검증 통과, 실기기 현장 동작 미검증. 기존 앱을 삭제하거나 데이터를 초기화하지 마세요. 일반 공개 최신 다운로드(rider-latest)는 변경하지 않습니다."
+          gh release view rider-v145-nav-test --repo "$GITHUB_REPOSITORY" --json tagName,assets,isPrerelease \
+             --jq '{tag:.tagName,prerelease:.isPrerelease,asset:(.assets[0].name)}'
+          echo 'SEPARATE_V145_TEST_DOWNLOAD_RELEASE_CREATED'
