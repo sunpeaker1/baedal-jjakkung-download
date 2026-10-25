@@ -1,0 +1,77 @@
+name: LOG Free FLUX Image Trial
+on:
+  push:
+    branches:
+      - experiment/blog-flux-schnell-freegpu-20261026
+    paths:
+      - .github/workflows/log-free-flux-test.yml
+permissions:
+  contents: read
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - name: Install client (no paid API)
+        run: python -m pip install --quiet --upgrade gradio_client pillow
+      - name: Generate standalone blog images using public FLUX.1-schnell ZeroGPU
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image, ImageOps, ImageDraw, ImageFont
+          from gradio_client import Client
+          import hashlib, json, shutil, traceback, zipfile, time
+
+          output = Path("result")
+          output.mkdir(exist_ok=True)
+          cases = [
+             ("01_cover", (1280,720), 1280,736, "Photorealistic Korean street documentary photograph. Single cinematic wide shot of a Korean motorcycle food delivery rider wearing safe motorcycle jacket and helmet, standing in front of a busy takeaway restaurant as kitchen work continues past the pickup time, parked realistic delivery scooter, subtle evening rain reflections and natural warm restaurant window lights, empathetic accurate riders, quiet frustration over waiting rather than action. Full-frame scene only; generous negative space in upper-left for later headline. REAL photographic realism. No lettering, no text, no logos, no watermarks, no split-screen, no collage, no multi-panel."),
+             ("02_body1", (900,600), 928,608, "One photorealistic indoor documentary photograph in a realistic Korean takeaway restaurant. A delivery rider wearing a sensible riding jacket is politely asking a restaurant worker when the order will be ready while food is still visibly cooking behind the pickup counter. Hands and body anatomy realistic, no staged expressions, kitchen in believable active operation, medium shot, warm authentic light. ONE independent full-frame image, no letters, no numbers, no logos, no graphics, no collage."),
+             ("03_body2", (900,600), 928,608, "One photorealistic documentary photograph at an ordinary Korean restaurant pickup entrance on a busy evening. Exactly eight diverse adult Korean motorcycle delivery riders wearing different practical protective jackets and carrying motorcycle helmets waiting for pickup in a loose orderly queue, scooters safely parked elsewhere. Natural varied poses, believable perspective and anatomy, warm fluorescent ambience and blue evening outdoors. ONE independent photo, no lettering, no logos, no watermarks, no collage."),
+             ("04_body3", (900,600), 928,608, "One photorealistic quiet editorial photograph from a South Korean motorbike delivery rider's perspective, rider seated at a cafe table after stopping, gloved hand resting next to a plain closed notebook and a simple wristwatch, ordinary scooter parked safely in background beyond glass, expressing how repeated pickup delays add up over a workday. Clean lower-left negative space for accurately typeset math later. Realistic photo, ONE scene, no writing on objects, no numbers, no logos, no watermarks, no collage.")
+          ]
+          status = {"model": "black-forest-labs/FLUX.1-schnell", "host": "Hugging Face ZeroGPU", "payment": "none", "images": []}
+          try:
+              client = Client("black-forest-labs/FLUX.1-schnell")
+              print("API", client.view_api(), flush=True)
+          except Exception as e:
+              status["connection_error"] = repr(e)
+              (output/"status.json").write_text(json.dumps(status,ensure_ascii=False,indent=2),encoding="utf-8")
+              raise
+          for idx,(name,target,width,height,prompt) in enumerate(cases):
+              print("START",name,flush=True)
+              try:
+                  val=client.predict(prompt, 6700+idx*53, False, width, height, 4, api_name="/infer")
+                  source=val[0]
+                  if isinstance(source,dict): source=source.get("path") or source.get("url")
+                  im=Image.open(source).convert("RGB")
+                  im=ImageOps.fit(im,target,Image.Resampling.LANCZOS)
+                  filepath=output/(name+".jpg")
+                  im.save(filepath,"JPEG",quality=94,subsampling=0)
+                  digest=hashlib.sha256(filepath.read_bytes()).hexdigest()
+                  status["images"].append({"name":name,"status":"ok","file":filepath.name,"size":target,"sha256":digest})
+                  print("DONE",filepath.name,digest,flush=True)
+              except Exception as e:
+                  status["images"].append({"name":name,"status":"error","detail":repr(e)})
+                  print("ERROR",name,repr(e),flush=True)
+                  traceback.print_exc()
+                  if any(x in str(e).lower() for x in ["quota","gpu limit","rate limit","space exceeded","gpu quota"]):
+                      break
+              finally:
+                  (output/"status.json").write_text(json.dumps(status,ensure_ascii=False,indent=2),encoding="utf-8")
+          images=[output/x["file"] for x in status["images"] if x["status"]=="ok"]
+          if images:
+              with zipfile.ZipFile(output/"blog-4-images.zip","w",compression=zipfile.ZIP_DEFLATED) as z:
+                  for p in images: z.write(p,p.name)
+                  z.write(output/"status.json","status.json")
+          if len(images)!=4:
+              raise SystemExit(f"Generated {len(images)} of 4; see status and logs")
+          PY
+      - name: Upload real generated files or error report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: log-flux-free-image-trial
+          path: result/
+          retention-days: 3
