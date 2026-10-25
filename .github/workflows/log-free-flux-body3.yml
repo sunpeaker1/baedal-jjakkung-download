@@ -1,0 +1,48 @@
+name: LOG Free FLUX Image Body3 Trial
+on:
+  push:
+    branches:
+      - experiment/blog-flux-schnell-freegpu-20261026
+    paths:
+      - .github/workflows/log-free-flux-body3.yml
+permissions:
+  contents: read
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Install free gradio client
+        run: python -m pip install --quiet --upgrade gradio_client pillow
+      - name: Generate body3 with community FLUX.1-schnell ZeroGPU
+        shell: bash
+        run: |
+          python - <<'PY'
+          from gradio_client import Client
+          from PIL import Image,ImageOps
+          from pathlib import Path
+          import json,hashlib
+          p=Path("result");p.mkdir(exist_ok=True)
+          prompt="One single photorealistic professional editorial photograph in a realistic South Korean small city. In the foreground, a motorcycle food-delivery rider has temporarily stopped at a roadside rest bench and is checking the time on a wristwatch, reflective about repeated restaurant waiting and lost working hours. A parked modern delivery scooter with fitted delivery box visible in soft background, plausible safe parking. Atmospheric realistic daylight, clean composition, large uncluttered left background for adding accurate Korean statistics later. One standalone 3:2 photograph, no lettering, no figures, no logos, no watermark, no split screen, no collage, no text."
+          try:
+            c=Client("black-forest-labs/FLUX.1-schnell")
+            x=c.predict(prompt, 8111, False, 928,608,4,api_name="/infer")
+            source=x[0]
+            if isinstance(source,dict):source=source.get("path") or source.get("url")
+            im=Image.open(source).convert("RGB")
+            im=ImageOps.fit(im,(900,600),Image.Resampling.LANCZOS)
+            im.save(p/"04_body3.jpg","JPEG",quality=94,subsampling=0)
+            (p/"status.json").write_text(json.dumps({"success":True,"model":"FLUX.1-schnell","source":"Hugging Face ZeroGPU","sha256":hashlib.sha256((p/"04_body3.jpg").read_bytes()).hexdigest()}))
+            print("BODY3_SUCCEEDED")
+          except Exception as e:
+            (p/"status.json").write_text(json.dumps({"success":False,"error":str(e)},ensure_ascii=False))
+            print("BODY3_FAILED",repr(e))
+            raise
+          PY
+      - name: Upload output or error
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: log-flux-body3
+          path: result/
+          retention-days: 3
