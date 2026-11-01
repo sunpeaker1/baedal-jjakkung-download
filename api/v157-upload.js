@@ -8,7 +8,7 @@ const PREFIX = 'private-rider-v157-20261101/';
 const VERIFIED = PREFIX + 'verified-manifest.json';
 const partPath = n => PREFIX + 'part-' + String(n).padStart(2,'0') + '.bin';
 function auth(req) {
- const secret=process.env.V157_DOWNLOAD_TOKEN, header=String(req.headers.authorization||'');
+ const secret=process.env.V157_UPLOAD_TOKEN, header=String(req.headers.authorization||'');
  const supplied=header.startsWith('Bearer ')?header.slice(7):'';
  if(!secret||!supplied)return false;
  const a=Buffer.from(supplied),b=Buffer.from(secret);
@@ -34,6 +34,8 @@ module.exports=async function handler(req,res){
    catch{return res.status(503).json({ok:false,error:'STATUS_FAILED'});}
  }
  if(action==='part'&&req.method==='POST'){
+   try{if(await stored(VERIFIED))return res.status(409).json({ok:false,error:'ALREADY_VERIFIED_IMMUTABLE'});}
+   catch{return res.status(503).json({ok:false,error:'STORAGE_READ_FAILED'});}
    const index=Number(req.headers['x-v157-part-index']),claim=String(req.headers['x-v157-part-sha256']||'');
    if(!Number.isInteger(index)||index<0||index>=COUNT||!/^[0-9a-f]{64}$/.test(claim))return res.status(400).json({ok:false,error:'INVALID_PART'});
    const length=index===COUNT-1?SIZE-CHUNK*index:CHUNK;
@@ -47,6 +49,7 @@ module.exports=async function handler(req,res){
  }
  if(action==='complete'&&req.method==='POST'){
    try{
+     if(await stored(VERIFIED))return res.status(409).json({ok:false,error:'ALREADY_VERIFIED_IMMUTABLE'});
      const whole=crypto.createHash('sha256');let length=0;
      for(let i=0;i<COUNT;i++){
        const o=await stored(partPath(i));
